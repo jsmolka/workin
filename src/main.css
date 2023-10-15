@@ -27,31 +27,29 @@
 }
 
 :root {
-  font-family: Inter, Roboto, ui-sans-serif, sans-serif;
-  font-feature-settings: 'cv07';
+  --gray-1: #2e3440;
+  --gray-2: #3b4252;
+  --gray-3: #434c5e;
+  --gray-4: #4c566a;
 
-  --night-1: #2e3440;
-  --night-2: #3b4252;
-  --night-3: #434c5e;
-  --night-4: #4c566a;
+  --white-1: #f2f4f8;
+  --white-2: #eceff4;
+  --white-3: #e5e9f0;
+  --white-4: #d8dee9;
 
-  --snow-1: #d8dee9;
-  --snow-2: #e5e9f0;
-  --snow-3: #eceff4;
-
-  --frost-1: #8fbcbb;
-  --frost-2: #88c0d0;
-  --frost-3: #81a1c1;
-  --frost-4: #5e81ac;
-
-  --aurora-1: #bf616a;
-  --aurora-2: #d08770;
-  --aurora-3: #ebcb8b;
-  --aurora-4: #a3be8c;
-  --aurora-5: #b48ead;
+  --red: #bf616a;
+  --green: #a3be8c;
+  --blue: #5e81ac;
 }
 
 body {
-  @apply bg-night-1;
-  @apply text-snow-3;
+  @apply bg-gray-1;
+  @apply text-white-2;
+
+  font-family: Inter, Roboto, ui-sans-serif, sans-serif;
+  font-feature-settings: 'cv07';
+}
+
+::selection {
+  @apply bg-blue;
 }

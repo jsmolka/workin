@@ -10,12 +10,14 @@ const notyf = new Notyf({
     {
       type: 'success',
       duration: 5_000,
-      background: 'var(--frost-2)',
+      background: 'var(--blue)',
+      icon: false,
     },
     {
       type: 'error',
       duration: 20_000,
-      background: 'var(--aurora-1)',
+      background: 'var(--red)',
+      icon: false,
     },
   ],
 });

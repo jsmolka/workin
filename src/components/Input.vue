@@ -23,11 +23,12 @@ defineEmits(['update:value']);
 .input {
   @apply px-1.5;
   @apply py-1;
-  @apply bg-night-3;
+  @apply bg-gray-3;
   @apply rounded;
+  @apply hover:brightness-110;
   @apply focus:outline-none;
   @apply focus:ring-2;
-  @apply focus:ring-frost-2;
+  @apply focus:ring-blue;
 
   &[type='number'] {
     appearance: textfield;
