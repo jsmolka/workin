@@ -1,15 +1,18 @@
-export default class HeartRateSensor {
+import Device from './device';
+
+export default class HeartRateMonitor extends Device {
   constructor() {
+    super();
+
     this.heartRate = null;
   }
 
   async connect() {
-    const device = await navigator.bluetooth.requestDevice({
+    await super.connect({
       filters: [{ services: ['heart_rate'] }],
     });
 
-    const server = await device.gatt.connect();
-    const service = await server.getPrimaryService('heart_rate');
+    const service = await this.server.getPrimaryService('heart_rate');
     const characteristic = await service.getCharacteristic('heart_rate_measurement');
 
     await characteristic.startNotifications();
@@ -22,5 +25,9 @@ export default class HeartRateSensor {
         this.heartRate = value.getUint8(1);
       }
     });
+  }
+
+  disconnected() {
+    this.heartRate = null;
   }
 }
