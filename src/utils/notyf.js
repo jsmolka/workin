@@ -9,8 +9,8 @@ const notyf = new Notyf({
   types: [
     {
       type: 'success',
-      duration: 2_000,
-      background: 'var(--frost-3)',
+      duration: 5_000,
+      background: 'var(--frost-2)',
     },
     {
       type: 'error',

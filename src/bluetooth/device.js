@@ -1,3 +1,5 @@
+import notyf from '../utils/notyf';
+
 export default class Device {
   constructor() {
     this.device = null;
@@ -10,12 +12,12 @@ export default class Device {
 
     this.device.addEventListener('gattserverdisconnected', () => {
       this.disconnected();
-      this.server = null;
     });
   }
 
   disconnected() {
-    // Abstract
+    notyf.error(`${this.name} disconnected`);
+    this.server = null;
   }
 
   get id() {

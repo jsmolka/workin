@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .disabled {
+    @apply opacity-50;
+    @apply select-none;
+    @apply pointer-events-none;
+  }
+}
+
 @font-face {
   font-family: 'Inter';
   font-weight: 100 900;
