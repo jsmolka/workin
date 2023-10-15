@@ -12,7 +12,6 @@ export default {
         1: 'var(--white-1)',
         2: 'var(--white-2)',
         3: 'var(--white-3)',
-        4: 'var(--white-4)',
       },
       red: 'var(--red)',
       green: 'var(--green)',

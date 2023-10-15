@@ -32,10 +32,9 @@
   --gray-3: #434c5e;
   --gray-4: #4c566a;
 
-  --white-1: #f2f4f8;
-  --white-2: #eceff4;
-  --white-3: #e5e9f0;
-  --white-4: #d8dee9;
+  --white-1: #eceff4;
+  --white-2: #e5e9f0;
+  --white-3: #d8dee9;
 
   --red: #bf616a;
   --green: #a3be8c;
@@ -44,7 +43,7 @@
 
 body {
   @apply bg-gray-1;
-  @apply text-white-2;
+  @apply text-white-1;
 
   font-family: Inter, Roboto, ui-sans-serif, sans-serif;
   font-feature-settings: 'cv07';

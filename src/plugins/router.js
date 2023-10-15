@@ -1,5 +1,5 @@
-import MainView from '../views/MainView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import SetupView from '../views/SetupView.vue';
 
 // Todo: route to error view if bluetooth is not supported
 const router = createRouter({
@@ -7,7 +7,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: MainView,
+      component: SetupView,
     },
   ],
 });
