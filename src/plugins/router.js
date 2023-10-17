@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NotFound from '../views/NotFound.vue';
-import Setup from '../views/Setup.vue';
+import Setup from '../views/setup/Setup.vue';
 
 const router = createRouter({
   history: createWebHistory(),

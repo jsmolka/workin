@@ -41,14 +41,21 @@
   --blue: #5e81ac;
 }
 
-body {
+html {
   @apply bg-gray-1;
   @apply text-white-1;
 
   font-family: Inter, Roboto, ui-sans-serif, sans-serif;
   font-feature-settings: 'cv07';
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {
   @apply bg-blue;
+  @apply text-white-1;
+}
+
+a {
+  @apply text-blue;
+  @apply hover:underline;
 }
