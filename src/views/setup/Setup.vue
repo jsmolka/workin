@@ -7,7 +7,7 @@
       <Label text="FTP">
         <Input type="number" value="" />
       </Label>
-      <Button brand>Start</Button>
+      <Button brand>Select workout</Button>
     </Form>
   </Card>
 </template>

@@ -1,4 +1,4 @@
-import notyf from '../utils/notyf';
+import notify from '../utils/notify';
 
 export default class Device {
   constructor() {
@@ -16,7 +16,7 @@ export default class Device {
   }
 
   disconnected() {
-    notyf.error(`${this.name} disconnected`);
+    notify.error(`${this.name} disconnected`);
     this.server = null;
   }
 
