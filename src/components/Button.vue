@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :class="{ disabled, 'bg-gray-3': !brand, 'bg-blue': brand }">
+  <button class="button" :class="{ disabled, 'bg-gray-3': !brand, 'bg-blue': brand }" :type="type">
     <slot />
   </button>
 </template>
@@ -13,6 +13,10 @@ defineProps({
   brand: {
     type: Boolean,
     default: false,
+  },
+  type: {
+    type: String,
+    default: 'button',
   },
 });
 </script>
