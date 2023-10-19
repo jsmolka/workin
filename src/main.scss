@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .disabled {
+    @apply opacity-50;
+    @apply pointer-events-none;
+    @apply select-none;
+  }
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: block;
+  font-style: normal;
+  src: url('./assets/fonts/inter.woff2') format('woff2');
+}
+
+:root {
+  --gray-1: #eceff4; // hsv(218,  3, 96)
+  --gray-2: #dadee5; // hsv(218,  5, 90)
+  --gray-3: #667188; // hsv(220, 25, 53)
+  --gray-4: #4c566a; // hsv(220, 28, 42)
+  --gray-5: #434c5e; // hsv(220, 29, 37)
+  --gray-6: #3b4252; // hsv(220, 28, 32)
+  --gray-7: #2e3440; // hsv(220, 28, 25)
+  --gray-8: #242933; // hsv(220, 29, 20)
+  --blue-1: #749fd4; // hsv(213, 45, 83)
+  --blue-2: #6990bf; // hsv(213, 45, 75)
+  --blue-3: #5e81ac; // hsv(213, 45, 67)
+}
+
+html {
+  @apply bg-gray-8;
+  @apply text-gray-2;
+
+  font-family: Inter, Roboto, ui-sans-serif, sans-serif;
+  font-feature-settings: 'cv07';
+  font-size: 14px;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  @apply bg-blue-3;
+  @apply text-gray-2;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-6) var(--gray-7);
+}
+
+::-webkit-scrollbar {
+  @apply w-2.5;
+  @apply h-2.5;
+}
+
+::-webkit-scrollbar-track-piece {
+  @apply bg-gray-7;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-6;
+
+  &:hover {
+    @apply bg-gray-5;
+  }
+
+  &:active {
+    @apply bg-gray-4;
+  }
+}
+
+a {
+  @apply text-blue-3;
+  @apply hover:underline;
+}

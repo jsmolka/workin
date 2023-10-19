@@ -21,22 +21,22 @@ defineEmits(['update:value']);
 
 <style lang="scss" scoped>
 .input {
-  @apply px-1.5;
+  @apply px-2;
   @apply py-1;
-  @apply bg-gray-3;
-  @apply rounded;
-  @apply hover:brightness-110;
+  @apply bg-gray-6;
+  @apply rounded-sm;
+  @apply hover:bg-gray-5;
   @apply focus:outline-none;
   @apply focus:ring-2;
-  @apply focus:ring-blue;
+  @apply focus:ring-blue-3;
 
   &[type='number'] {
     appearance: textfield;
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
-      margin: 0;
-      appearance: none;
+      @apply m-0;
+      @apply appearance-none;
     }
   }
 }

@@ -7,15 +7,16 @@ export default {
         2: 'var(--gray-2)',
         3: 'var(--gray-3)',
         4: 'var(--gray-4)',
+        5: 'var(--gray-5)',
+        6: 'var(--gray-6)',
+        7: 'var(--gray-7)',
+        8: 'var(--gray-8)',
       },
-      white: {
-        1: 'var(--white-1)',
-        2: 'var(--white-2)',
-        3: 'var(--white-3)',
+      blue: {
+        1: 'var(--blue-1)',
+        2: 'var(--blue-2)',
+        3: 'var(--blue-3)',
       },
-      red: 'var(--red)',
-      green: 'var(--green)',
-      blue: 'var(--blue)',
     },
   },
 };

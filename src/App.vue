@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-center w-screen h-screen">
-    <div class="flex flex-col max-w-md m-4">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="flex max-w-md">
       <RouterView v-if="isSupported" />
       <Card v-else>
         Your browser doesn't support Bluetooth. Click

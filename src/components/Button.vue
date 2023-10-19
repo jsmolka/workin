@@ -1,16 +1,18 @@
 <template>
-  <button class="button" :class="{ disabled, 'bg-gray-3': !brand, 'bg-blue': brand }" :type="type">
+  <button class="button" :class="[classNames, { disabled }]" :type="type">
     <slot />
   </button>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
   },
-  brand: {
+  blue: {
     type: Boolean,
     default: false,
   },
@@ -19,14 +21,17 @@ defineProps({
     default: 'button',
   },
 });
+
+const classNames = computed(() => {
+  return props.blue ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1' : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4';
+});
 </script>
 
 <style scoped>
 .button {
   @apply px-1.5;
   @apply py-1;
-  @apply rounded;
+  @apply rounded-sm;
   @apply focus:outline-none;
-  @apply hover:brightness-110;
 }
 </style>
