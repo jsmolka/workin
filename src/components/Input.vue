@@ -11,6 +11,7 @@
 
 <script setup>
 import { ref } from "vue";
+import useForceUpdate from "../composables/useForceUpdate";
 
 defineProps({
   disabled: {
@@ -21,8 +22,12 @@ defineProps({
 
 const value = defineModel("value", { required: true });
 
+const forceUpdate = useForceUpdate();
+
 const update = (event) => {
   value.value = event.target.value;
+
+  forceUpdate();
 };
 
 const input = ref();

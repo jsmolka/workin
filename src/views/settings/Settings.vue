@@ -7,13 +7,13 @@
       <DeviceButton :device="hrm" />
     </Label>
     <Label text="Height [cm]">
-      <InputNumber v-model:value="store.athlete.height" />
+      <InputNumber :min="1" v-model:value="store.athlete.height" />
     </Label>
     <Label text="Weight [kg]">
-      <InputNumber type="number" v-model:value="store.athlete.weight" />
+      <InputNumber :min="1" v-model:value="store.athlete.weight" />
     </Label>
     <Label text="FTP [W]">
-      <InputNumber type="number" v-model:value="store.athlete.ftp" />
+      <InputNumber :min="1" v-model:value="store.athlete.ftp" />
     </Label>
   </Form>
 </template>
