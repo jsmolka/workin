@@ -1,6 +1,6 @@
 <template>
-  <Workin v-if="bluetooth" class="max-w-screen-sm min-h-screen mx-auto" />
-  <div v-else class="flex justify-center items-center min-h-screen">
+  <Workin v-if="bluetooth" class="max-w-screen-sm h-full mx-auto" />
+  <div v-else class="flex justify-center items-center h-full">
     <Card class="max-w-screen-sm m-4">
       Your browser doesn't support Bluetooth. Click
       <a
