@@ -5,7 +5,7 @@
         <DeviceButton :device="hrm" />
       </Label>
       <Label text="FTP">
-        <Input type="number" value="" />
+        <Input type="number" v-model:value="store.athlete.ftp" />
       </Label>
       <Button blue>Select workout</Button>
     </Form>
@@ -21,6 +21,7 @@ import Input from "../../components/Input.vue";
 import Form from "../../components/Form.vue";
 import Label from "../../components/Label.vue";
 import Card from "../../components/Card.vue";
+import store from "../../store";
 
 const hrm = reactive(new HeartRateMonitor());
 </script>
