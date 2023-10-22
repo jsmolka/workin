@@ -7,13 +7,13 @@
       <DeviceButton :device="hrm" />
     </Label>
     <Label text="Height [cm]">
-      <InputNumber :min="1" v-model:value="store.athlete.height" />
+      <InputNumber :min="1" v-model:value="state.athlete.height" />
     </Label>
     <Label text="Weight [kg]">
-      <InputNumber :min="1" v-model:value="store.athlete.weight" />
+      <InputNumber :min="1" v-model:value="state.athlete.weight" />
     </Label>
     <Label text="FTP [W]">
-      <InputNumber :min="1" v-model:value="store.athlete.ftp" />
+      <InputNumber :min="1" v-model:value="state.athlete.ftp" />
     </Label>
   </Form>
 </template>
@@ -24,7 +24,7 @@ import HeartRateMonitor from "../../bluetooth/heartRateMonitor";
 import Form from "../../components/Form.vue";
 import InputNumber from "../../components/InputNumber.vue";
 import Label from "../../components/Label.vue";
-import store from "../../store";
+import state from "../../state";
 import DeviceButton from "./DeviceButton.vue";
 
 const hrm = reactive(new HeartRateMonitor());

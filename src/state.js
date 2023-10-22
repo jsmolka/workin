@@ -1,8 +1,8 @@
 import { reactive } from "vue";
 import Athlete from "./modules/athlete";
 
-const store = reactive({
+const state = reactive({
   athlete: new Athlete(),
 });
 
-export default store;
+export default state;
