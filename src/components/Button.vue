@@ -7,7 +7,7 @@
 <script setup>
 import { computed } from "vue";
 
-const props = defineProps({
+const { blue } = defineProps({
   disabled: {
     type: Boolean,
     default: false,
@@ -23,15 +23,20 @@ const props = defineProps({
 });
 
 const classes = computed(() =>
-  props.blue ? "bg-blue-3 hover:bg-blue-2 active:bg-blue-1" : "bg-gray-6 hover:bg-gray-5 active:bg-gray-4",
+  blue
+    ? "bg-blue-3 hover:bg-blue-2 active:bg-blue-1"
+    : "bg-gray-6 hover:bg-gray-5 active:bg-gray-4",
 );
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .button {
-  @apply px-1.5;
+  @apply px-2;
   @apply py-1;
   @apply rounded-sm;
-  @apply focus:outline-none;
+
+  &:focus {
+    @apply outline-none;
+  }
 }
 </style>
