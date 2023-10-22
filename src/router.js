@@ -1,20 +1,20 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import NotFound from './views/NotFound.vue';
-import Setup from './views/setup/Setup.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import NotFound from "./views/NotFound.vue";
+import Setup from "./views/setup/Setup.vue";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
-      redirect: '/setup',
+      path: "/",
+      redirect: "/setup",
     },
     {
-      path: '/setup',
+      path: "/setup",
       component: Setup,
     },
     {
-      path: '/:pathMatch(.*)*',
+      path: "/:pathMatch(.*)*",
       component: NotFound,
     },
   ],

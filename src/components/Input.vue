@@ -9,14 +9,14 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'text',
+    default: "text",
   },
   disabled: {
     type: Boolean,
     default: false,
   },
 });
-defineEmits(['update:value']);
+defineEmits(["update:value"]);
 </script>
 
 <style lang="scss" scoped>
@@ -30,7 +30,7 @@ defineEmits(['update:value']);
   @apply focus:ring-2;
   @apply focus:ring-blue-3;
 
-  &[type='number'] {
+  &[type="number"] {
     appearance: textfield;
 
     &::-webkit-outer-spin-button,

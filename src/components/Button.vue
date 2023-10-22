@@ -1,11 +1,11 @@
 <template>
-  <button class="button" :class="[classNames, { disabled }]" :type="type">
+  <button class="button" :class="[classes, { disabled }]" :type="type">
     <slot />
   </button>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps({
   disabled: {
@@ -18,13 +18,13 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'button',
+    default: "button",
   },
 });
 
-const classNames = computed(() => {
-  return props.blue ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1' : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4';
-});
+const classes = computed(() =>
+  props.blue ? "bg-blue-3 hover:bg-blue-2 active:bg-blue-1" : "bg-gray-6 hover:bg-gray-5 active:bg-gray-4",
+);
 </script>
 
 <style scoped>

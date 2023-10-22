@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-import { useBluetooth } from '@vueuse/core';
-import Card from './components/Card.vue';
+import { useBluetooth } from "@vueuse/core";
+import Card from "./components/Card.vue";
 
 const { isSupported } = useBluetooth();
 </script>
