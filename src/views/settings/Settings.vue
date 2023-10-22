@@ -6,14 +6,14 @@
     <Label text="Smart trainer">
       <DeviceButton :device="hrm" />
     </Label>
-    <Label text="Height [kg]">
-      <Input type="number" v-model:value="store.athlete.height" />
+    <Label text="Height [cm]">
+      <InputNumber v-model:value="store.athlete.height" />
     </Label>
-    <Label text="Weight [cm]">
-      <Input type="number" v-model:value="store.athlete.weight" />
+    <Label text="Weight [kg]">
+      <InputNumber type="number" v-model:value="store.athlete.weight" />
     </Label>
     <Label text="FTP [W]">
-      <Input type="number" v-model:value="store.athlete.ftp" />
+      <InputNumber type="number" v-model:value="store.athlete.ftp" />
     </Label>
   </Form>
 </template>
@@ -22,7 +22,7 @@
 import { reactive } from "vue";
 import HeartRateMonitor from "../../bluetooth/heartRateMonitor";
 import Form from "../../components/Form.vue";
-import Input from "../../components/Input.vue";
+import InputNumber from "../../components/InputNumber.vue";
 import Label from "../../components/Label.vue";
 import store from "../../store";
 import DeviceButton from "./DeviceButton.vue";

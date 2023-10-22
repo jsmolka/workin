@@ -1,29 +1,35 @@
 <template>
   <input
-    class="input"
-    :class="{ disabled }"
-    v-bind="props"
-    @input="$emit('update:value', $event.target.value)"
+    ref="input"
+    :class="['input', { disabled }]"
+    :value="value"
+    v-bind="$attrs"
+    @change="update"
+    @focus="select"
   />
 </template>
 
 <script setup>
-// Todo: select on focus
+import { ref } from "vue";
 
-const props = defineProps({
-  value: {
-    required: true,
-  },
-  type: {
-    type: String,
-    default: "text",
-  },
+defineProps({
   disabled: {
     type: Boolean,
     default: false,
   },
 });
-defineEmits(["update:value"]);
+
+const value = defineModel("value", { required: true });
+
+const update = (event) => {
+  value.value = event.target.value;
+};
+
+const input = ref();
+
+const select = () => {
+  input.value.select();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -32,10 +38,16 @@ defineEmits(["update:value"]);
   @apply py-1;
   @apply bg-gray-6;
   @apply rounded-sm;
-  @apply hover:bg-gray-5;
-  @apply focus:outline-none;
-  @apply focus:ring-2;
-  @apply focus:ring-blue-3;
+
+  &:hover {
+    @apply bg-gray-5;
+  }
+
+  &:focus {
+    @apply outline-none;
+    @apply ring-2;
+    @apply ring-blue-3;
+  }
 
   &[type="number"] {
     appearance: textfield;
