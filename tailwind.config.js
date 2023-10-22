@@ -17,6 +17,7 @@ export default {
         2: "var(--blue-2)",
         3: "var(--blue-3)",
       },
+      transparent: "transparent",
     },
   },
 };

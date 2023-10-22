@@ -1,8 +1,15 @@
 <template>
-  <input class="input" :class="{ disabled }" v-bind="props" @input="$emit('update:value', $event.target.value)" />
+  <input
+    class="input"
+    :class="{ disabled }"
+    v-bind="props"
+    @input="$emit('update:value', $event.target.value)"
+  />
 </template>
 
 <script setup>
+// Todo: select on focus
+
 const props = defineProps({
   value: {
     required: true,

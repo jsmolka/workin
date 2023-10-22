@@ -1,19 +1,21 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen p-4">
-    <div class="flex max-w-md">
-      <RouterView v-if="isSupported" />
-      <Card v-else>
-        Your browser doesn't support Bluetooth. Click
-        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API#browser_compatibility">here</a>
-        to learn more.
-      </Card>
-    </div>
+  <Workin v-if="bluetooth" class="max-w-screen-sm min-h-screen mx-auto" />
+  <div v-else class="flex justify-center items-center min-h-screen">
+    <Card class="max-w-screen-sm m-4">
+      Your browser doesn't support Bluetooth. Click
+      <a
+        class="text-blue-3"
+        href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API#browser_compatibility"
+        >here</a
+      >
+      to learn more.
+    </Card>
   </div>
 </template>
 
 <script setup>
-import { useBluetooth } from "@vueuse/core";
 import Card from "./components/Card.vue";
+import Workin from "./views/Workin.vue";
 
-const { isSupported } = useBluetooth();
+const bluetooth = navigator && "bluetooth" in navigator;
 </script>
