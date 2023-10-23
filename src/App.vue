@@ -15,7 +15,7 @@
 
 <script setup>
 import Card from './components/Card.vue';
-import Workin from './views/Workin.vue';
+import Workin from './Workin.vue';
 
 const bluetooth = navigator && 'bluetooth' in navigator;
 </script>

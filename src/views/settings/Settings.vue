@@ -7,13 +7,13 @@
       <DeviceButton :device="hrm" />
     </Label>
     <Label text="Height [cm]">
-      <InputNumber :min="1" v-model:value="state.athlete.height" />
+      <InputNumber :min="1" v-model:value="athlete.height" />
     </Label>
     <Label text="Weight [kg]">
-      <InputNumber :min="1" v-model:value="state.athlete.weight" />
+      <InputNumber :min="1" v-model:value="athlete.weight" />
     </Label>
     <Label text="FTP [W]">
-      <InputNumber :min="1" v-model:value="state.athlete.ftp" />
+      <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
   </Form>
 </template>
@@ -24,8 +24,11 @@ import HeartRateMonitor from '../../bluetooth/heartRateMonitor';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
-import state from '../../state';
 import DeviceButton from './DeviceButton.vue';
+import { storeToRefs } from 'pinia';
+import { useAthleteStore } from '../../store/athlete';
+
+const { athlete } = storeToRefs(useAthleteStore());
 
 const hrm = reactive(new HeartRateMonitor());
 </script>
