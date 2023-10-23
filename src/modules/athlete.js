@@ -1,3 +1,5 @@
+import { createSchema, primitive } from '../utils/persist';
+
 export default class Athlete {
   constructor() {
     this.height = 175;
@@ -5,3 +7,9 @@ export default class Athlete {
     this.ftp = 300;
   }
 }
+
+createSchema(Athlete, {
+  height: primitive(),
+  weight: primitive(),
+  ftp: primitive(),
+});
