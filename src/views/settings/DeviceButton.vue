@@ -14,9 +14,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import Device from "../../bluetooth/device";
-import Button from "../../components/Button.vue";
+import { ref } from 'vue';
+import Device from '../../bluetooth/device';
+import Button from '../../components/Button.vue';
 
 const props = defineProps({
   device: {

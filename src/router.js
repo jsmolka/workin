@@ -1,35 +1,35 @@
-import { createRouter, createWebHistory } from "vue-router";
-import NotFound from "./views/NotFound.vue";
-import Activities from "./views/activities/Activities.vue";
-import Settings from "./views/settings/Settings.vue";
-import Train from "./views/train/Train.vue";
-import Workouts from "./views/workouts/Workouts.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import NotFound from './views/NotFound.vue';
+import Activities from './views/activities/Activities.vue';
+import Settings from './views/settings/Settings.vue';
+import Train from './views/train/Train.vue';
+import Workouts from './views/workouts/Workouts.vue';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
-      redirect: "/train",
+      path: '/',
+      redirect: '/train',
     },
     {
-      path: "/train",
+      path: '/train',
       component: Train,
     },
     {
-      path: "/workouts",
+      path: '/workouts',
       component: Workouts,
     },
     {
-      path: "/activities",
+      path: '/activities',
       component: Activities,
     },
     {
-      path: "/settings",
+      path: '/settings',
       component: Settings,
     },
     {
-      path: "/:pathMatch(.*)*",
+      path: '/:pathMatch(.*)*',
       component: NotFound,
     },
   ],

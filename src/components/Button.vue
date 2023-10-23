@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed } from 'vue';
 
 const { blue } = defineProps({
   disabled: {
@@ -18,14 +18,14 @@ const { blue } = defineProps({
   },
   type: {
     type: String,
-    default: "button",
+    default: 'button',
   },
 });
 
 const classes = computed(() =>
   blue
-    ? "bg-blue-3 hover:bg-blue-2 active:bg-blue-1"
-    : "bg-gray-6 hover:bg-gray-5 active:bg-gray-4",
+    ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
+    : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
 );
 </script>
 

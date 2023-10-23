@@ -17,7 +17,7 @@ defineProps({
     validator(pages) {
       return (
         pages.length > 0 &&
-        pages.every((page) => typeof page.text === "string" && typeof page.path === "string")
+        pages.every((page) => typeof page.text === 'string' && typeof page.path === 'string')
       );
     },
   },

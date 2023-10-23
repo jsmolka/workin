@@ -10,8 +10,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import useForceUpdate from "../composables/useForceUpdate";
+import { ref } from 'vue';
+import useForceUpdate from '../composables/useForceUpdate';
 
 defineProps({
   disabled: {
@@ -20,7 +20,7 @@ defineProps({
   },
 });
 
-const value = defineModel("value", { required: true });
+const value = defineModel('value', { required: true });
 
 const forceUpdate = useForceUpdate();
 
@@ -54,7 +54,7 @@ const select = () => {
     @apply ring-blue-3;
   }
 
-  &[type="number"] {
+  &[type='number'] {
     appearance: textfield;
 
     &::-webkit-outer-spin-button,

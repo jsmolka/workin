@@ -1,4 +1,4 @@
-import notify from "../utils/notify";
+import notify from '../utils/notify';
 
 export default class Device {
   constructor() {
@@ -10,7 +10,7 @@ export default class Device {
     this.device = await navigator.bluetooth.requestDevice(options);
     this.server = await this.device.gatt.connect();
 
-    this.device.addEventListener("gattserverdisconnected", () => {
+    this.device.addEventListener('gattserverdisconnected', () => {
       this.disconnected();
     });
   }

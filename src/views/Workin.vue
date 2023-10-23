@@ -13,25 +13,25 @@
 </template>
 
 <script setup>
-import Card from "../components/Card.vue";
-import Navigation from "../components/Navigation.vue";
+import Card from '../components/Card.vue';
+import Navigation from '../components/Navigation.vue';
 
 const pages = [
   {
-    text: "Train",
-    path: "/train",
+    text: 'Train',
+    path: '/train',
   },
   {
-    text: "Workouts",
-    path: "/workouts",
+    text: 'Workouts',
+    path: '/workouts',
   },
   {
-    text: "Activities",
-    path: "/activities",
+    text: 'Activities',
+    path: '/activities',
   },
   {
-    text: "Settings",
-    path: "/settings",
+    text: 'Settings',
+    path: '/settings',
   },
 ];
 </script>

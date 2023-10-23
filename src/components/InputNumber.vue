@@ -3,14 +3,14 @@
 </template>
 
 <script setup>
-import Input from "./Input.vue";
+import Input from './Input.vue';
 
 const { min, max } = defineProps({
   min: { type: Number },
   max: { type: Number },
 });
 
-const value = defineModel("value", { required: true, type: Number });
+const value = defineModel('value', { required: true, type: Number });
 
 const update = (newValue) => {
   newValue = parseFloat(newValue);

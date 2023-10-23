@@ -19,13 +19,13 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import HeartRateMonitor from "../../bluetooth/heartRateMonitor";
-import Form from "../../components/Form.vue";
-import InputNumber from "../../components/InputNumber.vue";
-import Label from "../../components/Label.vue";
-import state from "../../state";
-import DeviceButton from "./DeviceButton.vue";
+import { reactive } from 'vue';
+import HeartRateMonitor from '../../bluetooth/heartRateMonitor';
+import Form from '../../components/Form.vue';
+import InputNumber from '../../components/InputNumber.vue';
+import Label from '../../components/Label.vue';
+import state from '../../state';
+import DeviceButton from './DeviceButton.vue';
 
 const hrm = reactive(new HeartRateMonitor());
 </script>
