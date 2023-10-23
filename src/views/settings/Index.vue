@@ -26,7 +26,7 @@ import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
 import DeviceButton from './DeviceButton.vue';
 import { storeToRefs } from 'pinia';
-import { useAthleteStore } from '../../store/athlete';
+import { useAthleteStore } from '../../stores/athlete';
 
 const { athlete } = storeToRefs(useAthleteStore());
 

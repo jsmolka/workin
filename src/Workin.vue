@@ -15,7 +15,7 @@
 <script setup>
 import Card from './components/Card.vue';
 import Navigation from './components/Navigation.vue';
-import { useAthleteStore } from './store/athlete';
+import { useAthleteStore } from './stores/athlete';
 
 const pages = [
   {
