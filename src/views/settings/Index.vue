@@ -20,15 +20,25 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import { HeartRateMonitor } from '../../bluetooth/heartRateMonitor';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
+import { useBluetooth } from '../../composables/useBluetooth';
 import { useAthleteStore } from '../../stores/athlete';
+import { notify } from '../../utils/notify';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 
 const hrm = reactive(new HeartRateMonitor());
+
+const { available } = useBluetooth();
+
+watchEffect(() => {
+  if (available.value === false) {
+    notify('Bluetooth is not available');
+  }
+});
 </script>
