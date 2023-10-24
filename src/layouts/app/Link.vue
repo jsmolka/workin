@@ -18,8 +18,8 @@ defineProps({
   @apply p-2;
   @apply border-y-4;
   @apply border-transparent;
-  @apply font-medium;
   @apply text-center;
+  @apply font-medium;
 
   &:hover {
     @apply bg-gray-5;

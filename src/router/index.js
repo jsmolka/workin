@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import App from '../layouts/app/Index.vue';
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(),
 
   linkActiveClass: 'active',
@@ -38,5 +38,3 @@ const router = createRouter({
     },
   ],
 });
-
-export default router;

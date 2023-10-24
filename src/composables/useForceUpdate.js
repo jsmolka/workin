@@ -1,6 +1,6 @@
 import { getCurrentInstance } from 'vue';
 
-export default function useForceUpdate() {
+export function useForceUpdate() {
   const instance = getCurrentInstance();
   return () => instance.proxy.$forceUpdate();
 }

@@ -17,6 +17,6 @@ const notyf = new Notyf({
   ],
 });
 
-export default function notify(message) {
+export function notify(message) {
   return notyf.open({ type: 'info', message });
 }

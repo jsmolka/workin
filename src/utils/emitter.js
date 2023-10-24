@@ -1,6 +1,6 @@
 import mitt from 'mitt';
 
-export default class Emitter {
+export class Emitter {
   constructor() {
     Object.assign(this, mitt());
   }

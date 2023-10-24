@@ -21,11 +21,12 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
-import HeartRateMonitor from '../../bluetooth/heartRateMonitor';
-import { Form, Label } from '../../components';
+import { HeartRateMonitor } from '../../bluetooth/heartRateMonitor';
+import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
+import Label from '../../components/Label.vue';
+import { useAthleteStore } from '../../stores/athlete';
 import DeviceButton from './DeviceButton.vue';
-import useAthleteStore from '../../stores/athlete';
 
 const { athlete } = storeToRefs(useAthleteStore());
 

@@ -1,15 +1,15 @@
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import Athlete from '../modules/athlete';
+import { Athlete } from '../modules/athlete';
 import { deserialize, serialize } from '../utils/persist';
 
-const useAthleteStore = defineStore('athlete', {
+export const useAthleteStore = defineStore('athlete', {
   state: () => ({
     athlete: new Athlete(),
   }),
 
   actions: {
-    async init() {
+    async hydrate() {
       const data = await get('athlete');
       if (data !== undefined) {
         this.athlete = deserialize(Athlete, data);
@@ -21,5 +21,3 @@ const useAthleteStore = defineStore('athlete', {
     },
   },
 });
-
-export default useAthleteStore;

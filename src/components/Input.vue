@@ -11,7 +11,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import useForceUpdate from '../composables/useForceUpdate';
+import { useForceUpdate } from '../composables/useForceUpdate';
 
 defineProps({
   disabled: {

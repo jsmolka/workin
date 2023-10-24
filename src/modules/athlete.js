@@ -1,6 +1,6 @@
 import { createSchema, primitive } from '../utils/persist';
 
-export default class Athlete {
+export class Athlete {
   constructor() {
     this.height = 175;
     this.weight = 75;

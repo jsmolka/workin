@@ -1,6 +1,6 @@
-import Device from './device';
+import { Device } from './device';
 
-export default class HeartRateMonitor extends Device {
+export class HeartRateMonitor extends Device {
   constructor() {
     super();
 

@@ -1,6 +1,6 @@
-import notify from '../utils/notify';
+import { notify } from '../utils/notify';
 
-export default class Device {
+export class Device {
   constructor() {
     this.device = null;
     this.server = null;
