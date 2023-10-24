@@ -4,28 +4,28 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
-      redirect: '/train',
-    },
-    {
+      name: 'train',
       path: '/train',
       component: () => import('../views/train/Index.vue'),
     },
     {
+      name: 'workouts',
       path: '/workouts',
       component: () => import('../views/workouts/Index.vue'),
     },
     {
+      name: 'activities',
       path: '/activities',
       component: () => import('../views/activities/Index.vue'),
     },
     {
+      name: 'settings',
       path: '/settings',
       component: () => import('../views/settings/Index.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
-      component: () => import('../views/NotFound.vue'),
+      redirect: '/train',
     },
   ],
 });

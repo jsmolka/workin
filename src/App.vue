@@ -1,21 +1,33 @@
 <template>
-  <Workin v-if="bluetooth" class="max-w-screen-sm h-full mx-auto" />
-  <div v-else class="flex justify-center items-center h-full">
-    <Card class="max-w-screen-sm m-4">
-      Your browser doesn't support Bluetooth. Click
-      <a
-        class="text-blue-3"
-        href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API#browser_compatibility"
-        >here</a
-      >
-      to learn more.
-    </Card>
-  </div>
+  <Navigation :pages="pages" class="max-w-screen-sm h-full mx-auto">
+    <div class="relative flex-1">
+      <Card class="absolute inset-0 m-4 overflow-y-auto">
+        <RouterView />
+      </Card>
+    </div>
+  </Navigation>
 </template>
 
 <script setup>
-import Workin from './Workin.vue';
-import { Card } from './components';
+import { RouterView } from 'vue-router';
+import { Card, Navigation } from './components';
 
-const bluetooth = navigator && 'bluetooth' in navigator;
+const pages = [
+  {
+    text: 'Train',
+    path: '/train',
+  },
+  {
+    text: 'Workouts',
+    path: '/workouts',
+  },
+  {
+    text: 'Activities',
+    path: '/activities',
+  },
+  {
+    text: 'Settings',
+    path: '/settings',
+  },
+];
 </script>

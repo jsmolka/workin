@@ -4,13 +4,18 @@ import App from './App.vue';
 import './main.scss';
 import router from './router';
 import useAthleteStore from './stores/athlete';
+import NoBluetooth from './views/NoBluetooth.vue';
+
+const bluetooth = 'bluetooth' in navigator;
 
 async function main() {
-  const app = createApp(App);
+  const app = createApp(bluetooth ? App : NoBluetooth);
   app.use(createPinia());
   app.use(router);
 
-  await useAthleteStore().init();
+  const athleteStore = useAthleteStore();
+  await athleteStore.init();
+  athleteStore.$subscribe(() => athleteStore.persist());
 
   app.mount('#app');
 }
