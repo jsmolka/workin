@@ -14,12 +14,17 @@ const value = defineModel('value', { required: true, type: Number });
 
 const update = (newValue) => {
   newValue = parseFloat(newValue);
+  if (isNaN(newValue)) {
+    newValue = 0;
+  }
+
   if (props.min != null) {
     newValue = Math.max(newValue, props.min);
   }
   if (props.max != null) {
     newValue = Math.min(newValue, props.max);
   }
+
   value.value = newValue;
 };
 </script>
