@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import './main.scss';
 import router from './router';
-import { useAthleteStore } from './stores/athlete';
+import useAthleteStore from './stores/athlete';
 
 async function main() {
   const app = createApp(App);

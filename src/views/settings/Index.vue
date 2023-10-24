@@ -19,14 +19,13 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
 import HeartRateMonitor from '../../bluetooth/heartRateMonitor';
-import Form from '../../components/Form.vue';
+import { Form, Label } from '../../components';
 import InputNumber from '../../components/InputNumber.vue';
-import Label from '../../components/Label.vue';
 import DeviceButton from './DeviceButton.vue';
-import { storeToRefs } from 'pinia';
-import { useAthleteStore } from '../../stores/athlete';
+import useAthleteStore from '../../stores/athlete';
 
 const { athlete } = storeToRefs(useAthleteStore());
 

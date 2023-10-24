@@ -13,9 +13,8 @@
 </template>
 
 <script setup>
-import Card from './components/Card.vue';
-import Navigation from './components/Navigation.vue';
-import { useAthleteStore } from './stores/athlete';
+import { Card, Navigation } from './components';
+import useAthleteStore from './stores/athlete';
 
 const pages = [
   {
@@ -37,7 +36,5 @@ const pages = [
 ];
 
 const athleteStore = useAthleteStore();
-athleteStore.$subscribe(() => {
-  athleteStore.persist();
-});
+athleteStore.$subscribe(() => athleteStore.persist());
 </script>

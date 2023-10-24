@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import Athlete from '../modules/athlete';
 import { deserialize, serialize } from '../utils/persist';
 
-export const useAthleteStore = defineStore('athlete', {
+const useAthleteStore = defineStore('athlete', {
   state: () => ({
     athlete: new Athlete(),
   }),
@@ -21,3 +21,5 @@ export const useAthleteStore = defineStore('athlete', {
     },
   },
 });
+
+export default useAthleteStore;

@@ -1,7 +1,7 @@
 <template>
   <input
     ref="input"
-    :class="['input', { disabled }]"
+    :class="{ disabled }"
     :value="value"
     v-bind="$attrs"
     @change="update"
@@ -38,9 +38,9 @@ const select = () => {
 </script>
 
 <style lang="scss" scoped>
-.input {
+input {
   @apply px-2;
-  @apply py-1;
+  @apply py-1.5;
   @apply bg-gray-6;
   @apply rounded-sm;
 

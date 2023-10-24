@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :class="[classes, { disabled }]" :type="type">
+  <button :class="[classes, { disabled }]" :type="type" v-bind="$attrs">
     <slot />
   </button>
 </template>
@@ -7,7 +7,7 @@
 <script setup>
 import { computed } from 'vue';
 
-const { blue } = defineProps({
+const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
@@ -23,17 +23,18 @@ const { blue } = defineProps({
 });
 
 const classes = computed(() =>
-  blue
+  props.blue
     ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
     : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
 );
 </script>
 
 <style lang="scss" scoped>
-.button {
+button {
   @apply px-2;
-  @apply py-1;
+  @apply py-1.5;
   @apply rounded-sm;
+  @apply select-none;
 
   &:focus {
     @apply outline-none;

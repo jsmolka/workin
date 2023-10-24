@@ -5,7 +5,7 @@
 <script setup>
 import Input from './Input.vue';
 
-const { min, max } = defineProps({
+const props = defineProps({
   min: { type: Number },
   max: { type: Number },
 });
@@ -14,11 +14,11 @@ const value = defineModel('value', { required: true, type: Number });
 
 const update = (newValue) => {
   newValue = parseFloat(newValue);
-  if (min != null) {
-    newValue = Math.max(newValue, min);
+  if (props.min != null) {
+    newValue = Math.max(newValue, props.min);
   }
-  if (max != null) {
-    newValue = Math.min(newValue, max);
+  if (props.max != null) {
+    newValue = Math.min(newValue, props.max);
   }
   value.value = newValue;
 };
