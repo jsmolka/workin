@@ -1,4 +1,4 @@
-import { notify } from '../utils/notify';
+import { notify } from '../../utils/notify';
 
 export class Device {
   constructor() {

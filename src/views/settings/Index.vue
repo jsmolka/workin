@@ -20,19 +20,18 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { reactive, watchEffect } from 'vue';
-import { HeartRateMonitor } from '../../bluetooth/heartRateMonitor';
+import { watchEffect } from 'vue';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
 import { useBluetooth } from '../../composables/useBluetooth';
 import { useAthleteStore } from '../../stores/athlete';
+import { useDevicesStore } from '../../stores/devices';
 import { notify } from '../../utils/notify';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
-
-const hrm = reactive(new HeartRateMonitor());
+const { hrm } = storeToRefs(useDevicesStore());
 
 const { available } = useBluetooth();
 

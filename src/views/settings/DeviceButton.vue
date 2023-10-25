@@ -15,8 +15,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import { Device } from '../../bluetooth/device';
 import Button from '../../components/Button.vue';
+import { Device } from '../../modules/bluetooth/device';
 
 const props = defineProps({
   device: {
@@ -36,3 +36,4 @@ const connect = async () => {
   }
 };
 </script>
+../../modules/device
