@@ -3,28 +3,50 @@ import { notify } from '../../utils/notify';
 export class Device {
   constructor() {
     this.device = null;
-    this.server = null;
+    this.reconnecting = false;
   }
 
-  async connect(options) {
-    this.device = await navigator.bluetooth.requestDevice(options);
-    this.server = await this.device.gatt.connect();
+  async connect() {
+    this.device = null;
+    this.reconnecting = false;
 
-    this.device.addEventListener('gattserverdisconnected', () => {
-      this.disconnected();
+    this.device = await navigator.bluetooth.requestDevice({
+      filters: [{ services: [this.service] }],
     });
+
+    this.device.addEventListener('gattserverdisconnected', async () => {
+      notify(`${this.device.name} disconnected`);
+
+      this.disconnected();
+      this.reconnecting = true;
+
+      while (this.reconnecting) {
+        try {
+          const server = await this.device.gatt.connect();
+
+          notify(`${this.device.name} reconnected`);
+
+          this.reconnecting = false;
+          this.connected(server);
+        } catch {}
+      }
+    });
+
+    this.connected(await this.device.gatt.connect());
   }
 
-  disconnected() {
-    notify.error(`${this.name} disconnected`);
-    this.server = null;
-  }
+  /**
+   * @abstract
+   */
+  connected() {}
 
-  get id() {
-    return this.device?.id;
-  }
+  /**
+   * @abstract
+   */
+  disconnected() {}
 
-  get name() {
-    return this.device?.name;
-  }
+  /**
+   * @abstract
+   */
+  get service() {}
 }

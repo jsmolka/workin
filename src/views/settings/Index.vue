@@ -4,7 +4,7 @@
       <DeviceButton :device="hrm" />
     </Label>
     <Label text="Smart trainer">
-      <DeviceButton :device="hrm" />
+      <DeviceButton :device="trainer" />
     </Label>
     <Label text="Height [cm]">
       <InputNumber :min="1" v-model:value="athlete.height" />
@@ -31,8 +31,7 @@ import { notify } from '../../utils/notify';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
-const { hrm } = storeToRefs(useDevicesStore());
-
+const { hrm, trainer } = storeToRefs(useDevicesStore());
 const { available } = useBluetooth();
 
 watchEffect(() => {

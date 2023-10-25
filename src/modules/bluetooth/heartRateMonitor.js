@@ -7,12 +7,8 @@ export class HeartRateMonitor extends Device {
     this.heartRate = null;
   }
 
-  async connect() {
-    await super.connect({
-      filters: [{ services: ['heart_rate'] }],
-    });
-
-    const service = await this.server.getPrimaryService('heart_rate');
+  async connected(server) {
+    const service = await server.getPrimaryService('heart_rate');
     const characteristic = await service.getCharacteristic('heart_rate_measurement');
 
     await characteristic.startNotifications();
@@ -29,5 +25,9 @@ export class HeartRateMonitor extends Device {
 
   disconnected() {
     this.heartRate = null;
+  }
+
+  get service() {
+    return 'heart_rate';
   }
 }
