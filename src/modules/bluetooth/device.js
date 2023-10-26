@@ -3,47 +3,89 @@ import { notify } from '../../utils/notify';
 export class Device {
   constructor() {
     this.device = null;
-    this.reconnecting = false;
+    this.server = null;
   }
 
   async connect() {
-    this.device = null;
-    this.reconnecting = false;
+    if (this.device) {
+      await this.disconnect();
+    }
 
     this.device = await navigator.bluetooth.requestDevice({
       filters: [{ services: [this.service] }],
     });
 
     this.device.addEventListener('gattserverdisconnected', async () => {
-      notify(`${this.device.name} disconnected`);
-
-      this.disconnected();
-      this.reconnecting = true;
-
-      while (this.reconnecting) {
-        try {
-          const server = await this.device.gatt.connect();
-
-          notify(`${this.device.name} reconnected`);
-
-          this.reconnecting = false;
-          this.connected(server);
-        } catch {}
+      if (this.device == null) {
+        return;
       }
+
+      this.server = null;
+
+      notify(`${this.device.name} disconnected`);
+      await this.disconnected();
+      await this.reconnect();
     });
 
-    this.connected(await this.device.gatt.connect());
+    this.server = await this.device.gatt.connect();
+    await this.connected();
   }
 
   /**
    * @abstract
    */
-  connected() {}
+  async connected() {}
+
+  async disconnect() {
+    const gatt = this.device.gatt;
+
+    // Prevent reconnect
+    this.device = null;
+    this.server = null;
+
+    if (gatt.connected) {
+      gatt.disconnect();
+    }
+
+    await this.disconnected();
+  }
 
   /**
    * @abstract
    */
-  disconnected() {}
+  async disconnected() {}
+
+  async reconnect() {
+    const time = performance.now();
+    while (performance.now() - time < 60_000) {
+      const device = this.device;
+      try {
+        this.server = await device.gatt.connect();
+        this.device = device;
+      } catch (error) {
+        if (error instanceof DOMException) {
+          continue;
+        }
+      }
+
+      notify(`${this.device.name} reconnected`);
+      this.connected();
+      return;
+    }
+    this.device = null;
+  }
+
+  isConnected() {
+    return this.device != null && this.server != null;
+  }
+
+  isConnecting() {
+    return this.device != null && this.server == null;
+  }
+
+  isDisconnected() {
+    return this.device == null && this.server == null;
+  }
 
   /**
    * @abstract
