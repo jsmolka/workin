@@ -12,30 +12,45 @@ export class HeartRateMonitor extends Device {
     try {
       const service = await this.server.getPrimaryService('heart_rate');
 
-      this.heartRateCharacteristic = await service.getCharacteristic('heart_rate_measurement');
-      await this.heartRateCharacteristic.startNotifications();
-      this.heartRateChanged = this.heartRateChanged.bind(this);
-      this.heartRateCharacteristic.addEventListener(
-        'characteristicvaluechanged',
-        this.heartRateChanged,
-      );
-    } catch {
+      await this.initHeartRate(service);
+    } catch (error) {
+      console.error(error);
+
       await this.disconnect();
     }
   }
 
+  async initHeartRate(service) {
+    this.heartRateChanged = this.heartRateChanged.bind(this);
+    this.heartRateCharacteristic = await service.getCharacteristic('heart_rate_measurement');
+    this.heartRateCharacteristic.addEventListener(
+      'characteristicvaluechanged',
+      this.heartRateChanged,
+    );
+    await this.heartRateCharacteristic.startNotifications();
+  }
+
   async disconnected() {
-    try {
-      if (this.heartRateCharacteristic != null) {
-        await this.heartRateCharacteristic.stopNotifications();
-        this.heartRateCharacteristic.removeEventListener(
-          'characteristicvaluechanged',
-          this.heartRateChanged,
-        );
-      }
-    } catch {}
+    await this.deinitHeartRate();
 
     this.heartRate = null;
+  }
+
+  async deinitHeartRate() {
+    if (this.heartRateCharacteristic == null) {
+      return;
+    }
+
+    try {
+      this.heartRateCharacteristic.removeEventListener(
+        'characteristicvaluechanged',
+        this.heartRateChanged,
+      );
+      await this.heartRateCharacteristic.stopNotifications();
+    } catch (error) {
+      console.error(error);
+    }
+
     this.heartRateCharacteristic = null;
   }
 

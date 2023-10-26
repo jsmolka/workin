@@ -18,7 +18,9 @@ export class Device {
 
       this.device = await navigator.bluetooth.requestDevice(options);
       this.server = await this.device.gatt.connect();
-    } catch {
+    } catch (error) {
+      console.error(error);
+
       this.device = null;
       this.server = null;
       return;
