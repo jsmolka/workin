@@ -5,22 +5,38 @@ export class HeartRateMonitor extends Device {
     super();
 
     this.heartRate = null;
+    this.heartRateCharacteristic = null;
+    this.heartRateChanged = this.heartRateChanged.bind(this);
   }
 
-  async connected(server) {
-    await super.connected();
+  async connected() {
+    try {
+      const service = await this.server.getPrimaryService('heart_rate');
 
-    const service = await this.server.getPrimaryService('heart_rate');
-    const characteristic = await service.getCharacteristic('heart_rate_measurement');
-
-    await characteristic.startNotifications();
-    await characteristic.addEventListener('characteristicvaluechanged', (event) =>
-      this.heartRateChanged(event),
-    );
+      this.heartRateCharacteristic = await service.getCharacteristic('heart_rate_measurement');
+      await this.heartRateCharacteristic.startNotifications();
+      this.heartRateCharacteristic.addEventListener(
+        'characteristicvaluechanged',
+        this.heartRateChanged,
+      );
+    } catch {
+      await this.disconnect();
+    }
   }
 
   async disconnected() {
+    try {
+      if (this.heartRateCharacteristic != null) {
+        await this.heartRateCharacteristic.stopNotifications();
+        this.heartRateCharacteristic.removeEventListener(
+          'characteristicvaluechanged',
+          this.heartRateChanged,
+        );
+      }
+    } catch {}
+
     this.heartRate = null;
+    this.heartRateCharacteristic = null;
   }
 
   heartRateChanged(event) {

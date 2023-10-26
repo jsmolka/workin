@@ -5,15 +5,9 @@ export class SmartTrainer extends Device {
     super();
   }
 
-  async connected() {
-    await super.connected();
+  async connected() {}
 
-    console.log(this.device, this.server);
-  }
-
-  async disconnected() {
-    await super.disconnected();
-  }
+  async disconnected() {}
 
   get service() {
     return 'fitness_machine';
