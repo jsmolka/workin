@@ -32,10 +32,10 @@ import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
-const { available } = useBluetooth();
+const { isAvailable } = useBluetooth();
 
 watchEffect(() => {
-  if (available.value === false) {
+  if (isAvailable.value === false) {
     notify('Bluetooth is not available');
   }
 });

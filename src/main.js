@@ -8,8 +8,8 @@ import { useAthleteStore } from './stores/athlete';
 import NoBluetooth from './views/NoBluetooth.vue';
 
 async function main() {
-  const { supported } = useBluetooth();
-  const app = createApp(supported ? App : NoBluetooth);
+  const { isSupported } = useBluetooth();
+  const app = createApp(isSupported ? App : NoBluetooth);
   app.use(createPinia());
   app.use(router);
 
