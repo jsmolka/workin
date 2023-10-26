@@ -20,23 +20,13 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { watchEffect } from 'vue';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
-import { useBluetooth } from '../../composables/useBluetooth';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
-import { notify } from '../../utils/notify';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
-const { isAvailable } = useBluetooth();
-
-watchEffect(() => {
-  if (isAvailable.value === false) {
-    notify('Bluetooth is not available');
-  }
-});
 </script>

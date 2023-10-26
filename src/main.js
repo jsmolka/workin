@@ -1,7 +1,7 @@
+import { useBluetooth } from '@vueuse/core';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import App from './App.vue';
-import { useBluetooth } from './composables/useBluetooth';
 import './main.scss';
 import { router } from './router';
 import { useAthleteStore } from './stores/athlete';
