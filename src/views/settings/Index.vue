@@ -1,7 +1,13 @@
 <template>
   <Form>
     <Label text="Heart rate monitor">
-      <DeviceButton :device="hrm" />
+      <DeviceButton :device="hrm" v-slot="{ device }">
+        {{
+          device.heartRate != null
+            ? device.device.name + ` [${device.heartRate} bpm]`
+            : device.device.name
+        }}
+      </DeviceButton>
     </Label>
     <Label text="Smart trainer">
       <DeviceButton :device="trainer" />

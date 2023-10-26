@@ -1,8 +1,12 @@
 <template>
   <Button :disabled="device.isConnecting" @click="device.connect()">
-    <template v-if="device.isConnected">{{ device.device.name }}</template>
-    <template v-if="device.isConnecting">Connecting...</template>
-    <template v-if="device.isDisconnected">Connect</template>
+    <template v-if="device.isConnected">
+      <slot :device="device">
+        {{ device.device.name }}
+      </slot>
+    </template>
+    <template v-else-if="device.isConnecting">Connecting...</template>
+    <template v-else>Connect</template>
   </Button>
 </template>
 
@@ -10,7 +14,7 @@
 import Button from '../../components/Button.vue';
 import { Device } from '../../modules/bluetooth/device';
 
-const props = defineProps({
+defineProps({
   device: {
     type: Device,
     required: true,

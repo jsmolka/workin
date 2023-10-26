@@ -1,5 +1,5 @@
 <template>
-  <component :is="$route.meta.layout ?? 'div'">
+  <Component :is="$route.meta.layout ?? 'div'">
     <RouterView />
-  </component>
+  </Component>
 </template>
