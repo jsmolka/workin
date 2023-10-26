@@ -6,7 +6,6 @@ export class HeartRateMonitor extends Device {
 
     this.heartRate = null;
     this.heartRateCharacteristic = null;
-    this.heartRateChanged = this.heartRateChanged.bind(this);
   }
 
   async connected() {
@@ -15,6 +14,7 @@ export class HeartRateMonitor extends Device {
 
       this.heartRateCharacteristic = await service.getCharacteristic('heart_rate_measurement');
       await this.heartRateCharacteristic.startNotifications();
+      this.heartRateChanged = this.heartRateChanged.bind(this);
       this.heartRateCharacteristic.addEventListener(
         'characteristicvaluechanged',
         this.heartRateChanged,
