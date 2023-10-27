@@ -2,7 +2,7 @@
   <Button :disabled="device.isConnecting" @click="device.connect()">
     <template v-if="device.isConnected">
       <slot :device="device">
-        {{ device.device.name }}
+        {{ device.name }}
       </slot>
     </template>
     <template v-else-if="device.isConnecting">Connecting...</template>

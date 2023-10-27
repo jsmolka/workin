@@ -18,7 +18,7 @@ export class Device {
 
       this.device = await navigator.bluetooth.requestDevice(options);
       this.server = await this.device.gatt.connect();
-    } catch (error) {
+    } catch {
       this.device = null;
       this.server = null;
       return;
@@ -37,7 +37,7 @@ export class Device {
 
         await this.connected();
       } catch {
-        notify(`${this.device.name} disconnected`);
+        notify(`${this.name} disconnected`);
 
         this.device = null;
         this.server = null;
@@ -48,14 +48,15 @@ export class Device {
   }
 
   async disconnect() {
-    const gatt = this.device.gatt;
-
     this.device = null;
+    this.server.disconnect();
     this.server = null;
 
-    gatt.disconnect();
-
     await this.disconnected();
+  }
+
+  get name() {
+    return this.device.name;
   }
 
   get isConnected() {
@@ -67,7 +68,7 @@ export class Device {
   }
 
   get isDisconnected() {
-    return this.device == null && this.server == null;
+    return this.device == null;
   }
 
   /**
@@ -78,10 +79,10 @@ export class Device {
   /**
    * @abstract
    */
-  async disconnected() {}
+  async connected() {}
 
   /**
    * @abstract
    */
-  async connected() {}
+  async disconnected() {}
 }
