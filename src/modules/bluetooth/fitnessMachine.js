@@ -54,7 +54,7 @@ export class FitnessMachine extends Device {
     const characteristic = await service.getCharacteristic('fitness_machine_control_point');
     console.log('ftms control', characteristic);
     await characteristic.writeValueWithResponse(new Uint8Array([0]));
-    await characteristic.writeValueWithResponse(new Uint8Array([0x05, 0x00, 0x00]));
+    await characteristic.writeValueWithResponse(new Uint8Array([0x05, 240, 0x00]));
     console.log('done');
     // Uint8Array.of(opcode, ...parameter);
     // return new FitnessMachineControlPoint(characteristic);
