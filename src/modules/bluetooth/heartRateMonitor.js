@@ -1,3 +1,4 @@
+import { DataStream } from './dataStream';
 import { Device } from './device';
 
 export class HeartRateMonitor extends Device {
@@ -55,12 +56,11 @@ export class HeartRateMonitor extends Device {
   }
 
   heartRateChanged(event) {
-    const value = event.target.value;
-    const flags = value.getUint8(0);
-    if (flags & 0x1) {
-      this.heartRate = value.getUint16(1, true);
+    const stream = new DataStream(event.target.value);
+    if (stream.u8() & 0x1) {
+      this.heartRate = stream.u16();
     } else {
-      this.heartRate = value.getUint8(1);
+      this.heartRate = stream.u8();
     }
   }
 
