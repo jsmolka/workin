@@ -17,9 +17,6 @@ export class FitnessMachine extends Device {
     try {
       const service = await this.server.getPrimaryService('fitness_machine');
 
-      await this.initFitnessMachineStatus(service);
-      await this.initFitnessMachineControlPoint(service);
-
       const feature = await this.initFitnessMachineFeature(service);
       if (!feature.power) {
         notify(`${this.name} does not support power`);
@@ -34,9 +31,12 @@ export class FitnessMachine extends Device {
         return await this.disconnect();
       }
 
-      // console.log('req', await control.requestControl());
-      // console.log('res', await control.reset());
+      const control = await this.initFitnessMachineControlPoint(service);
+      await control.requestControl();
+      await control.reset();
+      await control.write(0x05, 250, 0);
 
+      await this.initFitnessMachineStatus(service);
       await this.initSupportedPowerRange(service);
       await this.initIndoorBikeData(service);
     } catch (error) {
@@ -52,20 +52,17 @@ export class FitnessMachine extends Device {
 
   async initFitnessMachineControlPoint(service) {
     const characteristic = await service.getCharacteristic('fitness_machine_control_point');
-    console.log('ftms control', characteristic);
-    await characteristic.writeValueWithResponse(new Uint8Array([0]));
-    await characteristic.writeValueWithResponse(new Uint8Array([0x05, 240, 0x00]));
-    console.log('done');
-    // Uint8Array.of(opcode, ...parameter);
-    // return new FitnessMachineControlPoint(characteristic);
+    return new FitnessMachineControlPoint(characteristic);
   }
 
   async initFitnessMachineStatus(service) {
-    console.log('init status');
     const characteristic = await service.getCharacteristic('fitness_machine_status');
-    characteristic.addEventListener('characteristicvaluechanged', (event) => {
-      console.log('status');
-      new FitnessMachineStatus(event.target.value);
+    characteristic.addEventListener('characteristicvaluechanged', async (event) => {
+      const status = new FitnessMachineStatus(event.target.value);
+      if (status.controlPermissionLost) {
+        notify(`${this.name} control permission lost`);
+        await this.disconnect();
+      }
     });
     await characteristic.startNotifications();
   }
@@ -238,59 +235,16 @@ class FitnessMachineControlPoint {
     this.characteristic = characteristic;
   }
 
-  async send(opcode, ...parameter) {
-    console.log('write', opcode);
-    await this.characteristic.writeValueWithResponse(Uint8Array.of(opcode, ...parameter));
-    // console.log('send buf', buffer);
-    // console.log(this.characteristic);
-    // console.log('got buf', buffer);
-    // const stream = new DataStream(buffer);
-
-    // const responseOpcode = stream.u8();
-    // if (responseOpcode !== Opcode.response) {
-    //   console.error('bad response opcode', responseOpcode);
-    //   return null;
-    // }
-
-    // const requestOpcode = stream.u8();
-    // if (requestOpcode !== opcode) {
-    //   console.error('bad request opcode', requestOpcode);
-    //   return null;
-    // }
-
-    // const result = stream.u8();
-    // switch (result) {
-    //   case 0x01:
-    //     return stream;
-
-    //   case 0x02:
-    //     console.error('opcode not supported', opcode);
-    //     return null;
-
-    //   case 0x03:
-    //     console.error('invalid parameter', parameter);
-    //     return null;
-
-    //   case 0x04:
-    //     console.error('operation failed');
-    //     return null;
-
-    //   case 0x05:
-    //     console.error('control not permitted');
-    //     return null;
-
-    //   default:
-    //     console.error('reserved result', result);
-    //     return null;
-    // }
+  async write(opcode, ...parameter) {
+    await this.characteristic.writeValueWithoutResponse(new Uint8Array([opcode, ...parameter]));
   }
 
   async requestControl() {
-    await this.send(FitnessMachineControlPoint.Opcode.requestControl);
+    await this.write(FitnessMachineControlPoint.Opcode.requestControl);
   }
 
   async reset() {
-    await this.send(FitnessMachineControlPoint.Opcode.reset);
+    await this.write(FitnessMachineControlPoint.Opcode.reset);
   }
 }
 
@@ -323,10 +277,7 @@ class FitnessMachineStatus {
   constructor(dataView) {
     const stream = new DataStream(dataView);
     const opcode = stream.u8();
-    for (const [name, value] of Object.entries(FitnessMachineStatus.Opcode)) {
-      if (opcode === value) {
-        notify(`status ${name}`);
-      }
-    }
+
+    this.controlPermissionLost = opcode === FitnessMachineStatus.Opcode.controlPermissionLost;
   }
 }

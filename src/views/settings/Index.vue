@@ -17,6 +17,21 @@
     <Label text="FTP [W]">
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
+    <Label text="W min">
+      <div>{{ trainer.powerMin }}</div>
+    </Label>
+    <Label text="W max">
+      <div>{{ trainer.powerMax }}</div>
+    </Label>
+    <Label text="W inc">
+      <div>{{ trainer.powerInc }}</div>
+    </Label>
+    <Label text="W">
+      <div>{{ trainer.power }}</div>
+    </Label>
+    <Label text="RPM">
+      <div>{{ trainer.cadence }}</div>
+    </Label>
   </Form>
 </template>
 
