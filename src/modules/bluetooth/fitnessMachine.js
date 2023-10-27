@@ -7,6 +7,9 @@ export class FitnessMachine extends Device {
     super();
 
     this.power = 0;
+    this.powerMin = 0;
+    this.powerMax = 0;
+    this.powerInc = 0;
     this.cadence = 0;
   }
 
@@ -28,6 +31,7 @@ export class FitnessMachine extends Device {
         return await this.disconnect();
       }
 
+      await this.initSupportedPowerRange(service);
       await this.initIndoorBikeData(service);
     } catch (error) {
       console.error(error);
@@ -38,6 +42,14 @@ export class FitnessMachine extends Device {
   async initFitnessMachineFeature(service) {
     const characteristic = await service.getCharacteristic('fitness_machine_feature');
     return new FitnessMachineFeature(await characteristic.readValue());
+  }
+
+  async initSupportedPowerRange(service) {
+    const characteristic = await service.getCharacteristic('supported_power_range');
+    const range = new SupportedPowerRange(await characteristic.readValue());
+    this.powerMin = range.min;
+    this.powerMax = range.max;
+    this.powerInc = range.inc;
   }
 
   async initIndoorBikeData(service) {
@@ -154,5 +166,15 @@ class IndoorBikeData {
         this[name] = null;
       }
     }
+  }
+}
+
+class SupportedPowerRange {
+  constructor(dataView) {
+    const stream = new DataStream(dataView);
+
+    this.min = stream.u16();
+    this.max = stream.u16();
+    this.inc = stream.u16();
   }
 }
