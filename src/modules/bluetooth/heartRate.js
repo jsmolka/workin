@@ -95,7 +95,7 @@ class HeartRateMeasurement {
     }
     if ((flags & HeartRateMeasurement.Flag.rrInterval) !== 0) {
       this.rrIntervals = [];
-      while (stream.index + 1 < stream.dataView.byteLength) {
+      while (stream.length - stream.index >= 2) {
         this.rrIntervals.push(stream.u16());
       }
     }

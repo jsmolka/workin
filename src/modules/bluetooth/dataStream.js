@@ -5,20 +5,22 @@ export class DataStream {
   }
 
   u8() {
-    const data = this.dataView.getUint8(this.index);
-    this.index += 1;
-    return data;
+    return this.dataView.getUint8(this.index++);
   }
 
-  u16(littleEndian = true) {
-    const data = this.dataView.getUint16(this.index, littleEndian);
-    this.index += 2;
-    return data;
+  u16() {
+    return this.u8() | (this.u8() << 8);
   }
 
-  u32(littleEndian = true) {
-    const data = this.dataView.getUint32(this.index, littleEndian);
-    this.index += 4;
-    return data;
+  u24() {
+    return this.u8() | (this.u8() << 8) | (this.u8() << 16);
+  }
+
+  u32() {
+    return this.u8() | (this.u8() << 8) | (this.u8() << 16) | (this.u8() << 24);
+  }
+
+  get length() {
+    return this.dataView.byteLength;
   }
 }

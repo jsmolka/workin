@@ -125,7 +125,6 @@ export class FitnessMachine extends Device {
     } catch (error) {
       console.error(error);
     }
-
     this.indoorBikeDataCharacteristic = null;
   }
 
@@ -188,7 +187,7 @@ class IndoorBikeData {
       this.averageCadence = stream.u16();
     }
     if ((flags & IndoorBikeData.Flag.totalDistance) !== 0) {
-      this.totalDistance = stream.u16() | (stream.u8() << 16);
+      this.totalDistance = stream.u24();
     }
     if ((flags & IndoorBikeData.Flag.resistanceLevel) !== 0) {
       this.resistanceLevel = stream.u16();
