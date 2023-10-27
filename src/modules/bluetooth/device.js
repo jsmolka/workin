@@ -19,8 +19,6 @@ export class Device {
       this.device = await navigator.bluetooth.requestDevice(options);
       this.server = await this.device.gatt.connect();
     } catch (error) {
-      console.error(error);
-
       this.device = null;
       this.server = null;
       return;
@@ -31,12 +29,19 @@ export class Device {
         return;
       }
 
-      notify(`${this.device.name} disconnected`);
-
-      this.device = null;
-      this.server = null;
-
       await this.disconnected();
+
+      try {
+        this.server = null;
+        this.server = await this.device.gatt.connect();
+
+        await this.connected();
+      } catch {
+        this.device = null;
+        this.server = null;
+
+        notify(`${this.device.name} disconnected`);
+      }
     });
 
     await this.connected();

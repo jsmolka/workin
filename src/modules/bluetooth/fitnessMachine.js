@@ -122,9 +122,8 @@ export class FitnessMachine extends Device {
         this.indoorBikeDataChanged,
       );
       await this.indoorBikeDataCharacteristic.stopNotifications();
-    } catch (error) {
-      console.error(error);
-    }
+    } catch {}
+
     this.indoorBikeDataCharacteristic = null;
   }
 

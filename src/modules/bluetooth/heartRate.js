@@ -48,9 +48,8 @@ export class HeartRate extends Device {
         this.heartRateMeasurementChanged,
       );
       await this.heartRateMeasurementChar.stopNotifications();
-    } catch (error) {
-      console.error(error);
-    }
+    } catch {}
+
     this.heartRateMeasurementChar = null;
   }
 
