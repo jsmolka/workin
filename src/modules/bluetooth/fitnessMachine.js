@@ -17,6 +17,9 @@ export class FitnessMachine extends Device {
     try {
       const service = await this.server.getPrimaryService('fitness_machine');
 
+      await this.initFitnessMachineStatus(service);
+      await this.initFitnessMachineControlPoint(service);
+
       const feature = await this.initFitnessMachineFeature(service);
       if (!feature.power) {
         notify(`${this.name} does not support power`);
@@ -31,6 +34,9 @@ export class FitnessMachine extends Device {
         return await this.disconnect();
       }
 
+      // console.log('req', await control.requestControl());
+      // console.log('res', await control.reset());
+
       await this.initSupportedPowerRange(service);
       await this.initIndoorBikeData(service);
     } catch (error) {
@@ -42,6 +48,26 @@ export class FitnessMachine extends Device {
   async initFitnessMachineFeature(service) {
     const characteristic = await service.getCharacteristic('fitness_machine_feature');
     return new FitnessMachineFeature(await characteristic.readValue());
+  }
+
+  async initFitnessMachineControlPoint(service) {
+    const characteristic = await service.getCharacteristic('fitness_machine_control_point');
+    console.log('ftms control', characteristic);
+    await characteristic.writeValueWithResponse(new Uint8Array([0]));
+    await characteristic.writeValueWithResponse(new Uint8Array([0x05, 0x00, 0x00]));
+    console.log('done');
+    // Uint8Array.of(opcode, ...parameter);
+    // return new FitnessMachineControlPoint(characteristic);
+  }
+
+  async initFitnessMachineStatus(service) {
+    console.log('init status');
+    const characteristic = await service.getCharacteristic('fitness_machine_status');
+    characteristic.addEventListener('characteristicvaluechanged', (event) => {
+      console.log('status');
+      new FitnessMachineStatus(event.target.value);
+    });
+    await characteristic.startNotifications();
   }
 
   async initSupportedPowerRange(service) {
@@ -64,6 +90,9 @@ export class FitnessMachine extends Device {
 
   async disconnected() {
     this.power = 0;
+    this.powerMin = 0;
+    this.powerMax = 0;
+    this.powerInc = 0;
     this.cadence = 0;
   }
 
@@ -140,7 +169,7 @@ class IndoorBikeData {
       { name: 'cadence', mask: 1 << 2, size: 2 },
       { name: 'averageCadence', mask: 1 << 3, size: 2 },
       { name: 'totalDistance', mask: 1 << 4, size: 3 },
-      { name: 'resistanceLevel', mask: 1 << 5, size: 2 },
+      { name: 'resistance', mask: 1 << 5, size: 2 },
       { name: 'power', mask: 1 << 6, size: 2 },
       { name: 'averagePower', mask: 1 << 7, size: 2 },
       { name: 'expendedEnergy', mask: 1 << 8, size: 2 },
@@ -176,5 +205,128 @@ class SupportedPowerRange {
     this.min = stream.u16();
     this.max = stream.u16();
     this.inc = stream.u16();
+  }
+}
+
+class FitnessMachineControlPoint {
+  static Opcode = {
+    requestControl: 0x00,
+    reset: 0x01,
+    setSpeed: 0x02,
+    setInclination: 0x03,
+    setResistance: 0x04,
+    setPower: 0x05,
+    setHeartRate: 0x06,
+    start: 0x07,
+    stop: 0x08,
+    setExpendedEnergy: 0x09,
+    setStepCount: 0x0a,
+    setStrideCount: 0x0b,
+    setTotalDistance: 0x0c,
+    setTrainingTime: 0x0d,
+    setTimeInHeartRateZone2: 0x0e,
+    setTimeInHeartRateZone4: 0x0f,
+    setTimeInHeartRateZone5: 0x10,
+    setIndoorBikeSimulation: 0x11,
+    setWheelCircumference: 0x12,
+    setSpinDown: 0x13,
+    setCadence: 0x14,
+    response: 0x80,
+  };
+
+  constructor(characteristic) {
+    this.characteristic = characteristic;
+  }
+
+  async send(opcode, ...parameter) {
+    console.log('write', opcode);
+    await this.characteristic.writeValueWithResponse(Uint8Array.of(opcode, ...parameter));
+    // console.log('send buf', buffer);
+    // console.log(this.characteristic);
+    // console.log('got buf', buffer);
+    // const stream = new DataStream(buffer);
+
+    // const responseOpcode = stream.u8();
+    // if (responseOpcode !== Opcode.response) {
+    //   console.error('bad response opcode', responseOpcode);
+    //   return null;
+    // }
+
+    // const requestOpcode = stream.u8();
+    // if (requestOpcode !== opcode) {
+    //   console.error('bad request opcode', requestOpcode);
+    //   return null;
+    // }
+
+    // const result = stream.u8();
+    // switch (result) {
+    //   case 0x01:
+    //     return stream;
+
+    //   case 0x02:
+    //     console.error('opcode not supported', opcode);
+    //     return null;
+
+    //   case 0x03:
+    //     console.error('invalid parameter', parameter);
+    //     return null;
+
+    //   case 0x04:
+    //     console.error('operation failed');
+    //     return null;
+
+    //   case 0x05:
+    //     console.error('control not permitted');
+    //     return null;
+
+    //   default:
+    //     console.error('reserved result', result);
+    //     return null;
+    // }
+  }
+
+  async requestControl() {
+    await this.send(FitnessMachineControlPoint.Opcode.requestControl);
+  }
+
+  async reset() {
+    await this.send(FitnessMachineControlPoint.Opcode.reset);
+  }
+}
+
+class FitnessMachineStatus {
+  static Opcode = {
+    reset: 0x01,
+    stoppedByUser: 0x02,
+    stoppedByKey: 0x03,
+    startedByUser: 0x04,
+    targetSpeed: 0x05,
+    targetInclination: 0x06,
+    targetResistance: 0x07,
+    targetPower: 0x08,
+    targetHeartRate: 0x09,
+    targetExpectedEnergy: 0x0a,
+    targetStepCount: 0x0b,
+    targetStrideCount: 0x0c,
+    targetDistance: 0x0d,
+    targetTrainingTime: 0x0e,
+    targetTimeInHeartRateZone2: 0x0f,
+    targetTimeInHeartRateZone3: 0x10,
+    targetTimeInHeartRateZone5: 0x11,
+    targetIndoorBikeSimulation: 0x12,
+    targetWheelCircumference: 0x13,
+    targetSpinDown: 0x14,
+    targetCadence: 0x15,
+    controlPermissionLost: 0xff,
+  };
+
+  constructor(dataView) {
+    const stream = new DataStream(dataView);
+    const opcode = stream.u8();
+    for (const [name, value] of Object.entries(FitnessMachineStatus.Opcode)) {
+      if (opcode === value) {
+        notify(`status ${name}`);
+      }
+    }
   }
 }
