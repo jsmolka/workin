@@ -74,3 +74,13 @@ export function deserialize(class_, data) {
   }
   return object;
 }
+
+export const persist = {
+  createSchema,
+  primitive,
+  date,
+  schema,
+  list,
+  serialize,
+  deserialize,
+};
