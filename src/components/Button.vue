@@ -1,5 +1,5 @@
 <template>
-  <button :class="[classes, { disabled }]" :type="type" v-bind="$attrs">
+  <button :class="[classes, { disabled }]" v-bind="$attrs">
     <slot />
   </button>
 </template>
@@ -15,10 +15,6 @@ const props = defineProps({
   blue: {
     type: Boolean,
     default: false,
-  },
-  type: {
-    type: String,
-    default: 'button',
   },
 });
 
