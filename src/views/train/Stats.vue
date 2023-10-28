@@ -1,11 +1,11 @@
 <template>
   <div class="grid grid-rows-3 sm:grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-8 font-features-tnum">
     <Cell class="order-1 sm:order-1" label="Power" :value="power" />
-    <Cell class="order-3 sm:order-2" label="Interval time" :value="formattedIntervalTime" />
-    <Cell class="order-4 sm:order-3" label="Heart rate" :value="heartRate" />
-    <Cell class="order-2 sm:order-4" label="Target power" :value="targetPower" />
-    <Cell class="order-5 sm:order-5" label="Total time" :value="formattedTotalTime" />
-    <Cell class="order-6 sm:order-6" label="Cadence" :value="cadence" />
+    <Cell class="order-5 sm:order-2" label="Interval time" :value="formattedIntervalTime" />
+    <Cell class="order-2 sm:order-3" label="Heart rate" :value="heartRate" />
+    <Cell class="order-3 sm:order-4" label="Target power" :value="targetPower" />
+    <Cell class="order-6 sm:order-5" label="Total time" :value="formattedTotalTime" />
+    <Cell class="order-4 sm:order-6" label="Cadence" :value="cadence" />
   </div>
 </template>
 

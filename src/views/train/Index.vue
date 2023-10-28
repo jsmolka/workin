@@ -14,10 +14,6 @@
         <InputNumber :min="trainer.powerMin" :max="trainer.powerMax" v-model:value="targetPower" />
       </Label>
     </Form>
-
-    <div class="block sm:hidden">Screen: sm</div>
-    <div class="block md:hidden">Screen: md</div>
-    <div class="block lg:hidden">Screen: lg</div>
   </div>
 </template>
 
