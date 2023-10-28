@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import App from '../layouts/app/Index.vue';
+import Activities from '../views/activities/Index.vue';
+import Settings from '../views/settings/Index.vue';
+import Train from '../views/train/Index.vue';
+import Workouts from '../views/workouts/Index.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -12,25 +16,25 @@ export const router = createRouter({
       name: 'train',
       path: '/train',
       meta: { layout: App },
-      component: require('../views/train/Index.vue'),
+      component: Train,
     },
     {
       name: 'workouts',
       path: '/workouts',
       meta: { layout: App },
-      component: require('../views/workouts/Index.vue'),
+      component: Workouts,
     },
     {
       name: 'activities',
       path: '/activities',
       meta: { layout: App },
-      component: require('../views/activities/Index.vue'),
+      component: Activities,
     },
     {
       name: 'settings',
       path: '/settings',
       meta: { layout: App },
-      component: require('../views/settings/Index.vue'),
+      component: Settings,
     },
     {
       path: '/:pathMatch(.*)*',
