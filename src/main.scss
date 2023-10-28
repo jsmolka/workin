@@ -8,6 +8,10 @@
     @apply pointer-events-none;
     @apply select-none;
   }
+
+  .font-features-tnum {
+    font-feature-settings: 'cv07', 'tnum';
+  }
 }
 
 @font-face {

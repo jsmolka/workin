@@ -1,3 +1,4 @@
+import { clamp } from '../../utils/clamp';
 import { notify } from '../../utils/notify';
 import { DataStream } from './dataStream';
 import { Device } from './device';
@@ -11,6 +12,7 @@ export class FitnessMachine extends Device {
     this.powerMax = 0;
     this.powerInc = 0;
     this.cadence = 0;
+    this.control = null;
   }
 
   async connected() {
@@ -31,11 +33,7 @@ export class FitnessMachine extends Device {
         return await this.disconnect();
       }
 
-      const control = await this.initFitnessMachineControlPoint(service);
-      await control.requestControl();
-      await control.reset();
-      await control.write(0x05, 250, 0);
-
+      await this.initFitnessMachineControlPoint(service);
       await this.initFitnessMachineStatus(service);
       await this.initSupportedPowerRange(service);
       await this.initIndoorBikeData(service);
@@ -52,7 +50,9 @@ export class FitnessMachine extends Device {
 
   async initFitnessMachineControlPoint(service) {
     const characteristic = await service.getCharacteristic('fitness_machine_control_point');
-    return new FitnessMachineControlPoint(characteristic);
+    this.control = new FitnessMachineControlPoint(characteristic);
+    await this.control.requestControl();
+    await this.control.reset();
   }
 
   async initFitnessMachineStatus(service) {
@@ -91,6 +91,14 @@ export class FitnessMachine extends Device {
     this.powerMax = 0;
     this.powerInc = 0;
     this.cadence = 0;
+    this.control = null;
+  }
+
+  async setPower(value) {
+    value = Math.floor(value / this.powerInc) * this.powerInc;
+    value = clamp(value, this.powerMin, this.powerMax);
+    await this.control.setPower(value);
+    return value;
   }
 
   get service() {
@@ -206,78 +214,87 @@ class SupportedPowerRange {
 }
 
 class FitnessMachineControlPoint {
-  static Opcode = {
-    requestControl: 0x00,
-    reset: 0x01,
-    setSpeed: 0x02,
-    setInclination: 0x03,
-    setResistance: 0x04,
-    setPower: 0x05,
-    setHeartRate: 0x06,
-    start: 0x07,
-    stop: 0x08,
-    setExpendedEnergy: 0x09,
-    setStepCount: 0x0a,
-    setStrideCount: 0x0b,
-    setTotalDistance: 0x0c,
-    setTrainingTime: 0x0d,
-    setTimeInHeartRateZone2: 0x0e,
-    setTimeInHeartRateZone4: 0x0f,
-    setTimeInHeartRateZone5: 0x10,
-    setIndoorBikeSimulation: 0x11,
-    setWheelCircumference: 0x12,
-    setSpinDown: 0x13,
-    setCadence: 0x14,
-    response: 0x80,
-  };
-
   constructor(characteristic) {
     this.characteristic = characteristic;
   }
 
-  async write(opcode, ...parameter) {
-    await this.characteristic.writeValueWithoutResponse(new Uint8Array([opcode, ...parameter]));
+  async write(opcode, ...bytes) {
+    await this.characteristic.writeValueWithoutResponse(new Uint8Array([opcode, ...bytes]));
   }
 
   async requestControl() {
-    await this.write(FitnessMachineControlPoint.Opcode.requestControl);
+    await this.write(this.opcode.requestControl);
   }
 
   async reset() {
-    await this.write(FitnessMachineControlPoint.Opcode.reset);
+    await this.write(this.opcode.reset);
+  }
+
+  async setPower(value) {
+    await this.write(this.opcode.setPower, value & 0xff, (value >> 8) & 0xff);
+  }
+
+  get opcode() {
+    return {
+      requestControl: 0x00,
+      reset: 0x01,
+      setSpeed: 0x02,
+      setInclination: 0x03,
+      setResistance: 0x04,
+      setPower: 0x05,
+      setHeartRate: 0x06,
+      start: 0x07,
+      stop: 0x08,
+      setExpendedEnergy: 0x09,
+      setStepCount: 0x0a,
+      setStrideCount: 0x0b,
+      setTotalDistance: 0x0c,
+      setTrainingTime: 0x0d,
+      setTimeInHeartRateZone2: 0x0e,
+      setTimeInHeartRateZone4: 0x0f,
+      setTimeInHeartRateZone5: 0x10,
+      setIndoorBikeSimulation: 0x11,
+      setWheelCircumference: 0x12,
+      setSpinDown: 0x13,
+      setCadence: 0x14,
+      response: 0x80,
+    };
   }
 }
 
 class FitnessMachineStatus {
-  static Opcode = {
-    reset: 0x01,
-    stoppedByUser: 0x02,
-    stoppedByKey: 0x03,
-    startedByUser: 0x04,
-    targetSpeed: 0x05,
-    targetInclination: 0x06,
-    targetResistance: 0x07,
-    targetPower: 0x08,
-    targetHeartRate: 0x09,
-    targetExpectedEnergy: 0x0a,
-    targetStepCount: 0x0b,
-    targetStrideCount: 0x0c,
-    targetDistance: 0x0d,
-    targetTrainingTime: 0x0e,
-    targetTimeInHeartRateZone2: 0x0f,
-    targetTimeInHeartRateZone3: 0x10,
-    targetTimeInHeartRateZone5: 0x11,
-    targetIndoorBikeSimulation: 0x12,
-    targetWheelCircumference: 0x13,
-    targetSpinDown: 0x14,
-    targetCadence: 0x15,
-    controlPermissionLost: 0xff,
-  };
-
   constructor(dataView) {
     const stream = new DataStream(dataView);
     const opcode = stream.u8();
 
-    this.controlPermissionLost = opcode === FitnessMachineStatus.Opcode.controlPermissionLost;
+    console.log('status', dataView);
+    this.controlPermissionLost = opcode === this.opcode.controlPermissionLost;
+  }
+
+  get opcode() {
+    return {
+      reset: 0x01,
+      stoppedByUser: 0x02,
+      stoppedByKey: 0x03,
+      startedByUser: 0x04,
+      targetSpeed: 0x05,
+      targetInclination: 0x06,
+      targetResistance: 0x07,
+      targetPower: 0x08,
+      targetHeartRate: 0x09,
+      targetExpectedEnergy: 0x0a,
+      targetStepCount: 0x0b,
+      targetStrideCount: 0x0c,
+      targetDistance: 0x0d,
+      targetTrainingTime: 0x0e,
+      targetTimeInHeartRateZone2: 0x0f,
+      targetTimeInHeartRateZone3: 0x10,
+      targetTimeInHeartRateZone5: 0x11,
+      targetIndoorBikeSimulation: 0x12,
+      targetWheelCircumference: 0x13,
+      targetSpinDown: 0x14,
+      targetCadence: 0x15,
+      controlPermissionLost: 0xff,
+    };
   }
 }

@@ -22,6 +22,10 @@ export class Time {
     );
   }
 
+  clone() {
+    return Time.from(this);
+  }
+
   getHours() {
     return this.date.getHours();
   }
