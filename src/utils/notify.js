@@ -1,5 +1,6 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
+import './notify.scss';
 
 const notyf = new Notyf({
   position: {

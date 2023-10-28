@@ -1,0 +1,19 @@
+.notyf {
+  &__dismiss {
+    width: 56px;
+  }
+
+  &__toast {
+    &--dismissible {
+      .notyf__wrapper {
+        padding-right: 60px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .notyf {
+    padding: 20px;
+  }
+}
