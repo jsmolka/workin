@@ -1,12 +1,18 @@
 <template>
-  <button :class="[classes, { disabled }]" v-bind="$attrs">
+  <button
+    :class="[
+      blue
+        ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
+        : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
+      { disabled },
+    ]"
+    v-bind="$attrs"
+  >
     <slot />
   </button>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-
 const props = defineProps({
   disabled: {
     type: Boolean,
@@ -17,12 +23,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-const classes = computed(() =>
-  props.blue
-    ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
-    : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
-);
 </script>
 
 <style lang="scss" scoped>

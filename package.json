@@ -10,6 +10,7 @@
     "singleQuote": true
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.16",
     "@vueuse/core": "^10.5.0",
     "dayjs": "^1.11.10",
     "idb-keyval": "^6.2.1",

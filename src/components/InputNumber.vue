@@ -10,7 +10,7 @@ const props = defineProps({
   max: { type: Number },
 });
 
-const value = defineModel('value', { required: true, type: Number });
+const value = defineModel('value', { type: Number, required: true });
 
 const update = (newValue) => {
   newValue = parseFloat(newValue);

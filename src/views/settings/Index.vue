@@ -17,20 +17,8 @@
     <Label text="FTP [W]">
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
-    <Label text="W min">
-      <div>{{ trainer.powerMin }}</div>
-    </Label>
-    <Label text="W max">
-      <div>{{ trainer.powerMax }}</div>
-    </Label>
-    <Label text="W inc">
-      <div>{{ trainer.powerInc }}</div>
-    </Label>
-    <Label text="W">
-      <div>{{ trainer.power }}</div>
-    </Label>
-    <Label text="RPM">
-      <div>{{ trainer.cadence }}</div>
+    <Label text="Log as notification">
+      <Switch v-model:value="settings.logAsNotification" />
     </Label>
   </Form>
 </template>
@@ -40,10 +28,13 @@ import { storeToRefs } from 'pinia';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
+import Switch from '../../components/Switch.vue';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
+import { useSettingsStore } from '../../stores/settings';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
+const { settings } = storeToRefs(useSettingsStore());
 </script>
