@@ -5,23 +5,25 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
+import { useLog } from './composables/useLog';
 import { useAthleteStore } from './stores/athlete';
 import { useSettingsStore } from './stores/settings';
+import { log } from './utils/log';
+import { notify } from './utils/notify';
 
-const unsubscribes = [];
+const athleteStore = useAthleteStore();
+athleteStore.$subscribe(() => athleteStore.persist());
 
-onMounted(() => {
-  const athleteStore = useAthleteStore();
-  const settingsStore = useSettingsStore();
+const settingsStore = useSettingsStore();
+settingsStore.$subscribe((_, { settings }) => {
+  settingsStore.persist();
 
-  unsubscribes.push(athleteStore.$subscribe(() => athleteStore.persist()));
-  unsubscribes.push(settingsStore.$subscribe(() => settingsStore.persist()));
+  log.level = settings.logLevel;
 });
 
-onUnmounted(() => {
-  for (const unsubscribe of unsubscribes) {
-    unsubscribe();
+useLog((level, ...args) => {
+  if (settingsStore.settings.logAsNotification) {
+    (notify[level] ?? notify.info)(...args);
   }
 });
 </script>
