@@ -37,7 +37,7 @@ export class Device {
 
         await this.connected();
       } catch {
-        notify(`${this.name} disconnected`);
+        notify.info(`${this.name} disconnected`);
 
         this.device = null;
         this.server = null;

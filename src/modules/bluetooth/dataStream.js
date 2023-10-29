@@ -4,28 +4,28 @@ export class DataStream {
     this.index = 0;
   }
 
-  unsigned(bytes) {
-    let value = 0;
-    for (let index = 0; index < bytes; index++) {
-      value |= this.dataView.getUint8(this.index++) << (8 * index);
+  uint(size) {
+    let uint = 0;
+    for (let i = 0; i < size; i++) {
+      uint |= this.dataView.getUint8(this.index++) << (8 * i);
     }
-    return value;
+    return uint;
   }
 
   u8() {
-    return this.unsigned(1);
+    return this.uint(1);
   }
 
   u16() {
-    return this.unsigned(2);
+    return this.uint(2);
   }
 
   u24() {
-    return this.unsigned(3);
+    return this.uint(3);
   }
 
   u32() {
-    return this.unsigned(4);
+    return this.uint(4);
   }
 
   get length() {

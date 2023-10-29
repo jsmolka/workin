@@ -21,15 +21,15 @@ export class FitnessMachine extends Device {
 
       const feature = await this.initFitnessMachineFeature(service);
       if (!feature.power) {
-        notify(`${this.name} does not support power`);
+        notify.info(`${this.name} does not support power`);
         return await this.disconnect();
       }
       if (!feature.cadence) {
-        notify(`${this.name} does not support cadence`);
+        notify.info(`${this.name} does not support cadence`);
         return await this.disconnect();
       }
       if (!feature.target.power) {
-        notify(`${this.name} does not support target power`);
+        notify.info(`${this.name} does not support target power`);
         return await this.disconnect();
       }
 
@@ -60,7 +60,7 @@ export class FitnessMachine extends Device {
     characteristic.addEventListener('characteristicvaluechanged', async (event) => {
       const status = new FitnessMachineStatus(event.target.value);
       if (status.controlPermissionLost) {
-        notify(`${this.name} control permission lost`);
+        notify.info(`${this.name} control permission lost`);
         await this.disconnect();
       }
     });
@@ -195,7 +195,7 @@ class IndoorBikeData {
 
     for (const { name, mask, size } of fields) {
       if ((flags & mask) !== 0) {
-        this[name] = stream.unsigned(size);
+        this[name] = stream.uint(size);
       } else {
         this[name] = null;
       }
