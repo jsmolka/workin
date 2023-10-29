@@ -1,25 +1,24 @@
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
+import { ref, watch } from 'vue';
 import { Settings } from '../modules/settings';
 import { deserialize, serialize } from '../utils/persist';
 
 const id = 'settings';
 
-export const useSettingsStore = defineStore(id, {
-  state: () => ({
-    settings: new Settings(),
-  }),
+export const useSettingsStore = defineStore(id, () => {
+  const settings = ref(new Settings());
 
-  actions: {
-    async hydrate() {
-      const data = await get(id);
-      if (data !== undefined) {
-        this.settings = deserialize(Settings, data);
-      }
-    },
+  const hydrate = async () => {
+    const data = await get(id);
+    if (data != null) {
+      settings.value = deserialize(Settings, data);
+    }
+  };
 
-    async persist() {
-      await set(id, serialize(this.settings));
-    },
-  },
+  watch(settings, async () => {
+    await set(id, serialize(settings.value));
+  });
+
+  return { settings, hydrate };
 });

@@ -20,7 +20,8 @@
     <Label text="Log level">
       <Select
         :items="['debug', 'info', 'warn', 'error', 'silent']"
-        v-model:value="settings.logLevel"
+        :value="settings.logLevel"
+        @update:value="setLogLevel"
       >
         <template #item="{ item }">
           <span class="capitalize">
@@ -45,9 +46,14 @@ import Switch from '../../components/Switch.vue';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';
+import { log } from '../../utils/log';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 const { settings } = storeToRefs(useSettingsStore());
+
+const setLogLevel = (value) => {
+  settings.value.logLevel = log.level = value;
+};
 </script>

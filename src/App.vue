@@ -5,24 +5,15 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia';
 import { useLog } from './composables/useLog';
-import { useAthleteStore } from './stores/athlete';
 import { useSettingsStore } from './stores/settings';
-import { log } from './utils/log';
 import { notify } from './utils/notify';
 
-const athleteStore = useAthleteStore();
-athleteStore.$subscribe(() => athleteStore.persist());
-
-const settingsStore = useSettingsStore();
-settingsStore.$subscribe((_, { settings }) => {
-  settingsStore.persist();
-
-  log.level = settings.logLevel;
-});
+const { settings } = storeToRefs(useSettingsStore());
 
 useLog((level, ...args) => {
-  if (settingsStore.settings.logAsNotification) {
+  if (settings.value.logAsNotification) {
     (notify[level] ?? notify.info)(...args);
   }
 });

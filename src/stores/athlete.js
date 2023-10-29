@@ -1,25 +1,24 @@
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
+import { ref, watch } from 'vue';
 import { Athlete } from '../modules/athlete';
 import { deserialize, serialize } from '../utils/persist';
 
 const id = 'athlete';
 
-export const useAthleteStore = defineStore(id, {
-  state: () => ({
-    athlete: new Athlete(),
-  }),
+export const useAthleteStore = defineStore(id, () => {
+  const athlete = ref(new Athlete());
 
-  actions: {
-    async hydrate() {
-      const data = await get(id);
-      if (data !== undefined) {
-        this.athlete = deserialize(Athlete, data);
-      }
-    },
+  const hydrate = async () => {
+    const data = await get(id);
+    if (data != null) {
+      athlete.value = deserialize(Athlete, data);
+    }
+  };
 
-    async persist() {
-      await set(id, serialize(this.athlete));
-    },
-  },
+  watch(athlete, async () => {
+    await set(id, serialize(athlete.value));
+  });
+
+  return { athlete, hydrate };
 });
