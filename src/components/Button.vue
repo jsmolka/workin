@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   disabled: {
     type: Boolean,
     default: false,
@@ -30,6 +30,7 @@ button {
   @apply px-2;
   @apply py-1.5;
   @apply rounded-sm;
+  @apply cursor-pointer;
   @apply select-none;
 
   &:focus {

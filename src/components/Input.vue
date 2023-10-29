@@ -43,6 +43,7 @@ input {
   @apply py-1.5;
   @apply bg-gray-6;
   @apply rounded-sm;
+  @apply cursor-text;
 
   &:hover {
     @apply bg-gray-5;

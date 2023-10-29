@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label class="text-xs text-gray-2 font-medium uppercase">{{ text }}</label>
+    <label class="text-xs font-medium uppercase">{{ text }}</label>
     <slot />
   </div>
 </template>
