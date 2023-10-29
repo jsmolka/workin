@@ -14,11 +14,11 @@ function emit(level, ...args) {
   }
 }
 
-const ranks = ['debug', 'info', 'warn', 'error', 'silent'];
+const ranks = { debug: 0, info: 1, warn: 2, error: 3, silent: 4 };
 
 function define(level) {
   return (...args) => {
-    if (ranks.indexOf(level) >= ranks.indexOf(log.level)) {
+    if (ranks[level] >= ranks[log.level]) {
       console[level](...args);
       emit(level, ...args);
     }
