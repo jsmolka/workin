@@ -17,6 +17,18 @@
     <Label text="FTP [W]">
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
+    <Label text="Log level">
+      <Select
+        :items="['debug', 'info', 'warn', 'error', 'silent']"
+        v-model:value="settings.logLevel"
+      >
+        <template #item="{ item }">
+          <span class="capitalize">
+            {{ item }}
+          </span>
+        </template>
+      </Select>
+    </Label>
     <Label text="Log as notification">
       <Switch v-model:value="settings.logAsNotification" />
     </Label>
@@ -28,6 +40,7 @@ import { storeToRefs } from 'pinia';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
+import Select from '../../components/Select.vue';
 import Switch from '../../components/Switch.vue';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
