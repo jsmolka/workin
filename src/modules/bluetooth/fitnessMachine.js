@@ -1,4 +1,4 @@
-import { clamp } from '../../utils/clamp';
+import { clamp } from '../../utils/math';
 import { notify } from '../../utils/notify';
 import { DataStream } from './dataStream';
 import { Device } from './device';
