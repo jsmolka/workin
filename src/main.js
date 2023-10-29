@@ -5,6 +5,7 @@ import App from './App.vue';
 import './main.scss';
 import { router } from './router';
 import { useAthleteStore } from './stores/athlete';
+import { useSettingsStore } from './stores/settings';
 import NoBluetooth from './views/NoBluetooth.vue';
 
 async function main() {
@@ -15,7 +16,9 @@ async function main() {
 
   const athleteStore = useAthleteStore();
   await athleteStore.hydrate();
-  athleteStore.$subscribe(() => athleteStore.persist());
+
+  const settingsStore = useSettingsStore();
+  await settingsStore.hydrate();
 
   app.mount('#app');
 }
