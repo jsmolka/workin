@@ -16,9 +16,7 @@ export const useSettingsStore = defineStore(id, () => {
     }
   };
 
-  watch(settings, async () => {
-    await set(id, serialize(settings.value));
-  });
+  watch(settings, () => set(id, serialize(settings.value)), { deep: true });
 
   return { settings, hydrate };
 });
