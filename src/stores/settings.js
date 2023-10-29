@@ -1,7 +1,8 @@
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { Settings } from '../modules/settings';
+import { log } from '../utils/log';
 import { deserialize, serialize } from '../utils/persist';
 
 const id = 'settings';
@@ -17,6 +18,10 @@ export const useSettingsStore = defineStore(id, () => {
   };
 
   watch(settings, () => set(id, serialize(settings.value)), { deep: true });
+
+  watchEffect(() => {
+    log.level = settings.value.logLevel;
+  });
 
   return { settings, hydrate };
 });
