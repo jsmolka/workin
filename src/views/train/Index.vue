@@ -11,7 +11,7 @@
 
     <Form>
       <Label text="Target power">
-        <InputNumber :min="trainer.powerMin" :max="trainer.powerMax" v-model:value="targetPower" />
+        <InputNumber v-model:value="targetPower" />
       </Label>
     </Form>
   </div>
@@ -20,14 +20,13 @@
 <script setup>
 import { useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { onMounted, onUnmounted, ref, watchEffect } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
 import { useInterval } from '../../composables/useInterval';
 import { Time } from '../../modules/time';
 import { useDevicesStore } from '../../stores/devices';
-import { notify } from '../../utils/notify';
 import Stats from './Stats.vue';
 
 const { hrm, trainer } = storeToRefs(useDevicesStore());
@@ -51,10 +50,9 @@ useInterval(1000, () => {
 const intervalTime = new Time(0, 0, 90);
 
 const targetPower = ref(0);
-watchEffect(async () => {
+watch(targetPower, async (value) => {
   if (trainer.value.isConnected) {
-    const value = await trainer.value.setPower(targetPower.value);
-    notify.info(String(value));
+    await trainer.value.setPower(value);
   }
 });
 </script>
