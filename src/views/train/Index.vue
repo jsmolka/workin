@@ -53,9 +53,8 @@ const intervalTime = new Time(0, 0, 90);
 const targetPower = ref(0);
 watchEffect(async () => {
   if (trainer.value.isConnected) {
-    console.log('con', trainer.value.control);
     const value = await trainer.value.setPower(targetPower.value);
-    notify(String(value));
+    notify.info(String(value));
   }
 });
 </script>

@@ -2,7 +2,7 @@
   <Form>
     <Label text="Heart rate monitor">
       <DeviceButton :device="hrm" v-slot="{ device }">
-        {{ device.heartRate !== 0 ? device.name + ` [${device.heartRate} bpm]` : device.name }}
+        {{ device.name + device.heartRate !== 0 ? ` [${device.heartRate} bpm]` : '' }}
       </DeviceButton>
     </Label>
     <Label text="Smart trainer">
@@ -20,8 +20,7 @@
     <Label text="Log level">
       <Select
         :items="['debug', 'info', 'warn', 'error', 'silent']"
-        :value="settings.logLevel"
-        @update:value="setLogLevel"
+        v-model:value="settings.logLevel"
       >
         <template #item="{ item }">
           <span class="capitalize">
@@ -46,14 +45,9 @@ import Switch from '../../components/Switch.vue';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';
-import { log } from '../../utils/log';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 const { settings } = storeToRefs(useSettingsStore());
-
-const setLogLevel = (value) => {
-  settings.value.logLevel = log.level = value;
-};
 </script>

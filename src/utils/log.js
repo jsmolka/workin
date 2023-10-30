@@ -2,10 +2,8 @@ const callbacks = [];
 
 export function on(callback) {
   callbacks.push(callback);
-}
 
-export function off(callback) {
-  callbacks.splice(callbacks.indexOf(callback) >>> 0, 1);
+  return () => callbacks.splice(callbacks.indexOf(callback), 1);
 }
 
 function emit(level, ...args) {
@@ -33,7 +31,6 @@ export const error = define('error');
 export const log = {
   level: 'debug',
   on,
-  off,
   debug,
   info,
   warn,

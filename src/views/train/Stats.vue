@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-rows-3 sm:grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-8 font-features-tnum">
+  <div class="grid grid-rows-3 sm:grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-4 font-feature-tnum">
     <Cell class="order-1 sm:order-1" label="Power" :value="power" />
     <Cell class="order-5 sm:order-2" label="Interval time" :value="formattedIntervalTime" />
     <Cell class="order-2 sm:order-3" label="Heart rate" :value="heartRate" />
@@ -41,10 +41,9 @@ const props = defineProps({
   },
 });
 
-const formattedIntervalTime = computed(() => {
-  const time = props.intervalTime;
-  return time.format(time.getHours() > 0 ? 'H:mm:ss' : 'mm:ss');
-});
+const formattedIntervalTime = computed(() =>
+  props.intervalTime.format(props.intervalTime.getHours() > 0 ? 'H:mm:ss' : 'mm:ss'),
+);
 
 const formattedTotalTime = computed(() => props.totalTime.format('H:mm:ss'));
 </script>

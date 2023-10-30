@@ -2,8 +2,7 @@ import { tryOnScopeDispose } from '@vueuse/core';
 import { log } from '../utils/log';
 
 export function useLog(callback) {
-  log.on(callback);
-  const stop = () => log.off(callback);
+  const stop = log.on(callback);
   tryOnScopeDispose(stop);
   return stop;
 }

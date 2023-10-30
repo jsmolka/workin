@@ -1,6 +1,8 @@
 <template>
   <RouterLink class="link" :to="{ name }">
-    <slot />
+    <slot>
+      <span class="capitalize">{{ name }}</span>
+    </slot>
   </RouterLink>
 </template>
 

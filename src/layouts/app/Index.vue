@@ -7,10 +7,10 @@
     </div>
     <div class="bg-gray-6">
       <nav class="container flex justify-between">
-        <Link class="flex-1" name="train">Train</Link>
-        <Link class="flex-1" name="workouts">Workouts</Link>
-        <Link class="flex-1" name="activities">Activities</Link>
-        <Link class="flex-1" name="settings">Settings</Link>
+        <Link class="flex-1" name="train" />
+        <Link class="flex-1" name="workouts" />
+        <Link class="flex-1" name="activities" />
+        <Link class="flex-1" name="settings" />
       </nav>
     </div>
   </div>
