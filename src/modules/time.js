@@ -109,6 +109,15 @@ export class Time {
   format(template) {
     return dayjs(this.date).format(template);
   }
+
+  get isZero() {
+    return (
+      this.getHours() === 0 &&
+      this.getMinutes() === 0 &&
+      this.getSeconds() === 0 &&
+      this.getMilliseconds() === 0
+    );
+  }
 }
 
 createSchema(Time, {
