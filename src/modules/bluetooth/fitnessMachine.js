@@ -219,43 +219,46 @@ class SupportedPowerRange {
 }
 
 class FitnessMachineControlPoint extends Characteristic {
-  async requestControl() {
-    await this.write(Uint8Array.of(this.opcode.requestControl));
-  }
+  constructor() {
+    super();
 
-  async reset() {
-    await this.write(Uint8Array.of(this.opcode.reset));
-  }
+    const opcodes = [
+      { code: 0x00, name: 'requestControl', data: [] },
+      { code: 0x01, name: 'reset', data: [] },
+      { code: 0x02, name: 'setSpeed', data: [2] },
+      { code: 0x03, name: 'setInclination', data: [2] },
+      { code: 0x04, name: 'setResistance', data: [1] },
+      { code: 0x05, name: 'setPower', data: [2] },
+      { code: 0x06, name: 'setHeartRate', data: [1] },
+      { code: 0x07, name: 'start', data: [] },
+      { code: 0x08, name: 'stop', data: [1] },
+      { code: 0x09, name: 'setExpendedEnergy', data: [2] },
+      { code: 0x0a, name: 'setStepCount', data: [2] },
+      { code: 0x0b, name: 'setStrideCount', data: [2] },
+      { code: 0x0c, name: 'setTotalDistance', data: [3] },
+      { code: 0x0d, name: 'setTrainingTime', data: [2] },
+      { code: 0x0e, name: 'setTimeIn2HrZones', data: [2, 2] },
+      { code: 0x0f, name: 'setTimeIn3HrZones', data: [2, 2, 2] },
+      { code: 0x10, name: 'setTimeIn5HrZones', data: [2, 2, 2, 2, 2] },
+      { code: 0x11, name: 'setIndoorBikeSimulation', data: [2, 2, 1, 1] },
+      { code: 0x12, name: 'setWheelCircumference', data: [2] },
+      { code: 0x13, name: 'setSpinDown', data: [1] },
+      { code: 0x14, name: 'setCadence', data: [2] },
+    ];
 
-  async setPower(value) {
-    await this.write(Uint8Array.of(this.opcode.setPower, value & 0xff, (value >> 8) & 0xff));
-  }
-
-  get opcode() {
-    return {
-      requestControl: 0x00,
-      reset: 0x01,
-      setSpeed: 0x02,
-      setInclination: 0x03,
-      setResistance: 0x04,
-      setPower: 0x05,
-      setHeartRate: 0x06,
-      start: 0x07,
-      stop: 0x08,
-      setExpendedEnergy: 0x09,
-      setStepCount: 0x0a,
-      setStrideCount: 0x0b,
-      setTotalDistance: 0x0c,
-      setTrainingTime: 0x0d,
-      setTimeIn2HrZones: 0x0e,
-      setTimeIn3HrZones: 0x0f,
-      setTimeIn5HrZones: 0x10,
-      setIndoorBikeSimulation: 0x11,
-      setWheelCircumference: 0x12,
-      setSpinDown: 0x13,
-      setCadence: 0x14,
-      response: 0x80,
-    };
+    for (const { code, name, data } of opcodes) {
+      this[name] = async (...parameters) => {
+        const bytes = [];
+        for (let [i, size] of data.entries()) {
+          let parameter = parameters[i];
+          while (size--) {
+            bytes.push(parameter & 0xff);
+            parameter >>>= 8;
+          }
+        }
+        await this.write(code, ...bytes);
+      };
+    }
   }
 }
 

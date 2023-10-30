@@ -14,9 +14,9 @@ export class Characteristic {
     return await this.queue.enqueue(async () => await this.characteristic.readValue());
   }
 
-  async write(data) {
+  async write(...bytes) {
     return await this.queue.enqueue(
-      async () => await this.characteristic.writeValueWithoutResponse(data),
+      async () => await this.characteristic.writeValueWithoutResponse(new Uint8Array(bytes)),
     );
   }
 
