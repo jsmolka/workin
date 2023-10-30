@@ -1,52 +1,53 @@
+import { signExtend } from '../../utils/bit';
+
 export class DataStream {
   constructor(dataView) {
     this.dataView = dataView;
     this.index = 0;
   }
 
-  uint(size) {
-    let uint = 0;
+  unsigned(size) {
+    let value = 0;
     for (let i = 0; i < size; i++) {
-      uint |= this.dataView.getUint8(this.index++) << (8 * i);
+      value |= this.dataView.getUint8(this.index++) << (8 * i);
     }
-    return uint;
-  }
-
-  sint(size) {
-    const sign = 8 * (4 - size);
-    return (this.uint(size) << sign) >> sign;
+    return value;
   }
 
   u8() {
-    return this.uint(1);
-  }
-
-  s8() {
-    return this.sint(1);
+    return this.unsigned(1);
   }
 
   u16() {
-    return this.uint(2);
-  }
-
-  s16() {
-    return this.sint(2);
+    return this.unsigned(2);
   }
 
   u24() {
-    return this.uint(3);
-  }
-
-  s24() {
-    return this.sint(3);
+    return this.unsigned(3);
   }
 
   u32() {
-    return this.uint(4);
+    return this.unsigned(4);
+  }
+
+  signed(size) {
+    return signExtend(this.unsigned(size), size);
+  }
+
+  s8() {
+    return this.signed(1);
+  }
+
+  s16() {
+    return this.signed(2);
+  }
+
+  s24() {
+    return this.signed(3);
   }
 
   s32() {
-    return this.sint(4);
+    return this.signed(4);
   }
 
   get length() {

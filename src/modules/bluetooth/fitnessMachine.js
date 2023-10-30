@@ -1,3 +1,4 @@
+import { bit } from '../../utils/bit';
 import { log } from '../../utils/log';
 import { clamp } from '../../utils/math';
 import { notify } from '../../utils/notify';
@@ -122,8 +123,8 @@ class FitnessMachineFeature {
     const features = [
       { name: 'averageSpeed', mask: 1 << 0 },
       { name: 'cadence', mask: 1 << 1 },
-      { name: 'totalDistance', mask: 1 << 2 },
-      { name: 'inclination', mask: 1 << 3 },
+      { name: 'distance', mask: 1 << 2 },
+      { name: 'incline', mask: 1 << 3 },
       { name: 'elevationGain', mask: 1 << 4 },
       { name: 'pace', mask: 1 << 5 },
       { name: 'stepCount', mask: 1 << 6 },
@@ -147,18 +148,18 @@ class FitnessMachineFeature {
   readTargetFeatures(flags) {
     const features = [
       { name: 'speed', mask: 1 << 0 },
-      { name: 'inclination', mask: 1 << 1 },
+      { name: 'incline', mask: 1 << 1 },
       { name: 'resistance', mask: 1 << 2 },
       { name: 'power', mask: 1 << 3 },
       { name: 'heartRate', mask: 1 << 4 },
       { name: 'expendedEnergy', mask: 1 << 5 },
       { name: 'stepCount', mask: 1 << 6 },
       { name: 'strideCount', mask: 1 << 7 },
-      { name: 'totalDistance', mask: 1 << 8 },
+      { name: 'distance', mask: 1 << 8 },
       { name: 'trainingTime', mask: 1 << 9 },
-      { name: 'timeIn2HrZones', mask: 1 << 10 },
-      { name: 'timeIn3HrZones', mask: 1 << 11 },
-      { name: 'timeIn5HrZones', mask: 1 << 12 },
+      { name: 'heartRateZoneTime2', mask: 1 << 10 },
+      { name: 'heartRateZoneTime3', mask: 1 << 11 },
+      { name: 'heartRateZoneTime5', mask: 1 << 12 },
       { name: 'indoorBikeSimulation', mask: 1 << 13 },
       { name: 'wheelCircumference', mask: 1 << 14 },
       { name: 'spinDown', mask: 1 << 15 },
@@ -178,7 +179,7 @@ class IndoorBikeData {
       { name: 'averageSpeed', mask: 1 << 1, size: 2 },
       { name: 'cadence', mask: 1 << 2, size: 2 },
       { name: 'averageCadence', mask: 1 << 3, size: 2 },
-      { name: 'totalDistance', mask: 1 << 4, size: 3 },
+      { name: 'distance', mask: 1 << 4, size: 3 },
       { name: 'resistance', mask: 1 << 5, size: 2 },
       { name: 'power', mask: 1 << 6, size: 2 },
       { name: 'averagePower', mask: 1 << 7, size: 2 },
@@ -200,7 +201,7 @@ class IndoorBikeData {
 
     for (const { name, mask, size } of fields) {
       if ((flags & mask) !== 0) {
-        this[name] = stream.uint(size);
+        this[name] = stream.unsigned(size);
       } else {
         this[name] = null;
       }
@@ -225,36 +226,32 @@ class FitnessMachineControlPoint extends Characteristic {
     const opcodes = [
       { code: 0x00, name: 'requestControl', data: [] },
       { code: 0x01, name: 'reset', data: [] },
-      { code: 0x02, name: 'setSpeed', data: [2] },
-      { code: 0x03, name: 'setInclination', data: [2] },
-      { code: 0x04, name: 'setResistance', data: [1] },
-      { code: 0x05, name: 'setPower', data: [2] },
-      { code: 0x06, name: 'setHeartRate', data: [1] },
+      { code: 0x02, name: 'setSpeed', data: [2] }, // 0.01 km/h
+      { code: 0x03, name: 'setIncline', data: [2] }, // 0.1 %
+      { code: 0x04, name: 'setResistance', data: [1] }, // 0.1
+      { code: 0x05, name: 'setPower', data: [2] }, // 1 W
+      { code: 0x06, name: 'setHeartRate', data: [1] }, // 1 bpm
       { code: 0x07, name: 'start', data: [] },
       { code: 0x08, name: 'stop', data: [1] },
-      { code: 0x09, name: 'setExpendedEnergy', data: [2] },
-      { code: 0x0a, name: 'setStepCount', data: [2] },
-      { code: 0x0b, name: 'setStrideCount', data: [2] },
-      { code: 0x0c, name: 'setTotalDistance', data: [3] },
-      { code: 0x0d, name: 'setTrainingTime', data: [2] },
-      { code: 0x0e, name: 'setTimeIn2HrZones', data: [2, 2] },
-      { code: 0x0f, name: 'setTimeIn3HrZones', data: [2, 2, 2] },
-      { code: 0x10, name: 'setTimeIn5HrZones', data: [2, 2, 2, 2, 2] },
-      { code: 0x11, name: 'setIndoorBikeSimulation', data: [2, 2, 1, 1] },
-      { code: 0x12, name: 'setWheelCircumference', data: [2] },
+      { code: 0x09, name: 'setExpendedEnergy', data: [2] }, // 1 calorie
+      { code: 0x0a, name: 'setStepCount', data: [2] }, // 1 step
+      { code: 0x0b, name: 'setStrideCount', data: [2] }, // 1 stride
+      { code: 0x0c, name: 'setDistance', data: [3] }, // 1 m
+      { code: 0x0d, name: 'setTrainingTime', data: [2] }, // 1 s
+      { code: 0x0e, name: 'setHeartRateZoneTime2', data: [2, 2] }, // 1 s
+      { code: 0x0f, name: 'setHeartRateZoneTime3', data: [2, 2, 2] }, // 1 s
+      { code: 0x10, name: 'setHeartRateZoneTime5', data: [2, 2, 2, 2, 2] }, // 1 s
+      { code: 0x11, name: 'setIndoorBikeSimulation', data: [2, 2, 1, 1] }, // wind speed 0.001 m/s, grade 0.01 %, rolling resistance 0.0001, wind resistance 0.01 kg/m
+      { code: 0x12, name: 'setWheelCircumference', data: [2] }, // 0.1 mm
       { code: 0x13, name: 'setSpinDown', data: [1] },
-      { code: 0x14, name: 'setCadence', data: [2] },
+      { code: 0x14, name: 'setCadence', data: [2] }, // 0.5 rpm
     ];
 
     for (const { code, name, data } of opcodes) {
-      this[name] = async (...parameters) => {
+      this[name] = async (...values) => {
         const bytes = [];
-        for (let [i, size] of data.entries()) {
-          let parameter = parameters[i];
-          while (size--) {
-            bytes.push(parameter & 0xff);
-            parameter >>>= 8;
-          }
+        for (const [i, size] of data.entries()) {
+          bytes.push(...bit.bytes(values[i], size));
         }
         await this.write(code, ...bytes);
       };
@@ -269,40 +266,36 @@ class FitnessMachineStatus {
       { code: 0x02, name: 'stoppedByUser', data: ['u8'] },
       { code: 0x03, name: 'stoppedByKey', data: [] },
       { code: 0x04, name: 'startedByUser', data: [] },
-      { code: 0x05, name: 'targetSpeed', data: ['u16'] },
-      { code: 0x06, name: 'targetInclination', data: ['s16'] },
-      { code: 0x07, name: 'targetResistance', data: ['u8'] },
-      { code: 0x08, name: 'targetPower', data: ['s16'] },
-      { code: 0x09, name: 'targetHeartRate', data: ['u8'] },
-      { code: 0x0a, name: 'targetExpectedEnergy', data: ['u16'] },
-      { code: 0x0b, name: 'targetStepCount', data: ['u16'] },
-      { code: 0x0c, name: 'targetStrideCount', data: ['u16'] },
-      { code: 0x0d, name: 'targetDistance', data: ['u24'] },
-      { code: 0x0e, name: 'targetTrainingTime', data: ['u16'] },
-      { code: 0x0f, name: 'targetTimeIn2HrZones', data: ['u16', 'u16'] },
-      { code: 0x10, name: 'targetTimeIn3HrZones', data: ['u16', 'u16', 'u16'] },
-      { code: 0x11, name: 'targetTimeIn5HrZones', data: ['u16', 'u16', 'u16', 'u16', 'u16'] },
-      { code: 0x12, name: 'targetIndoorBikeSimulation', data: ['s16', 's16', 'u8', 'u8'] },
-      { code: 0x13, name: 'targetWheelCircumference', data: ['u16'] },
+      { code: 0x05, name: 'targetSpeed', data: ['u16'] }, // 0.01 km/h
+      { code: 0x06, name: 'targetIncline', data: ['s16'] }, // 0.1 %
+      { code: 0x07, name: 'targetResistance', data: ['u8'] }, // 0.1
+      { code: 0x08, name: 'targetPower', data: ['s16'] }, // 1 W
+      { code: 0x09, name: 'targetHeartRate', data: ['u8'] }, // 1 bpm
+      { code: 0x0a, name: 'targetExpendedEnergy', data: ['u16'] }, // 1 calorie
+      { code: 0x0b, name: 'targetStepCount', data: ['u16'] }, // 1 step
+      { code: 0x0c, name: 'targetStrideCount', data: ['u16'] }, // 1 stride
+      { code: 0x0d, name: 'targetDistance', data: ['u24'] }, // 1 m
+      { code: 0x0e, name: 'targetTrainingTime', data: ['u16'] }, // 1 s
+      { code: 0x0f, name: 'targetHeartRateZoneTime2', data: ['u16', 'u16'] }, // 1 s
+      { code: 0x10, name: 'targetHeartRateZoneTime3', data: ['u16', 'u16', 'u16'] }, // 1 s
+      { code: 0x11, name: 'targetHeartRateZoneTime5', data: ['u16', 'u16', 'u16', 'u16', 'u16'] }, // 1 s
+      { code: 0x12, name: 'targetIndoorBikeSimulation', data: ['s16', 's16', 'u8', 'u8'] }, // wind speed 0.001 m/s, grade 0.01 %, rolling resistance 0.0001, wind resistance 0.01 kg/m
+      { code: 0x13, name: 'targetWheelCircumference', data: ['u16'] }, // 0.1 mm
       { code: 0x14, name: 'targetSpinDown', data: ['u8'] },
-      { code: 0x15, name: 'targetCadence', data: ['u16'] },
+      { code: 0x15, name: 'targetCadence', data: ['u16'] }, // 0.5 rpm
       { code: 0xff, name: 'controlPermissionLost', data: [] },
     ];
 
     const stream = new DataStream(dataView);
 
-    this.opcode = {
-      code: stream.u8(),
-      name: 'reserved',
-    };
-
-    this.values = [];
-    for (const { code, name, data } of opcodes) {
-      if (this.opcode.code === code) {
-        this.opcode.name = name;
-        this.values = data.map((type) => stream[type]());
-        break;
-      }
+    const code = stream.u8();
+    const opcode = opcodes.find((opcode) => opcode.code === code);
+    if (opcode != null) {
+      this.opcode = opcode.name;
+      this.values = opcode.data.map((type) => stream[type]());
+    } else {
+      this.opcode = 'reserved';
+      this.values = [];
     }
   }
 }
