@@ -1,5 +1,5 @@
 export function deleteNullKeys(object) {
-  for (const [key, value] of object) {
+  for (const [key, value] of Object.entries(object)) {
     if (value == null) {
       delete object[key];
     }
