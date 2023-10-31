@@ -1,4 +1,4 @@
-export function deleteNullKeys(object) {
+export function deleteNullValues(object) {
   for (const [key, value] of Object.entries(object)) {
     if (value == null) {
       delete object[key];
@@ -8,5 +8,5 @@ export function deleteNullKeys(object) {
 }
 
 export const object = {
-  deleteNullKeys,
+  deleteNullValues,
 };
