@@ -8,25 +8,22 @@ const notyf = new Notyf({
     x: 'center',
     y: 'bottom',
   },
+  duration: null,
+  dismissible: true,
+  ripple: false,
   types: [
     {
       type: 'info',
-      duration: null,
-      dismissible: true,
       background: '#5e81ac',
       icon: false,
     },
     {
       type: 'warn',
-      duration: null,
-      dismissible: true,
       background: '#ebcb8b',
       icon: false,
     },
     {
       type: 'error',
-      duration: null,
-      dismissible: true,
       background: '#bf616a',
       icon: false,
     },
