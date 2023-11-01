@@ -11,8 +11,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import Button from '../../components/Button.vue';
+import { useAsync } from '../../composables/useAsync';
 import { Device } from '../../modules/bluetooth/device';
 import { log } from '../../utils/log';
 
@@ -25,13 +26,10 @@ const props = defineProps({
 
 const device = defineModel('device', { type: Device });
 
-const connecting = ref(false);
-
-const connect = async () => {
+const [connect, connecting] = useAsync(async () => {
   device.value?.disconnect();
   device.value = null;
 
-  connecting.value = true;
   const value = reactive(new props.constructor());
   try {
     await value.connect();
@@ -39,8 +37,6 @@ const connect = async () => {
   } catch (error) {
     value.disconnect();
     log.warn(error);
-  } finally {
-    connecting.value = false;
   }
-};
+});
 </script>
