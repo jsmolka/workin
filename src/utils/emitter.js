@@ -15,8 +15,11 @@ export class Emitter {
   }
 
   emit(type, ...args) {
-    for (const callback of this.callbacks[type] ?? []) {
-      callback(...args);
+    const types = [type, '*'];
+    for (const type of types) {
+      for (const callback of this.callbacks[type] ?? []) {
+        callback(...args);
+      }
     }
   }
 }

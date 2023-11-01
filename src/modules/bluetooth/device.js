@@ -15,20 +15,13 @@ export class Device extends Emitter {
       filters: [{ services: [this.uuid] }],
     });
 
-    console.log('connect', new Date());
-
     this.device.removeDisconnectedListener = eventListener(
       this.device,
       'gattserverdisconnected',
       async () => {
         try {
-          await exponentialBackoff(5, 250, () => {
-            console.log('try reconnect');
-            return this.connect();
-          });
-          console.log('reconnected', new Date());
+          await exponentialBackoff(5, 250, () => this.connect());
         } catch {
-          console.log('disconnected', new Date());
           this.emit('disconnected');
         }
       },

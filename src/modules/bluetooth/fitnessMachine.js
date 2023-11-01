@@ -107,7 +107,7 @@ class Feature extends Characteristic {
     timeIn2HeartRateZones: 1 << 10,
     timeIn3HeartRateZones: 1 << 11,
     timeIn5HeartRateZones: 1 << 12,
-    BikeSimulation: 1 << 13,
+    indoorBikeSimulation: 1 << 13,
     wheelCircumference: 1 << 14,
     spinDown: 1 << 15,
     cadence: 1 << 16,

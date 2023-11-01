@@ -7,18 +7,21 @@
 <script setup>
 import { useEventListener } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { useLog } from './composables/useLog';
+import { useEmitter } from './composables/useEmitter';
 import { useSettingsStore } from './stores/settings';
 import { isMobile } from './utils/device';
+import { log } from './utils/log';
 import { notify } from './utils/notify';
 
 const { settings } = storeToRefs(useSettingsStore());
 
-useLog((level, ...args) => {
-  if (settings.value.logAsNotification) {
-    (notify[level] ?? notify.info)(...args);
-  }
-});
+for (const level of ['debug', 'info', 'warn', 'error']) {
+  useEmitter(log.emitter, level, (...args) => {
+    if (settings.value.logAsNotification) {
+      (notify[level] ?? notify.info)(...args);
+    }
+  });
+}
 
 if (isMobile()) {
   useEventListener('error', ({ message }) => {
@@ -26,3 +29,4 @@ if (isMobile()) {
   });
 }
 </script>
+./composables/useEmitter
