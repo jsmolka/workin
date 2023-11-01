@@ -1,11 +1,11 @@
 <template>
   <Button :disabled="connecting" @click="connect">
-    <template v-if="device != null">
+    <template v-if="connecting">Connecting...</template>
+    <template v-else-if="device">
       <slot :device="device">
         {{ device.name }}
       </slot>
     </template>
-    <template v-else-if="connecting">Connecting...</template>
     <template v-else>Connect</template>
   </Button>
 </template>
@@ -30,12 +30,13 @@ const [connect, connecting] = useAsync(async () => {
   device.value?.disconnect();
   device.value = null;
 
-  const value = reactive(new props.constructor());
+  const newDevice = reactive(new props.constructor());
   try {
-    await value.connect();
-    device.value = value;
+    await newDevice.request();
+    await newDevice.connect();
+    device.value = newDevice;
   } catch (error) {
-    value.disconnect();
+    newDevice.disconnect();
     log.warn(error);
   }
 });

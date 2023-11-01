@@ -10,23 +10,32 @@ export class Device extends Emitter {
     this.device = null;
   }
 
-  async connect() {
+  async request() {
     this.device = await navigator.bluetooth.requestDevice({
       filters: [{ services: [this.uuid] }],
     });
+
+    console.log('connect', new Date());
 
     this.device.removeDisconnectedListener = eventListener(
       this.device,
       'gattserverdisconnected',
       async () => {
         try {
-          await exponentialBackoff(5, 250, () => this.device.gatt.connect());
+          await exponentialBackoff(5, 250, () => {
+            console.log('try reconnect');
+            return this.connect();
+          });
+          console.log('reconnected', new Date());
         } catch {
+          console.log('disconnected', new Date());
           this.emit('disconnected');
         }
       },
     );
+  }
 
+  async connect() {
     await this.device.gatt.connect();
   }
 
