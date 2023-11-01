@@ -20,10 +20,7 @@
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
     <Label text="Log level">
-      <Select
-        :items="['debug', 'info', 'warn', 'error', 'silent']"
-        v-model:value="settings.logLevel"
-      >
+      <Select :items="log.levels" v-model:value="settings.logLevel">
         <template #item="{ item }">
           <span class="capitalize">
             {{ item }}
@@ -49,6 +46,7 @@ import { HeartRate } from '../../modules/bluetooth/heartRate';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';
+import { log } from '../../utils/log';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());

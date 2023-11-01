@@ -15,8 +15,8 @@ import { notify } from './utils/notify';
 
 const { settings } = storeToRefs(useSettingsStore());
 
-for (const level of ['debug', 'info', 'warn', 'error']) {
-  useEmitter(log.emitter, level, (...args) => {
+for (const level of log.levels) {
+  useEmitter(log, level, (...args) => {
     if (settings.value.logAsNotification) {
       (notify[level] ?? notify.info)(...args);
     }
