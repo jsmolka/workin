@@ -1,12 +1,14 @@
 <template>
   <Form>
     <Label text="Heart rate monitor">
-      <DeviceButton :device="hrm" v-slot="{ device }">
-        {{ device.name + device.heartRate !== 0 ? ` [${device.heartRate} bpm]` : '' }}
+      <DeviceButton v-model:device="hrm" :constructor="HeartRate" v-slot="{ device }">
+        {{ device.heartRate !== 0 ? `${device.name} [${device.heartRate} bpm]` : device.name }}
       </DeviceButton>
     </Label>
     <Label text="Smart trainer">
-      <DeviceButton :device="trainer" />
+      <DeviceButton v-model:device="trainer" :constructor="FitnessMachine" v-slot="{ device }">
+        {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
+      </DeviceButton>
     </Label>
     <Label text="Height [cm]">
       <InputNumber :min="1" v-model:value="athlete.height" />
@@ -42,6 +44,8 @@ import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
 import Select from '../../components/Select.vue';
 import Switch from '../../components/Switch.vue';
+import { FitnessMachine } from '../../modules/bluetooth/fitnessMachine';
+import { HeartRate } from '../../modules/bluetooth/heartRate';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';

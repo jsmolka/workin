@@ -1,13 +1,14 @@
 import { Queue } from '../../utils/queue';
 
 export class Characteristic {
-  constructor() {
+  constructor(uuid) {
+    this.uuid = uuid;
     this.characteristic = null;
     this.queue = new Queue();
   }
 
-  async init(service, name) {
-    this.characteristic = await service.getCharacteristic(name);
+  async init(service) {
+    this.characteristic = await service.getCharacteristic(this.uuid);
   }
 
   async read() {
@@ -20,7 +21,7 @@ export class Characteristic {
     );
   }
 
-  async listen(callback) {
+  async notified(callback) {
     this.characteristic.addEventListener('characteristicvaluechanged', (event) =>
       callback(event.target.value),
     );

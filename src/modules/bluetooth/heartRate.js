@@ -1,79 +1,74 @@
-import { DataStream } from './dataStream';
+import { log } from '../../utils/log';
+import { Characteristic } from './characteristic';
 import { Device } from './device';
+import { Notification } from './notification';
 
 export class HeartRate extends Device {
   constructor() {
-    super();
+    super('heart_rate');
 
-    this.heartRate = 0;
+    this.measurement = new Measurement();
   }
 
-  async connected() {
-    try {
-      const service = await this.server.getPrimaryService('heart_rate');
-      await this.initHeartRateMeasurement(service);
-    } catch (error) {
-      console.error(error);
-      await this.disconnect();
-    }
+  async connect() {
+    await super.connect();
+    await this.measurement.init(await this.service());
   }
 
-  async initHeartRateMeasurement(service) {
-    const characteristic = await service.getCharacteristic('heart_rate_measurement');
-    characteristic.addEventListener('characteristicvaluechanged', (event) => {
-      const measurement = new HeartRateMeasurement(event.target.value);
-      this.heartRate = measurement.heartRate;
-    });
-    await characteristic.startNotifications();
-  }
-
-  async disconnected() {
-    this.heartRate = 0;
-  }
-
-  get service() {
-    return 'heart_rate';
+  get heartRate() {
+    return this.measurement.heartRate;
   }
 }
 
-class HeartRateMeasurement {
-  constructor(dataView) {
-    const mask = {
-      heartRateFormat: 1 << 0,
-      contactSensorStatus: 1 << 1,
-      contactSensorSupported: 1 << 2,
-      expendedEnergy: 1 << 3,
-      rrInterval: 1 << 4,
-    };
+class Measurement extends Characteristic {
+  constructor() {
+    super('heart_rate_measurement');
+  }
 
-    const stream = new DataStream(dataView);
+  async init(service) {
+    await super.init(service);
+
+    await this.notified((dataView) => {
+      this.notification = new MeasurementNotification(dataView);
+      log.debug('HR measurement', this.notification);
+    });
+  }
+
+  get heartRate() {
+    return this.notification?.heartRate ?? 0;
+  }
+}
+
+class MeasurementNotification extends Notification {
+  static Flag = Object.freeze({
+    format: 1 << 0,
+    contactSensorStatus: 1 << 1,
+    contactSensorSupported: 1 << 2,
+    expendedEnergy: 1 << 3,
+    rrInterval: 1 << 4,
+  });
+
+  parse(stream) {
     const flags = stream.u8();
-
-    if ((flags & mask.heartRateFormat) !== 0) {
+    if ((flags & MeasurementNotification.Flag.format) !== 0) {
       this.heartRate = stream.u16();
     } else {
       this.heartRate = stream.u8();
     }
 
-    if ((flags & mask.contactSensorSupported) !== 0) {
-      this.contact = (flags & mask.contactSensorStatus) !== 0;
-    } else {
-      this.contact = null;
+    if ((flags & MeasurementNotification.Flag.contactSensorSupported) !== 0) {
+      this.contact = (flags & MeasurementNotification.Flag.contactSensorStatus) !== 0;
     }
 
-    if ((flags & mask.expendedEnergy) !== 0) {
+    if ((flags & MeasurementNotification.Flag.expendedEnergy) !== 0) {
       this.expendedEnergy = stream.u16();
-    } else {
-      this.expendedEnergy = null;
     }
 
-    if ((flags & mask.rrInterval) !== 0) {
+    if ((flags & MeasurementNotification.Flag.rrInterval) !== 0) {
       this.rrIntervals = [];
       while (stream.length - stream.index >= 2) {
         this.rrIntervals.push(stream.u16());
       }
-    } else {
-      this.rrIntervals = null;
     }
   }
 }

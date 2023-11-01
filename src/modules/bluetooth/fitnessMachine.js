@@ -1,210 +1,192 @@
 import { bit } from '../../utils/bit';
 import { log } from '../../utils/log';
-import { clamp } from '../../utils/math';
-import { notify } from '../../utils/notify';
-import { deleteNullValues } from '../../utils/objects';
 import { Characteristic } from './characteristic';
 import { DataStream } from './dataStream';
 import { Device } from './device';
+import { Notification } from './notification';
 
 export class FitnessMachine extends Device {
   constructor() {
-    super();
+    super('fitness_machine');
 
-    this.power = 0;
-    this.powerMin = 0;
-    this.powerMax = 0;
-    this.powerInc = 0;
-    this.cadence = 0;
-    this.control = null;
+    this.feature = new Feature();
+    this.bikeData = new BikeData();
+    this.powerRange = new PowerRange();
+    this.control = new Control();
+    this.status = new Status();
   }
 
-  async connected() {
-    try {
-      const service = await this.server.getPrimaryService('fitness_machine');
+  async connect() {
+    await super.connect();
 
-      const feature = await this.initFitnessMachineFeature(service);
-      if (!feature.power) {
-        notify.info(`${this.name} does not support power`);
-        return await this.disconnect();
-      }
-      if (!feature.cadence) {
-        notify.info(`${this.name} does not support cadence`);
-        return await this.disconnect();
-      }
-      if (!feature.target.power) {
-        notify.info(`${this.name} does not support target power`);
-        return await this.disconnect();
-      }
-
-      await this.initFitnessMachineControlPoint(service);
-      await this.initFitnessMachineStatus(service);
-      await this.initSupportedPowerRange(service);
-      await this.initIndoorBikeData(service);
-    } catch (error) {
-      console.error(error);
-      await this.disconnect();
-    }
+    const service = await this.service();
+    await Promise.all(
+      [this.feature, this.bikeData, this.powerRange, this.control, this.status].map(
+        (characteristic) => characteristic.init(service),
+      ),
+    );
   }
 
-  async initFitnessMachineFeature(service) {
-    const characteristic = new Characteristic();
-    await characteristic.init(service, 'fitness_machine_feature');
-    return new FitnessMachineFeature(await characteristic.read());
+  get supportsPower() {
+    return this.feature.feature.power;
   }
 
-  async initFitnessMachineControlPoint(service) {
-    const characteristic = new FitnessMachineControlPoint();
-    await characteristic.init(service, 'fitness_machine_control_point');
-    await characteristic.listen((dataView) => {
-      const response = new FitnessMachineControlPointResponse(dataView);
-      if (!response.isOk) {
-        log.error('FTMS control response malformed', response);
-      } else if (!response.isSuccess) {
-        log.error('FTMS control response unsuccessful', response);
-      } else {
-        log.info('FTMS control response', response);
-      }
-    });
-    await characteristic.requestControl();
-    await characteristic.reset();
-    this.control = characteristic;
+  get supportsCadence() {
+    return this.feature.feature.cadence;
   }
 
-  async initFitnessMachineStatus(service) {
-    const characteristic = new Characteristic();
-    await characteristic.init(service, 'fitness_machine_status');
-    await characteristic.listen(async (dataView) => {
-      const status = new FitnessMachineStatus(dataView);
-      log.info('FTMS status', status);
-      if (status.hasLostControlPermission) {
-        notify.info(`${this.name} control permission lost`);
-        console.log(status);
-        // await this.disconnect();
-      }
-    });
+  get supportsTargetPower() {
+    return this.feature.targetFeature.cadence;
   }
 
-  async initSupportedPowerRange(service) {
-    const characteristic = await service.getCharacteristic('supported_power_range');
-    const range = new SupportedPowerRange(await characteristic.readValue());
-    this.powerMin = range.min;
-    this.powerMax = range.max;
-    this.powerInc = range.inc;
+  get power() {
+    return this.bikeData.power;
   }
 
-  async initIndoorBikeData(service) {
-    const characteristic = await service.getCharacteristic('indoor_bike_data');
-    characteristic.addEventListener('characteristicvaluechanged', (event) => {
-      const data = new IndoorBikeData(event.target.value);
-      this.power = data.power;
-      this.cadence = data.cadence;
-      log.debug(deleteNullValues(data));
-    });
-    await characteristic.startNotifications();
+  get cadence() {
+    return this.bikeData.cadence;
   }
 
-  async disconnected() {
-    this.power = 0;
-    this.powerMin = 0;
-    this.powerMax = 0;
-    this.powerInc = 0;
-    this.cadence = 0;
-    this.control = null;
-  }
-
-  async setPower(value) {
-    value = Math.floor(value / this.powerInc) * this.powerInc;
-    value = clamp(value, this.powerMin, this.powerMax);
-    await this.control.power(value);
-    return value;
-  }
-
-  get service() {
-    return 'fitness_machine';
+  async setTargetPower(value) {
+    return this.control.write(this.powerRange.clamp(value));
   }
 }
 
-class FitnessMachineFeature {
-  constructor(dataView) {
-    const stream = new DataStream(dataView);
-    this.readFeatures(stream.u32());
-    this.readTargetFeatures(stream.u32());
+class Feature extends Characteristic {
+  constructor() {
+    super('fitness_machine_feature');
   }
 
-  readFeatures(flags) {
-    const features = [
-      { name: 'averageSpeed', mask: 1 << 0 },
-      { name: 'cadence', mask: 1 << 1 },
-      { name: 'distance', mask: 1 << 2 },
-      { name: 'incline', mask: 1 << 3 },
-      { name: 'elevationGain', mask: 1 << 4 },
-      { name: 'pace', mask: 1 << 5 },
-      { name: 'stepCount', mask: 1 << 6 },
-      { name: 'resistance', mask: 1 << 7 },
-      { name: 'strideCount', mask: 1 << 8 },
-      { name: 'expendedEnergy', mask: 1 << 9 },
-      { name: 'heartRate', mask: 1 << 10 },
-      { name: 'metabolicEquivalent', mask: 1 << 11 },
-      { name: 'elapsedTime', mask: 1 << 12 },
-      { name: 'remainingTime', mask: 1 << 13 },
-      { name: 'power', mask: 1 << 14 },
-      { name: 'powerOutput', mask: 1 << 15 },
-      { name: 'userDataRetention', mask: 1 << 16 },
-    ];
+  async init(service) {
+    await super.init(service);
 
-    for (const { name, mask } of features) {
-      this[name] = (flags & mask) !== 0;
-    }
+    const stream = new DataStream(await this.read());
+    this.initFeature(stream.u32());
+    this.initTargetFeature(stream.u32());
   }
 
-  readTargetFeatures(flags) {
-    const features = [
-      { name: 'speed', mask: 1 << 0 },
-      { name: 'incline', mask: 1 << 1 },
-      { name: 'resistance', mask: 1 << 2 },
-      { name: 'power', mask: 1 << 3 },
-      { name: 'heartRate', mask: 1 << 4 },
-      { name: 'expendedEnergy', mask: 1 << 5 },
-      { name: 'stepCount', mask: 1 << 6 },
-      { name: 'strideCount', mask: 1 << 7 },
-      { name: 'distance', mask: 1 << 8 },
-      { name: 'trainingTime', mask: 1 << 9 },
-      { name: 'timeIn2HeartRateZones', mask: 1 << 10 },
-      { name: 'timeIn3HeartRateZones', mask: 1 << 11 },
-      { name: 'timeIn5HeartRateZones', mask: 1 << 12 },
-      { name: 'indoorBikeSimulation', mask: 1 << 13 },
-      { name: 'wheelCircumference', mask: 1 << 14 },
-      { name: 'spinDown', mask: 1 << 15 },
-      { name: 'cadence', mask: 1 << 16 },
-    ];
+  static FeatureFlag = Object.freeze({
+    averageSpeed: 1 << 0,
+    cadence: 1 << 1,
+    distance: 1 << 2,
+    incline: 1 << 3,
+    elevationGain: 1 << 4,
+    pace: 1 << 5,
+    stepCount: 1 << 6,
+    resistance: 1 << 7,
+    strideCount: 1 << 8,
+    expendedEnergy: 1 << 9,
+    heartRate: 1 << 10,
+    metabolicEquivalent: 1 << 11,
+    elapsedTime: 1 << 12,
+    remainingTime: 1 << 13,
+    power: 1 << 14,
+    powerOutput: 1 << 15,
+    userDataRetention: 1 << 16,
+  });
 
-    this.target = {};
-    for (const { name, mask } of features) {
-      this.target[name] = (flags & mask) !== 0;
+  initFeature(flags) {
+    this.feature = {};
+    for (const [name, flag] of Object.entries(Feature.FeatureFlag)) {
+      this.feature[name] = (flags & flag) !== 0;
     }
+    log.info('FTMS feature', this.feature);
+  }
+
+  static TargetFeatureFlag = Object.freeze({
+    speed: 1 << 0,
+    incline: 1 << 1,
+    resistance: 1 << 2,
+    power: 1 << 3,
+    heartRate: 1 << 4,
+    expendedEnergy: 1 << 5,
+    stepCount: 1 << 6,
+    strideCount: 1 << 7,
+    distance: 1 << 8,
+    trainingTime: 1 << 9,
+    timeIn2HeartRateZones: 1 << 10,
+    timeIn3HeartRateZones: 1 << 11,
+    timeIn5HeartRateZones: 1 << 12,
+    BikeSimulation: 1 << 13,
+    wheelCircumference: 1 << 14,
+    spinDown: 1 << 15,
+    cadence: 1 << 16,
+  });
+
+  initTargetFeature(flags) {
+    this.targetFeature = {};
+    for (const [name, flag] of Object.entries(Feature.TargetFeatureFlag)) {
+      this.targetFeature[name] = (flags & flag) !== 0;
+    }
+    log.info('FTMS target feature', this.targetFeature);
   }
 }
 
-class IndoorBikeData {
-  constructor(dataView) {
-    const fields = [
-      { name: 'averageSpeed', mask: 1 << 1, type: 'u16' },
-      { name: 'cadence', mask: 1 << 2, type: 'u16' },
-      { name: 'averageCadence', mask: 1 << 3, type: 'u16' },
-      { name: 'distance', mask: 1 << 4, type: 'u24' },
-      { name: 'resistance', mask: 1 << 5, type: 's16' },
-      { name: 'power', mask: 1 << 6, type: 's16' },
-      { name: 'averagePower', mask: 1 << 7, type: 's16' },
-      { name: 'expendedEnergy', mask: 1 << 8, type: ['u16', 'u16', 'u8'] },
-      { name: 'heartRate', mask: 1 << 9, type: 'u8' },
-      { name: 'metabolicEquivalent', mask: 1 << 10, type: 'u8' },
-      { name: 'elapsedTime', mask: 1 << 11, type: 'u16' },
-      { name: 'remainingTime', mask: 1 << 12, type: 'u16' },
-    ];
+class PowerRange extends Characteristic {
+  constructor() {
+    super('supported_power_range');
 
-    const stream = new DataStream(dataView);
+    this.min = null;
+    this.max = null;
+    this.inc = null;
+  }
 
+  async init(service) {
+    await super.init(service);
+
+    const stream = new DataStream(await this.read());
+    this.min = stream.s16();
+    this.max = stream.s16();
+    this.inc = stream.u16();
+  }
+
+  clamp(value) {
+    return clamp(Math.ceil(value / this.inc) * this.inc, this.min, this.max);
+  }
+}
+
+class BikeData extends Characteristic {
+  constructor() {
+    super('indoor_bike_data');
+
+    this.notification = null;
+  }
+
+  async init(service) {
+    await super.init(service);
+
+    await this.notified((dataView) => {
+      this.notification = new BikeDataNotification(dataView);
+      log.debug('FTMS bike data', this.notification);
+    });
+  }
+
+  get power() {
+    return this.notification?.power ?? 0;
+  }
+
+  get cadence() {
+    return this.notification?.cadence ?? 0;
+  }
+}
+
+class BikeDataNotification extends Notification {
+  static Fields = Object.freeze({
+    averageSpeed: { flag: 1 << 1, data: 'u16' },
+    cadence: { flag: 1 << 2, data: 'u16' },
+    averageCadence: { flag: 1 << 3, data: 'u16' },
+    distance: { flag: 1 << 4, data: 'u24' },
+    resistance: { flag: 1 << 5, data: 's16' },
+    power: { flag: 1 << 6, data: 's16' },
+    averagePower: { flag: 1 << 7, data: 's16' },
+    expendedEnergy: { flag: 1 << 8, data: ['u16', 'u16', 'u8'] },
+    heartRate: { flag: 1 << 9, data: 'u8' },
+    metabolicEquivalent: { flag: 1 << 10, data: 'u8' },
+    elapsedTime: { flag: 1 << 11, data: 'u16' },
+    remainingTime: { flag: 1 << 12, data: 'u16' },
+  });
+
+  parse(stream) {
     const flags = stream.u16();
     if ((flags & 0x1) === 0) {
       this.speed = stream.u16();
@@ -212,27 +194,17 @@ class IndoorBikeData {
       this.speed = null;
     }
 
-    for (const { name, mask, type } of fields) {
-      if ((flags & mask) !== 0) {
-        if (type instanceof Array) {
-          this[name] = type.map((type) => stream[type]());
-        } else {
-          this[name] = stream[type]();
-        }
+    for (const [name, { flag, data }] of Object.entries(BikeDataNotification.Fields)) {
+      if ((flags & flag) === 0) {
+        continue;
+      }
+
+      if (data instanceof Array) {
+        this[name] = data.map((type) => stream[type]());
       } else {
-        this[name] = null;
+        this[name] = stream[data]();
       }
     }
-  }
-}
-
-class SupportedPowerRange {
-  constructor(dataView) {
-    const stream = new DataStream(dataView);
-
-    this.min = stream.s16();
-    this.max = stream.s16();
-    this.inc = stream.u16();
   }
 }
 
@@ -261,8 +233,8 @@ function getParameters(name) {
   return Parameters[name] ?? [];
 }
 
-function getOpcode(opcodes, opcode) {
-  for (const [name, code] of Object.entries(opcodes)) {
+function getOpcode(Opcode, opcode) {
+  for (const [name, code] of Object.entries(Opcode)) {
     if (code === opcode) {
       return { code, name };
     }
@@ -270,7 +242,7 @@ function getOpcode(opcodes, opcode) {
   return { code: opcode, name: 'reserved' };
 }
 
-class FitnessMachineControlPoint extends Characteristic {
+class Control extends Characteristic {
   static Opcode = Object.freeze({
     requestControl: 0x00,
     reset: 0x01,
@@ -294,10 +266,29 @@ class FitnessMachineControlPoint extends Characteristic {
     spinDown: 0x13,
     cadence: 0x14,
   });
+
+  constructor() {
+    super('fitness_machine_control_point');
+  }
+
+  async init(service) {
+    await super.init(service);
+
+    await this.notified((dataView) => {
+      const notification = new ControlNotification(dataView);
+      if (!notification.isOk) {
+        log.error('FTMS control notification malformed', notification);
+      } else if (!notification.isSuccess) {
+        log.error('FTMS control notification unsuccessful', notification);
+      } else {
+        log.info('FTMS control notification', notification);
+      }
+    });
+  }
 }
 
-for (const [name, code] of Object.entries(FitnessMachineControlPoint.Opcode)) {
-  FitnessMachineControlPoint.prototype[name] = async function (...parameters) {
+for (const [name, code] of Object.entries(Control.Opcode)) {
+  Control.prototype[name] = async function (...parameters) {
     const bytes = [];
     for (const [i, type] of getParameters(name).entries()) {
       let size;
@@ -325,7 +316,7 @@ for (const [name, code] of Object.entries(FitnessMachineControlPoint.Opcode)) {
   };
 }
 
-class FitnessMachineControlPointResponse {
+class ControlNotification extends Notification {
   static Result = Object.freeze({
     success: 0x01,
     unsupported: 0x02,
@@ -334,16 +325,14 @@ class FitnessMachineControlPointResponse {
     permission: 0x05,
   });
 
-  constructor(dataView) {
-    const stream = new DataStream(dataView);
-
+  parse(stream) {
     this.response = stream.u8();
     if (this.isOk) {
-      this.opcode = getOpcode(FitnessMachineControlPoint.Opcode, stream.u8());
-      this.result = getOpcode(FitnessMachineControlPointResponse.Result, stream.u8());
+      this.opcode = getOpcode(Control.Opcode, stream.u8());
+      this.result = getOpcode(ControlNotification.Result, stream.u8());
     } else {
-      this.opcode = getOpcode(FitnessMachineControlPoint.Opcode, -1);
-      this.result = getOpcode(FitnessMachineControlPointResponse.Result, -1);
+      this.opcode = getOpcode(Control.Opcode, -1);
+      this.result = getOpcode(ControlNotification.Result, -1);
     }
   }
 
@@ -352,11 +341,26 @@ class FitnessMachineControlPointResponse {
   }
 
   get isSuccess() {
-    return this.result.code === FitnessMachineControlPointResponse.Result.success;
+    return this.result.code === ControlNotification.Result.success;
   }
 }
 
-class FitnessMachineStatus {
+class Status extends Characteristic {
+  constructor() {
+    super('fitness_machine_status');
+  }
+
+  async init(service) {
+    await super.init(service);
+
+    await this.notified((dataView) => {
+      const notification = new StatusNotification(dataView);
+      log.info('FTMS status', notification);
+    });
+  }
+}
+
+class StatusNotification extends Notification {
   static Opcode = Object.freeze({
     reset: 0x01,
     stop: 0x02,
@@ -382,10 +386,8 @@ class FitnessMachineStatus {
     controlPermissionLost: 0xff,
   });
 
-  constructor(dataView) {
-    const stream = new DataStream(dataView);
-
-    this.opcode = getOpcode(FitnessMachineStatus.Opcode, stream.u8());
+  parse(stream) {
+    this.opcode = getOpcode(StatusNotification.Opcode, stream.u8());
     this.parameters = getParameters(this.opcode.name).map((type) => stream[type]());
   }
 }

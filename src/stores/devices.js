@@ -1,13 +1,20 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { FitnessMachine } from '../modules/bluetooth/fitnessMachine';
-import { HeartRate } from '../modules/bluetooth/heartRate';
+import { ref, watch } from 'vue';
+import { notify } from '../utils/notify';
 
 const id = 'devices';
 
 export const useDevicesStore = defineStore(id, () => {
-  const hrm = ref(new HeartRate());
-  const trainer = ref(new FitnessMachine());
+  const hrm = ref(null);
+  const trainer = ref(null);
 
+  for (const device of [hrm, trainer]) {
+    watch(device, (value) => {
+      value?.on('disconnected', () => {
+        notify.info(`${value.name} disconnected`);
+        device.value = null;
+      });
+    });
+  }
   return { hrm, trainer };
 });
