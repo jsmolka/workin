@@ -279,7 +279,7 @@ class Control extends Characteristic {
       } else if (!notification.isSuccess) {
         log.error('FTMS control unsuccessful', notification);
       } else {
-        log.info('FTMS control', notification);
+        log.debug('FTMS control', notification);
       }
     });
   }
@@ -353,7 +353,7 @@ class Status extends Characteristic {
 
     await this.notified((dataView) => {
       const notification = new StatusNotification(dataView);
-      log.info('FTMS status', notification);
+      log.debug('FTMS status', notification);
     });
   }
 }

@@ -37,7 +37,7 @@ const [connect, connecting] = useAsync(async () => {
     device.value = newDevice;
   } catch (error) {
     newDevice.disconnect();
-    log.warn(error);
+    log.error(error);
   }
 });
 </script>
