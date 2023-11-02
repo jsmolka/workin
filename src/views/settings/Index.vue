@@ -6,7 +6,12 @@
       </DeviceButton>
     </Label>
     <Label text="Smart trainer">
-      <DeviceButton v-model:device="trainer" :constructor="FitnessMachine" v-slot="{ device }">
+      <DeviceButton
+        :device="trainer"
+        @update:device="setTrainer"
+        :constructor="FitnessMachine"
+        v-slot="{ device }"
+      >
         {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
       </DeviceButton>
     </Label>
@@ -47,9 +52,22 @@ import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';
 import { log } from '../../utils/log';
+import { notify } from '../../utils/notify';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 const { settings } = storeToRefs(useSettingsStore());
+
+const setTrainer = (device) => {
+  if (!(device instanceof FitnessMachine)) {
+    return;
+  }
+  if (!(device.supportsPower && device.supportsCadence && device.supportsTargetPower)) {
+    notify.info(`${device.name} does not support power, cadence or target power`);
+    device.disconnect();
+    return;
+  }
+  trainer.value = device;
+};
 </script>
