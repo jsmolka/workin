@@ -6,6 +6,14 @@ export class Workout {
     this.name = name;
     this.intervals = [];
   }
+
+  get duration() {
+    let duration = 0;
+    for (const interval of this.intervals) {
+      duration += interval.duration;
+    }
+    return duration;
+  }
 }
 
 createSchema(Workout, {
