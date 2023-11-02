@@ -3,11 +3,11 @@ export class Queue {
     this.queue = [];
   }
 
-  async enqueue(action) {
+  async enqueue(fn) {
     return new Promise(async (resolve, reject) => {
       this.queue.push(async () => {
         try {
-          resolve(await action());
+          resolve(await fn());
         } catch (error) {
           reject(error);
         }
@@ -18,9 +18,9 @@ export class Queue {
       }
 
       while (this.queue.length > 0) {
-        const action = this.queue[0];
+        const fn = this.queue[0];
         try {
-          await action();
+          await fn();
         } finally {
           this.queue.shift();
         }

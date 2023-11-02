@@ -1,5 +1,6 @@
 import { bit } from '../../utils/bit';
 import { log } from '../../utils/log';
+import { math } from '../../utils/math';
 import { Characteristic } from './characteristic';
 import { DataStream } from './dataStream';
 import { Device } from './device';
@@ -141,7 +142,7 @@ class PowerRange extends Characteristic {
   }
 
   clamp(value) {
-    return clamp(Math.ceil(value / this.inc) * this.inc, this.min, this.max);
+    return math.clamp(math.nearestMultipleOf(value, this.inc), this.min, this.max);
   }
 }
 

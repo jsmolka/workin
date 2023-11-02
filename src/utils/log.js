@@ -1,29 +1,26 @@
 import { Emitter } from './emitter';
 
+const rank = { debug: 0, info: 1, warn: 2, error: 3, silent: 4 };
+
 class Log extends Emitter {
   constructor() {
     super();
 
     this.level = this.levels[0];
-
-    const define = (level) => {
-      return (...args) => {
-        if (this.levels.indexOf(level) >= this.levels.indexOf(this.level)) {
-          console[level](...args);
-          this.emit(level, ...args);
-        }
-      };
-    };
-
-    this.debug = define('debug');
-    this.info = define('info');
-    this.warn = define('warn');
-    this.error = define('error');
   }
 
   get levels() {
-    return ['debug', 'info', 'warn', 'error', 'silent'];
+    return Object.keys(rank);
   }
+}
+
+for (const level of ['debug', 'info', 'warn', 'error']) {
+  Log.prototype[level] = function (...args) {
+    if (rank[level] >= rank[this.level]) {
+      console[level](...args);
+      this.emit(level, ...args);
+    }
+  };
 }
 
 export const log = new Log();

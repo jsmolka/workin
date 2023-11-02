@@ -1,4 +1,4 @@
-import { signExtend } from '../../utils/bit';
+import { bit } from '../../utils/bit';
 
 export class DataStream {
   constructor(dataView) {
@@ -31,7 +31,7 @@ export class DataStream {
   }
 
   signed(size) {
-    return signExtend(this.unsigned(size), size);
+    return bit.signExtend(this.unsigned(size), size);
   }
 
   s8() {

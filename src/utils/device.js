@@ -1,4 +1,4 @@
-export function isMobile() {
+function isMobile() {
   // https://developer.mozilla.org/en-US/docs/Web/API/Navigator#non-standard_properties
   const isIosStandalone = () => {
     return typeof navigator.standalone === 'boolean';
