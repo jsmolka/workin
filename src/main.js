@@ -10,7 +10,7 @@ import NoBluetooth from './views/NoBluetooth.vue';
 
 async function main() {
   const { isSupported } = useBluetooth();
-  const app = createApp(isSupported ? App : NoBluetooth);
+  const app = createApp(isSupported.value ? App : NoBluetooth);
   app.use(createPinia());
   app.use(router);
 

@@ -15,13 +15,21 @@ import { notify } from './utils/notify';
 
 const { settings } = storeToRefs(useSettingsStore());
 
-for (const level of ['debug', 'info', 'warn', 'error']) {
-  useEmitter(log, level, (...args) => {
-    if (settings.value.logAsNotification) {
-      (notify[level] ?? notify.info)(...args);
+useEmitter(log, '*', (level, ...args) => {
+  if (settings.value.logAsNotification) {
+    switch (level) {
+      case 'warn':
+        notify.warn(...args);
+        break;
+      case 'error':
+        notify.error(...args);
+        break;
+      default:
+        notify.info(...args);
+        break;
     }
-  });
-}
+  }
+});
 
 if (device.isMobile()) {
   useEventListener('error', ({ message }) => {
@@ -29,4 +37,3 @@ if (device.isMobile()) {
   });
 }
 </script>
-./composables/useEmitter
