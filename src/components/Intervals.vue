@@ -8,7 +8,7 @@
         v-for="interval of intervals"
         class="bg-blue-1"
         :style="{
-          width: percentage(interval.duration / duration),
+          flexGrow: interval.duration,
           height: percentage(interval.intensity / 2),
         }"
       />
