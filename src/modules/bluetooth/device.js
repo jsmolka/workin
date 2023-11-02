@@ -20,7 +20,7 @@ export class Device extends Emitter {
       'gattserverdisconnected',
       async () => {
         try {
-          await exponentialBackoff(5, 250, () => this.connect());
+          await exponentialBackoff(5, 250, async () => await this.connect());
         } catch {
           this.emit('disconnected');
         }
@@ -33,7 +33,7 @@ export class Device extends Emitter {
   }
 
   async disconnect() {
-    this.device?.removeDisconnectedListener?.();
+    this.device?.removeDisconnectedListener();
     this.device?.gatt.disconnect();
   }
 

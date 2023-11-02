@@ -74,11 +74,11 @@ export class Time {
     return this.setMilliseconds(this.getMilliseconds() + value);
   }
 
-  add(timish) {
-    this.addHours(timish.getHours());
-    this.addMinutes(timish.getMinutes());
-    this.addSeconds(timish.getSeconds());
-    this.addMilliseconds(timish.getMilliseconds());
+  add(timeish) {
+    this.addHours(timeish.getHours());
+    this.addMinutes(timeish.getMinutes());
+    this.addSeconds(timeish.getSeconds());
+    this.addMilliseconds(timeish.getMilliseconds());
     return this;
   }
 

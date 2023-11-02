@@ -8,7 +8,5 @@ export class Notification {
   /**
    * @abstract
    */
-  parse(stream) {
-    void stream;
-  }
+  parse(stream) {}
 }

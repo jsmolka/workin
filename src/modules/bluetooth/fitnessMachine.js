@@ -21,23 +21,25 @@ export class FitnessMachine extends Device {
     await super.connect();
 
     const service = await this.service();
-    await Promise.all(
-      [this.feature, this.bikeData, this.powerRange, this.control, this.status].map(
-        (characteristic) => characteristic.init(service),
-      ),
-    );
+    await Promise.all([
+      this.feature.init(service),
+      this.bikeData.init(service),
+      this.powerRange.init(service),
+      this.control.init(service),
+      this.status.init(service),
+    ]);
   }
 
   get supportsPower() {
-    return this.feature.feature.power;
+    return this.feature.power;
   }
 
   get supportsCadence() {
-    return this.feature.feature.cadence;
+    return this.feature.cadence;
   }
 
   get supportsTargetPower() {
-    return this.feature.targetFeature.cadence;
+    return this.feature.target.power;
   }
 
   get power() {
@@ -49,7 +51,7 @@ export class FitnessMachine extends Device {
   }
 
   async setTargetPower(value) {
-    return this.control.write(this.powerRange.clamp(value));
+    return this.control.power(this.powerRange.clamp(value));
   }
 }
 
@@ -64,6 +66,8 @@ class Feature extends Characteristic {
     const stream = new DataStream(await this.read());
     this.initFeature(stream.u32());
     this.initTargetFeature(stream.u32());
+
+    log.info('FTMS feature', this);
   }
 
   static FeatureFlag = Object.freeze({
@@ -87,11 +91,9 @@ class Feature extends Characteristic {
   });
 
   initFeature(flags) {
-    this.feature = {};
     for (const [name, flag] of Object.entries(Feature.FeatureFlag)) {
-      this.feature[name] = (flags & flag) !== 0;
+      this[name] = (flags & flag) !== 0;
     }
-    log.info('FTMS feature', this.feature);
   }
 
   static TargetFeatureFlag = Object.freeze({
@@ -115,21 +117,16 @@ class Feature extends Characteristic {
   });
 
   initTargetFeature(flags) {
-    this.targetFeature = {};
+    this.target = {};
     for (const [name, flag] of Object.entries(Feature.TargetFeatureFlag)) {
-      this.targetFeature[name] = (flags & flag) !== 0;
+      this.target[name] = (flags & flag) !== 0;
     }
-    log.info('FTMS target feature', this.targetFeature);
   }
 }
 
 class PowerRange extends Characteristic {
   constructor() {
     super('supported_power_range');
-
-    this.min = null;
-    this.max = null;
-    this.inc = null;
   }
 
   async init(service) {
@@ -139,6 +136,8 @@ class PowerRange extends Characteristic {
     this.min = stream.s16();
     this.max = stream.s16();
     this.inc = stream.u16();
+
+    log.info('FTMS power range', this);
   }
 
   clamp(value) {
@@ -149,8 +148,6 @@ class PowerRange extends Characteristic {
 class BikeData extends Characteristic {
   constructor() {
     super('indoor_bike_data');
-
-    this.notification = null;
   }
 
   async init(service) {
@@ -278,11 +275,11 @@ class Control extends Characteristic {
     await this.notified((dataView) => {
       const notification = new ControlNotification(dataView);
       if (!notification.isOk) {
-        log.error('FTMS control notification malformed', notification);
+        log.error('FTMS control malformed', notification);
       } else if (!notification.isSuccess) {
-        log.error('FTMS control notification unsuccessful', notification);
+        log.error('FTMS control unsuccessful', notification);
       } else {
-        log.info('FTMS control notification', notification);
+        log.info('FTMS control', notification);
       }
     });
   }
