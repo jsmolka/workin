@@ -47,29 +47,11 @@ body {
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--gray-6) var(--gray-7);
+  scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
-  @apply w-2.5;
-  @apply h-2.5;
-}
-
-::-webkit-scrollbar-track-piece {
-  @apply bg-gray-7;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-6;
-
-  &:hover {
-    @apply bg-gray-5;
-  }
-
-  &:active {
-    @apply bg-gray-4;
-  }
+  @apply hidden;
 }
 
 @layer utilities {

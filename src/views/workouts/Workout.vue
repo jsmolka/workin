@@ -1,7 +1,10 @@
 <template>
   <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 cursor-pointer">
-    <Intervals class="shrink-0 h-24 bg-gray-7 aspect-[2/1]" :intervals="workout.intervals" />
-    <div class="flex flex-col justify-between overflow-hidden">
+    <Intervals
+      class="shrink-0 h-24 bg-gray-7 aspect-[3/2] sm:aspect-[5/2]"
+      :intervals="workout.intervals"
+    />
+    <div class="flex flex-col justify-between overflow-hidden select-none">
       <span class="truncate text-gray-1 text-lg font-bold">{{ workout.name }}</span>
       <span class="truncate">VO2 max</span>
       <span class="truncate">{{ duration }}</span>
