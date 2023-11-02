@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors';
+
 export default {
   content: ['./index.html', './src/**/*.{js,vue}'],
   theme: {
@@ -17,7 +19,8 @@ export default {
         2: 'var(--blue-2)',
         3: 'var(--blue-3)',
       },
-      transparent: 'transparent',
+      white: colors.white,
+      transparent: colors.transparent,
     },
   },
 };
