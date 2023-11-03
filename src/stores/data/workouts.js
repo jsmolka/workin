@@ -1,83 +1,62 @@
 import { Interval } from '../../modules/interval';
 import { Workout } from '../../modules/workout';
 
-class Intervals {
-  constructor() {
-    this.intervals = [];
+function range(start, stop, step, callback) {
+  const data = [];
+  for (let i = start; i <= stop; i += step) {
+    data.push(callback(i));
   }
-}
-
-class Steps extends Intervals {
-  constructor(mins, from, to, count) {
-    super();
-    const offset = (to - from) / (count - 1);
-    for (let j = 0; j < count; j++) {
-      this.intervals.push(i(mins / count, from + j * offset));
-    }
-  }
-}
-
-class Repeat extends Intervals {
-  constructor(count, intervals, popLast = true) {
-    super();
-    while (count--) {
-      this.intervals.push(...unwrap(intervals));
-    }
-    if (popLast) {
-      this.intervals.pop();
-    }
-  }
-}
-
-function unwrap(data) {
-  const intervals = [];
-  for (const item of data) {
-    if (item instanceof Interval) {
-      intervals.push(item);
-    } else if (item instanceof Steps) {
-      intervals.push(...item.intervals);
-    } else if (item instanceof Repeat) {
-      intervals.push(...item.intervals);
-    }
-  }
-  return intervals;
+  return data;
 }
 
 function w(name, data) {
-  return new Workout(name, unwrap(data));
+  return new Workout(name, data.flat());
 }
 
-function v(start, stop, step, callback) {
-  const workout = [];
-  for (let i = start; i <= stop; i += step) {
-    workout.push(callback(i));
+function i(minutes, intensity) {
+  // Todo: merge similar
+  return new Interval(60 * minutes, intensity);
+}
+
+function s(minutes, from, to, count) {
+  const result = [];
+  const offset = (to - from) / (count - 1);
+  for (let index = 0; index < count; index++) {
+    result.push(i(minutes / count, from + index * offset));
   }
-  return workout;
+  return result;
 }
 
-function i(mins, intensity) {
-  return new Interval(mins * 60, intensity);
-}
-
-function s(mins, from, to, between) {
-  return new Steps(mins, from, to, between);
-}
-
-function r(count, ...intervals) {
-  return new Repeat(count, ...intervals);
+function r(count, data, pop = true) {
+  const result = [];
+  while (count--) {
+    result.push(...data.flat());
+  }
+  if (pop) {
+    result.pop();
+  }
+  return result;
 }
 
 // prettier-ignore
 export const workouts = [
   // Active recovery
-  // w('Recovery', [i(30, 0.5)]),
-  // w('Recovery', [i(60, 0.5)]),
+
+  ...range(30, 60, 30, (n) =>
+    w('Recovery', [
+      i(n, 0.5),
+    ]),
+  ),
 
   // Endurance
-  // w('LIT', [...s(10, ac, lit, 4), i(45, lit), ...s(5, lit, ac, 2)]),
-  // w('LIT', [...s(10, ac, lit, 4), i(75, lit), ...s(5, lit, ac, 2)]),
-  // w('LIT', [...s(10, ac, lit, 4), i(105, lit), ...s(5, lit, ac, 2)]),
-  // w('LIT', [...s(10, ac, lit, 4), i(135, lit), ...s(5, lit, ac, 2)]),
+
+  ...range(45, 135, 30, (n) =>
+    w('Endurance', [
+      s(10, 0.5, 0.6, 4),
+      i(n, 0.6),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
 
   // Zone 2
   // w('Z2', [...s(10, ac, z2, 4), i(45, z2), ...s(5, z2, ac, 2)]),
@@ -88,7 +67,7 @@ export const workouts = [
   // Threshold
   // https://www.youtube.com/watch?v=MWaMVhHo-zE
 
-  ...v(3, 4, 1, (n) =>
+  ...range(3, 4, 1, (n) =>
     w(`${n} x 10`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -100,7 +79,7 @@ export const workouts = [
     ]),
   ),
 
-  ...v(3, 4, 1, (n) =>
+  ...range(3, 4, 1, (n) =>
     w(`${n} x 15`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -112,7 +91,7 @@ export const workouts = [
     ]),
   ),
 
-  ...v(2, 3, 1, (n) =>
+  ...range(2, 3, 1, (n) =>
     w(`${n} x 20`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -124,10 +103,9 @@ export const workouts = [
     ]),
   ),
 
-  // VO2 max
-  // https://www.youtube.com/watch?v=YBgAr7kLsZY
+  // Lactate clearance
 
-  ...v(2, 6, 2, (n) =>
+  ...range(2, 6, 2, (n) =>
     w(`${n} x 10 LC`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -142,7 +120,10 @@ export const workouts = [
     ]),
   ),
 
-  ...v(2, 6, 2, (n) =>
+  // VO2 max
+  // https://www.youtube.com/watch?v=YBgAr7kLsZY
+
+  ...range(2, 6, 2, (n) =>
     w(`${n} x 4`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -154,7 +135,7 @@ export const workouts = [
     ]),
   ),
 
-  ...v(2, 6, 2, (n) =>
+  ...range(2, 6, 2, (n) =>
     w(`${n} x 8`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -169,7 +150,7 @@ export const workouts = [
   // Anaerobic
   // https://www.youtube.com/watch?v=YBgAr7kLsZY
 
-  ...v(1, 3, 1, (n) =>
+  ...range(1, 3, 1, (n) =>
     w(`${n} x 10 x 30`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
@@ -184,7 +165,7 @@ export const workouts = [
     ]),
   ),
 
-  ...v(1, 3, 1, (n) =>
+  ...range(1, 3, 1, (n) =>
     w(`${n} x 20 x 30`, [
       s(10, 0.5, 1.0, 4),
       i(5, 0.5),
