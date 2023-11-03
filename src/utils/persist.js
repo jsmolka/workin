@@ -40,6 +40,10 @@ function* prototypes(object) {
 }
 
 export function serialize(object) {
+  if (object instanceof Array) {
+    return object.map((item) => serialize(item));
+  }
+
   const data = {};
   for (const prototype of prototypes(object)) {
     const schema = schemas.get(prototype);
@@ -58,6 +62,10 @@ export function serialize(object) {
 }
 
 export function deserialize(class_, data) {
+  if (data instanceof Array) {
+    return data.map((item) => deserialize(class_, item));
+  }
+
   const object = new class_();
   for (const prototype of prototypes(object)) {
     const schema = schemas.get(prototype);
