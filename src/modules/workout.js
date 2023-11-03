@@ -3,9 +3,9 @@ import { Interval } from './interval';
 import { zones } from './zones';
 
 export class Workout {
-  constructor(name = '') {
+  constructor(name = '', intervals = []) {
     this.name = name;
-    this.intervals = [];
+    this.intervals = intervals;
   }
 
   calories(power) {

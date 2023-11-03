@@ -6,6 +6,7 @@ import './main.scss';
 import { router } from './router';
 import { useAthleteStore } from './stores/athlete';
 import { useSettingsStore } from './stores/settings';
+import { useWorkoutsStore } from './stores/workouts';
 import NoBluetooth from './views/NoBluetooth.vue';
 
 async function main() {
@@ -19,6 +20,9 @@ async function main() {
 
   const settingsStore = useSettingsStore();
   await settingsStore.hydrate();
+
+  const workoutsStore = useWorkoutsStore();
+  await workoutsStore.hydrate();
 
   app.mount('#app');
 }

@@ -18,6 +18,10 @@
           <span>{{ calories }}</span>
           <span class="unit">cal</span>
         </div>
+        <div class="hidden sm:flex flex-col">
+          <span>{{ avgPower }}</span>
+          <span class="unit">Avg W</span>
+        </div>
         <div class="flex flex-col">
           <span>{{ maxPower }}</span>
           <span class="unit">Max W</span>
@@ -46,6 +50,7 @@ const { athlete } = storeToRefs(useAthleteStore());
 
 const duration = computed(() => new Time(0, 0, props.workout.duration).format('HH:mm:ss'));
 const calories = computed(() => Math.round(props.workout.calories(athlete.value.ftp)));
+const avgPower = computed(() => Math.round(props.workout.averageIntensity * athlete.value.ftp));
 const maxPower = computed(() => Math.round(props.workout.maxIntensity * athlete.value.ftp));
 </script>
 
