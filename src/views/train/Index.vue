@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col gap-4">
     <Stats
-      :power="trainer.power"
+      :power="trainer?.power"
       :target-power="targetPower"
-      :heart-rate="hrm.heartRate"
-      :cadence="trainer.cadence"
+      :heart-rate="hrm?.heartRate"
+      :cadence="trainer?.cadence"
       :interval-time="intervalTime"
       :total-time="totalTime"
     />
@@ -51,8 +51,8 @@ const intervalTime = new Time(0, 0, 90);
 
 const targetPower = ref(0);
 watch(targetPower, async (value) => {
-  if (trainer.value.isConnected) {
-    await trainer.value.setPower(value);
+  if (trainer) {
+    await trainer.value.power(value);
   }
 });
 </script>

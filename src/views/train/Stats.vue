@@ -17,7 +17,6 @@ import Cell from './Cell.vue';
 const props = defineProps({
   power: {
     type: Number,
-    required: true,
   },
   targetPower: {
     type: Number,
@@ -25,11 +24,9 @@ const props = defineProps({
   },
   heartRate: {
     type: Number,
-    required: true,
   },
   cadence: {
     type: Number,
-    required: true,
   },
   intervalTime: {
     type: Time,
