@@ -1,5 +1,5 @@
-import { Interval } from '../modules/interval';
-import { Workout } from '../modules/workout';
+import { Interval } from '../../modules/interval';
+import { Workout } from '../../modules/workout';
 
 function w(name, data) {
   const intervals = [];
