@@ -1,7 +1,35 @@
 import { Interval } from '../../modules/interval';
 import { Workout } from '../../modules/workout';
 
-function w(name, data) {
+class Intervals {
+  constructor() {
+    this.intervals = [];
+  }
+}
+
+class Steps extends Intervals {
+  constructor(mins, from, to, count) {
+    super();
+    const offset = (to - from) / (count - 1);
+    for (let j = 0; j < count; j++) {
+      this.intervals.push(i(mins / count, from + j * offset));
+    }
+  }
+}
+
+class Repeat extends Intervals {
+  constructor(count, intervals, popLast = true) {
+    super();
+    while (count--) {
+      this.intervals.push(...unwrap(intervals));
+    }
+    if (popLast) {
+      this.intervals.pop();
+    }
+  }
+}
+
+function unwrap(data) {
   const intervals = [];
   for (const item of data) {
     if (item instanceof Interval) {
@@ -12,56 +40,38 @@ function w(name, data) {
       intervals.push(...item.intervals);
     }
   }
-  return new Workout(name, intervals);
+  return intervals;
+}
+
+function w(name, data) {
+  return new Workout(name, unwrap(data));
+}
+
+function v(start, stop, step, callback) {
+  const workout = [];
+  for (let i = start; i <= stop; i += step) {
+    workout.push(callback(i));
+  }
+  return workout;
 }
 
 function i(mins, intensity) {
   return new Interval(mins * 60, intensity);
 }
 
-class Steps {
-  constructor(mins, from, to, count) {
-    const offset = (to - from) / (count - 1);
-    const intervals = [];
-    for (let j = 0; j < count; j++) {
-      intervals.push(i(mins / count, from + j * offset));
-    }
-    this.intervals = intervals;
-  }
-}
-
 function s(mins, from, to, between) {
   return new Steps(mins, from, to, between);
-}
-
-class Repeat {
-  constructor(count, ...intervals) {
-    this.intervals = [];
-    while (count--) {
-      this.intervals.push(...intervals);
-    }
-  }
 }
 
 function r(count, ...intervals) {
   return new Repeat(count, ...intervals);
 }
 
-const rec = 0.5;
-const lit = 0.63;
-const z2 = 0.73;
-const thr = 1;
-const vo2 = 1.2;
-
-// HIIT: https://www.youtube.com/watch?v=YBgAr7kLsZY
-// Threshold: https://www.youtube.com/watch?v=MWaMVhHo-zE
-// Warmup: https://www.youtube.com/watch?v=GtzMYFaZeIc
-// Cooldown: https://www.youtube.com/watch?v=mckoAAinGDU
-
+// prettier-ignore
 export const workouts = [
   // Active recovery
-  w('Recovery', [i(30, rec)]),
-  w('Recovery', [i(60, rec)]),
+  // w('Recovery', [i(30, 0.5)]),
+  // w('Recovery', [i(60, 0.5)]),
 
   // Endurance
   // w('LIT', [...s(10, ac, lit, 4), i(45, lit), ...s(5, lit, ac, 2)]),
@@ -75,63 +85,117 @@ export const workouts = [
   // w('Z2', [...s(10, ac, z2, 4), i(105, z2), ...s(5, z2, ac, 2)]),
   // w('Z2', [...s(10, ac, z2, 4), i(135, z2), ...s(5, z2, ac, 2)]),
 
-  // VO2 max: 4 min, 120 %, 4 min rest (4, 6 or 8 reps)
-  // VO2 max: 8 min, 110 %, 4 min rest (2, 4 or 6 reps)
+  // Threshold
+  // https://www.youtube.com/watch?v=MWaMVhHo-zE
+
+  ...v(3, 4, 1, (n) =>
+    w(`${n} x 10`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        i(10, 1.0),
+        i(5, 0.5)
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...v(3, 4, 1, (n) =>
+    w(`${n} x 15`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        i(15, 1.0),
+        i(7.5, 0.5)
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...v(2, 3, 1, (n) =>
+    w(`${n} x 20`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        i(20, 1.0),
+        i(10, 0.5)
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  // VO2 max
+  // https://www.youtube.com/watch?v=YBgAr7kLsZY
+
+  ...v(2, 6, 2, (n) =>
+    w(`${n} x 10 LC`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        r(5, [
+          i(1, 0.9),
+          i(1, 1.1),
+        ], false),
+        i(5, 0.5),
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...v(2, 6, 2, (n) =>
+    w(`${n} x 4`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        i(4, 1.15),
+        i(4, 0.5),
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...v(2, 6, 2, (n) =>
+    w(`${n} x 8`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        i(8, 1.05),
+        i(4, 0.5),
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
 
   // Anaerobic
-  // Tabata: 30 sec @ 130-180%, 10min between
+  // https://www.youtube.com/watch?v=YBgAr7kLsZY
 
-  w('1 x 10 x 30 sec', [
-    s(10, rec, thr, 4),
-    i(5, rec),
-    r(10, i(0.5, 1.2), i(0.5, 0.5)),
-    s(5, rec, 0.4, 4),
-  ]),
+  ...v(1, 3, 1, (n) =>
+    w(`${n} x 10 x 30`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        r(10, [
+          i(0.5, 1.25),
+          i(0.5, 0.5),
+        ]),
+        i(5, 0.5),
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
 
-  w('2 x 10 x 30 sec', [
-    s(10, rec, thr, 4),
-    i(5, rec),
-    r(10, i(0.5, 1.2), i(0.5, 0.5)),
-    i(5, rec),
-    r(10, i(0.5, 1.2), i(0.5, 0.5)),
-    s(5, rec, 0.4, 4),
-  ]),
-
-  w('3 x 10 x 30 sec', [
-    s(10, rec, thr, 4),
-    i(5, rec),
-    r(10, i(0.5, 1.2), i(0.5, 0.5)),
-    i(5, rec),
-    r(10, i(0.5, 1.2), i(0.5, 0.5)),
-    i(5, rec),
-    r(10, i(0.5, 1.2), i(0.5, 0.5)),
-    s(5, rec, 0.4, 4),
-  ]),
-
-  w('1 x 20 x 30 sec', [
-    s(10, rec, thr, 4),
-    i(5, rec),
-    r(20, i(0.5, 1.2), i(0.5, 0.5)),
-    s(5, rec, 0.4, 4),
-  ]),
-
-  w('2 x 20 x 30 sec', [
-    s(10, rec, thr, 4),
-    i(5, rec),
-    r(20, i(0.5, 1.2), i(0.5, 0.5)),
-    i(10, rec),
-    r(20, i(0.5, 1.2), i(0.5, 0.5)),
-    s(5, rec, 0.4, 4),
-  ]),
-
-  w('3 x 20 x 30 sec', [
-    s(10, rec, thr, 4),
-    i(5, rec),
-    r(20, i(0.5, 1.2), i(0.5, 0.5)),
-    i(10, rec),
-    r(20, i(0.5, 1.2), i(0.5, 0.5)),
-    i(10, rec),
-    r(20, i(0.5, 1.2), i(0.5, 0.5)),
-    s(5, rec, 0.4, 4),
-  ]),
+  ...v(1, 3, 1, (n) =>
+    w(`${n} x 20 x 30`, [
+      s(10, 0.5, 1.0, 4),
+      i(5, 0.5),
+      r(n, [
+        r(20, [
+          i(0.5, 1.25),
+          i(0.5, 0.5),
+        ]),
+        i(10, 0.5),
+      ]),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  )
 ];
