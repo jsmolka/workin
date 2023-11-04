@@ -10,11 +10,19 @@ function range(start, stop, step, callback) {
 }
 
 function w(name, data) {
+  const intervals = [];
+  for (const { duration, intensity } of data.flat()) {
+    const previous = intervals.at(-1);
+    if (previous && previous.intensity === intensity) {
+      previous.duration += duration;
+    } else {
+      intervals.push(new Interval(duration, intensity));
+    }
+  }
   return new Workout(name, data.flat());
 }
 
 function i(minutes, intensity) {
-  // Todo: merge similar
   return new Interval(60 * minutes, intensity);
 }
 
@@ -51,18 +59,20 @@ export const workouts = [
   // Endurance
 
   ...range(45, 135, 30, (n) =>
-    w('Endurance', [
+    w('LIT', [
       s(10, 0.5, 0.6, 4),
       i(n, 0.6),
       s(5, 0.5, 0.4, 4),
     ]),
   ),
 
-  // Zone 2
-  // w('Z2', [...s(10, ac, z2, 4), i(45, z2), ...s(5, z2, ac, 2)]),
-  // w('Z2', [...s(10, ac, z2, 4), i(75, z2), ...s(5, z2, ac, 2)]),
-  // w('Z2', [...s(10, ac, z2, 4), i(105, z2), ...s(5, z2, ac, 2)]),
-  // w('Z2', [...s(10, ac, z2, 4), i(135, z2), ...s(5, z2, ac, 2)]),
+  ...range(45, 135, 30, (n) =>
+    w('Zone 2', [
+      s(10, 0.5, 0.7, 4),
+      i(n, 0.70),
+      s(5, 0.5, 0.4, 4),
+    ]),
+  ),
 
   // Threshold
   // https://www.youtube.com/watch?v=MWaMVhHo-zE
