@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <Form class="h-full">
     <Stats
       :power="trainer?.power"
       :target-power="targetPower"
@@ -9,27 +9,51 @@
       :total-time="totalTime"
     />
 
-    <Form>
-      <Label text="Target power">
-        <InputNumber v-model:value="targetPower" />
-      </Label>
-    </Form>
-  </div>
+    <Intervals
+      class="w-full bg-gray-8 aspect-[3/1]"
+      :intervals="workouts[10].intervals"
+      :progress="1700"
+    />
+
+    <Label class="flex-1" text="Upcoming intervals">
+      <div class="relative flex-1 rounded-sm overflow-hidden">
+        <div class="absolute inset-0 border border-gray-6 overflow-y-scroll">
+          <div
+            class="flex justify-between px-2 py-1.5 font-feature-tnum"
+            :class="{ 'bg-gray-6': index % 2 === 0 }"
+            v-for="(interval, index) in workouts[10].intervals"
+          >
+            <div>{{ Math.round(athlete.ftp * interval.intensity) }} W</div>
+            <div>{{ new Time(0, 0, interval.duration).formatShortest() }}</div>
+          </div>
+        </div>
+      </div>
+    </Label>
+
+    <div class="flex gap-4">
+      <Button class="flex-1">Pause</Button>
+      <Button class="flex-1">Finish</Button>
+    </div>
+  </Form>
 </template>
 
 <script setup>
 import { useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
-import InputNumber from '../../components/InputNumber.vue';
+import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
-import { useInterval } from '../../composables/useInterval';
 import { Time } from '../../modules/time';
+import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
+import { useWorkoutsStore } from '../../stores/workouts';
 import Stats from './Stats.vue';
 
+const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
+const { workouts } = storeToRefs(useWorkoutsStore());
 const { request, release } = useWakeLock();
 
 onMounted(async () => {
@@ -41,11 +65,6 @@ onUnmounted(async () => {
 });
 
 const totalTime = ref(new Time());
-useInterval(1000, () => {
-  const time = totalTime.value.clone();
-  time.addSeconds(1);
-  totalTime.value = time;
-});
 
 const intervalTime = new Time(0, 0, 90);
 

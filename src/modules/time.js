@@ -110,6 +110,23 @@ export class Time {
     return dayjs(this.date).format(template);
   }
 
+  formatHours() {
+    return this.format(this.getHours() >= 10 ? 'HH:mm:ss' : 'H:mm:ss');
+  }
+
+  formatShortest() {
+    const template =
+      this.getHours() >= 10
+        ? 'HH:mm:ss'
+        : this.getHours() >= 1
+        ? 'H:mm:ss'
+        : this.getMinutes() >= 10
+        ? 'mm:ss'
+        : 'm:ss';
+
+    return this.format(template);
+  }
+
   get isZero() {
     return (
       this.getHours() === 0 &&

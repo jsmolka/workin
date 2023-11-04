@@ -1,12 +1,12 @@
 <template>
   <div class="relative rounded-sm overflow-hidden">
-    <div class="absolute inset-x-0 top-1/4 bg-white/5 h-[1%]" />
-    <div class="absolute inset-x-0 top-2/4 bg-white/5 h-[1%]" />
-    <div class="absolute inset-x-0 top-3/4 bg-white/5 h-[1%]" />
+    <div class="absolute inset-x-0 top-1/4 bg-white/5 h-[1px]" />
+    <div class="absolute inset-x-0 top-2/4 bg-white/5 h-[1px]" />
+    <div class="absolute inset-x-0 top-3/4 bg-white/5 h-[1px]" />
     <div class="absolute inset-0 flex items-end">
       <div
         v-for="interval of intervals"
-        class="bg-blue-1"
+        class="bg-blue-3"
         :style="{
           flexGrow: interval.duration,
           height: percentage(interval.intensity / 2),
@@ -15,7 +15,7 @@
     </div>
     <div
       v-if="progress"
-      class="absolute inset-y-0 bg-white/25 border-r-2 border-gray-2"
+      class="absolute inset-y-0 bg-white/10 border-r-2 border-gray-2"
       :style="{ width: percentage(progress / duration) }"
     />
   </div>
