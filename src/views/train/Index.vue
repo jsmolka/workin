@@ -24,7 +24,7 @@
             v-for="(interval, index) in workouts[10].intervals"
           >
             <div>{{ Math.round(athlete.ftp * interval.intensity) }} W</div>
-            <div>{{ new Time(0, 0, interval.duration).format() }}</div>
+            <div>{{ format(interval.duration) }}</div>
           </div>
         </div>
       </div>
@@ -63,6 +63,10 @@ onMounted(async () => {
 onUnmounted(async () => {
   await release();
 });
+
+const format = (seconds) => {
+  return new Time(0, 0, seconds).format();
+};
 
 const totalTime = ref(new Time());
 
