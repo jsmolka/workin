@@ -39,8 +39,8 @@ const props = defineProps({
 });
 
 const formattedIntervalTime = computed(() =>
-  props.intervalTime.format(props.intervalTime.getHours() > 0 ? 'H:mm:ss' : 'mm:ss'),
+  props.intervalTime.format(props.intervalTime.format()),
 );
 
-const formattedTotalTime = computed(() => props.totalTime.formatHours());
+const formattedTotalTime = computed(() => props.totalTime.format());
 </script>

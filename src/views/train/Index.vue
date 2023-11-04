@@ -15,16 +15,16 @@
       :progress="1700"
     />
 
-    <Label class="flex-1" text="Upcoming intervals">
+    <Label class="flex-1" text="Intervals">
       <div class="relative flex-1 rounded-sm overflow-hidden">
         <div class="absolute inset-0 border border-gray-6 overflow-y-scroll">
           <div
             class="flex justify-between px-2 py-1.5 font-feature-tnum"
-            :class="{ 'bg-gray-6': index % 2 === 0 }"
+            :class="{ 'bg-gray-6': index % 2 === 0, '!bg-blue-3': index === 0 }"
             v-for="(interval, index) in workouts[10].intervals"
           >
             <div>{{ Math.round(athlete.ftp * interval.intensity) }} W</div>
-            <div>{{ new Time(0, 0, interval.duration).formatShortest() }}</div>
+            <div>{{ new Time(0, 0, interval.duration).format() }}</div>
           </div>
         </div>
       </div>

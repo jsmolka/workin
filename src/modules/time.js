@@ -106,25 +106,19 @@ export class Time {
     return this;
   }
 
-  format(template) {
+  format(template = null) {
+    if (template == null) {
+      if (this.getHours() >= 10) {
+        template = 'HH:mm:ss';
+      } else if (this.getHours() >= 1) {
+        template = 'H:mm:ss';
+      } else if (this.getMinutes() >= 10) {
+        template = 'mm:ss';
+      } else {
+        template = 'm:ss';
+      }
+    }
     return dayjs(this.date).format(template);
-  }
-
-  formatHours() {
-    return this.format(this.getHours() >= 10 ? 'HH:mm:ss' : 'H:mm:ss');
-  }
-
-  formatShortest() {
-    const template =
-      this.getHours() >= 10
-        ? 'HH:mm:ss'
-        : this.getHours() >= 1
-        ? 'H:mm:ss'
-        : this.getMinutes() >= 10
-        ? 'mm:ss'
-        : 'm:ss';
-
-    return this.format(template);
   }
 
   get isZero() {

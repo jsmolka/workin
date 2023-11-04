@@ -48,7 +48,7 @@ const props = defineProps({
 
 const { athlete } = storeToRefs(useAthleteStore());
 
-const duration = computed(() => new Time(0, 0, props.workout.duration).formatHours());
+const duration = computed(() => new Time(0, 0, props.workout.duration).format());
 const calories = computed(() => Math.round(props.workout.calories(athlete.value.ftp)));
 const avgPower = computed(() => Math.round(props.workout.averageIntensity * athlete.value.ftp));
 const maxPower = computed(() => Math.round(props.workout.maxIntensity * athlete.value.ftp));
