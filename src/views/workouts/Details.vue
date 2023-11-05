@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-col">
       <span>{{ calories }}</span>
-      <span class="label">Cal</span>
+      <span class="label">kJ (cal)</span>
     </div>
     <div class="flex flex-col">
       <span>{{ avgPower }}</span>

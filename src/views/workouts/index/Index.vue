@@ -4,7 +4,7 @@
       <span class="truncate text-gray-1 text-lg font-bold">{{ workout.name }}</span>
       <span class="truncate">{{ workout.zone.name }}</span>
     </div>
-    <Stats :workout="workout" />
+    <Details :workout="workout" />
     <Graphic
       class="bg-gray-8 aspect-[3/1]"
       :intervals="workout.intervals"
@@ -25,7 +25,7 @@
     </Label>
     <div class="flex gap-4">
       <Button class="flex-1" @click="router.push({ name: 'workouts' })">Back</Button>
-      <Button blue class="flex-1">Select</Button>
+      <Button class="flex-1" blue>Select</Button>
     </div>
   </Form>
 </template>
@@ -40,7 +40,7 @@ import Graphic from '../../../components/Graphic.vue';
 import Intervals from '../../../components/Intervals.vue';
 import Label from '../../../components/Label.vue';
 import { useWorkoutsStore } from '../../../stores/workouts';
-import Stats from '../Stats.vue';
+import Details from '../Details.vue';
 
 const props = defineProps({
   index: {
@@ -49,21 +49,11 @@ const props = defineProps({
   },
 });
 
-const selection = ref(null);
-const intervals = ref(null);
-
 const router = useRouter();
 const { workouts } = storeToRefs(useWorkoutsStore());
 
 const workout = computed(() => workouts.value[props.index]);
-</script>
 
-<style lang="scss" scoped>
-.unit {
-  @apply text-gray-3;
-  @apply text-xs;
-  @apply font-medium;
-  @apply uppercase;
-  @apply whitespace-nowrap;
-}
-</style>
+const intervals = ref();
+const selection = ref(null);
+</script>

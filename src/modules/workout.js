@@ -29,17 +29,17 @@ export class Workout {
   }
 
   get averageIntensity() {
-    const seconds = this.seconds;
+    const totalSeconds = this.seconds;
 
     let result = 0;
-    for (const interval of this.intervals) {
-      result += interval.intensity * (interval.seconds / seconds);
+    for (const { seconds, intensity } of this.intervals) {
+      result += intensity * (seconds / totalSeconds);
     }
     return result;
   }
 
   get maxIntensity() {
-    let result = Number.MIN_SAFE_INTEGER;
+    let result = 0;
     for (const { intensity } of this.intervals) {
       if (intensity > result) {
         result = intensity;

@@ -6,19 +6,16 @@
     <div class="absolute inset-0 flex items-end">
       <div
         v-for="({ seconds, intensity }, index) of intervals"
-        class="cursor-pointer hover:bg-blue-2"
-        :class="index === selection ? 'bg-blue-1' : 'bg-blue-3'"
-        :style="{
-          flexGrow: seconds,
-          height: percentage(intensity / 2),
-        }"
+        class="hover:bg-blue-2 cursor-pointer"
+        :class="index === selection ? '!bg-blue-1' : 'bg-blue-3'"
+        :style="{ flexGrow: seconds, height: percentage(intensity / 2) }"
         @click="selection = index"
       />
     </div>
     <div
-      v-if="seconds"
+      v-if="elapsedSeconds"
       class="absolute inset-y-0 bg-white/10 border-r-2 border-gray-2"
-      :style="{ width: percentage(seconds / totalSeconds) }"
+      :style="{ width: percentage(elapsedSeconds / totalSeconds) }"
     />
   </div>
 </template>
@@ -32,8 +29,9 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  seconds: {
+  elapsedSeconds: {
     type: Number,
+    required: false,
   },
 });
 

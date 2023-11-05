@@ -14,5 +14,8 @@
 <script setup>
 import { Switch } from '@headlessui/vue';
 
-const value = defineModel('value', { type: Boolean, required: true });
+const value = defineModel('value', {
+  type: Boolean,
+  required: true,
+});
 </script>

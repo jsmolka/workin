@@ -24,7 +24,10 @@ const props = defineProps({
   },
 });
 
-const device = defineModel('device', { type: Device });
+const device = defineModel('device', {
+  type: Device,
+  required: false,
+});
 
 const [connect, connecting] = useAsync(async () => {
   device.value?.disconnect();

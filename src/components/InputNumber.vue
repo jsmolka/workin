@@ -6,17 +6,20 @@
 import Input from './Input.vue';
 
 const props = defineProps({
-  min: { type: Number },
-  max: { type: Number },
+  min: {
+    type: Number,
+    required: false,
+  },
+  max: {
+    type: Number,
+    required: false,
+  },
 });
 
 const value = defineModel('value', { type: Number, required: true });
 
 const update = (newValue) => {
-  newValue = parseFloat(newValue);
-  if (isNaN(newValue)) {
-    newValue = 0;
-  }
+  newValue = parseFloat(newValue) || 0;
 
   if (props.min != null) {
     newValue = Math.max(newValue, props.min);

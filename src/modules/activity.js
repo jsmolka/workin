@@ -1,5 +1,5 @@
 import { createSchema, date, list, schema } from '../utils/persist';
-import { Measurement } from './measurement';
+import { DataPoint } from './dataPoint';
 import { Workout } from './workout';
 
 export class Activity {
@@ -13,5 +13,5 @@ export class Activity {
 createSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: list(schema(Measurement)),
+  data: list(schema(DataPoint)),
 });

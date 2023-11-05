@@ -1,4 +1,4 @@
-export function interval(duration, callback) {
+export function interval(ms, callback) {
   let time = null;
   let timeout = null;
 
@@ -6,11 +6,11 @@ export function interval(duration, callback) {
     callback();
 
     time ??= performance.now();
-    time += duration;
+    time += ms;
     timeout = setTimeout(tick, Math.max(0, time - performance.now()));
   };
 
-  timeout = setTimeout(tick, duration);
+  timeout = setTimeout(tick, ms);
 
   return () => clearTimeout(timeout);
 }

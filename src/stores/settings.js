@@ -17,7 +17,7 @@ export const useSettingsStore = defineStore(id, () => {
     }
   };
 
-  watch(settings, () => set(id, serialize(settings.value)), { deep: true });
+  watch(settings, async () => await set(id, serialize(settings.value)), { deep: true });
 
   watchEffect(() => {
     log.level = settings.value.logLevel;

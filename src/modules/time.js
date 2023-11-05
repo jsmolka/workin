@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { createSchema, date } from '../utils/persist';
 
 export class Time {
-  constructor(hours = 0, minutes = 0, seconds = 0, milliseconds = 0) {
+  constructor(hours = 0, minutes = 0, seconds = 0) {
     this.date = new Date();
     this.date.setFullYear(0);
     this.date.setMonth(0);
@@ -10,16 +10,11 @@ export class Time {
     this.date.setHours(hours);
     this.date.setMinutes(minutes);
     this.date.setSeconds(seconds);
-    this.date.setMilliseconds(milliseconds);
+    this.date.setMilliseconds(0);
   }
 
   static from(timeish) {
-    return new Time(
-      timeish.getHours(),
-      timeish.getMinutes(),
-      timeish.getSeconds(),
-      timeish.getMilliseconds(),
-    );
+    return new Time(timeish.getHours(), timeish.getMinutes(), timeish.getSeconds());
   }
 
   clone() {
@@ -38,10 +33,6 @@ export class Time {
     return this.date.getSeconds();
   }
 
-  getMilliseconds() {
-    return this.date.getMilliseconds();
-  }
-
   setHours(value) {
     return this.date.setHours(value);
   }
@@ -52,10 +43,6 @@ export class Time {
 
   setSeconds(value) {
     return this.date.setSeconds(value);
-  }
-
-  setMilliseconds(value) {
-    return this.date.setMilliseconds(value);
   }
 
   addHours(value) {
@@ -70,15 +57,10 @@ export class Time {
     return this.setSeconds(this.getSeconds() + value);
   }
 
-  addMilliseconds(value) {
-    return this.setMilliseconds(this.getMilliseconds() + value);
-  }
-
   add(timeish) {
     this.addHours(timeish.getHours());
     this.addMinutes(timeish.getMinutes());
     this.addSeconds(timeish.getSeconds());
-    this.addMilliseconds(timeish.getMilliseconds());
     return this;
   }
 
@@ -94,15 +76,10 @@ export class Time {
     return this.addMinutes(-value);
   }
 
-  subMilliseconds(value) {
-    return this.addMilliseconds(-value);
-  }
-
   sub(timeish) {
     this.subHours(timeish.getHours());
     this.subMinutes(timeish.getMinutes());
     this.subSeconds(timeish.getSeconds());
-    this.subMilliseconds(timeish.getMilliseconds());
     return this;
   }
 
@@ -122,12 +99,7 @@ export class Time {
   }
 
   get isZero() {
-    return (
-      this.getHours() === 0 &&
-      this.getMinutes() === 0 &&
-      this.getSeconds() === 0 &&
-      this.getMilliseconds() === 0
-    );
+    return this.getHours() === 0 && this.getMinutes() === 0 && this.getSeconds() === 0;
   }
 }
 

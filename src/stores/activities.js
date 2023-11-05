@@ -16,7 +16,7 @@ export const useActivitiesStore = defineStore(id, () => {
     }
   };
 
-  watch(activities, () => set(id, serialize(activities.value)), { deep: true });
+  watch(activities, async () => await set(id, serialize(activities.value)), { deep: true });
 
   return { activities, hydrate };
 });

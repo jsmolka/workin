@@ -1,7 +1,7 @@
 <template>
-  <div class="relative border border-gray-6 rounded-sm overflow-hidden">
-    <ul ref="list" class="absolute inset-0 overflow-y-scroll font-feature-tnum">
-      <li
+  <div ref="root" class="relative border border-gray-6 rounded-sm overflow-hidden">
+    <div class="absolute inset-0 overflow-y-scroll font-feature-tnum">
+      <div
         v-for="({ intensity, seconds }, index) in intervals"
         class="flex justify-between gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 select-none"
         :class="[
@@ -13,8 +13,8 @@
       >
         <span>{{ watt(intensity) }} W</span>
         <span>{{ time(seconds) }}</span>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,10 +50,10 @@ const time = (seconds) => {
   return new Time(0, 0, seconds).format();
 };
 
-const list = ref();
+const root = ref();
 
 const scrollTo = (index) => {
-  const element = list.value.querySelector(`[data-index="${index}"`);
+  const element = root.value.querySelector(`[data-index="${index}"`);
   element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 

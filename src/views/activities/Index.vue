@@ -1,3 +1,1 @@
-<template>
-  <div>Activities</div>
-</template>
+<template></template>

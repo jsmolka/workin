@@ -9,7 +9,11 @@
       :total-time="totalTime"
     />
 
-    <Graphic class="bg-gray-8 aspect-[3/1]" :intervals="workout.intervals" :seconds="1700" />
+    <Graphic
+      class="bg-gray-8 aspect-[3/1] pointer-events-none"
+      :intervals="workout.intervals"
+      :elapsed-seconds="1700"
+    />
 
     <Label class="flex-1" text="Intervals">
       <Intervals
