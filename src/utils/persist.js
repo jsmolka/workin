@@ -32,6 +32,13 @@ export function list(definition) {
   };
 }
 
+export function nullable(definition) {
+  return {
+    serialize: (value) => (value != null ? definition.serialize(value) : null),
+    deserialize: (value) => (value != null ? definition.deserialize(value) : null),
+  };
+}
+
 function* prototypes(object) {
   let prototype = Object.getPrototypeOf(object);
   for (; prototype; prototype = Object.getPrototypeOf(prototype)) {
@@ -89,6 +96,7 @@ export const persist = {
   date,
   schema,
   list,
+  nullable,
   serialize,
   deserialize,
 };
