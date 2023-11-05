@@ -11,12 +11,12 @@ function range(start, stop, step, fn) {
 
 function workout(name, data) {
   const intervals = [];
-  for (const { duration, intensity } of data.flat()) {
+  for (const { seconds, intensity } of data.flat()) {
     const previous = intervals.at(-1);
     if (previous && previous.intensity === intensity) {
-      previous.duration += duration;
+      previous.seconds += seconds;
     } else {
-      intervals.push(new Interval(duration, intensity));
+      intervals.push(new Interval(seconds, intensity));
     }
   }
   return new Workout(name, intervals);

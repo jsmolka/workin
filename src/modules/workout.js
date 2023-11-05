@@ -9,23 +9,31 @@ export class Workout {
   }
 
   calories(power) {
-    return 3.6 * power * this.averageIntensity * (this.duration / 3600);
+    return 3.6 * power * this.averageIntensity * this.hours;
   }
 
-  get duration() {
+  get seconds() {
     let result = 0;
-    for (const { duration } of this.intervals) {
-      result += duration;
+    for (const { seconds } of this.intervals) {
+      result += seconds;
     }
     return result;
   }
 
+  get minutes() {
+    return this.seconds / 60;
+  }
+
+  get hours() {
+    return this.minutes / 60;
+  }
+
   get averageIntensity() {
-    const duration = this.duration;
+    const seconds = this.seconds;
 
     let result = 0;
     for (const interval of this.intervals) {
-      result += interval.intensity * (interval.duration / duration);
+      result += interval.intensity * (interval.seconds / seconds);
     }
     return result;
   }

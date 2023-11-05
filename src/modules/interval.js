@@ -1,13 +1,13 @@
 import { createSchema, primitive } from '../utils/persist';
 
 export class Interval {
-  constructor(duration = 0, intensity = 0) {
-    this.duration = duration;
+  constructor(seconds = 0, intensity = 0) {
+    this.seconds = seconds;
     this.intensity = intensity;
   }
 }
 
 createSchema(Interval, {
-  duration: primitive(),
+  seconds: primitive(),
   intensity: primitive(),
 });

@@ -8,7 +8,7 @@
         v-for="interval of intervals"
         class="bg-blue-3"
         :style="{
-          flexGrow: interval.duration,
+          flexGrow: interval.seconds,
           height: percentage(interval.intensity / 2),
         }"
       />
@@ -16,7 +16,7 @@
     <div
       v-if="progress"
       class="absolute inset-y-0 bg-white/10 border-r-2 border-gray-2"
-      :style="{ width: percentage(progress / duration) }"
+      :style="{ width: percentage(progress / seconds) }"
     />
   </div>
 </template>
@@ -35,12 +35,12 @@ const props = defineProps({
   },
 });
 
-const duration = computed(() => {
-  let duration = 0;
-  for (const interval of props.intervals) {
-    duration += interval.duration;
+const seconds = computed(() => {
+  let result = 0;
+  for (const { seconds } of props.intervals) {
+    result += seconds;
   }
-  return duration;
+  return result;
 });
 
 const percentage = (value) => {
