@@ -4,6 +4,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import './main.scss';
 import { router } from './router';
+import { useActivitiesStore } from './stores/activities';
 import { useAthleteStore } from './stores/athlete';
 import { useSettingsStore } from './stores/settings';
 import { useWorkoutsStore } from './stores/workouts';
@@ -14,6 +15,9 @@ async function main() {
   const app = createApp(isSupported.value ? App : NoBluetooth);
   app.use(createPinia());
   app.use(router);
+
+  const activitiesStore = useActivitiesStore();
+  await activitiesStore.hydrate();
 
   const athleteStore = useAthleteStore();
   await athleteStore.hydrate();
