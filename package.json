@@ -17,7 +17,7 @@
     "idb-keyval": "^6.2.1",
     "notyf": "^3.10.0",
     "pinia": "^2.1.7",
-    "vue": "^3.3.4",
+    "vue": "^3.3.7",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
@@ -25,8 +25,8 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
-    "sass": "^1.69.3",
-    "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5"
+    "sass": "^1.69.5",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.5.0"
   }
 }
