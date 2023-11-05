@@ -9,10 +9,10 @@
       :total-time="totalTime"
     />
 
-    <Intervals
+    <Graphic
       class="w-full bg-gray-8 aspect-[3/1]"
       :intervals="workouts[10].intervals"
-      :progress="1700"
+      :seconds="1700"
     />
 
     <Label class="flex-1" text="Intervals">
@@ -43,7 +43,7 @@ import { storeToRefs } from 'pinia';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
-import Intervals from '../../components/Intervals.vue';
+import Graphic from '../../components/Graphic.vue';
 import Label from '../../components/Label.vue';
 import { Time } from '../../modules/time';
 import { useAthleteStore } from '../../stores/athlete';

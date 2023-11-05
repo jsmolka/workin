@@ -14,9 +14,9 @@
       />
     </div>
     <div
-      v-if="progress"
+      v-if="seconds"
       class="absolute inset-y-0 bg-white/10 border-r-2 border-gray-2"
-      :style="{ width: percentage(progress / seconds) }"
+      :style="{ width: percentage(seconds / totalSeconds) }"
     />
   </div>
 </template>
@@ -30,12 +30,12 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  progress: {
+  seconds: {
     type: Number,
   },
 });
 
-const seconds = computed(() => {
+const totalSeconds = computed(() => {
   let result = 0;
   for (const { seconds } of props.intervals) {
     result += seconds;

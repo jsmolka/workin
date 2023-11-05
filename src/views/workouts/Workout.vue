@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm cursor-pointer">
-    <Intervals
+    <Graphic
       class="shrink-0 h-24 bg-gray-7 aspect-[3/2] sm:aspect-[5/2]"
       :intervals="workout.intervals"
     />
@@ -34,7 +34,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import Intervals from '../../components/Intervals.vue';
+import Graphic from '../../components/Graphic.vue';
 import { Time } from '../../modules/time';
 import { Workout } from '../../modules/workout';
 import { useAthleteStore } from '../../stores/athlete';
