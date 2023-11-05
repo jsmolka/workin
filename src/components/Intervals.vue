@@ -1,29 +1,26 @@
 <template>
   <div class="relative border border-gray-6 rounded-sm overflow-hidden">
-    <div ref="list" class="absolute inset-0 overflow-y-scroll font-feature-tnum">
-      <div
+    <ul ref="list" class="absolute inset-0 overflow-y-scroll font-feature-tnum">
+      <li
         v-for="({ intensity, seconds }, index) in intervals"
-        class="flex justify-between gap-4 px-2 py-1.5 cursor-pointer"
-        :class="
-          index === currentIndex || index === selection
-            ? 'bg-blue-3'
-            : index % 2 === 0
-            ? 'bg-gray-6'
-            : ''
-        "
+        class="flex justify-between gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 select-none"
+        :class="[
+          { '!bg-blue-3': index === selection },
+          clickable ? 'cursor-pointer' : 'pointer-events-none',
+        ]"
         :data-index="index"
         @click="selection = index"
       >
         <span>{{ watt(intensity) }} W</span>
         <span>{{ time(seconds) }}</span>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, ref, watch } from 'vue';
+import { ref } from 'vue';
 import { Time } from '../modules/time';
 import { useAthleteStore } from '../stores/athlete';
 
@@ -32,13 +29,16 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  seconds: {
-    type: Number,
-    required: false,
+  clickable: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const selection = defineModel('selection', { type: Number });
+const selection = defineModel('selection', {
+  type: Number,
+  required: false,
+});
 
 const { athlete } = storeToRefs(useAthleteStore());
 
@@ -50,37 +50,12 @@ const time = (seconds) => {
   return new Time(0, 0, seconds).format();
 };
 
-const currentIndex = computed(() => {
-  if (props.seconds == null) {
-    return null;
-  }
-
-  let totalSeconds = 0;
-  for (const [i, { seconds }] of props.intervals.entries()) {
-    totalSeconds += seconds;
-    if (props.seconds < totalSeconds) {
-      return i;
-    }
-  }
-  return null;
-});
-
 const list = ref();
 
-const scrollIntoView = (index) => {
+const scrollTo = (index) => {
   const element = list.value.querySelector(`[data-index="${index}"`);
   element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
-defineExpose({
-  scrollIntoView,
-});
-
-onMounted(() => {
-  watch(currentIndex, (index) => {
-    if (index != null) {
-      scrollIntoView(index);
-    }
-  });
-});
+defineExpose({ scrollTo });
 </script>

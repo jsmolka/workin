@@ -9,14 +9,15 @@
       :total-time="totalTime"
     />
 
-    <Graphic
-      class="w-full bg-gray-8 aspect-[3/1]"
-      :intervals="workouts[10].intervals"
-      :seconds="1700"
-    />
+    <Graphic class="bg-gray-8 aspect-[3/1]" :intervals="workout.intervals" :seconds="1700" />
 
     <Label class="flex-1" text="Intervals">
-      <Intervals class="flex-1" :intervals="workouts[10].intervals" :seconds="currentSeconds" />
+      <Intervals
+        ref="intervals"
+        class="flex-1"
+        :intervals="workout.intervals"
+        :selection="currentIntervalIndex"
+      />
     </Label>
 
     <div class="flex gap-4">
@@ -29,7 +30,7 @@
 <script setup>
 import { useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
 import Graphic from '../../components/Graphic.vue';
@@ -52,7 +53,28 @@ onUnmounted(async () => {
   await release();
 });
 
+const workout = computed(() => workouts.value[10]);
+
 const currentSeconds = ref(0);
+
+const currentIntervalIndex = computed(() => {
+  let totalSeconds = 0;
+  for (const [i, { seconds }] of workout.value.intervals.entries()) {
+    totalSeconds += seconds;
+    if (currentSeconds.value < totalSeconds) {
+      return i;
+    }
+  }
+  return null;
+});
+
+const intervals = ref();
+
+onMounted(() => {
+  watch(currentIntervalIndex, (index) => {
+    intervals.value.scrollTo(index);
+  });
+});
 
 const totalTime = ref(new Time());
 

@@ -22,6 +22,7 @@ defineProps({
   @apply border-transparent;
   @apply text-center;
   @apply font-medium;
+  @apply select-none;
 
   &:hover {
     @apply bg-gray-5;
