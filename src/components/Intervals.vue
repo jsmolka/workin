@@ -3,9 +3,16 @@
     <div ref="list" class="absolute inset-0 overflow-y-scroll font-feature-tnum">
       <div
         v-for="({ intensity, seconds }, index) in intervals"
-        class="flex justify-between gap-4 px-2 py-1.5"
-        :class="index === currentIndex ? 'bg-blue-3' : index % 2 === 0 ? 'bg-gray-6' : ''"
+        class="flex justify-between gap-4 px-2 py-1.5 cursor-pointer"
+        :class="
+          index === currentIndex || index === selection
+            ? 'bg-blue-3'
+            : index % 2 === 0
+            ? 'bg-gray-6'
+            : ''
+        "
         :data-index="index"
+        @click="selection = index"
       >
         <span>{{ watt(intensity) }} W</span>
         <span>{{ time(seconds) }}</span>
@@ -30,6 +37,8 @@ const props = defineProps({
     required: false,
   },
 });
+
+const selection = defineModel('selection', { type: Number });
 
 const { athlete } = storeToRefs(useAthleteStore());
 
@@ -58,14 +67,20 @@ const currentIndex = computed(() => {
 
 const list = ref();
 
+const scrollIntoView = (index) => {
+  const element = list.value.querySelector(`[data-index="${index}"`);
+  element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+defineExpose({
+  scrollIntoView,
+});
+
 onMounted(() => {
   watch(currentIndex, (index) => {
-    if (index == null) {
-      return;
+    if (index != null) {
+      scrollIntoView(index);
     }
-
-    const element = list.value.querySelector(`[data-index="${index}"`);
-    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 </script>

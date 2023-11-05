@@ -24,14 +24,24 @@
       </div>
     </div>
 
-    <Graphic class="w-full bg-gray-8 aspect-[3/1]" :intervals="workout.intervals" />
+    <Graphic
+      class="w-full bg-gray-8 aspect-[3/1]"
+      :intervals="workout.intervals"
+      :selection="selection"
+      @update:selection="setSelection"
+    />
 
     <Label class="flex-1" text="Intervals">
-      <Intervals class="flex-1" :intervals="workout.intervals" />
+      <Intervals
+        ref="intervals"
+        class="flex-1"
+        :intervals="workout.intervals"
+        v-model:selection="selection"
+      />
     </Label>
 
     <div class="flex gap-4">
-      <Button class="flex-1" @click="$router.push({ name: 'workouts' })">Back</Button>
+      <Button class="flex-1" @click="router.push({ name: 'workouts' })">Back</Button>
       <Button blue class="flex-1">Select</Button>
     </div>
   </Form>
@@ -39,7 +49,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../../components/Button.vue';
 import Form from '../../../components/Form.vue';
@@ -56,6 +66,16 @@ const props = defineProps({
     required: true,
   },
 });
+
+const selection = ref(null);
+const intervals = ref(null);
+
+const setSelection = (index) => {
+  if (index != null) {
+    selection.value = index;
+    intervals.value.scrollIntoView(index);
+  }
+};
 
 const router = useRouter();
 const { athlete } = storeToRefs(useAthleteStore());

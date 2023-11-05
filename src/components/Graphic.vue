@@ -5,12 +5,14 @@
     <div class="absolute inset-x-0 top-3/4 bg-white/5 h-[1px]" />
     <div class="absolute inset-0 flex items-end">
       <div
-        v-for="interval of intervals"
-        class="bg-blue-3"
+        v-for="({ seconds, intensity }, index) of intervals"
+        class="cursor-pointer hover:bg-blue-2"
+        :class="index === selection ? 'bg-blue-1' : 'bg-blue-3'"
         :style="{
-          flexGrow: interval.seconds,
-          height: percentage(interval.intensity / 2),
+          flexGrow: seconds,
+          height: percentage(intensity / 2),
         }"
+        @click="selection = index"
       />
     </div>
     <div
@@ -33,6 +35,11 @@ const props = defineProps({
   seconds: {
     type: Number,
   },
+});
+
+const selection = defineModel('selection', {
+  type: Number,
+  required: false,
 });
 
 const totalSeconds = computed(() => {
