@@ -32,7 +32,8 @@ defineProps({
   }
 }
 
-.active {
+.router-link-active,
+.router-link-active-exact {
   @apply bg-gray-4;
   @apply border-t-blue-3;
 }

@@ -4,36 +4,58 @@ import Activities from '../views/activities/Index.vue';
 import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
+import Workout from '../views/workouts/index/Index.vue';
+import { useWorkoutsStore } from '../stores/workouts';
+
+const meta = {
+  layout: App,
+};
 
 export const router = createRouter({
   history: createWebHistory(),
 
-  linkActiveClass: 'active',
-  linkExactActiveClass: 'active',
-
   routes: [
     {
-      name: 'train',
       path: '/train',
-      meta: { layout: App },
+      name: 'train',
+      meta,
       component: Train,
     },
     {
-      name: 'workouts',
       path: '/workouts',
-      meta: { layout: App },
-      component: Workouts,
+      meta,
+      children: [
+        {
+          path: '',
+          name: 'workouts',
+          component: Workouts,
+        },
+        {
+          path: ':index',
+          name: 'workout',
+          component: Workout,
+          props: true,
+          beforeEnter: ({ params }) => {
+            params.index = parseInt(params.index) || 0;
+
+            const { workouts } = useWorkoutsStore();
+            if (params.index >= workouts.length) {
+              return { name: 'workouts' };
+            }
+          },
+        },
+      ],
     },
     {
-      name: 'activities',
       path: '/activities',
-      meta: { layout: App },
+      name: 'activities',
+      meta,
       component: Activities,
     },
     {
-      name: 'settings',
       path: '/settings',
-      meta: { layout: App },
+      name: 'settings',
+      meta,
       component: Settings,
     },
     {
