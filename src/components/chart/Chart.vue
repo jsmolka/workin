@@ -1,11 +1,9 @@
 <template>
-  <svg
-    class="cartesian relative rounded-sm overflow-hidden"
-    shape-rendering="crispEdges"
+  <Svg
+    class="relative rounded-sm overflow-hidden"
     fill="currentColor"
     stroke="currentColor"
     stroke-width="0"
-    xmlns="http://www.w3.org/2000/svg"
   >
     <line x1="0%" y1="25%" x2="100%" y2="25%" class="text-white/5" stroke-width="1" />
     <line x1="0%" y1="50%" x2="100%" y2="50%" class="text-white/5" stroke-width="1" />
@@ -20,12 +18,13 @@
       @click="selection = index"
     />
     <slot :totalSeconds="totalSeconds" :percentage="percentage" />
-  </svg>
+  </Svg>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import { math } from '../../utils/math';
+import Svg from './Svg.vue';
 
 const props = defineProps({
   intervals: {
@@ -61,10 +60,3 @@ const percentage = (value) => {
   return math.clamp(100 * value, 0, 100) + '%';
 };
 </script>
-
-<style lang="scss" scoped>
-.cartesian {
-  transform-origin: 50% 50%;
-  transform: scale(1, -1);
-}
-</style>
