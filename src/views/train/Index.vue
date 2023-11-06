@@ -11,6 +11,7 @@
 
     <Chart class="bg-gray-8 aspect-[3/1] pointer-events-none" :intervals="workout.intervals">
       <template v-slot="{ totalSeconds }">
+        <ChartPower :data="dd" :total-seconds="totalSeconds" />
         <ChartProgress :seconds="currentSeconds" :total-seconds="totalSeconds" />
       </template>
     </Chart>
@@ -40,7 +41,9 @@ import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
 import Chart from '../../components/chart/Chart.vue';
+import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
+import { DataPoint } from '../../modules/dataPoint';
 import { Time } from '../../modules/time';
 import { useDevicesStore } from '../../stores/devices';
 import { useWorkoutsStore } from '../../stores/workouts';
@@ -72,6 +75,21 @@ const currentIntervalIndex = computed(() => {
   }
   return null;
 });
+
+const d = [
+  ...Array(150).fill(183),
+  ...Array(150).fill(243),
+  ...Array(150).fill(304),
+  ...Array(150).fill(365),
+  ...Array(150).fill(183),
+];
+let l = d.at(-1);
+for (let i = 0; i < 950; i++) {
+  d.push(l);
+  l *= 1.00125;
+}
+
+const dd = d.map((x) => new DataPoint(x));
 
 const intervals = ref();
 
