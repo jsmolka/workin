@@ -1,5 +1,11 @@
 <template>
-  <svg class="cartesian" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    class="cartesian"
+    viewBox="0 0 100 100"
+    shape-rendering="crispEdges"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <slot />
   </svg>
 </template>

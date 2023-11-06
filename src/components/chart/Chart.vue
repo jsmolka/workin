@@ -1,14 +1,9 @@
 <template>
-  <Svg
-    class="relative rounded-sm overflow-hidden"
-    fill="currentColor"
-    stroke="currentColor"
-    stroke-width="0"
-  >
-    <line x1="0%" y1="25%" x2="100%" y2="25%" class="text-white/5" stroke-width="1" />
-    <line x1="0%" y1="50%" x2="100%" y2="50%" class="text-white/5" stroke-width="1" />
-    <line x1="0%" y1="75%" x2="100%" y2="75%" class="text-white/5" stroke-width="1" />
-    <rect
+  <Svg class="relative rounded-sm overflow-hidden">
+    <Line x1="0%" y1="25%" x2="100%" y2="25%" class="text-white/5" stroke-width="1" />
+    <Line x1="0%" y1="50%" x2="100%" y2="50%" class="text-white/5" stroke-width="1" />
+    <Line x1="0%" y1="75%" x2="100%" y2="75%" class="text-white/5" stroke-width="1" />
+    <Rect
       v-for="({ x, width, height }, index) in rectangles"
       v-percent:x="x"
       v-percent:width="width"
@@ -23,6 +18,8 @@
 
 <script setup>
 import { computed } from 'vue';
+import Line from './Line.vue';
+import Rect from './Rect.vue';
 import Svg from './Svg.vue';
 
 const props = defineProps({

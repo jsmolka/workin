@@ -1,10 +1,12 @@
 <template>
-  <rect x="0%" v-percent:width="x" height="100%" class="text-white/10" />
-  <line v-percent:x1="x" y1="0%" v-percent:x2="x" y2="100%" class="text-gray-2" stroke-width="4" />
+  <Rect x="0%" v-percent:width="x" height="100%" class="text-white/10" />
+  <Line v-percent:x1="x" y1="0%" v-percent:x2="x" y2="100%" class="text-gray-2" stroke-width="4" />
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import Line from './Line.vue';
+import Rect from './Rect.vue';
 
 const props = defineProps({
   seconds: {
