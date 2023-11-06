@@ -1,23 +1,26 @@
 <template>
-  <div class="relative rounded-sm overflow-hidden">
-    <div class="absolute inset-x-0 top-1/4 bg-white/5 h-[1px]" />
-    <div class="absolute inset-x-0 top-2/4 bg-white/5 h-[1px]" />
-    <div class="absolute inset-x-0 top-3/4 bg-white/5 h-[1px]" />
-    <div class="absolute inset-0 flex items-end">
-      <div
-        v-for="({ seconds, intensity }, index) of intervals"
-        class="hover:bg-blue-2 cursor-pointer"
-        :class="index === selection ? '!bg-blue-1' : 'bg-blue-3'"
-        :style="{ flexGrow: seconds, height: percentage(intensity / 2) }"
-        @click="selection = index"
-      />
-    </div>
-    <div
-      v-if="elapsedSeconds"
-      class="absolute inset-y-0 bg-white/10 border-r-2 border-gray-2"
-      :style="{ width: percentage(elapsedSeconds / totalSeconds) }"
+  <svg
+    class="cartesian relative rounded-sm overflow-hidden"
+    shape-rendering="crispEdges"
+    fill="currentColor"
+    stroke="currentColor"
+    stroke-width="0"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line x1="0%" y1="25%" x2="100%" y2="25%" class="text-white/5" stroke-width="1" />
+    <line x1="0%" y1="50%" x2="100%" y2="50%" class="text-white/5" stroke-width="1" />
+    <line x1="0%" y1="75%" x2="100%" y2="75%" class="text-white/5" stroke-width="1" />
+    <rect
+      v-for="({ x, width, height }, index) in rectangles"
+      :x="percentage(x)"
+      :width="percentage(width)"
+      :height="percentage(height)"
+      class="hover:text-blue-2 cursor-pointer"
+      :class="index === selection ? '!text-blue-1' : 'text-blue-3'"
+      @click="selection = index"
     />
-  </div>
+    <slot :totalSeconds="totalSeconds" :percentage="percentage" />
+  </svg>
 </template>
 
 <script setup>
@@ -28,10 +31,6 @@ const props = defineProps({
   intervals: {
     type: Array,
     required: true,
-  },
-  elapsedSeconds: {
-    type: Number,
-    required: false,
   },
 });
 
@@ -48,7 +47,24 @@ const totalSeconds = computed(() => {
   return result;
 });
 
+const rectangles = computed(() => {
+  const result = [];
+  for (const { seconds, intensity } of props.intervals) {
+    const previous = result.at(-1);
+    const x = previous ? previous.x + previous.width : 0;
+    result.push({ x, width: seconds / totalSeconds.value, height: intensity / 2 });
+  }
+  return result;
+});
+
 const percentage = (value) => {
   return math.clamp(100 * value, 0, 100) + '%';
 };
 </script>
+
+<style lang="scss" scoped>
+.cartesian {
+  transform-origin: 50% 50%;
+  transform: scale(1, -1);
+}
+</style>

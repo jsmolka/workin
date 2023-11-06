@@ -9,11 +9,19 @@
       :total-time="totalTime"
     />
 
-    <Chart
-      class="bg-gray-8 aspect-[3/1] pointer-events-none"
-      :intervals="workout.intervals"
-      :elapsed-seconds="1700"
-    />
+    <Chart class="bg-gray-8 aspect-[3/1] pointer-events-none" :intervals="workout.intervals">
+      <template v-slot="{ totalSeconds, percentage }">
+        <rect x="0%" :width="percentage(1700 / totalSeconds)" height="100%" class="text-white/10" />
+        <line
+          :x1="percentage(1700 / totalSeconds)"
+          y1="0%"
+          :x2="percentage(1700 / totalSeconds)"
+          y2="100%"
+          class="text-gray-2"
+          stroke-width="4"
+        />
+      </template>
+    </Chart>
 
     <Label class="flex-1" text="Intervals">
       <Intervals
