@@ -2,6 +2,7 @@ import { useBluetooth } from '@vueuse/core';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import App from './App.vue';
+import { percent } from './directives/percent';
 import './main.scss';
 import { router } from './router';
 import { useActivitiesStore } from './stores/activities';
@@ -13,6 +14,7 @@ import NoBluetooth from './views/NoBluetooth.vue';
 async function main() {
   const { isSupported } = useBluetooth();
   const app = createApp(isSupported.value ? App : NoBluetooth);
+  app.directive('percent', percent);
   app.use(createPinia());
   app.use(router);
 

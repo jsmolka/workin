@@ -10,8 +10,8 @@
     />
 
     <Chart class="bg-gray-8 aspect-[3/1] pointer-events-none" :intervals="workout.intervals">
-      <template v-slot="{ totalSeconds, percentage }">
-        <ChartProgress :seconds="1700" :total-seconds="totalSeconds" :percentage="percentage" />
+      <template v-slot="{ totalSeconds }">
+        <ChartProgress :seconds="currentSeconds" :total-seconds="totalSeconds" />
       </template>
     </Chart>
 
@@ -60,7 +60,7 @@ onUnmounted(async () => {
 
 const workout = computed(() => workouts.value[10]);
 
-const currentSeconds = ref(0);
+const currentSeconds = ref(1700);
 
 const currentIntervalIndex = computed(() => {
   let totalSeconds = 0;

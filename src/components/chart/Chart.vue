@@ -10,20 +10,19 @@
     <line x1="0%" y1="75%" x2="100%" y2="75%" class="text-white/5" stroke-width="1" />
     <rect
       v-for="({ x, width, height }, index) in rectangles"
-      :x="percentage(x)"
-      :width="percentage(width)"
-      :height="percentage(height)"
+      v-percent:x="x"
+      v-percent:width="width"
+      v-percent:height="height"
       class="hover:text-blue-2 cursor-pointer"
       :class="index === selection ? '!text-blue-1' : 'text-blue-3'"
       @click="selection = index"
     />
-    <slot :totalSeconds="totalSeconds" :percentage="percentage" />
+    <slot :totalSeconds="totalSeconds" />
   </Svg>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import { math } from '../../utils/math';
 import Svg from './Svg.vue';
 
 const props = defineProps({
@@ -55,8 +54,4 @@ const rectangles = computed(() => {
   }
   return result;
 });
-
-const percentage = (value) => {
-  return math.clamp(100 * value, 0, 100) + '%';
-};
 </script>
