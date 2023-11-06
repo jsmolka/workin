@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import App from '../layouts/app/Index.vue';
+import { useWorkoutsStore } from '../stores/workouts';
 import Activities from '../views/activities/Index.vue';
 import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
 import Workout from '../views/workouts/index/Index.vue';
-import { useWorkoutsStore } from '../stores/workouts';
 
 const meta = {
   layout: App,
@@ -31,7 +31,7 @@ export const router = createRouter({
           component: Workouts,
         },
         {
-          path: ':index',
+          path: ':index(\\d+)',
           name: 'workout',
           component: Workout,
           props: true,
