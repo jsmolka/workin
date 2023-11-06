@@ -35,10 +35,10 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../../components/Button.vue';
-import Chart from '../../../components/Chart.vue';
 import Form from '../../../components/Form.vue';
 import Intervals from '../../../components/Intervals.vue';
 import Label from '../../../components/Label.vue';
+import Chart from '../../../components/chart/Chart.vue';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import Details from '../Details.vue';
 

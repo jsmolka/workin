@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import Chart from '../../components/Chart.vue';
+import Chart from '../../components/chart/Chart.vue';
 import { Workout } from '../../modules/workout';
 import Details from './Details.vue';
 

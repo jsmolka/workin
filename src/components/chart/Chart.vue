@@ -25,7 +25,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { math } from '../utils/math';
+import { math } from '../../utils/math';
 
 const props = defineProps({
   intervals: {

@@ -11,15 +11,7 @@
 
     <Chart class="bg-gray-8 aspect-[3/1] pointer-events-none" :intervals="workout.intervals">
       <template v-slot="{ totalSeconds, percentage }">
-        <rect x="0%" :width="percentage(1700 / totalSeconds)" height="100%" class="text-white/10" />
-        <line
-          :x1="percentage(1700 / totalSeconds)"
-          y1="0%"
-          :x2="percentage(1700 / totalSeconds)"
-          y2="100%"
-          class="text-gray-2"
-          stroke-width="4"
-        />
+        <ChartProgress :seconds="1700" :total-seconds="totalSeconds" :percentage="percentage" />
       </template>
     </Chart>
 
@@ -44,10 +36,11 @@ import { useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import Button from '../../components/Button.vue';
-import Chart from '../../components/Chart.vue';
 import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
+import Chart from '../../components/chart/Chart.vue';
+import ChartProgress from '../../components/chart/ChartProgress.vue';
 import { Time } from '../../modules/time';
 import { useDevicesStore } from '../../stores/devices';
 import { useWorkoutsStore } from '../../stores/workouts';
