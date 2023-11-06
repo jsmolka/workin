@@ -5,16 +5,16 @@
       <span class="label">Duration</span>
     </div>
     <div class="flex flex-col">
-      <span>{{ calories }}</span>
-      <span class="label">kJ (cal)</span>
-    </div>
-    <div class="flex flex-col">
       <span>{{ avgPower }}</span>
       <span class="label">Avg W</span>
     </div>
     <div class="flex flex-col">
       <span>{{ maxPower }}</span>
       <span class="label">Max W</span>
+    </div>
+    <div class="flex flex-col">
+      <span>{{ calories }}</span>
+      <span class="label">Calories</span>
     </div>
   </ResponsiveFlex>
 </template>
