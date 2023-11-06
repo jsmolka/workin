@@ -9,7 +9,7 @@
       :total-time="totalTime"
     />
 
-    <Graphic
+    <Chart
       class="bg-gray-8 aspect-[3/1] pointer-events-none"
       :intervals="workout.intervals"
       :elapsed-seconds="1700"
@@ -36,8 +36,8 @@ import { useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import Button from '../../components/Button.vue';
+import Chart from '../../components/Chart.vue';
 import Form from '../../components/Form.vue';
-import Graphic from '../../components/Graphic.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
 import { Time } from '../../modules/time';

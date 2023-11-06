@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm overflow-hidden">
-    <Graphic
+    <Chart
       class="shrink-0 h-24 bg-gray-7 aspect-[3/2] sm:aspect-[3/1] pointer-events-none"
       :intervals="workout.intervals"
     />
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import Graphic from '../../components/Graphic.vue';
+import Chart from '../../components/Chart.vue';
 import { Workout } from '../../modules/workout';
 import Details from './Details.vue';
 
