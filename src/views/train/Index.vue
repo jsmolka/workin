@@ -16,21 +16,21 @@
         :intervals="workout.intervals"
         :total-seconds="workoutSeconds"
       />
-      <ChartProgress :seconds="currentSeconds" :total-seconds="workoutSeconds">
-        <ChartLines :x2="(100 * currentSeconds) / workoutSeconds + '%'" />
+      <ChartProgress :x="currentSeconds" :max-x="workoutSeconds">
+        <ChartLines :x2="currentSeconds / workoutSeconds" />
         <ChartData
           :data="data"
           property="power"
           :max-x="workoutSeconds"
           :max-y="2 * athlete.ftp"
-          stroke="var(--blue-3)"
+          class="stroke-blue-3"
         />
         <ChartData
           :data="data"
           property="heartRate"
           :max-x="workoutSeconds"
-          :max-y="400"
-          stroke="#bf616a"
+          :max-y="2 * athlete.ftp"
+          class="stroke-[#bf616a]"
         />
       </ChartProgress>
     </Chart>
@@ -85,11 +85,11 @@ onUnmounted(async () => {
 
 const { athlete } = storeToRefs(useAthleteStore());
 
-const workout = computed(() => workouts.value[10]);
+const workout = computed(() => workouts.value[0]);
 
 const workoutSeconds = computed(() => workout.value.seconds);
 
-const currentSeconds = ref(1650);
+const currentSeconds = ref(660);
 
 const currentIntervalIndex = computed(() => {
   let totalSeconds = 0;
@@ -120,13 +120,7 @@ const data = computed(() => {
     if (interval == null) {
       break;
     }
-    result.push(
-      new DataPoint(
-        athlete.value.ftp * interval.intensity,
-        0,
-        60 + 20 * Math.sin(i * (Math.PI / 180)),
-      ),
-    );
+    result.push(new DataPoint(athlete.value.ftp * interval.intensity, 0, 110));
   }
   return result;
 });

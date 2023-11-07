@@ -1,12 +1,12 @@
 <template>
   <g>
     <Rect
-      v-for="({ x, width, height }, index) in rectangles"
+      v-for="({ x, width, height }, index) in rectangles(intervals)"
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="height"
-      class="hover:text-blue-2 cursor-pointer"
-      :class="index === selection ? '!text-blue-1' : 'text-blue-3'"
+      class="hover:fill-blue-2 cursor-pointer"
+      :class="index === selection ? '!fill-blue-1' : 'fill-blue-3'"
       @click="selection = index"
     />
   </g>
@@ -44,13 +44,11 @@ const totalSeconds = computed(() => {
   return result;
 });
 
-const rectangles = computed(() => {
-  const result = [];
-  for (const { seconds, intensity } of props.intervals) {
-    const previous = result.at(-1);
-    const x = previous ? previous.x + previous.width : 0;
-    result.push({ x, width: seconds / totalSeconds.value, height: intensity / 2 });
+function* rectangles(intervals) {
+  let rectangle;
+  for (const { seconds, intensity } of intervals) {
+    const x = rectangle ? rectangle.x + rectangle.width : 0;
+    yield (rectangle = { x, width: seconds / totalSeconds.value, height: intensity / 2 });
   }
-  return result;
-});
+}
 </script>

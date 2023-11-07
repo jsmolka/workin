@@ -1,8 +1,13 @@
 <template>
   <g>
-    <Line :x1="x1" y1="25%" :x2="x2" y2="25%" class="text-gray-7" stroke-width="1" />
-    <Line :x1="x1" y1="50%" :x2="x2" y2="50%" class="text-gray-7" stroke-width="1" />
-    <Line :x1="x1" y1="75%" :x2="x2" y2="75%" class="text-gray-7" stroke-width="1" />
+    <Line
+      v-for="value in y"
+      v-percent:x1="x1"
+      v-percent:y1="value"
+      v-percent:x2="x2"
+      v-percent:y2="value"
+      class="stroke-1 stroke-gray-7"
+    />
   </g>
 </template>
 
@@ -11,12 +16,16 @@ import Line from './Line.vue';
 
 defineProps({
   x1: {
-    type: String,
-    default: '0%',
+    type: Number,
+    default: 0,
   },
   x2: {
-    type: String,
-    default: '100%',
+    type: Number,
+    default: 1,
+  },
+  y: {
+    type: Array,
+    default: [0.25, 0.5, 0.75],
   },
 });
 </script>

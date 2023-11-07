@@ -1,14 +1,13 @@
 <template>
   <g>
-    <Rect x="0%" v-percent:width="x" height="100%" class="text-gray-8" />
+    <Rect v-percent:x="0" v-percent:width="x" v-percent:height="1" class="fill-gray-8" />
     <slot />
     <Line
       v-percent:x1="x"
-      y1="0%"
+      v-percent:y1="0"
       v-percent:x2="x"
-      y2="100%"
-      stroke="var(--gray-2)"
-      stroke-width="2"
+      v-percent:y2="1"
+      class="stroke-2 stroke-gray-2"
     />
   </g>
 </template>
@@ -19,15 +18,15 @@ import Line from './Line.vue';
 import Rect from './Rect.vue';
 
 const props = defineProps({
-  seconds: {
+  x: {
     type: Number,
     required: true,
   },
-  totalSeconds: {
+  maxX: {
     type: Number,
     required: true,
   },
 });
 
-const x = computed(() => props.seconds / props.totalSeconds);
+const x = computed(() => props.x / props.maxX);
 </script>

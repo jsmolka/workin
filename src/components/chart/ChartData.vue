@@ -1,6 +1,6 @@
 <template>
   <g>
-    <Polyline v-for="points in lines(data)" :points="points" stroke-width="2" v-bind="$attrs" />
+    <Polyline v-for="points in lines(data)" :points="points" class="stroke-2" v-bind="$attrs" />
   </g>
 </template>
 
@@ -33,7 +33,6 @@ const y = (value) => percent(value / props.maxY);
 
 function* lines(data) {
   let points = [];
-  // `i <= data.length` to have at least one null value
   for (let i = 0; i <= data.length; i++) {
     const value = data[i]?.[props.property];
     if (value != null) {
