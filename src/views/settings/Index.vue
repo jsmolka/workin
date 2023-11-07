@@ -59,11 +59,11 @@ const { hrm, trainer } = storeToRefs(useDevicesStore());
 const { settings } = storeToRefs(useSettingsStore());
 
 const setTrainer = (device) => {
-  if (!(device instanceof FitnessMachine)) {
+  if (device == null) {
     return;
   }
-  if (!(device.supportsPower && device.supportsCadence && device.supportsTargetPower)) {
-    notify.info(`${device.name} does not support power, cadence or target power`);
+  if (!device.supportsPower) {
+    notify.info(`${device.name} does not support power`);
     device.disconnect();
     return;
   }

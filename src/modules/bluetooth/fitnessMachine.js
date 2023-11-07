@@ -43,15 +43,17 @@ export class FitnessMachine extends Device {
   }
 
   get power() {
-    return this.bikeData.power;
+    return this.supportsPower ? this.bikeData.power ?? 0 : null;
   }
 
   get cadence() {
-    return this.bikeData.cadence;
+    return this.supportsCadence ? this.bikeData.cadence ?? 0 : null;
   }
 
   async setTargetPower(value) {
-    return this.control.power(this.powerRange.clamp(value));
+    if (this.supportsTargetPower) {
+      await this.control.power(this.powerRange.clamp(value));
+    }
   }
 }
 
@@ -160,11 +162,11 @@ class BikeData extends Characteristic {
   }
 
   get power() {
-    return this.notification?.power ?? 0;
+    return this.notification?.power;
   }
 
   get cadence() {
-    return this.notification?.cadence ?? 0;
+    return this.notification?.cadence;
   }
 }
 
