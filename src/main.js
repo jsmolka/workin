@@ -6,6 +6,7 @@ import { percent } from './directives/percent';
 import './main.scss';
 import { router } from './router';
 import { useActivitiesStore } from './stores/activities';
+import { useActivityStore } from './stores/activity';
 import { useAthleteStore } from './stores/athlete';
 import { useSettingsStore } from './stores/settings';
 import { useWorkoutsStore } from './stores/workouts';
@@ -17,6 +18,9 @@ async function main() {
   app.directive('percent', percent);
   app.use(createPinia());
   app.use(router);
+
+  const activityStore = useActivityStore();
+  await activityStore.hydrate();
 
   const activitiesStore = useActivitiesStore();
   await activitiesStore.hydrate();
