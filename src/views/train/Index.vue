@@ -10,16 +10,28 @@
     />
 
     <Chart class="aspect-[3/1]">
-      <ChartAuxiliaryLines />
+      <ChartLines />
       <ChartIntervals
         class="pointer-events-none"
         :intervals="workout.intervals"
         :total-seconds="workoutSeconds"
       />
       <ChartProgress :seconds="currentSeconds" :total-seconds="workoutSeconds">
-        <ChartAuxiliaryLines :x2="(100 * currentSeconds) / workoutSeconds + '%'" />
-        <ChartHeartRate :data="data" :total-seconds="workoutSeconds" />
-        <ChartPower :data="data" :total-seconds="workoutSeconds" />
+        <ChartLines :x2="(100 * currentSeconds) / workoutSeconds + '%'" />
+        <ChartData
+          :data="data"
+          property="power"
+          :max-x="workoutSeconds"
+          :max-y="2 * athlete.ftp"
+          stroke="var(--blue-3)"
+        />
+        <ChartData
+          :data="data"
+          property="heartRate"
+          :max-x="workoutSeconds"
+          :max-y="400"
+          stroke="#bf616a"
+        />
       </ChartProgress>
     </Chart>
 
@@ -48,10 +60,9 @@ import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
 import Chart from '../../components/chart/Chart.vue';
-import ChartAuxiliaryLines from '../../components/chart/ChartAuxiliaryLines.vue';
-import ChartHeartRate from '../../components/chart/ChartHeartRate.vue';
+import ChartData from '../../components/chart/ChartData.vue';
 import ChartIntervals from '../../components/chart/ChartIntervals.vue';
-import ChartPower from '../../components/chart/ChartPower.vue';
+import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
 import { DataPoint } from '../../modules/dataPoint';
 import { Time } from '../../modules/time';
@@ -74,14 +85,11 @@ onUnmounted(async () => {
 
 const { athlete } = storeToRefs(useAthleteStore());
 
-const workout = computed(() => workouts.value[25]);
+const workout = computed(() => workouts.value[10]);
 
 const workoutSeconds = computed(() => workout.value.seconds);
 
-const currentSeconds = ref(0);
-setInterval(() => {
-  currentSeconds.value++;
-}, 10);
+const currentSeconds = ref(1650);
 
 const currentIntervalIndex = computed(() => {
   let totalSeconds = 0;

@@ -6,7 +6,7 @@
     </div>
     <Details :workout="workout" />
     <Chart class="aspect-[3/1]">
-      <ChartAuxiliaryLines />
+      <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
         :selection="selection"
@@ -41,8 +41,8 @@ import Form from '../../../components/Form.vue';
 import Intervals from '../../../components/Intervals.vue';
 import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
-import ChartAuxiliaryLines from '../../../components/chart/ChartAuxiliaryLines.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
+import ChartLines from '../../../components/chart/ChartLines.vue';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import Details from '../Details.vue';
 

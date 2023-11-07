@@ -7,8 +7,8 @@
       y1="0%"
       v-percent:x2="x"
       y2="100%"
-      class="text-gray-2"
-      stroke-width="4"
+      stroke="var(--gray-2)"
+      stroke-width="2"
     />
   </g>
 </template>
