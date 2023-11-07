@@ -1,6 +1,7 @@
 import { Emitter } from '../../utils/emitter';
 import { eventListener } from '../../utils/eventListener';
 import { exponentialBackoff } from '../../utils/exponentialBackoff';
+import { log } from '../../utils/log';
 
 export class Device extends Emitter {
   constructor(uuid) {
@@ -20,7 +21,10 @@ export class Device extends Emitter {
       'gattserverdisconnected',
       async () => {
         try {
-          await exponentialBackoff(5, 250, async () => await this.connect());
+          await exponentialBackoff(5, 250, async () => {
+            log.warn(`${this.name} reconnecting`);
+            await this.connect();
+          });
         } catch {
           this.emit('disconnected');
         }
