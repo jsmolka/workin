@@ -48,6 +48,14 @@ function repeat(count, data, pop = true) {
 
 // prettier-ignore
 export const workouts = [
+  // Test
+  workout('Test', [
+    ramp(10, 0.5, 1.0, 4),
+    interval(2.5, 0.5),
+    interval(5, 1.0),
+    interval(2.5, 0.5),
+  ]),
+
   // Active recovery
   ...range(30, 60, 30, (i) =>
     workout('Recovery', [
