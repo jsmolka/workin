@@ -78,7 +78,10 @@ const workout = computed(() => workouts.value[25]);
 
 const workoutSeconds = computed(() => workout.value.seconds);
 
-const currentSeconds = ref(1650);
+const currentSeconds = ref(0);
+setInterval(() => {
+  currentSeconds.value++;
+}, 10);
 
 const currentIntervalIndex = computed(() => {
   let totalSeconds = 0;

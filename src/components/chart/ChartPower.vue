@@ -1,5 +1,5 @@
 <template>
-  <Polyline :points="points" stroke="#B48EAD" stroke-width="2" />
+  <Polyline :points="points" stroke="var(--gray-2)" stroke-width="2" />
 </template>
 
 <script setup>
