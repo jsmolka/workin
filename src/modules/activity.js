@@ -3,10 +3,14 @@ import { DataPoint } from './dataPoint';
 import { Workout } from './workout';
 
 export class Activity {
-  constructor(workout = null) {
+  constructor(workout = new Workout()) {
     this.date = new Date();
     this.workout = workout;
     this.data = [];
+  }
+
+  get seconds() {
+    return this.data.length;
   }
 }
 

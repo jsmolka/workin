@@ -27,7 +27,7 @@
     </Label>
     <div class="flex gap-4">
       <Button class="flex-1" @click="router.push({ name: 'workouts' })">Back</Button>
-      <Button class="flex-1" blue>Select</Button>
+      <Button class="flex-1" blue @click="select">Select</Button>
     </div>
   </Form>
 </template>
@@ -43,6 +43,8 @@ import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
+import { Activity } from '../../../modules/activity';
+import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import Details from '../Details.vue';
 
@@ -60,4 +62,10 @@ const workout = computed(() => workouts.value[props.index]);
 
 const intervals = ref();
 const selection = ref(null);
+
+const select = () => {
+  const store = useActivityStore();
+  store.setActivity(new Activity(workout.value));
+  router.push({ name: 'train' });
+};
 </script>

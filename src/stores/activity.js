@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { Activity } from '../modules/activity';
 import { deserialize, serialize } from '../utils/persist';
+import { useActivitiesStore } from './activities';
 
 const id = 'activity';
 
@@ -22,5 +23,13 @@ export const useActivityStore = defineStore(id, () => {
 
   watch(activity, persist, { deep: true });
 
-  return { activity, hydrate };
+  const setActivity = (value) => {
+    if (activity.value?.seconds > 0) {
+      const store = useActivitiesStore();
+      store.add(activity.value);
+    }
+    activity.value = value;
+  };
+
+  return { activity, hydrate, setActivity };
 });
