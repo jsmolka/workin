@@ -16,7 +16,11 @@ export const useActivityStore = defineStore(id, () => {
     }
   };
 
-  watch(activity, async () => await set(id, serialize(activity.value)), { deep: true });
+  const persist = async () => {
+    await set(id, activity.value != null ? serialize(activity.value) : null);
+  };
+
+  watch(activity, persist, { deep: true });
 
   return { activity, hydrate };
 });

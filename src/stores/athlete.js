@@ -16,7 +16,11 @@ export const useAthleteStore = defineStore(id, () => {
     }
   };
 
-  watch(athlete, async () => await set(id, serialize(athlete.value)), { deep: true });
+  const persist = async () => {
+    await set(id, serialize(athlete.value));
+  };
+
+  watch(athlete, persist, { deep: true });
 
   return { athlete, hydrate };
 });

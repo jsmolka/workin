@@ -22,7 +22,7 @@ export const useWorkoutsStore = defineStore(id, () => {
   };
 
   const add = async (workout) => {
-    custom.value.add(workout);
+    custom.value.push(workout);
     await persist();
   };
 
