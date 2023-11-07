@@ -1,54 +1,18 @@
 <template>
-  <Svg class="relative rounded-sm overflow-hidden">
-    <Line x1="0%" y1="25%" x2="100%" y2="25%" class="text-white/5" stroke-width="1" />
-    <Line x1="0%" y1="50%" x2="100%" y2="50%" class="text-white/5" stroke-width="1" />
-    <Line x1="0%" y1="75%" x2="100%" y2="75%" class="text-white/5" stroke-width="1" />
-    <Rect
-      v-for="({ x, width, height }, index) in rectangles"
-      v-percent:x="x"
-      v-percent:width="width"
-      v-percent:height="height"
-      class="hover:text-blue-2 cursor-pointer"
-      :class="index === selection ? '!text-blue-1' : 'text-blue-3'"
-      @click="selection = index"
-    />
-    <slot :totalSeconds="totalSeconds" />
-  </Svg>
+  <svg
+    class="cartesian bg-gray-8 rounded-sm overflow-hidden"
+    viewBox="0 0 100 100"
+    shape-rendering="geometricPrecision"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <slot />
+  </svg>
 </template>
 
-<script setup>
-import { computed } from 'vue';
-import Line from './Line.vue';
-import Rect from './Rect.vue';
-import Svg from './Svg.vue';
-
-const props = defineProps({
-  intervals: {
-    type: Array,
-    required: true,
-  },
-});
-
-const selection = defineModel('selection', {
-  type: Number,
-  required: false,
-});
-
-const totalSeconds = computed(() => {
-  let result = 0;
-  for (const { seconds } of props.intervals) {
-    result += seconds;
-  }
-  return result;
-});
-
-const rectangles = computed(() => {
-  const result = [];
-  for (const { seconds, intensity } of props.intervals) {
-    const previous = result.at(-1);
-    const x = previous ? previous.x + previous.width : 0;
-    result.push({ x, width: seconds / totalSeconds.value, height: intensity / 2 });
-  }
-  return result;
-});
-</script>
+<style lang="scss" scoped>
+.cartesian {
+  transform-origin: 50% 50%;
+  transform: scale(1, -1);
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <Polyline :points="points" stroke="#bf616a" stroke-width="2" />
+  <Polyline :points="points" stroke="#B48EAD" stroke-width="2" />
 </template>
 
 <script setup>
@@ -33,6 +33,4 @@ const points = computed(() => {
   }
   return result.join(' ');
 });
-
-console.log(points);
 </script>

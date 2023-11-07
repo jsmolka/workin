@@ -5,15 +5,17 @@
       <span class="truncate">{{ workout.zone.name }}</span>
     </div>
     <Details :workout="workout" />
-    <Chart
-      class="bg-gray-8 aspect-[3/1]"
-      :intervals="workout.intervals"
-      :selection="selection"
-      @update:selection="
-        selection = $event;
-        intervals.scrollTo($event);
-      "
-    />
+    <Chart class="aspect-[3/1]">
+      <ChartAuxiliaryLines />
+      <ChartIntervals
+        :intervals="workout.intervals"
+        :selection="selection"
+        @update:selection="
+          selection = $event;
+          intervals.scrollTo($event);
+        "
+      />
+    </Chart>
     <Label class="flex-1" text="Intervals">
       <Intervals
         ref="intervals"
@@ -39,6 +41,8 @@ import Form from '../../../components/Form.vue';
 import Intervals from '../../../components/Intervals.vue';
 import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
+import ChartAuxiliaryLines from '../../../components/chart/ChartAuxiliaryLines.vue';
+import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import Details from '../Details.vue';
 

@@ -1,0 +1,56 @@
+<template>
+  <g>
+    <Rect
+      v-for="({ x, width, height }, index) in rectangles"
+      v-percent:x="x"
+      v-percent:width="width"
+      v-percent:height="height"
+      class="hover:text-blue-2 cursor-pointer"
+      :class="index === selection ? '!text-blue-1' : 'text-blue-3'"
+      @click="selection = index"
+    />
+  </g>
+</template>
+
+<script setup>
+import { computed } from 'vue';
+import Rect from './Rect.vue';
+
+const props = defineProps({
+  intervals: {
+    type: Array,
+    required: true,
+  },
+  totalSeconds: {
+    type: Number,
+    required: false,
+  },
+});
+
+const selection = defineModel('selection', {
+  type: Number,
+  required: false,
+});
+
+const totalSeconds = computed(() => {
+  if (props.totalSeconds != null) {
+    return props.totalSeconds;
+  }
+
+  let result = 0;
+  for (const { seconds } of props.intervals) {
+    result += seconds;
+  }
+  return result;
+});
+
+const rectangles = computed(() => {
+  const result = [];
+  for (const { seconds, intensity } of props.intervals) {
+    const previous = result.at(-1);
+    const x = previous ? previous.x + previous.width : 0;
+    result.push({ x, width: seconds / totalSeconds.value, height: intensity / 2 });
+  }
+  return result;
+});
+</script>
