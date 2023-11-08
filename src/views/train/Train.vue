@@ -6,7 +6,7 @@
       :heart-rate="hrm?.heartRate"
       :cadence="trainer?.cadence"
       :interval-time="intervalTime"
-      :total-time="totalTime"
+      :total-time="currentTime"
     />
 
     <Chart class="aspect-[3/1]">
@@ -45,8 +45,8 @@
     </Label>
 
     <div class="flex gap-4">
-      <Button class="flex-1">Pause</Button>
-      <Button class="flex-1">Finish</Button>
+      <Button class="flex-1" @click="start">Start</Button>
+      <Button class="flex-1" @click="finish">Finish</Button>
     </div>
   </Form>
 </template>
@@ -64,29 +64,26 @@ import ChartData from '../../components/chart/ChartData.vue';
 import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
+import { useInterval } from '../../composables/useInterval';
+import { DataPoint } from '../../modules/dataPoint';
 import { Time } from '../../modules/time';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import Metrics from './Metrics.vue';
 
+const { request, release } = useWakeLock();
+onMounted(request);
+onUnmounted(release);
+
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 
-const { request, release } = useWakeLock();
-
-onMounted(async () => {
-  await request();
-});
-
-onUnmounted(async () => {
-  await release();
-});
-
 const workout = computed(() => activity.value.workout);
 const workoutSeconds = computed(() => workout.value.seconds);
 const currentSeconds = computed(() => activity.value.seconds);
+const currentTime = computed(() => new Time(0, 0, currentSeconds.value));
 
 const intervalIndex = computed(() => {
   let totalSeconds = 0;
@@ -102,19 +99,53 @@ const intervalIndex = computed(() => {
 const intervals = ref();
 
 onMounted(() => {
-  watch(intervalIndex, (index) => {
-    intervals.value.scrollTo(index);
-  });
+  watch(
+    intervalIndex,
+    (index) => {
+      if (index != null) {
+        intervals.value.scrollTo(index);
+      }
+    },
+    { immediate: true },
+  );
 });
 
-const totalTime = ref(new Time());
+const interval = computed(() => workout.value.intervals[intervalIndex.value]);
+const intervalTime = computed(() => {
+  if (interval.value == null) {
+    return new Time();
+  }
+  return new Time(0, 0, interval.value.seconds - (currentSeconds.value % interval.value.seconds));
+});
 
-const intervalTime = new Time(0, 0, 90);
+const targetPower = computed(() =>
+  interval.value != null ? interval.value.intensity * athlete.value.ftp : null,
+);
 
-const targetPower = ref(0);
-watch(targetPower, async (value) => {
-  if (trainer) {
-    await trainer.value.power(value);
+let stop = null;
+const start = async () => {
+  // Todo: require to start
+  if (trainer.value) {
+    await trainer.value.setTargetPower(targetPower.value);
+  }
+
+  stop = useInterval(10, () => {
+    activity.value.data.push(new DataPoint(targetPower.value, 10, 120));
+  });
+};
+
+const pause = () => {
+  stop();
+};
+
+watch(interval, (value) => {
+  if (value == null) {
+    pause();
   }
 });
+
+const finish = () => {
+  const store = useActivityStore();
+  store.setActivity(null);
+};
 </script>
