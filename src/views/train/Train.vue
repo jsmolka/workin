@@ -1,6 +1,6 @@
 <template>
   <Form class="h-full">
-    <Stats
+    <Metrics
       :power="trainer?.power"
       :target-power="targetPower"
       :heart-rate="hrm?.heartRate"
@@ -68,7 +68,7 @@ import { Time } from '../../modules/time';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
-import Stats from './Stats.vue';
+import Metrics from './Metrics.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
