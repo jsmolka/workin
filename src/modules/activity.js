@@ -12,6 +12,44 @@ export class Activity {
   get seconds() {
     return this.data.length;
   }
+
+  get minutes() {
+    return this.seconds / 60;
+  }
+
+  get hours() {
+    return this.minutes / 60;
+  }
+
+  average(property) {
+    let result = null;
+    let length = 0;
+    for (const item of this.data) {
+      const value = item[property];
+      if (value != null) {
+        result ??= 0;
+        result += value;
+        length++;
+      }
+    }
+    return result != null ? result / length : null;
+  }
+
+  get averagePower() {
+    return this.average('power');
+  }
+
+  get averageHeartRate() {
+    return this.average('heartRate');
+  }
+
+  get averageCadence() {
+    return this.average('cadence');
+  }
+
+  get calories() {
+    return 3.6 * this.averagePower * this.hours;
+  }
 }
 
 createSchema(Activity, {

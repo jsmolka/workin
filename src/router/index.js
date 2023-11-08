@@ -50,7 +50,6 @@ export const router = createRouter({
     },
     {
       path: '/activities',
-      name: 'activities',
       meta,
       children: [
         {

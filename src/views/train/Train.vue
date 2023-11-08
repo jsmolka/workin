@@ -18,8 +18,8 @@
       />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds">
         <ChartLines :x2="currentSeconds / workoutSeconds" />
-        <ChartPower :data="activity.data" :max-x="workoutSeconds" />
         <ChartHeartRate :data="activity.data" :max-x="workoutSeconds" />
+        <ChartPower :data="activity.data" :max-x="workoutSeconds" />
       </ChartProgress>
     </Chart>
 
