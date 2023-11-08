@@ -18,20 +18,8 @@
       />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds">
         <ChartLines :x2="currentSeconds / workoutSeconds" />
-        <ChartData
-          :data="activity.data"
-          property="power"
-          :max-x="workoutSeconds"
-          :max-y="2 * athlete.ftp"
-          class="stroke-blue-3"
-        />
-        <ChartData
-          :data="activity.data"
-          property="heartRate"
-          :max-x="workoutSeconds"
-          :max-y="2 * athlete.ftp"
-          class="stroke-[#bf616a]"
-        />
+        <ChartPower :data="activity.data" :max-x="workoutSeconds" />
+        <ChartHeartRate :data="activity.data" :max-x="workoutSeconds" />
       </ChartProgress>
     </Chart>
 
@@ -60,9 +48,10 @@ import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
 import Chart from '../../components/chart/Chart.vue';
-import ChartData from '../../components/chart/ChartData.vue';
+import ChartHeartRate from '../../components/chart/ChartHeartRate.vue';
 import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
+import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
 import { useInterval } from '../../composables/useInterval';
 import { DataPoint } from '../../modules/dataPoint';
