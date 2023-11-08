@@ -16,16 +16,19 @@ import Metric from './Metric.vue';
 defineProps({
   power: {
     type: Number,
+    required: false,
   },
   targetPower: {
     type: Number,
-    required: true,
+    required: false,
   },
   heartRate: {
     type: Number,
+    required: false,
   },
   cadence: {
     type: Number,
+    required: false,
   },
   intervalTime: {
     type: Time,
