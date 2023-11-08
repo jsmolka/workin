@@ -35,7 +35,6 @@ body {
   @apply text-gray-2;
 
   font-family: Inter, Roboto, ui-sans-serif, sans-serif;
-  font-feature-settings: 'cv07';
   font-size: 14px;
 
   -webkit-tap-highlight-color: transparent;
@@ -62,6 +61,6 @@ body {
   }
 
   .font-feature-tnum {
-    font-feature-settings: 'cv07', 'tnum';
+    font-feature-settings: 'tnum';
   }
 }
