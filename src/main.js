@@ -17,7 +17,6 @@ async function main() {
   const app = createApp(isSupported.value ? App : NoBluetooth);
   app.directive('percent', percent);
   app.use(createPinia());
-  app.use(router);
 
   const activityStore = useActivityStore();
   await activityStore.hydrate();
@@ -34,6 +33,7 @@ async function main() {
   const workoutsStore = useWorkoutsStore();
   await workoutsStore.hydrate();
 
+  app.use(router);
   app.mount('#app');
 }
 
