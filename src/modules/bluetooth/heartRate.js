@@ -16,7 +16,7 @@ export class HeartRate extends Device {
   }
 
   get heartRate() {
-    return this.measurement.heartRate;
+    return this.measurement.heartRate ?? 0;
   }
 }
 
@@ -35,7 +35,7 @@ class Measurement extends Characteristic {
   }
 
   get heartRate() {
-    return this.notification?.heartRate ?? 0;
+    return this.notification?.heartRate;
   }
 }
 

@@ -9,7 +9,7 @@
         <span class="truncate text-gray-1 text-lg font-bold">{{ workout.name }}</span>
         <span class="truncate">{{ workout.zone.name }}</span>
       </div>
-      <Details :workout="workout" />
+      <WorkoutDetails :workout="workout" />
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ import Chart from '../../components/chart/Chart.vue';
 import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import { Workout } from '../../modules/workout';
-import Details from './Details.vue';
+import WorkoutDetails from './WorkoutDetails.vue';
 
 defineProps({
   workout: {
