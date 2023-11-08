@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import App from '../layouts/app/Index.vue';
+import { useActivitiesStore } from '../stores/activities';
 import { useWorkoutsStore } from '../stores/workouts';
 import Activities from '../views/activities/Index.vue';
+import Activity from '../views/activities/index/Index.vue';
 import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
@@ -50,7 +52,27 @@ export const router = createRouter({
       path: '/activities',
       name: 'activities',
       meta,
-      component: Activities,
+      children: [
+        {
+          path: '',
+          name: 'activities',
+          component: Activities,
+        },
+        {
+          path: ':index(\\d+)',
+          name: 'activity',
+          component: Activity,
+          props: true,
+          beforeEnter: ({ params }) => {
+            params.index = parseInt(params.index) || 0;
+
+            const { activities } = useActivitiesStore();
+            if (params.index >= activities.length) {
+              return { name: 'activities' };
+            }
+          },
+        },
+      ],
     },
     {
       path: '/settings',
