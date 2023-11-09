@@ -1,36 +1,29 @@
 <template>
-  <div ref="root" class="relative border border-gray-6 rounded-sm overflow-hidden">
-    <div class="absolute inset-0 overflow-y-scroll font-feature-tnum">
-      <div
-        v-for="(data, index) in laps"
-        class="flex gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 cursor-pointer select-none"
-        :class="{ '!bg-blue-3': index === selection }"
-        :data-index="index"
-        @click="selection = index"
-      >
-        <div class="flex-1 flex items-center justify-start">
-          <Preserve class="text-right" text="100 W">
-            {{ Math.round(getAveragePower(data)) }} W
-          </Preserve>
-        </div>
-        <div class="flex-1 flex items-center justify-center">
-          <Preserve class="text-right" text="100 bpm">
-            {{ Math.round(50 + 100 * Math.random()) }} bpm
-          </Preserve>
-        </div>
-        <div class="flex-1 flex items-center justify-end">
-          <Preserve class="text-right" text="1:00:00">{{ formatSeconds(data.length) }}</Preserve>
-        </div>
-      </div>
+  <DataTable ref="table" :data="laps" v-model:selection="selection" clickable v-slot="{ item }">
+    <div class="flex-1 flex items-center justify-start">
+      <Reserve class="text-right" reserve="100 W">
+        {{ Math.round(getAveragePower(item)) }} W
+      </Reserve>
     </div>
-  </div>
+    <div class="flex-1 flex items-center justify-center">
+      <Reserve class="text-right" reserve="100 bpm">
+        {{ Math.round(getAverageHeartRate(item)) }} bpm
+      </Reserve>
+    </div>
+    <div class="flex-1 flex items-center justify-end">
+      <Reserve class="text-right" reserve="1:00:00">
+        {{ formatSeconds(item.length) }}
+      </Reserve>
+    </div>
+  </DataTable>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import Preserve from '../../../components/Preserve.vue';
+import DataTable from '../../../components/DataTable.vue';
+import Reserve from '../../../components/Reserve.vue';
 import { useFormat } from '../../../composables/useFormat';
-import { getAveragePower } from '../../../modules/dataPoint';
+import { getAverageHeartRate, getAveragePower } from '../../../modules/dataPoint';
 
 const props = defineProps({
   laps: {
@@ -46,12 +39,7 @@ const selection = defineModel('selection', {
 
 const { formatSeconds } = useFormat();
 
-const root = ref();
+const table = ref();
 
-const scrollTo = (index) => {
-  const element = root.value.querySelector(`[data-index="${index}"`);
-  element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
-
-defineExpose({ scrollTo });
+defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>

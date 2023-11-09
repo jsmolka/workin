@@ -1,28 +1,31 @@
 <template>
-  <div ref="root" class="relative border border-gray-6 rounded-sm overflow-hidden">
-    <div class="absolute inset-0 overflow-y-scroll font-feature-tnum">
-      <div
-        v-for="({ intensity, seconds }, index) in intervals"
-        class="flex justify-between gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 select-none"
-        :class="[
-          { '!bg-blue-3': index === selection },
-          clickable ? 'cursor-pointer' : 'pointer-events-none',
-        ]"
-        :data-index="index"
-        @click="selection = index"
-      >
-        <span>{{ watt(intensity) }} W</span>
-        <span>{{ time(seconds) }}</span>
-      </div>
+  <DataTable
+    ref="table"
+    :data="intervals"
+    :clickable="clickable"
+    v-model:selection="selection"
+    v-slot="{ item }"
+  >
+    <div class="flex-1 flex items-center justify-start">
+      <Reserve class="text-right" reserve="100 W">
+        {{ Math.round(item.intensity * athlete.ftp) }} W
+      </Reserve>
     </div>
-  </div>
+    <div class="flex-1 flex items-center justify-end">
+      <Reserve class="text-right" reserve="1:00:00">
+        {{ formatSeconds(item.seconds) }}
+      </Reserve>
+    </div>
+  </DataTable>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { Time } from '../modules/time';
+import { useFormat } from '../composables/useFormat';
 import { useAthleteStore } from '../stores/athlete';
+import DataTable from './DataTable.vue';
+import Reserve from './Reserve.vue';
 
 const props = defineProps({
   intervals: {
@@ -41,21 +44,9 @@ const selection = defineModel('selection', {
 });
 
 const { athlete } = storeToRefs(useAthleteStore());
+const { formatSeconds } = useFormat();
 
-const watt = (intensity) => {
-  return Math.round(intensity * athlete.value.ftp);
-};
+const table = ref();
 
-const time = (seconds) => {
-  return new Time(0, 0, seconds).format();
-};
-
-const root = ref();
-
-const scrollTo = (index) => {
-  const element = root.value.querySelector(`[data-index="${index}"`);
-  element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
-
-defineExpose({ scrollTo });
+defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>

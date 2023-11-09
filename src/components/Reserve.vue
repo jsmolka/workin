@@ -1,12 +1,12 @@
 <template>
-  <div class="preserve" :data-preserve="text">
+  <div class="reserve" :data-reserve="reserve">
     <slot />
   </div>
 </template>
 
 <script setup>
 defineProps({
-  text: {
+  reserve: {
     type: String,
     required: true,
   },
@@ -14,8 +14,8 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.preserve::after {
-  content: attr(data-preserve);
+.reserve::after {
+  content: attr(data-reserve);
   @apply block;
   @apply h-0;
   @apply overflow-hidden;
