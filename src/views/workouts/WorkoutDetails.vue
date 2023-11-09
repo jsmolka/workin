@@ -1,5 +1,5 @@
 <template>
-  <ResponsiveFlex class="gap-4">
+  <FlexWrapHidden class="gap-4">
     <div class="flex flex-col">
       <span>{{ duration }}</span>
       <span class="label">Duration</span>
@@ -16,13 +16,13 @@
       <span>{{ calories }}</span>
       <span class="label">Calories</span>
     </div>
-  </ResponsiveFlex>
+  </FlexWrapHidden>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import ResponsiveFlex from '../../components/ResponsiveFlex.vue';
+import FlexWrapHidden from '../../components/FlexWrapHidden.vue';
 import { Time } from '../../modules/time';
 import { Workout } from '../../modules/workout';
 import { useAthleteStore } from '../../stores/athlete';
