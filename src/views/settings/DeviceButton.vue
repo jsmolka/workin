@@ -13,7 +13,7 @@
 <script setup>
 import { reactive } from 'vue';
 import Button from '../../components/Button.vue';
-import { useAsync } from '../../composables/useAsync';
+import { useAsyncFn } from '../../composables/useAsyncFn';
 import { Device } from '../../modules/bluetooth/device';
 import { log } from '../../utils/log';
 
@@ -29,7 +29,7 @@ const device = defineModel('device', {
   required: false,
 });
 
-const [connect, connecting] = useAsync(async () => {
+const [connect, connecting] = useAsyncFn(async () => {
   device.value?.disconnect();
   device.value = null;
 

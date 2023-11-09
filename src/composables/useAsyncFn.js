@@ -1,7 +1,6 @@
 import { ref } from 'vue';
 
-export function useAsync(fn) {
-  const pending = ref(false);
+export function useAsyncFn(fn, pending = ref(false)) {
   const wrapper = async (...args) => {
     pending.value = true;
     try {
