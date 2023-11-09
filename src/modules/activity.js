@@ -1,5 +1,5 @@
 import { createSchema, date, list, schema } from '../utils/persist';
-import { DataPoint } from './dataPoint';
+import { DataPoint, getAverageCadence, getAveragePower } from './dataPoint';
 import { Workout } from './workout';
 
 export class Activity {
@@ -21,34 +21,35 @@ export class Activity {
     return this.minutes / 60;
   }
 
-  average(property) {
-    let result = null;
-    let length = 0;
-    for (const item of this.data) {
-      const value = item[property];
-      if (value != null) {
-        result ??= 0;
-        result += value;
-        length++;
-      }
-    }
-    return result != null ? result / length : null;
-  }
-
   get averagePower() {
-    return this.average('power');
+    return getAveragePower(this.data);
   }
 
   get averageHeartRate() {
-    return this.average('heartRate');
+    return getAverageCadence(this.data);
   }
 
   get averageCadence() {
-    return this.average('cadence');
+    return getAverageCadence(this.data);
   }
 
   get calories() {
     return 3.6 * this.averagePower * this.hours;
+  }
+
+  get laps() {
+    const result = [];
+
+    let totalSeconds = 0;
+    for (const { seconds } of this.workout.intervals) {
+      const data = this.data.slice(totalSeconds, totalSeconds + seconds);
+      if (data.length === 0) {
+        break;
+      }
+      result.push(data);
+      totalSeconds += seconds;
+    }
+    return result;
   }
 }
 

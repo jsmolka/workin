@@ -14,7 +14,9 @@
       <ChartPower :data="activity.data" />
     </Chart>
 
-    <!-- Show laps -->
+    <Label class="flex-1" text="Laps">
+      <Laps class="flex-1" :laps="activity.laps" v-model:selection="selection" clickable />
+    </Label>
 
     <div class="flex gap-4">
       <Button class="flex-1" @click="router.push({ name: 'activities' })">Back</Button>
@@ -29,6 +31,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../../components/Button.vue';
 import Form from '../../../components/Form.vue';
+import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
@@ -36,6 +39,7 @@ import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useFormat } from '../../../composables/useFormat';
 import { useActivitiesStore } from '../../../stores/activities';
 import ActivityDetails from '../ActivityDetails.vue';
+import Laps from './Laps.vue';
 
 const props = defineProps({
   index: {
