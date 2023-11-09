@@ -3,14 +3,24 @@
     <div class="absolute inset-0 overflow-y-scroll font-feature-tnum">
       <div
         v-for="(data, index) in laps"
-        class="flex justify-between gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 cursor-pointer select-none"
+        class="flex gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 cursor-pointer select-none"
         :class="{ '!bg-blue-3': index === selection }"
         :data-index="index"
         @click="selection = index"
       >
-        <div class="flex-1">{{ Math.round(getAveragePower(data)) }} W</div>
-        <div class="flex-1 text-center">{{ Math.round(50 + 100 * Math.random()) }} bpm</div>
-        <div class="flex-1 text-right">{{ formatSeconds(data.length) }}</div>
+        <div class="flex-1 flex items-center justify-start">
+          <Preserve class="text-right" text="100 W">
+            {{ Math.round(getAveragePower(data)) }} W
+          </Preserve>
+        </div>
+        <div class="flex-1 flex items-center justify-center">
+          <Preserve class="text-right" text="100 bpm">
+            {{ Math.round(50 + 100 * Math.random()) }} bpm
+          </Preserve>
+        </div>
+        <div class="flex-1 flex items-center justify-end">
+          <Preserve class="text-right" text="1:00:00">{{ formatSeconds(data.length) }}</Preserve>
+        </div>
       </div>
     </div>
   </div>
@@ -18,6 +28,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import Preserve from '../../../components/Preserve.vue';
 import { useFormat } from '../../../composables/useFormat';
 import { getAveragePower } from '../../../modules/dataPoint';
 

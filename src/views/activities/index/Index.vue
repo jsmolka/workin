@@ -15,7 +15,7 @@
     </Chart>
 
     <Label class="flex-1" text="Laps">
-      <Laps class="flex-1" :laps="activity.laps" v-model:selection="selection" clickable />
+      <Laps class="flex-1" :laps="activity.laps" />
     </Label>
 
     <div class="flex gap-4">
