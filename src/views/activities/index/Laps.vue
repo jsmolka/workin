@@ -1,5 +1,12 @@
 <template>
-  <DataTable ref="table" :data="laps" v-model:selection="selection" clickable v-slot="{ item }">
+  <FlexTable
+    ref="table"
+    class="font-feature-tnum"
+    :data="laps"
+    v-model:selection="selection"
+    clickable
+    v-slot="{ item }"
+  >
     <div class="flex-1 flex items-center justify-start">
       <Reserve class="text-right" reserve="100 W">
         {{ Math.round(getAveragePower(item)) }} W
@@ -15,12 +22,12 @@
         {{ formatSeconds(item.length) }}
       </Reserve>
     </div>
-  </DataTable>
+  </FlexTable>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import DataTable from '../../../components/DataTable.vue';
+import FlexTable from '../../../components/FlexTable.vue';
 import Reserve from '../../../components/Reserve.vue';
 import { useFormat } from '../../../composables/useFormat';
 import { getAverageHeartRate, getAveragePower } from '../../../modules/dataPoint';

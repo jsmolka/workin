@@ -1,6 +1,7 @@
 <template>
-  <DataTable
+  <FlexTable
     ref="table"
+    class="font-feature-tnum"
     :data="intervals"
     :clickable="clickable"
     v-model:selection="selection"
@@ -16,7 +17,7 @@
         {{ formatSeconds(item.seconds) }}
       </Reserve>
     </div>
-  </DataTable>
+  </FlexTable>
 </template>
 
 <script setup>
@@ -24,7 +25,7 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useFormat } from '../composables/useFormat';
 import { useAthleteStore } from '../stores/athlete';
-import DataTable from './DataTable.vue';
+import FlexTable from './FlexTable.vue';
 import Reserve from './Reserve.vue';
 
 const props = defineProps({

@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="root"
+    ref="container"
     :class="maxHeight == null ? 'flex absolute top-0 invisible' : 'flex flex-wrap overflow-hidden'"
     :style="{ maxHeight }"
   >
@@ -11,10 +11,10 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-const root = ref();
+const container = ref();
 const maxHeight = ref(null);
 
 onMounted(() => {
-  maxHeight.value = `${root.value.clientHeight}px`;
+  maxHeight.value = `${container.value.clientHeight}px`;
 });
 </script>
