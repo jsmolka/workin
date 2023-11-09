@@ -10,12 +10,21 @@
 
     <Chart class="aspect-[3/1]">
       <ChartLines />
-      <ChartHeartRate :data="activity.data" />
-      <ChartPower :data="activity.data" />
+      <ChartLaps
+        :laps="activity.laps"
+        :total-seconds="activity.data.length"
+        :selection="selection"
+        @update:selection="
+          selection = $event;
+          laps.scrollTo($event);
+        "
+      />
+      <ChartHeartRate class="pointer-events-none" :data="activity.data" />
+      <ChartPower class="pointer-events-none" :data="activity.data" />
     </Chart>
 
     <Label class="flex-1" text="Laps">
-      <Laps class="flex-1" :laps="activity.laps" />
+      <Laps ref="laps" class="flex-1" :laps="activity.laps" v-model:selection="selection" />
     </Label>
 
     <div class="flex gap-4">
@@ -27,13 +36,14 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../../components/Button.vue';
 import Form from '../../../components/Form.vue';
 import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
+import ChartLaps from '../../../components/chart/ChartLaps.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useFormat } from '../../../composables/useFormat';
@@ -53,6 +63,9 @@ const { activities } = storeToRefs(useActivitiesStore());
 const { formatDate } = useFormat();
 
 const activity = computed(() => activities.value[props.index]);
+
+const laps = ref();
+const selection = ref(null);
 
 const tcx = () => {};
 </script>
