@@ -1,12 +1,12 @@
 <template>
   <Form class="h-full">
     <div class="flex flex-col">
-      <span class="truncate text-gray-1 text-lg font-bold">{{
-        formatDate(activity.date, 'HH:mm')
-      }}</span>
+      <span class="truncate text-gray-1 text-lg font-bold">
+        {{ formatDate(activity.date, 'HH:mm') }}
+      </span>
       <span class="truncate">{{ formatDate(activity.date, 'MMMM D, YYYY') }}</span>
     </div>
-    <ActivityDetails :activity="activity" />
+    <Attributes :activity="activity" />
 
     <Chart class="aspect-[3/1]">
       <ChartLines />
@@ -48,7 +48,7 @@ import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useFormat } from '../../../composables/useFormat';
 import { useActivitiesStore } from '../../../stores/activities';
-import ActivityDetails from '../ActivityDetails.vue';
+import Attributes from '../Attributes.vue';
 import Laps from './Laps.vue';
 
 const props = defineProps({

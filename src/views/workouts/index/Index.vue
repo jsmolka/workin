@@ -4,7 +4,7 @@
       <span class="truncate text-gray-1 text-lg font-bold">{{ workout.name }}</span>
       <span class="truncate">{{ workout.zone.name }}</span>
     </div>
-    <WorkoutDetails :workout="workout" />
+    <Attributes :workout="workout" />
     <Chart class="aspect-[3/1]">
       <ChartLines />
       <ChartIntervals
@@ -47,7 +47,7 @@ import { Activity } from '../../../modules/activity';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
-import WorkoutDetails from '../WorkoutDetails.vue';
+import Attributes from '../Attributes.vue';
 
 const props = defineProps({
   index: {
