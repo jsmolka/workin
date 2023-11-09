@@ -1,6 +1,6 @@
 <template>
-  <div ref="root" class="relative border border-gray-6 rounded-sm overflow-hidden">
-    <div class="absolute inset-0 overflow-y-scroll">
+  <div class="relative border border-gray-6 rounded-sm overflow-hidden">
+    <div ref="items" class="absolute inset-0 overflow-y-scroll">
       <div
         v-for="(item, index) in data"
         class="flex gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 cursor-pointer select-none"
@@ -36,10 +36,10 @@ const selection = defineModel('selection', {
   required: false,
 });
 
-const root = ref();
+const items = ref();
 
 const scrollTo = (index) => {
-  const element = root.value.querySelector(`[data-index="${index}"`);
+  const element = items.value.querySelector(`[data-index="${index}"`);
   element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
