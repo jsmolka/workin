@@ -1,6 +1,6 @@
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Activity } from '../modules/activity';
 import { deserialize, serialize } from '../utils/persist';
 
@@ -20,10 +20,7 @@ export const useActivitiesStore = defineStore(id, () => {
     await set(id, serialize(activities.value));
   };
 
-  const add = async (activity) => {
-    activities.value.push(activity);
-    await persist();
-  };
+  watch(activities, persist, { deep: true });
 
-  return { activities, hydrate, add };
+  return { activities, hydrate };
 });

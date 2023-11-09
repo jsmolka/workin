@@ -56,6 +56,8 @@ import ChartProgress from '../../components/chart/ChartProgress.vue';
 import { useInterval } from '../../composables/useInterval';
 import { DataPoint } from '../../modules/dataPoint';
 import { Time } from '../../modules/time';
+import { router } from '../../router';
+import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
@@ -67,6 +69,7 @@ onUnmounted(release);
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
+const { activities } = storeToRefs(useActivitiesStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 
 const workout = computed(() => activity.value.workout);
@@ -133,8 +136,9 @@ watch(interval, (value) => {
   }
 });
 
-const finish = () => {
-  const store = useActivityStore();
-  store.setActivity(null);
+const finish = async () => {
+  const index = activities.value.push(activity.value) - 1;
+  activity.value = null;
+  router.push({ name: 'activity', params: { index } });
 };
 </script>

@@ -44,6 +44,7 @@ import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Activity } from '../../../modules/activity';
+import { useActivitiesStore } from '../../../stores/activities';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import WorkoutDetails from '../WorkoutDetails.vue';
@@ -56,6 +57,8 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const { activity } = storeToRefs(useActivityStore());
+const { activities } = storeToRefs(useActivitiesStore());
 const { workouts } = storeToRefs(useWorkoutsStore());
 
 const workout = computed(() => workouts.value[props.index]);
@@ -64,8 +67,10 @@ const intervals = ref();
 const selection = ref(null);
 
 const select = () => {
-  const store = useActivityStore();
-  store.setActivity(new Activity(workout.value));
+  if (activity.value?.seconds > 0) {
+    activities.value.push(activity.value);
+  }
+  activity.value = new Activity(workout.value);
   router.push({ name: 'train' });
 };
 </script>

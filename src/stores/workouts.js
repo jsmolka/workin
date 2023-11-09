@@ -1,6 +1,6 @@
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { Workout } from '../modules/workout';
 import { deserialize, serialize } from '../utils/persist';
 import { workouts as predefined } from './data/workouts';
@@ -21,14 +21,11 @@ export const useWorkoutsStore = defineStore(id, () => {
     await set(id, serialize(custom.value));
   };
 
-  const add = async (workout) => {
-    custom.value.push(workout);
-    await persist();
-  };
+  watch(custom, persist, { deep: true });
 
   const workouts = computed(() => {
     return [...predefined, ...custom.value];
   });
 
-  return { workouts, hydrate, add };
+  return { workouts, hydrate };
 });

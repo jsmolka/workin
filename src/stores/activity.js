@@ -1,9 +1,9 @@
+import { useDebounceFn } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { Activity } from '../modules/activity';
 import { deserialize, serialize } from '../utils/persist';
-import { useActivitiesStore } from './activities';
 
 const id = 'activity';
 
@@ -21,15 +21,7 @@ export const useActivityStore = defineStore(id, () => {
     await set(id, activity.value != null ? serialize(activity.value) : null);
   };
 
-  watch(activity, persist, { deep: true });
+  watch(activity, useDebounceFn(persist, 2000, { maxWait: 10000 }), { deep: true });
 
-  const setActivity = (value) => {
-    if (activity.value?.seconds > 0) {
-      const store = useActivitiesStore();
-      store.add(activity.value);
-    }
-    activity.value = value;
-  };
-
-  return { activity, hydrate, setActivity };
+  return { activity, hydrate };
 });
