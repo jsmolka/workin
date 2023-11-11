@@ -138,6 +138,10 @@ const start = async () => {
     return;
   }
 
+  if (activity.value.data.length === 0) {
+    activity.value.date = new Date();
+  }
+
   await setTargetPower();
 
   stopInterval.value = useInterval(1000, () => {
