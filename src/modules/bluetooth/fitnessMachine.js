@@ -43,11 +43,11 @@ export class FitnessMachine extends Device {
   }
 
   get power() {
-    return this.supportsPower ? this.bikeData.power ?? 0 : null;
+    return this.supportsPower ? this.bikeData.power : null;
   }
 
   get cadence() {
-    return this.supportsCadence ? this.bikeData.cadence ?? 0 : null;
+    return this.supportsCadence ? this.bikeData.cadence : null;
   }
 
   async setTargetPower(value) {

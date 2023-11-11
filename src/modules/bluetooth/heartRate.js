@@ -16,7 +16,7 @@ export class HeartRate extends Device {
   }
 
   get heartRate() {
-    return this.measurement.heartRate ?? 0;
+    return this.measurement.heartRate;
   }
 }
 

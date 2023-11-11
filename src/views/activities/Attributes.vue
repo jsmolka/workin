@@ -3,8 +3,8 @@
     <Attribute text="Duration">
       {{ formatSeconds(activity.seconds) }}
     </Attribute>
-    <Attribute text="Avg W">
-      {{ Math.round(activity.averagePower) }}
+    <Attribute v-if="averagePower != null" text="Avg W">
+      {{ Math.round(averagePower) }}
     </Attribute>
     <Attribute v-if="averageHeartRate != null" text="Avg bpm">
       {{ Math.round(averageHeartRate) }}
@@ -34,6 +34,7 @@ const props = defineProps({
 
 const { formatSeconds } = useFormat();
 
+const averagePower = computed(() => props.activity.averagePower);
 const averageHeartRate = computed(() => props.activity.averageHeartRate);
 const averageCadence = computed(() => props.activity.averageCadence);
 </script>
