@@ -1,10 +1,28 @@
 import dayjs from 'dayjs';
-import { Time } from '../modules/time';
 
 export function useFormat() {
+  const formatDate = (date, template) => {
+    return dayjs(date).format(template);
+  };
+
+  const formatSeconds = (seconds) => {
+    const date = new Date(0, 0, 0, 0, 0, seconds);
+
+    let template;
+    if (date.getHours() >= 10) {
+      template = 'HH:mm:ss';
+    } else if (date.getHours() >= 1) {
+      template = 'H:mm:ss';
+    } else if (date.getMinutes() >= 10) {
+      template = 'mm:ss';
+    } else {
+      template = 'm:ss';
+    }
+    return formatDate(date, template);
+  };
+
   return {
-    formatNumber: (number) => (number != null ? Math.round(number) : '-'),
-    formatSeconds: (seconds) => new Time(0, 0, seconds).format(),
-    formatDate: (date, template) => dayjs(date).format(template),
+    formatDate,
+    formatSeconds,
   };
 }
