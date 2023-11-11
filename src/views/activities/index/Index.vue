@@ -31,7 +31,7 @@
 
     <div class="flex gap-4">
       <Button class="flex-1" @click="router.push({ name: 'activities' })">Back</Button>
-      <Button class="flex-1" blue @click="tcx">Export TCX</Button>
+      <Button class="flex-1" blue @click="exportTcx">Export TCX</Button>
     </div>
   </Form>
 </template>
@@ -49,7 +49,9 @@ import ChartLaps from '../../../components/chart/ChartLaps.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useFormat } from '../../../composables/useFormat';
+import { tcx } from '../../../modules/tcx';
 import { useActivitiesStore } from '../../../stores/activities';
+import { download } from '../../../utils/download';
 import Attributes from '../Attributes.vue';
 import Laps from './Laps.vue';
 
@@ -69,5 +71,11 @@ const activity = computed(() => activities.value[props.index]);
 const laps = ref();
 const selection = ref(null);
 
-const tcx = () => {};
+const exportTcx = () => {
+  download(
+    tcx(activity.value),
+    `${formatDate(activity.value.date, 'YYYY-MM-DD')} - ${activity.value.workout.name}.tcx`,
+    'application/vnd.garmin.tcx+xml',
+  );
+};
 </script>
