@@ -166,7 +166,11 @@ class BikeData extends Characteristic {
   }
 
   get cadence() {
-    return this.notification?.cadence;
+    const cadence = this.notification?.cadence;
+    if (cadence == null) {
+      return cadence;
+    }
+    return cadence / 2;
   }
 }
 
