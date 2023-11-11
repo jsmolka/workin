@@ -1,7 +1,7 @@
 <template>
   <g>
     <Rect v-percent:x="0" v-percent:width="x" v-percent:height="1" class="fill-gray-8" />
-    <slot />
+    <slot :x="x" />
     <Line
       v-percent:x1="x"
       v-percent:y1="0"

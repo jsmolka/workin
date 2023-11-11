@@ -16,8 +16,8 @@
         :intervals="workout.intervals"
         :total-seconds="workoutSeconds"
       />
-      <ChartProgress :x="currentSeconds" :max-x="workoutSeconds">
-        <ChartLines :x2="currentSeconds / workoutSeconds" />
+      <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
+        <ChartLines :x2="x" />
         <ChartHeartRate :data="activity.data" :max-x="workoutSeconds" />
         <ChartPower :data="activity.data" :max-x="workoutSeconds" />
       </ChartProgress>

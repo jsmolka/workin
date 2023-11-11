@@ -4,7 +4,9 @@
       <span class="truncate text-gray-1 text-lg font-bold">
         {{ formatDate(activity.date, 'HH:mm') }}
       </span>
-      <span class="truncate">{{ formatDate(activity.date, 'MMMM D, YYYY') }}</span>
+      <span class="truncate">
+        {{ formatDate(activity.date, 'MMMM D, YYYY') }}
+      </span>
     </div>
     <Attributes :activity="activity" />
 
