@@ -5,8 +5,8 @@
       :target-power="targetPower"
       :heart-rate="hrm?.heartRate"
       :cadence="trainer?.cadence"
-      :interval-time="intervalTime"
-      :total-time="currentTime"
+      :interval-seconds="remainingIntervalSeconds"
+      :total-seconds="currentSeconds"
     />
 
     <Chart class="aspect-[3/1]">
@@ -33,16 +33,21 @@
     </Label>
 
     <div class="flex gap-4">
-      <Button class="flex-1" @click="start">Start</Button>
-      <Button class="flex-1" @click="finish">Finish</Button>
+      <Button class="flex-1" @click="toggle" :blue="activity.seconds === 0">
+        {{ toggleText }}
+      </Button>
+      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopInterval == null">
+        Finish
+      </Button>
     </div>
   </Form>
+  <NoTrainerDialog v-model:open="noTrainerDialog" />
 </template>
 
 <script setup>
-import { useWakeLock } from '@vueuse/core';
+import { useEventListener, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
 import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
@@ -55,17 +60,17 @@ import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
 import { useInterval } from '../../composables/useInterval';
 import { DataPoint } from '../../modules/dataPoint';
-import { Time } from '../../modules/time';
 import { router } from '../../router';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import Metrics from './Metrics.vue';
+import NoTrainerDialog from './NoTrainerDialog.vue';
 
-const { request, release } = useWakeLock();
-onMounted(request);
-onUnmounted(release);
+const wakeLock = useWakeLock();
+onMounted(() => wakeLock.request());
+onUnmounted(() => wakeLock.release());
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
@@ -75,7 +80,6 @@ const { hrm, trainer } = storeToRefs(useDevicesStore());
 const workout = computed(() => activity.value.workout);
 const workoutSeconds = computed(() => workout.value.seconds);
 const currentSeconds = computed(() => activity.value.seconds);
-const currentTime = computed(() => new Time(0, 0, currentSeconds.value));
 
 const intervalIndex = computed(() => {
   let totalSeconds = 0;
@@ -103,42 +107,117 @@ onMounted(() => {
 });
 
 const interval = computed(() => workout.value.intervals[intervalIndex.value]);
-const intervalTime = computed(() => {
+
+const remainingIntervalSeconds = computed(() => {
   if (interval.value == null) {
-    return new Time();
+    return 0;
   }
-  return new Time(0, 0, interval.value.seconds - (currentSeconds.value % interval.value.seconds));
+  return interval.value.seconds - (currentSeconds.value % interval.value.seconds);
 });
 
-const targetPower = computed(() =>
-  interval.value != null ? interval.value.intensity * athlete.value.ftp : null,
-);
+const targetPower = computed(() => {
+  if (interval.value == null) {
+    return null;
+  }
+  return interval.value.intensity * athlete.value.ftp;
+});
 
-let stop = null;
+const setTargetPower = async () => {
+  if (trainer.value.supportsTargetPower) {
+    trainer.value.setTargetPower(targetPower.value ?? 0);
+  }
+};
+
+watch(targetPower, setTargetPower);
+
+const stopInterval = ref(null);
+const noTrainerDialog = ref(false);
+
 const start = async () => {
-  // Todo: require to start
-  if (trainer.value) {
-    await trainer.value.setTargetPower(targetPower.value);
+  if (trainer.value == null) {
+    noTrainerDialog.value = true;
+    return;
   }
 
-  stop = useInterval(10, () => {
-    activity.value.data.push(new DataPoint(targetPower.value, 10, 120));
+  await setTargetPower();
+
+  stopInterval.value = useInterval(1000, () => {
+    activity.value.data.push(
+      new DataPoint(trainer.value.power, trainer.value.cadence, hrm.value?.heartRate),
+    );
   });
 };
 
-const pause = () => {
-  stop();
+let startTimeout = 0;
+
+watch(
+  () => trainer.value?.power ?? 0,
+  (newPower, oldPower) => {
+    if (oldPower === 0 && newPower > 0) {
+      startTimeout = setTimeout(start, 3000);
+    } else if (newPower === 0) {
+      clearTimeout(startTimeout);
+    }
+  },
+);
+
+const stop = () => {
+  stopInterval.value?.();
+  stopInterval.value = null;
 };
 
-watch(interval, (value) => {
-  if (value == null) {
-    pause();
+useEventListener(document, 'visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    stop();
+  }
+});
+
+let stopTimeout = 0;
+
+watch(
+  () => trainer.value?.power ?? 0,
+  (newPower, oldPower) => {
+    if (newPower === 0 && oldPower > 0) {
+      stopTimeout = setTimeout(stop, 3000);
+    } else if (newPower > 0) {
+      clearTimeout(stopTimeout);
+    }
+  },
+);
+
+const toggle = () => {
+  if (stopInterval.value != null) {
+    stop();
+  } else {
+    start();
+  }
+};
+
+const toggleText = computed(() => {
+  if (stopInterval.value != null) {
+    return 'Pause';
+  } else {
+    return activity.value.data.length === 0 ? 'Start' : 'Resume';
   }
 });
 
 const finish = async () => {
-  const index = activities.value.push(activity.value) - 1;
+  stop();
+
+  activities.value.push(activity.value);
   activity.value = null;
-  router.push({ name: 'activity', params: { index } });
+
+  router.push({
+    name: 'activity',
+    params: {
+      index: activities.value.length - 1,
+    },
+  });
 };
+
+watchEffect(async () => {
+  if (currentSeconds.value === workoutSeconds.value) {
+    await finish();
+  }
+});
 </script>

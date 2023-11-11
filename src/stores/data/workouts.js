@@ -50,10 +50,7 @@ function repeat(count, data, pop = true) {
 export const workouts = [
   // Test
   workout('Test', [
-    ramp(10, 0.5, 1.0, 4),
-    interval(2.5, 0.5),
-    interval(5, 1.0),
-    interval(2.5, 0.5),
+    ramp(5, 0.5, 0.6, 5),
   ]),
 
   // Active recovery
