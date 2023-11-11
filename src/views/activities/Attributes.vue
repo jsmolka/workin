@@ -13,7 +13,7 @@
       {{ Math.round(averageCadence) }}
     </Attribute>
     <Attribute text="Calories">
-      {{ activity.calories }}
+      {{ Math.round(activity.calories) }}
     </Attribute>
   </FlexWrapHidden>
 </template>
