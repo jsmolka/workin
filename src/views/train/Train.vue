@@ -5,7 +5,7 @@
       :target-power="targetPower"
       :heart-rate="hrm?.heartRate"
       :cadence="trainer?.cadence"
-      :interval-seconds="remainingIntervalSeconds"
+      :interval-seconds="intervalSeconds"
       :total-seconds="currentSeconds"
     />
 
@@ -41,7 +41,7 @@
       </Button>
     </div>
   </Form>
-  <NoTrainerDialog v-model:open="noTrainerDialog" />
+  <NoTrainerDialog ref="dialog" />
 </template>
 
 <script setup>
@@ -107,8 +107,7 @@ onMounted(() => {
 });
 
 const interval = computed(() => workout.value.intervals[intervalIndex.value]);
-
-const remainingIntervalSeconds = computed(() => {
+const intervalSeconds = computed(() => {
   if (interval.value == null) {
     return 0;
   }
@@ -119,7 +118,7 @@ const targetPower = computed(() => {
   if (interval.value == null) {
     return null;
   }
-  return interval.value.intensity * athlete.value.ftp;
+  return Math.round(interval.value.intensity * athlete.value.ftp);
 });
 
 const setTargetPower = async () => {
@@ -130,12 +129,12 @@ const setTargetPower = async () => {
 
 watch(targetPower, setTargetPower);
 
+const dialog = ref();
 const stopInterval = ref(null);
-const noTrainerDialog = ref(false);
 
 const start = async () => {
   if (trainer.value == null) {
-    noTrainerDialog.value = true;
+    dialog.value.show();
     return;
   }
 
@@ -201,7 +200,7 @@ const toggleText = computed(() => {
   }
 });
 
-const finish = async () => {
+const finish = () => {
   stop();
 
   activities.value.push(activity.value);
@@ -215,9 +214,9 @@ const finish = async () => {
   });
 };
 
-watchEffect(async () => {
+watchEffect(() => {
   if (currentSeconds.value === workoutSeconds.value) {
-    await finish();
+    finish();
   }
 });
 </script>
