@@ -5,8 +5,8 @@
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="1"
-      class="fill-gray-2 opacity-0 hover:opacity-5 cursor-pointer"
-      :class="{ '!opacity-10': index === selection }"
+      class="fill-transparent hover:fill-white/5 cursor-pointer"
+      :class="{ '!fill-white/10': index === selection }"
       @click="selection = index"
     />
   </g>
