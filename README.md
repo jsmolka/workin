@@ -1,2 +1,2 @@
 # workin
-A simple app to create and run custom workouts.
+An app to create and run smart trainer workouts.
