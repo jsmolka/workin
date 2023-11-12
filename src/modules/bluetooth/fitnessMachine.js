@@ -170,7 +170,7 @@ class BikeData extends Characteristic {
     if (cadence == null) {
       return cadence;
     }
-    return cadence / 2;
+    return cadence / 2; // 0.5 rpm resolution
   }
 }
 
