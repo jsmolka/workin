@@ -5,7 +5,7 @@
         <RouterView />
       </div>
     </div>
-    <div class="bg-gray-6 border-t border-gray-5">
+    <div class="bg-gray-6 border-t border-gray-4">
       <nav class="container flex justify-between">
         <Link class="flex-1" name="train" />
         <Link class="flex-1" name="workouts" />
