@@ -77,6 +77,7 @@ export class Activity {
     let meters = 0;
     for (const data of this.laps) {
       xml.node('Lap', [Xml.attribute('StartTime', now.toISOString())]);
+      xml.leaf('TotalTimeSeconds', data.length);
       xml.node('Track');
 
       for (const item of data) {
