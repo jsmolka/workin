@@ -1,6 +1,6 @@
 import { createSchema, date, list, schema } from '../utils/persist';
 import { Xml } from '../utils/xml';
-import { DataPoint, getAverageCadence, getAveragePower } from './dataPoint';
+import { DataPoint, getAverageCadence, getAverageHeartRate, getAveragePower } from './dataPoint';
 import { Workout } from './workout';
 
 export class Activity {
@@ -27,7 +27,7 @@ export class Activity {
   }
 
   get averageHeartRate() {
-    return getAverageCadence(this.data);
+    return getAverageHeartRate(this.data);
   }
 
   get averageCadence() {
