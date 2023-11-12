@@ -14,9 +14,6 @@
         </template>
       </DeviceButton>
     </Label>
-    <Label text="Height [cm]">
-      <InputNumber :min="1" v-model:value="athlete.height" />
-    </Label>
     <Label text="Weight [kg]">
       <InputNumber :min="1" v-model:value="athlete.weight" />
     </Label>
