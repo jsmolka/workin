@@ -18,20 +18,16 @@ async function main() {
   app.directive('percent', percent);
   app.use(createPinia());
 
-  const activity = useActivityStore();
-  await activity.hydrate();
-
-  const activities = useActivitiesStore();
-  await activities.hydrate();
-
-  const athlete = useAthleteStore();
-  await athlete.hydrate();
-
-  const settings = useSettingsStore();
-  await settings.hydrate();
-
-  const workouts = useWorkoutsStore();
-  await workouts.hydrate();
+  const stores = [
+    useActivityStore(),
+    useActivitiesStore(),
+    useAthleteStore(),
+    useSettingsStore(),
+    useWorkoutsStore(),
+  ];
+  for (const store of stores) {
+    await store.hydrate();
+  }
 
   app.use(router);
   app.mount('#app');

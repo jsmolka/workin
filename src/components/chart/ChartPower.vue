@@ -4,7 +4,7 @@
     property="power"
     :max-x="maxX ?? data.length"
     :max-y="2 * athlete.ftp"
-    class="stroke-blue-3"
+    class="stroke-2 stroke-blue-3"
   />
 </template>
 
@@ -20,7 +20,7 @@ defineProps({
   },
   maxX: {
     type: Number,
-    required: false,
+    default: null,
   },
 });
 

@@ -23,13 +23,13 @@ const props = defineProps({
   },
   totalSeconds: {
     type: Number,
-    required: false,
+    default: null,
   },
 });
 
 const selection = defineModel('selection', {
   type: Number,
-  required: false,
+  default: null,
 });
 
 const totalSeconds = computed(() => {

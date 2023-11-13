@@ -4,7 +4,7 @@
     property="heartRate"
     :max-x="maxX ?? data.length"
     :max-y="2 * athlete.ftp"
-    class="stroke-[#bf616a]"
+    class="stroke-2 stroke-[#bf616a]"
   />
 </template>
 
@@ -20,7 +20,7 @@ defineProps({
   },
   maxX: {
     type: Number,
-    required: false,
+    default: null,
   },
 });
 

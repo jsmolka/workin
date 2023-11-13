@@ -1,6 +1,6 @@
 <template>
   <g>
-    <Polyline v-for="points in lines(data)" :points="points" class="stroke-2" v-bind="$attrs" />
+    <Polyline v-for="points in lines(data)" :points="points" />
   </g>
 </template>
 
