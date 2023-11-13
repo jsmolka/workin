@@ -12,6 +12,11 @@
         {{ Math.round(item.intensity * athlete.ftp) }} W
       </Reserve>
     </div>
+    <div class="flex-1 flex items-center justify-center">
+      <Reserve class="text-right" reserve="100 %">
+        {{ Math.round(100 * item.intensity) }} %
+      </Reserve>
+    </div>
     <div class="flex-1 flex items-center justify-end">
       <Reserve class="text-right" reserve="1:00:00">
         {{ formatSeconds(item.seconds) }}
