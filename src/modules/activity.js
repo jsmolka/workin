@@ -14,14 +14,6 @@ export class Activity {
     return this.data.length;
   }
 
-  get minutes() {
-    return this.seconds / 60;
-  }
-
-  get hours() {
-    return this.minutes / 60;
-  }
-
   get averagePower() {
     return getAveragePower(this.data);
   }
@@ -35,7 +27,7 @@ export class Activity {
   }
 
   get calories() {
-    return 3.6 * this.averagePower * this.hours;
+    return 3.6 * this.averagePower * (this.seconds / 3600);
   }
 
   get laps() {
@@ -62,13 +54,11 @@ export class Activity {
         'xsi:schemaLocation',
         'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd',
       ),
-      Xml.attribute('xmlns:ns2', 'http://www.garmin.com/xmlschemas/UserProfile/v2'),
-      Xml.attribute('xmlns:ns3', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2'),
       Xml.attribute('xmlns:ns5', 'http://www.garmin.com/xmlschemas/ActivityGoals/v1'),
+      Xml.attribute('xmlns:ns3', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2'),
+      Xml.attribute('xmlns:ns2', 'http://www.garmin.com/xmlschemas/UserProfile/v2'),
       Xml.attribute('xmlns', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2'),
       Xml.attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'),
-      Xml.attribute('xmlns:ns4', 'http://www.garmin.com/xmlschemas/ProfileExtension/v1'),
-      Xml.attribute('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema'),
     ]);
     xml.node('Activities');
     xml.node('Activity', [Xml.attribute('Sport', 'Biking')]);
