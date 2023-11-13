@@ -15,7 +15,7 @@ const defaults = {
   m: 75, // Weight in kg
 };
 
-export function velocityToPower(v, parameters = {}) {
+export function speedToPower(v, parameters = {}) {
   const { g, rho, eta, crr, vh, cda, gradient, m } = { ...defaults, ...parameters };
   const Fg = m * g * Math.sin(Math.atan(gradient / 100));
   const Fr = m * g * Math.cos(Math.atan(gradient / 100)) * crr;
@@ -23,7 +23,7 @@ export function velocityToPower(v, parameters = {}) {
   return (1 / eta) * (Fg + Fr + Fa) * v;
 }
 
-export function powerToVelocity(p, parameters = {}) {
+export function powerToSpeed(p, parameters = {}) {
   const { g, rho, eta, crr, vh, cda, gradient, m } = { ...defaults, ...parameters };
   const a = 0.5 * cda * rho;
   const b = vh * cda * rho;

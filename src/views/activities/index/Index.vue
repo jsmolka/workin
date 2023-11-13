@@ -52,7 +52,7 @@ import { useFormat } from '../../../composables/useFormat';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
 import { download } from '../../../utils/download';
-import { powerToVelocity } from '../../../utils/equations';
+import { powerToSpeed } from '../../../utils/equations';
 import Attributes from '../Attributes.vue';
 import Laps from './Laps.vue';
 
@@ -75,7 +75,7 @@ const selection = ref(null);
 
 const tcx = () => {
   download(
-    activity.value.tcx((power) => powerToVelocity(power, { m: athlete.value.weight + 8 })),
+    activity.value.tcx((power) => powerToSpeed(power, { m: athlete.value.weight + 8 })),
     `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );

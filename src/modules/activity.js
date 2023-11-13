@@ -45,64 +45,58 @@ export class Activity {
     return result;
   }
 
-  tcx(powerToVelocity) {
-    const now = new Date(this.date);
-
+  tcx(powerToSpeed) {
     const xml = new Xml();
-    xml.node('TrainingCenterDatabase', [
-      Xml.attribute(
-        'xsi:schemaLocation',
-        'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd',
-      ),
-      Xml.attribute('xmlns:ns5', 'http://www.garmin.com/xmlschemas/ActivityGoals/v1'),
-      Xml.attribute('xmlns:ns3', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2'),
-      Xml.attribute('xmlns:ns2', 'http://www.garmin.com/xmlschemas/UserProfile/v2'),
-      Xml.attribute('xmlns', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2'),
-      Xml.attribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'),
-    ]);
-    xml.node('Activities');
-    xml.node('Activity', [Xml.attribute('Sport', 'Biking')]);
-    xml.leaf('Id', now.toISOString());
+    xml.element(
+      'TrainingCenterDatabase',
+      'xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd"',
+      'xmlns:ns5="http://www.garmin.com/xmlschemas/ActivityGoals/v1"',
+      'xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2"',
+      'xmlns:ns2="http://www.garmin.com/xmlschemas/UserProfile/v2"',
+      'xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"',
+      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+      () => {
+        xml.element('Activities', () => {
+          xml.element('Activity', 'Sport="Biking"', () => {
+            xml.element('Id', this.date.toISOString());
 
-    let meters = 0;
-    for (const data of this.laps) {
-      xml.node('Lap', [Xml.attribute('StartTime', now.toISOString())]);
-      xml.leaf('TotalTimeSeconds', data.length);
-      xml.node('Track');
+            let distance = 0;
+            let timestamp = new Date(this.date);
+            for (const data of this.laps) {
+              xml.element('Lap', `StartTime="${timestamp.toISOString()}"`, () => {
+                xml.element('TotalTimeSeconds', data.length);
+                xml.element('Track', () => {
+                  for (const item of data) {
+                    xml.element('Trackpoint', () => {
+                      xml.element('Time', timestamp.toISOString());
+                      xml.element('DistanceMeters', distance);
+                      xml.element('Extensions', () => {
+                        xml.element('ns3:TPX', () => {
+                          xml.element('ns3:Watts', item.power);
+                        });
+                      });
 
-      for (const item of data) {
-        xml.node('Trackpoint');
-        xml.leaf('Time', now.toISOString());
-        xml.leaf('DistanceMeters', meters);
+                      if (item.heartRate != null) {
+                        xml.element('HeartRateBpm', () => {
+                          xml.element('Value', item.heartRate);
+                        });
+                      }
 
-        xml.node('Extensions');
-        xml.node('ns3:TPX');
-        xml.leaf('ns3:Watts', item.power);
-        xml.end();
-        xml.end();
+                      if (item.cadence != null) {
+                        xml.element('Cadence', item.cadence);
+                      }
 
-        if (item.heartRate != null) {
-          xml.node('HeartRateBpm');
-          xml.leaf('Value', item.heartRate);
-          xml.end();
-        }
-
-        if (item.cadence != null) {
-          xml.leaf('Cadence', item.cadence);
-        }
-
-        xml.end();
-
-        now.setSeconds(now.getSeconds() + 1);
-        meters += powerToVelocity(item.power);
-      }
-      xml.end();
-      xml.end();
-    }
-    xml.end();
-    xml.end();
-    xml.end();
-
+                      distance += powerToSpeed(item.power);
+                      timestamp.setSeconds(timestamp.getSeconds() + 1);
+                    });
+                  }
+                });
+              });
+            }
+          });
+        });
+      },
+    );
     return xml.toString();
   }
 }
