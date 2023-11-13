@@ -36,7 +36,7 @@ export class Device extends Emitter {
     await this.device.gatt.connect();
   }
 
-  async disconnect() {
+  disconnect() {
     this.device?.removeDisconnectedListener();
     this.device?.gatt.disconnect();
   }

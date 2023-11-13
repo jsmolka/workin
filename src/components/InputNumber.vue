@@ -8,26 +8,27 @@ import Input from './Input.vue';
 const props = defineProps({
   min: {
     type: Number,
-    required: false,
+    default: null,
   },
   max: {
     type: Number,
-    required: false,
+    default: null,
   },
 });
 
-const value = defineModel('value', { type: Number, required: true });
+const value = defineModel('value', {
+  type: Number,
+  required: true,
+});
 
 const update = (newValue) => {
   newValue = parseFloat(newValue) || 0;
-
   if (props.min != null) {
     newValue = Math.max(newValue, props.min);
   }
   if (props.max != null) {
     newValue = Math.min(newValue, props.max);
   }
-
   value.value = newValue;
 };
 </script>

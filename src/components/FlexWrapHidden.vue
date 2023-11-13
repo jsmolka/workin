@@ -1,7 +1,8 @@
 <template>
   <div
     ref="container"
-    :class="maxHeight == null ? 'flex absolute top-0 invisible' : 'flex flex-wrap overflow-hidden'"
+    class="flex"
+    :class="maxHeight != null ? 'flex-wrap overflow-hidden' : 'absolute invisible'"
     :style="{ maxHeight }"
   >
     <slot />

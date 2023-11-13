@@ -122,9 +122,7 @@ const targetPower = computed(() => {
 });
 
 const setTargetPower = async () => {
-  if (trainer.value.supportsTargetPower) {
-    trainer.value.setTargetPower(targetPower.value ?? 0);
-  }
+  await trainer.value.setTargetPower(targetPower.value ?? 0);
 };
 
 watch(targetPower, setTargetPower);

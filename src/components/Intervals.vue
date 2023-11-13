@@ -13,7 +13,7 @@
     </div>
     <div class="flex-1 flex items-center justify-center">
       <Reserve class="text-right" reserve="100 %">
-        {{ Math.round(100 * item.intensity) }} %
+        {{ Math.round(item.intensity * 100) }} %
       </Reserve>
     </div>
     <div class="flex-1 flex items-center justify-end">
@@ -32,7 +32,7 @@ import { useAthleteStore } from '../stores/athlete';
 import FlexTable from './FlexTable.vue';
 import Reserve from './Reserve.vue';
 
-const props = defineProps({
+defineProps({
   intervals: {
     type: Array,
     required: true,
@@ -41,7 +41,7 @@ const props = defineProps({
 
 const selection = defineModel('selection', {
   type: Number,
-  required: false,
+  default: null,
 });
 
 const { athlete } = storeToRefs(useAthleteStore());

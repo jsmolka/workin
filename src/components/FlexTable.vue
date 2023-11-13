@@ -26,7 +26,7 @@ defineProps({
 
 const selection = defineModel('selection', {
   type: Number,
-  required: false,
+  default: null,
 });
 
 const items = ref();
