@@ -21,13 +21,11 @@ export class FitnessMachine extends Device {
     await super.connect();
 
     const service = await this.service();
-    await Promise.all([
-      this.feature.init(service),
-      this.bikeData.init(service),
-      this.powerRange.init(service),
-      this.control.init(service),
-      this.status.init(service),
-    ]);
+    await this.feature.init(service);
+    await this.bikeData.init(service);
+    await this.powerRange.init(service);
+    await this.control.init(service);
+    await this.status.init(service);
   }
 
   get supportsPower() {
