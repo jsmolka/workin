@@ -23,7 +23,7 @@ function workout(name, data) {
 }
 
 function interval(minutes, intensity) {
-  return new Interval(minutes * 60, intensity);
+  return new Interval(Math.round(minutes * 60), intensity);
 }
 
 function ramp(minutes, from, to, count) {
@@ -116,6 +116,21 @@ export const workouts = [
 
   // Lactate clearance
   ...range(2, 4, 1, (i) =>
+    workout(`${i} x 3 x 1/4`, [
+      ramp(10, 0.5, 1.0, 4),
+      interval(5, 0.5),
+      repeat(i, [
+        repeat(3, [
+          interval(1, 1.15),
+          interval(4, 0.8),
+        ], false),
+        interval(4, 0.5),
+      ]),
+      ramp(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...range(2, 4, 1, (i) =>
     workout(`${i} x 4 x 2/2`, [
       ramp(10, 0.5, 1.0, 4),
       interval(5, 0.5),
@@ -155,6 +170,18 @@ export const workouts = [
     ]),
   ),
 
+  ...range(4, 6, 1, (i) =>
+    workout(`${i} x 1/4`, [
+      ramp(10, 0.5, 1.0, 4),
+      interval(5, 0.5),
+      repeat(i, [
+        interval(1, 1.2),
+        interval(4, 1.05),
+        interval(5, 0.5),
+      ]),
+      ramp(5, 0.5, 0.4, 4),
+    ]),
+  ),
 
   // Anaerobic
   ...range(2, 3, 1, (i) =>
@@ -180,6 +207,36 @@ export const workouts = [
         repeat(20, [
           interval(0.5, 1.25),
           interval(0.5, 0.5),
+        ]),
+        interval(10, 0.5),
+      ]),
+      ramp(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...range(2, 3, 1, (i) =>
+    workout(`${i} x 10 x 40/20`, [
+      ramp(10, 0.5, 1.0, 4),
+      interval(5, 0.5),
+      repeat(i, [
+        repeat(10, [
+          interval(0.66, 1.25),
+          interval(0.33, 0.5),
+        ]),
+        interval(5, 0.5),
+      ]),
+      ramp(5, 0.5, 0.4, 4),
+    ]),
+  ),
+
+  ...range(2, 3, 1, (i) =>
+    workout(`${i} x 20 x 40/20`, [
+      ramp(10, 0.5, 1.0, 4),
+      interval(5, 0.5),
+      repeat(i, [
+        repeat(20, [
+          interval(0.66, 1.25),
+          interval(0.33, 0.5),
         ]),
         interval(10, 0.5),
       ]),
