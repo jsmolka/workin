@@ -4,7 +4,6 @@
     class="font-feature-tnum"
     :data="laps"
     v-model:selection="selection"
-    clickable
     v-slot="{ item }"
   >
     <div class="flex-1 flex items-center justify-start">

@@ -3,7 +3,6 @@
     ref="table"
     class="font-feature-tnum"
     :data="intervals"
-    :clickable="clickable"
     v-model:selection="selection"
     v-slot="{ item }"
   >
@@ -37,10 +36,6 @@ const props = defineProps({
   intervals: {
     type: Array,
     required: true,
-  },
-  clickable: {
-    type: Boolean,
-    default: false,
   },
 });
 

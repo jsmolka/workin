@@ -22,7 +22,6 @@
         class="flex-1"
         :intervals="workout.intervals"
         v-model:selection="selection"
-        clickable
       />
     </Label>
     <div class="flex gap-4">

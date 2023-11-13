@@ -26,7 +26,7 @@
     <Label class="flex-1" text="Intervals">
       <Intervals
         ref="intervals"
-        class="flex-1"
+        class="flex-1 [&_*]:cursor-default"
         :intervals="workout.intervals"
         :selection="intervalIndex"
       />
