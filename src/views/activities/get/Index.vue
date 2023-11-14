@@ -19,7 +19,7 @@
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="router.push({ name: 'activities' })">Back</Button>
+      <Button class="flex-1" @click="router.go(-1)">Back</Button>
       <Button class="flex-1" @click="tcx" blue>Export TCX</Button>
     </div>
   </Form>

@@ -21,7 +21,7 @@
       />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="router.push({ name: 'workouts' })">Back</Button>
+      <Button class="flex-1" @click="router.go(-1)">Back</Button>
       <Button class="flex-1" @click="select" blue>Select</Button>
     </div>
   </Form>
