@@ -3,15 +3,13 @@ import App from '../layouts/app/Index.vue';
 import { useActivitiesStore } from '../stores/activities';
 import { useWorkoutsStore } from '../stores/workouts';
 import Activities from '../views/activities/Index.vue';
-import Activity from '../views/activities/get/Index.vue';
+import GetActivity from '../views/activities/get/Index.vue';
 import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
-import Workout from '../views/workouts/get/Index.vue';
+import GetWorkout from '../views/workouts/get/Index.vue';
 
-const meta = {
-  layout: App,
-};
+const meta = { layout: App };
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -33,15 +31,15 @@ export const router = createRouter({
           component: Workouts,
         },
         {
-          path: ':index(\\d+)',
+          path: ':type(standard|custom)/:index(\\d+)',
           name: 'workout',
-          component: Workout,
+          component: GetWorkout,
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
 
-            const { workouts } = useWorkoutsStore();
-            if (params.index >= workouts.length) {
+            const store = useWorkoutsStore();
+            if (params.index >= store.workouts(params.type).length) {
               return { name: 'workouts' };
             }
           },
@@ -60,7 +58,7 @@ export const router = createRouter({
         {
           path: ':index(\\d+)',
           name: 'activity',
-          component: Activity,
+          component: GetActivity,
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;

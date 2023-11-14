@@ -45,6 +45,10 @@ import { useWorkoutsStore } from '../../../stores/workouts';
 import Header from '../Header.vue';
 
 const props = defineProps({
+  type: {
+    type: String,
+    required: true,
+  },
   index: {
     type: Number,
     required: true,
@@ -54,9 +58,9 @@ const props = defineProps({
 const router = useRouter();
 const { activity } = storeToRefs(useActivityStore());
 const { activities } = storeToRefs(useActivitiesStore());
-const { workouts } = storeToRefs(useWorkoutsStore());
+const store = useWorkoutsStore();
 
-const workout = computed(() => workouts.value[props.index]);
+const workout = computed(() => store.workouts(props.type)[props.index]);
 
 const table = ref();
 const selection = ref(null);
