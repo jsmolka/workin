@@ -7,22 +7,27 @@
     </div>
     <div class="bg-gray-6 border-t border-gray-4">
       <nav class="container flex justify-between">
-        <Link class="flex-1" name="train" />
-        <Link class="flex-1" name="workouts" />
-        <Link class="flex-1" name="activities" />
-        <Link class="flex-1" name="settings" />
+        <RouterLink
+          v-for="name in ['train', 'workouts', 'activities', 'settings']"
+          :to="{ name }"
+          class="tab flex-1 capitalize"
+        >
+          {{ name }}
+        </RouterLink>
       </nav>
     </div>
   </div>
 </template>
 
-<script setup>
-import Link from './Link.vue';
-</script>
-
 <style lang="scss" scoped>
 .container {
   @apply max-w-screen-sm;
   @apply mx-auto;
+}
+
+.router-link-active,
+.router-link-active-exact {
+  @apply bg-gray-4;
+  @apply border-t-blue-3;
 }
 </style>
