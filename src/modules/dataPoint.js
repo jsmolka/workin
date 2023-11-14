@@ -15,17 +15,16 @@ createSchema(DataPoint, {
 });
 
 function getAverage(data, property) {
-  let result = null;
+  let result = 0;
   let length = 0;
   for (const item of data) {
     const value = item[property];
     if (value != null) {
-      result ??= 0;
       result += value;
       length++;
     }
   }
-  return result != null ? result / length : null;
+  return length > 0 ? result / length : null;
 }
 
 export function getAveragePower(data) {

@@ -8,24 +8,12 @@ export class Workout {
     this.intervals = intervals;
   }
 
-  calories(power) {
-    return 3.6 * power * this.averageIntensity * this.hours;
-  }
-
   get seconds() {
     let result = 0;
     for (const { seconds } of this.intervals) {
       result += seconds;
     }
     return result;
-  }
-
-  get minutes() {
-    return this.seconds / 60;
-  }
-
-  get hours() {
-    return this.minutes / 60;
   }
 
   get averageIntensity() {
@@ -51,6 +39,10 @@ export class Workout {
   get zone() {
     const maxIntensity = this.maxIntensity;
     return zones.find((zone) => maxIntensity >= zone.min && maxIntensity < zone.max);
+  }
+
+  calories(power) {
+    return 3.6 * power * this.averageIntensity * (this.seconds / 3600);
   }
 }
 
