@@ -1,9 +1,17 @@
 <template>
+  <div class="flex flex-col">
+    <span class="truncate text-gray-1 text-lg font-bold">
+      {{ formatDate(activity.date, 'HH:mm') }}
+    </span>
+    <span class="truncate">
+      {{ formatDate(activity.date, 'MMMM D, YYYY') }}
+    </span>
+  </div>
   <FlexWrapHidden class="gap-4">
     <Attribute text="Duration">
       {{ formatSeconds(activity.seconds) }}
     </Attribute>
-    <Attribute v-if="averagePower != null" text="Avg W">
+    <Attribute text="Avg W">
       {{ Math.round(averagePower) }}
     </Attribute>
     <Attribute v-if="averageHeartRate != null" text="Avg bpm">
@@ -32,7 +40,7 @@ const props = defineProps({
   },
 });
 
-const { formatSeconds } = useFormat();
+const { formatDate, formatSeconds } = useFormat();
 
 const averagePower = computed(() => props.activity.averagePower);
 const averageHeartRate = computed(() => props.activity.averageHeartRate);

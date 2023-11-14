@@ -1,37 +1,26 @@
 <template>
   <Form class="h-full">
-    <div class="flex flex-col">
-      <span class="truncate text-gray-1 text-lg font-bold">
-        {{ formatDate(activity.date, 'HH:mm') }}
-      </span>
-      <span class="truncate">
-        {{ formatDate(activity.date, 'MMMM D, YYYY') }}
-      </span>
-    </div>
-    <Attributes :activity="activity" />
-
+    <Header :activity="activity" />
     <Chart class="aspect-[3/1]">
       <ChartLines />
       <ChartLaps
-        :laps="activity.laps"
-        :total-seconds="activity.data.length"
+        :laps="laps"
+        :total-seconds="activity.seconds"
         :selection="selection"
         @update:selection="
           selection = $event;
-          laps.scrollTo($event);
+          table.scrollTo($event);
         "
       />
       <ChartHeartRate class="pointer-events-none" :data="activity.data" />
       <ChartPower class="pointer-events-none" :data="activity.data" />
     </Chart>
-
     <Label class="flex-1" text="Laps">
-      <Laps ref="laps" class="flex-1" :laps="activity.laps" v-model:selection="selection" />
+      <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
     </Label>
-
     <div class="flex gap-4">
       <Button class="flex-1" @click="router.push({ name: 'activities' })">Back</Button>
-      <Button class="flex-1" blue @click="tcx">Export TCX</Button>
+      <Button class="flex-1" @click="tcx" blue>Export TCX</Button>
     </div>
   </Form>
 </template>
@@ -53,7 +42,7 @@ import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
 import { download } from '../../../utils/download';
 import { powerToSpeed } from '../../../utils/equations';
-import Attributes from '../Attributes.vue';
+import Header from '../Header.vue';
 import Laps from './Laps.vue';
 
 const props = defineProps({
@@ -69,8 +58,9 @@ const { activities } = storeToRefs(useActivitiesStore());
 const { formatDate } = useFormat();
 
 const activity = computed(() => activities.value[props.index]);
+const laps = computed(() => activity.value.laps);
 
-const laps = ref();
+const table = ref();
 const selection = ref(null);
 
 const tcx = () => {

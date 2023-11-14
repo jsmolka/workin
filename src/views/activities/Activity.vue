@@ -1,20 +1,12 @@
 <template>
-  <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm overflow-hidden">
+  <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm overflow-hidden select-none">
     <Chart class="shrink-0 h-24 aspect-[3/2] sm:aspect-[3/1]">
       <ChartLines />
       <ChartHeartRate :data="activity.data" />
       <ChartPower :data="activity.data" />
     </Chart>
-    <div class="flex flex-col justify-between overflow-hidden select-none">
-      <div class="flex flex-col">
-        <span class="truncate text-gray-1 text-lg font-bold">
-          {{ formatDate(activity.date, 'HH:mm') }}
-        </span>
-        <span class="truncate">
-          {{ formatDate(activity.date, 'MMMM D, YYYY') }}
-        </span>
-      </div>
-      <Attributes :activity="activity" />
+    <div class="flex flex-col justify-between overflow-hidden">
+      <Header :activity="activity" />
     </div>
   </div>
 </template>
@@ -24,9 +16,8 @@ import Chart from '../../components/chart/Chart.vue';
 import ChartHeartRate from '../../components/chart/ChartHeartRate.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
-import { useFormat } from '../../composables/useFormat';
 import { Activity } from '../../modules/activity';
-import Attributes from './Attributes.vue';
+import Header from './Header.vue';
 
 defineProps({
   activity: {
@@ -34,6 +25,4 @@ defineProps({
     required: true,
   },
 });
-
-const { formatDate } = useFormat();
 </script>

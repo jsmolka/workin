@@ -1,8 +1,5 @@
 <template>
-  <div v-if="activities.length === 0" class="grid place-items-center h-full">
-    No activities, yet.
-  </div>
-  <Form v-else>
+  <Form v-if="activities.length > 0">
     <RouterLink
       v-for="(activity, index) in activities"
       :to="{ name: 'activity', params: { index } }"
@@ -10,6 +7,7 @@
       <Activity :activity="activity" />
     </RouterLink>
   </Form>
+  <div v-else class="grid place-items-center h-full">No activities, yet.</div>
 </template>
 
 <script setup>
