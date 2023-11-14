@@ -26,7 +26,7 @@ const props = defineProps({
 
 const device = defineModel('device', {
   type: Device,
-  required: false,
+  default: null,
 });
 
 const [connect, connecting] = useAsyncFn(async () => {
