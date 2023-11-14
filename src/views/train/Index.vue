@@ -1,6 +1,6 @@
 <template>
-  <NoWorkout v-if="activity == null" />
-  <Train v-else />
+  <Train v-if="activity" />
+  <NoWorkout v-else />
 </template>
 
 <script setup>

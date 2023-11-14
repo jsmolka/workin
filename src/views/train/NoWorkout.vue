@@ -1,8 +1,8 @@
 <template>
   <div class="grid place-items-center h-full">
     <Form>
-      <div>Select a workout to start training</div>
-      <Button blue @click="router.push({ name: 'workouts' })">Workouts</Button>
+      <p>Select a workout to start training</p>
+      <Button @click="router.push({ name: 'workouts' })" blue>Workouts</Button>
     </Form>
   </div>
 </template>
