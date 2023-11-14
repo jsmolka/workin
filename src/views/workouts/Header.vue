@@ -1,4 +1,8 @@
 <template>
+  <div class="flex flex-col">
+    <span class="truncate text-gray-1 text-lg font-bold">{{ workout.name }}</span>
+    <span class="truncate">{{ workout.zone.name }}</span>
+  </div>
   <FlexWrapHidden class="gap-4">
     <Attribute text="Duration">
       {{ formatSeconds(workout.seconds) }}

@@ -1,10 +1,6 @@
 <template>
   <Form class="h-full">
-    <div class="flex flex-col">
-      <span class="truncate text-gray-1 text-lg font-bold">{{ workout.name }}</span>
-      <span class="truncate">{{ workout.zone.name }}</span>
-    </div>
-    <Attributes :workout="workout" />
+    <Header :workout="workout" />
     <Chart class="aspect-[3/1]">
       <ChartLines />
       <ChartIntervals
@@ -12,13 +8,13 @@
         :selection="selection"
         @update:selection="
           selection = $event;
-          intervals.scrollTo($event);
+          table.scrollTo($event);
         "
       />
     </Chart>
     <Label class="flex-1" text="Intervals">
       <Intervals
-        ref="intervals"
+        ref="table"
         class="flex-1"
         :intervals="workout.intervals"
         v-model:selection="selection"
@@ -26,7 +22,7 @@
     </Label>
     <div class="flex gap-4">
       <Button class="flex-1" @click="router.push({ name: 'workouts' })">Back</Button>
-      <Button class="flex-1" blue @click="select">Select</Button>
+      <Button class="flex-1" @click="select" blue>Select</Button>
     </div>
   </Form>
 </template>
@@ -46,7 +42,7 @@ import { Activity } from '../../../modules/activity';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
-import Attributes from '../Attributes.vue';
+import Header from '../Header.vue';
 
 const props = defineProps({
   index: {
@@ -62,7 +58,7 @@ const { workouts } = storeToRefs(useWorkoutsStore());
 
 const workout = computed(() => workouts.value[props.index]);
 
-const intervals = ref();
+const table = ref();
 const selection = ref(null);
 
 const select = () => {
