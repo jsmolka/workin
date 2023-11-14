@@ -3,11 +3,11 @@ import App from '../layouts/app/Index.vue';
 import { useActivitiesStore } from '../stores/activities';
 import { useWorkoutsStore } from '../stores/workouts';
 import Activities from '../views/activities/Index.vue';
-import Activity from '../views/activities/index/Index.vue';
+import Activity from '../views/activities/get/Index.vue';
 import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
-import Workout from '../views/workouts/index/Index.vue';
+import Workout from '../views/workouts/get/Index.vue';
 
 const meta = {
   layout: App,
