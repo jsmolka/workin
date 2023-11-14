@@ -8,6 +8,7 @@ import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
 import GetWorkout from '../views/workouts/get/Index.vue';
+import NewWorkout from '../views/workouts/new/Index.vue';
 
 const meta = { layout: App };
 
@@ -43,6 +44,11 @@ export const router = createRouter({
               return { name: 'workouts' };
             }
           },
+        },
+        {
+          path: 'new',
+          name: 'workout/new',
+          component: NewWorkout,
         },
       ],
     },

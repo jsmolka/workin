@@ -20,15 +20,21 @@
         </RouterLink>
       </div>
     </div>
+    <Button v-show="type === 'custom'" @click="router.push({ name: 'workout/new' })" blue>
+      Create workout
+    </Button>
   </Form>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
 import { useWorkoutsStore } from '../../stores/workouts';
 import Workout from './Workout.vue';
 
+const router = useRouter();
 const store = useWorkoutsStore();
 
 const type = ref('standard');
