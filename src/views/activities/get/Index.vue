@@ -1,12 +1,12 @@
 <template>
   <Form class="h-full">
-    <div class="flex gap-4">
-      <div class="flex flex-col flex-1 gap-4">
-        <Header :activity="activity" />
-      </div>
+    <div class="flex justify-between items-center gap-4">
+      <RouterLink :to="{ name: 'activities' }">
+        <ArrowLeftIcon class="w-5 h-5" />
+      </RouterLink>
       <Actions @delete="remove" />
     </div>
-
+    <Header :activity="activity" />
     <Chart class="aspect-[3/1]">
       <ChartLines />
       <ChartLaps
@@ -24,14 +24,12 @@
     <Label class="flex-1" text="Laps">
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
     </Label>
-    <div class="flex gap-4">
-      <Button class="flex-1" @click="back">Back</Button>
-      <Button class="flex-1" @click="tcx" blue>Export TCX</Button>
-    </div>
+    <Button @click="tcx" blue>Export TCX</Button>
   </Form>
 </template>
 
 <script setup>
+import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
