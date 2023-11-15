@@ -1,10 +1,10 @@
 <template>
   <Form class="h-full">
-    <div class="flex justify-between items-center gap-4">
-      <RouterLink :to="{ name: 'activities' }">
-        <ArrowLeftIcon class="w-5 h-5" />
-      </RouterLink>
-      <Actions @delete="remove" />
+    <div class="flex justify-between gap-4">
+      <Back />
+      <Dots>
+        <Button @click="remove">Delete</Button>
+      </Dots>
     </div>
     <Header :activity="activity" />
     <Chart class="aspect-[3/1]">
@@ -29,12 +29,12 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Actions from '../../../components/Actions.vue';
+import Back from '../../../components/Back.vue';
 import Button from '../../../components/Button.vue';
+import Dots from '../../../components/Dots.vue';
 import Form from '../../../components/Form.vue';
 import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
