@@ -69,7 +69,7 @@ const table = ref();
 const selection = ref(null);
 
 const back = () => {
-  router.push({ name: 'activities' });
+  router.back();
 };
 
 const tcx = () => {

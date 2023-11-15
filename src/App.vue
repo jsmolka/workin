@@ -1,7 +1,19 @@
 <template>
-  <Component :is="route.meta.layout ?? 'div'">
-    <RouterView />
-  </Component>
+  <div class="flex flex-col h-full">
+    <div class="container relative flex-1">
+      <div class="absolute inset-0 p-4 bg-gray-7 overflow-y-auto">
+        <RouterView />
+      </div>
+    </div>
+    <div class="bg-gray-6 border-t border-gray-4">
+      <nav class="container flex justify-between">
+        <RouterLink class="tab flex-1" to="/train">Train</RouterLink>
+        <RouterLink class="tab flex-1" to="/workouts">Workouts</RouterLink>
+        <RouterLink class="tab flex-1" to="/activities">Activities</RouterLink>
+        <RouterLink class="tab flex-1" to="/settings">Settings</RouterLink>
+      </nav>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -39,3 +51,15 @@ if (device.isMobile()) {
   });
 }
 </script>
+
+<style lang="scss" scoped>
+.container {
+  @apply max-w-screen-sm;
+  @apply mx-auto;
+}
+
+.router-link-active {
+  @apply bg-gray-4;
+  @apply border-t-blue-3;
+}
+</style>

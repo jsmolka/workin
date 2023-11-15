@@ -106,12 +106,6 @@ const { custom } = storeToRefs(useWorkoutsStore());
 const save = () => {
   custom.value.push(workout);
 
-  router.push({
-    name: 'workout',
-    params: {
-      type: 'custom',
-      index: custom.value.length - 1,
-    },
-  });
+  router.push(`workouts/custom/${custom.value.length - 1}`);
 };
 </script>

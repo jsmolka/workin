@@ -210,12 +210,7 @@ const finish = () => {
   activities.value.push(activity.value);
   activity.value = null;
 
-  router.push({
-    name: 'activity',
-    params: {
-      index: activities.value.length - 1,
-    },
-  });
+  router.push(`/activities/${activities.value.length - 1}`);
 };
 
 watchEffect(() => {

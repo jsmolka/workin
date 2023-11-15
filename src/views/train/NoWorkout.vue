@@ -2,7 +2,7 @@
   <div class="grid place-items-center h-full">
     <Form>
       <p>Select a workout to start training</p>
-      <Button @click="router.push({ name: 'workouts' })" blue>Workouts</Button>
+      <Button @click="router.push('/workouts')" blue>Workouts</Button>
     </Form>
   </div>
 </template>

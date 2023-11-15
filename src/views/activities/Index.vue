@@ -1,9 +1,6 @@
 <template>
   <Form v-if="activities.length > 0">
-    <RouterLink
-      v-for="(activity, index) in activities"
-      :to="{ name: 'activity', params: { index } }"
-    >
+    <RouterLink v-for="(activity, index) in activities" :to="`/activities/${index}`">
       <Activity :activity="activity" />
     </RouterLink>
   </Form>

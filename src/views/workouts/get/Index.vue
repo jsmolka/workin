@@ -70,6 +70,6 @@ const select = () => {
     activities.value.push(activity.value);
   }
   activity.value = new Activity(workout.value);
-  router.push({ name: 'train' });
+  router.push('/train');
 };
 </script>
