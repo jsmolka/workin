@@ -64,5 +64,9 @@ input {
       @apply appearance-none;
     }
   }
+
+  &::placeholder {
+    @apply text-gray-3;
+  }
 }
 </style>

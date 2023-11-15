@@ -18,7 +18,7 @@ const props = defineProps({
 
 const value = defineModel('value', {
   type: Number,
-  required: true,
+  default: null,
 });
 
 const update = (newValue) => {
