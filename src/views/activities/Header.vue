@@ -30,8 +30,8 @@
 import { computed } from 'vue';
 import Attribute from '../../components/Attribute.vue';
 import FlexWrapHidden from '../../components/FlexWrapHidden.vue';
-import { useFormat } from '../../composables/useFormat';
 import { Activity } from '../../modules/activity';
+import { formatDate, formatSeconds } from '../../utils/datetime';
 
 const props = defineProps({
   activity: {
@@ -39,8 +39,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-const { formatDate, formatSeconds } = useFormat();
 
 const averagePower = computed(() => props.activity.averagePower);
 const averageHeartRate = computed(() => props.activity.averageHeartRate);

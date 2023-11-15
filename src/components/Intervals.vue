@@ -27,8 +27,8 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { useFormat } from '../composables/useFormat';
 import { useAthleteStore } from '../stores/athlete';
+import { formatSeconds } from '../utils/datetime';
 import FlexTable from './FlexTable.vue';
 import Reserve from './Reserve.vue';
 
@@ -45,7 +45,6 @@ const selection = defineModel('selection', {
 });
 
 const { athlete } = storeToRefs(useAthleteStore());
-const { formatSeconds } = useFormat();
 
 const table = ref();
 

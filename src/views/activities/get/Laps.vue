@@ -28,8 +28,8 @@
 import { ref } from 'vue';
 import FlexTable from '../../../components/FlexTable.vue';
 import Reserve from '../../../components/Reserve.vue';
-import { useFormat } from '../../../composables/useFormat';
 import { getAverageHeartRate, getAveragePower } from '../../../modules/dataPoint';
+import { formatSeconds } from '../../../utils/datetime';
 
 const props = defineProps({
   laps: {
@@ -42,8 +42,6 @@ const selection = defineModel('selection', {
   type: Number,
   default: null,
 });
-
-const { formatSeconds } = useFormat();
 
 const table = ref();
 

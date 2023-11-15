@@ -56,7 +56,6 @@ import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
-import { useFormat } from '../../composables/useFormat';
 import { useInterval } from '../../composables/useInterval';
 import { DataPoint } from '../../modules/dataPoint';
 import { router } from '../../router';
@@ -64,6 +63,7 @@ import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
+import { formatSeconds } from '../../utils/datetime';
 import Metric from './Metric.vue';
 import NoTrainerDialog from './NoTrainerDialog.vue';
 
@@ -75,7 +75,6 @@ const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
 const { activities } = storeToRefs(useActivitiesStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
-const { formatSeconds } = useFormat();
 
 const workout = computed(() => activity.value.workout);
 const workoutSeconds = computed(() => workout.value.seconds);

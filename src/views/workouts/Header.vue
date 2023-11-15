@@ -23,9 +23,9 @@
 import { storeToRefs } from 'pinia';
 import Attribute from '../../components/Attribute.vue';
 import FlexWrapHidden from '../../components/FlexWrapHidden.vue';
-import { useFormat } from '../../composables/useFormat';
 import { Workout } from '../../modules/workout';
 import { useAthleteStore } from '../../stores/athlete';
+import { formatSeconds } from '../../utils/datetime';
 
 defineProps({
   workout: {
@@ -35,5 +35,4 @@ defineProps({
 });
 
 const { athlete } = storeToRefs(useAthleteStore());
-const { formatSeconds } = useFormat();
 </script>

@@ -42,9 +42,9 @@ import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
 import ChartLaps from '../../../components/chart/ChartLaps.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
-import { useFormat } from '../../../composables/useFormat';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
+import { formatDate } from '../../../utils/datetime';
 import { download } from '../../../utils/download';
 import { powerToSpeed } from '../../../utils/equations';
 import Header from '../Header.vue';
@@ -60,7 +60,6 @@ const props = defineProps({
 const router = useRouter();
 const { athlete } = storeToRefs(useAthleteStore());
 const { activities } = storeToRefs(useActivitiesStore());
-const { formatDate } = useFormat();
 
 const activity = computed(() => activities.value[props.index]);
 const laps = computed(() => activity.value.laps);

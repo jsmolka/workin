@@ -49,43 +49,14 @@ import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Interval } from '../../../modules/interval';
 import { Workout } from '../../../modules/workout';
 import { useWorkoutsStore } from '../../../stores/workouts';
+import { parseSeconds } from '../../../utils/datetime';
 
 const durationValue = ref(null);
 const duration = computed(() => {
   if (durationValue.value == null) {
     return null;
   }
-
-  const units = durationValue.value.split(':');
-  if (units.length === 0) {
-    return null;
-  }
-
-  units.reverse();
-
-  let seconds = 0;
-  if (units.length > 0) {
-    const value = parseInt(units[0]);
-    if (isNaN(value) || value < 0 || value >= 60) {
-      return null;
-    }
-    seconds += value;
-  }
-  if (units.length > 1) {
-    const value = parseInt(units[1]);
-    if (isNaN(value) || value < 0 || value >= 60) {
-      return null;
-    }
-    seconds += value * 60;
-  }
-  if (units.length > 2) {
-    const value = parseInt(units[2]);
-    if (isNaN(value) || value < 0 || value >= 24) {
-      return null;
-    }
-    seconds += value * 60 * 60;
-  }
-  return seconds;
+  return parseSeconds(durationValue.value);
 });
 
 const intensityValue = ref(null);
