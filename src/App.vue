@@ -57,7 +57,7 @@ if (device.isMobile()) {
 }
 
 .router-link-active {
-  @apply bg-gray-4;
   @apply border-t-blue-3;
+  background: var(--gray-4) !important;
 }
 </style>
