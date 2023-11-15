@@ -33,7 +33,7 @@
         v-model:selection="selection"
       />
     </Label>
-    <Button @click="select" blue> Select </Button>
+    <Button @click="select" blue>Select</Button>
   </Form>
 </template>
 
