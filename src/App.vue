@@ -19,14 +19,12 @@
 <script setup>
 import { useEventListener } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { useRoute } from 'vue-router';
 import { useEmitter } from './composables/useEmitter';
 import { useSettingsStore } from './stores/settings';
 import { device } from './utils/device';
 import { log } from './utils/log';
 import { notify } from './utils/notify';
 
-const route = useRoute();
 const { settings } = storeToRefs(useSettingsStore());
 
 useEmitter(log, '*', (level, ...args) => {

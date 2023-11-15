@@ -1,5 +1,18 @@
 <template>
   <Form class="h-full">
+    <div class="flex justify-between gap-4">
+      <Back />
+      <Dots v-if="type === 'custom'">
+        <Button
+          @click="
+            store.custom.splice(index, 1);
+            router.back();
+          "
+        >
+          Delete
+        </Button>
+      </Dots>
+    </div>
     <Header :workout="workout" />
     <Chart class="aspect-[3/1]">
       <ChartLines />
@@ -20,10 +33,7 @@
         v-model:selection="selection"
       />
     </Label>
-    <div class="flex gap-4">
-      <Button class="flex-1" @click="router.go(-1)">Back</Button>
-      <Button class="flex-1" @click="select" blue>Select</Button>
-    </div>
+    <Button @click="select" blue> Select </Button>
   </Form>
 </template>
 
@@ -31,7 +41,9 @@
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Back from '../../../components/Back.vue';
 import Button from '../../../components/Button.vue';
+import Dots from '../../../components/Dots.vue';
 import Form from '../../../components/Form.vue';
 import Intervals from '../../../components/Intervals.vue';
 import Label from '../../../components/Label.vue';
@@ -39,6 +51,7 @@ import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Activity } from '../../../modules/activity';
+import { Workout } from '../../../modules/workout';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
@@ -60,7 +73,7 @@ const { activity } = storeToRefs(useActivityStore());
 const { activities } = storeToRefs(useActivitiesStore());
 const store = useWorkoutsStore();
 
-const workout = computed(() => store.workouts(props.type)[props.index]);
+const workout = computed(() => store.workouts(props.type)[props.index] ?? new Workout());
 
 const table = ref();
 const selection = ref(null);

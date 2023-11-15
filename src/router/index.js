@@ -1,6 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useActivitiesStore } from '../stores/activities';
 import { useWorkoutsStore } from '../stores/workouts';
+import Activities from '../views/activities/Index.vue';
+import GetActivity from '../views/activities/get/Index.vue';
+import Settings from '../views/settings/Index.vue';
+import Train from '../views/train/Index.vue';
+import Workouts from '../views/workouts/Index.vue';
+import GetWorkout from '../views/workouts/get/Index.vue';
+import NewWorkout from '../views/workouts/new/Index.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -8,7 +15,7 @@ export const router = createRouter({
   routes: [
     {
       path: '/train',
-      component: () => import('../views/train/Index.vue'),
+      component: Train,
     },
     {
       path: '/workouts',
@@ -19,12 +26,12 @@ export const router = createRouter({
         },
         {
           path: ':type(standard|custom)',
-          component: () => import('../views/workouts/Index.vue'),
+          component: Workouts,
           props: true,
         },
         {
           path: ':type(standard|custom)/:index([0-9]+)',
-          component: () => import('../views/workouts/get/Index.vue'),
+          component: GetWorkout,
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
@@ -37,7 +44,7 @@ export const router = createRouter({
         },
         {
           path: 'new',
-          component: () => import('../views/workouts/new/Index.vue'),
+          component: NewWorkout,
         },
       ],
     },
@@ -46,11 +53,11 @@ export const router = createRouter({
       children: [
         {
           path: '',
-          component: () => import('../views/activities/Index.vue'),
+          component: Activities,
         },
         {
           path: ':index([0-9]+)',
-          component: () => import('../views/activities/get/Index.vue'),
+          component: GetActivity,
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
@@ -65,7 +72,7 @@ export const router = createRouter({
     },
     {
       path: '/settings',
-      component: () => import('../views/settings/Index.vue'),
+      component: Settings,
     },
     {
       path: '/:pathMatch(.*)*',

@@ -1,5 +1,6 @@
 <template>
   <Form class="h-full">
+    <Back />
     <Label text="Name">
       <Input v-model:value="workout.name" placeholder="Workout name" />
     </Label>
@@ -35,6 +36,7 @@
 import { storeToRefs } from 'pinia';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Back from '../../../components/Back.vue';
 import Button from '../../../components/Button.vue';
 import Form from '../../../components/Form.vue';
 import Input from '../../../components/Input.vue';
@@ -106,6 +108,6 @@ const { custom } = storeToRefs(useWorkoutsStore());
 const save = () => {
   custom.value.push(workout);
 
-  router.push(`workouts/custom/${custom.value.length - 1}`);
+  router.push(`/workouts/custom/${custom.value.length - 1}`);
 };
 </script>
