@@ -1,6 +1,12 @@
 <template>
   <Form class="h-full">
-    <Header :activity="activity" />
+    <div class="flex gap-4">
+      <div class="flex flex-col flex-1 gap-4">
+        <Header :activity="activity" />
+      </div>
+      <Actions @delete="remove" />
+    </div>
+
     <Chart class="aspect-[3/1]">
       <ChartLines />
       <ChartLaps
@@ -19,7 +25,7 @@
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="router.go(-1)">Back</Button>
+      <Button class="flex-1" @click="back">Back</Button>
       <Button class="flex-1" @click="tcx" blue>Export TCX</Button>
     </div>
   </Form>
@@ -29,6 +35,7 @@
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Actions from '../../../components/Actions.vue';
 import Button from '../../../components/Button.vue';
 import Form from '../../../components/Form.vue';
 import Label from '../../../components/Label.vue';
@@ -63,11 +70,20 @@ const laps = computed(() => activity.value.laps);
 const table = ref();
 const selection = ref(null);
 
+const back = () => {
+  router.push({ name: 'activities' });
+};
+
 const tcx = () => {
   download(
     activity.value.tcx((power) => powerToSpeed(power, { m: athlete.value.weight + 8 })),
     `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );
+};
+
+const remove = () => {
+  activities.value.splice(props.index, 1);
+  back();
 };
 </script>
