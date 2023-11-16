@@ -6,9 +6,14 @@
     </div>
     <div class="relative flex-1">
       <div class="absolute inset-0 flex flex-col gap-4 overflow-y-auto">
-        <RouterLink v-for="(workout, index) in workouts" :to="`/workouts/${type}/${index}`">
+        <RouterLink
+          v-if="workouts.length > 0"
+          v-for="(workout, index) in workouts"
+          :to="`/workouts/${type}/${index}`"
+        >
           <Workout :workout="workout" />
         </RouterLink>
+        <div v-else class="grid place-items-center h-full">No workouts, yet.</div>
       </div>
     </div>
     <Button v-if="type === 'custom'" @click="router.push('/workouts/new')" blue>
