@@ -28,16 +28,14 @@ const props = defineProps({
 });
 
 const percent = (value) => 100 * math.clamp(value, 0, 1);
-const x = (value) => percent(value / props.maxX);
-const y = (value) => percent(value / props.maxY);
 
 function* lines(data) {
   let points = [];
   for (let i = 0; i <= data.length; i++) {
     const value = data[i]?.[props.property];
     if (value != null) {
-      points.push(x(i));
-      points.push(y(value));
+      points.push(percent(i / (props.maxX - 1)));
+      points.push(percent(value / props.maxY));
     } else if (points.length > 0) {
       yield points;
       points = [];
