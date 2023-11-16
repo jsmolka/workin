@@ -105,6 +105,7 @@ const remove = () => {
 
 const save = () => {
   custom.value.push(workout);
+  custom.value.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
   router.push(`/workouts/custom/${custom.value.length - 1}`);
 };
 </script>
