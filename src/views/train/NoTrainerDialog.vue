@@ -1,7 +1,7 @@
 <template>
   <Dialog ref="dialog" v-slot="{ hide }">
     <Form>
-      <p>No smart trainer connected.</p>
+      No smart trainer connected.
       <div class="flex justify-end gap-4">
         <Button @click="hide">Cancel</Button>
         <Button @click="router.push('/settings')" blue>Settings</Button>
