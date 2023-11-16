@@ -21,13 +21,12 @@ const props = defineProps({
 });
 
 const metric = computed(() => {
-  const value = props.value;
-  if (value == null) {
+  if (props.value == null) {
     return '-';
   }
-  if (typeof value === 'number') {
-    return Math.round(value);
+  if (typeof props.value === 'number') {
+    return Math.round(props.value);
   }
-  return value;
+  return props.value;
 });
 </script>
