@@ -8,10 +8,10 @@
       {{ formatSeconds(workout.seconds) }}
     </Attribute>
     <Attribute text="Avg W">
-      {{ Math.round(workout.averageIntensity * athlete.ftp) }}
+      {{ Math.round(athlete.ftp * workout.averageIntensity) }}
     </Attribute>
     <Attribute text="Max W">
-      {{ Math.round(workout.maxIntensity * athlete.ftp) }}
+      {{ Math.round(athlete.ftp * workout.maxIntensity) }}
     </Attribute>
     <Attribute text="Calories">
       {{ Math.round(workout.calories(athlete.ftp)) }}

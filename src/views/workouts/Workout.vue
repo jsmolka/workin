@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm overflow-hidden select-none">
+  <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm select-none">
     <Chart class="shrink-0 h-24 aspect-[3/2] sm:aspect-[3/1]">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />

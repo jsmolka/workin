@@ -3,14 +3,9 @@
     <div class="flex justify-between gap-4">
       <Back />
       <Dots v-if="type === 'custom'">
-        <Button
-          @click="
-            store.custom.splice(index, 1);
-            router.back();
-          "
-        >
-          Delete
-        </Button>
+        <MenuItem>
+          <Button @click="remove">Delete</Button>
+        </MenuItem>
       </Dots>
     </div>
     <Header :workout="workout" />
@@ -21,13 +16,13 @@
         :selection="selection"
         @update:selection="
           selection = $event;
-          table.scrollTo($event);
+          $refs.intervals.scrollTo($event);
         "
       />
     </Chart>
     <Label class="flex-1" text="Intervals">
       <Intervals
-        ref="table"
+        ref="intervals"
         class="flex-1"
         :intervals="workout.intervals"
         v-model:selection="selection"
@@ -38,6 +33,7 @@
 </template>
 
 <script setup>
+import { MenuItem } from '@headlessui/vue';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -69,17 +65,21 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const { activity } = storeToRefs(useActivityStore());
-const { activities } = storeToRefs(useActivitiesStore());
 const store = useWorkoutsStore();
-
 const workout = computed(() => store.workouts(props.type)[props.index] ?? new Workout());
 
-const table = ref();
 const selection = ref(null);
 
+const remove = () => {
+  store.custom.splice(props.index, 1);
+  router.back();
+};
+
+const { activity } = storeToRefs(useActivityStore());
+const { activities } = storeToRefs(useActivitiesStore());
+
 const select = () => {
-  if (activity.value?.seconds > 0) {
+  if (activity.value != null && activity.value.seconds > 0) {
     activities.value.push(activity.value);
   }
   activity.value = new Activity(workout.value);

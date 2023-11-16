@@ -12,7 +12,7 @@
       </div>
     </div>
     <Button v-if="type === 'custom'" @click="router.push('/workouts/new')" blue>
-      Create workout
+      New workout
     </Button>
   </Form>
 </template>
@@ -34,7 +34,6 @@ const props = defineProps({
 
 const router = useRouter();
 const store = useWorkoutsStore();
-
 const workouts = computed(() => store.workouts(props.type));
 </script>
 
