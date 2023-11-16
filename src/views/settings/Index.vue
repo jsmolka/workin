@@ -1,17 +1,18 @@
 <template>
   <Form>
     <Label text="Heart rate monitor">
-      <DeviceButton v-model:device="hrm" :constructor="HeartRate">
-        <template v-slot="{ device }">
-          {{ device.heartRate !== 0 ? `${device.name} [${device.heartRate} bpm]` : device.name }}
-        </template>
+      <DeviceButton v-model:device="hrm" :constructor="HeartRate" v-slot="{ device }">
+        {{ device.heartRate !== 0 ? `${device.name} [${device.heartRate} bpm]` : device.name }}
       </DeviceButton>
     </Label>
     <Label text="Smart trainer">
-      <DeviceButton :device="trainer" @update:device="setTrainer" :constructor="FitnessMachine">
-        <template v-slot="{ device }">
-          {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
-        </template>
+      <DeviceButton
+        :device="trainer"
+        @update:device="setTrainer"
+        :constructor="FitnessMachine"
+        v-slot="{ device }"
+      >
+        {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
       </DeviceButton>
     </Label>
     <Label text="Weight [kg]">
