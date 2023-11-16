@@ -2,7 +2,7 @@
   <Form>
     <Label text="Heart rate monitor">
       <DeviceButton v-model:device="hrm" :constructor="HeartRate" v-slot="{ device }">
-        {{ device.heartRate !== 0 ? `${device.name} [${device.heartRate} bpm]` : device.name }}
+        {{ device.heartRate != null ? `${device.name} [${device.heartRate} bpm]` : device.name }}
       </DeviceButton>
     </Label>
     <Label text="Smart trainer">
