@@ -18,13 +18,13 @@
         :selection="selection"
         @update:selection="
           selection = $event;
-          $refs.intervals.scrollTo($event);
+          $refs.table.scrollTo($event);
         "
       />
     </Chart>
     <Label class="flex-1" text="Intervals">
       <Intervals
-        ref="intervals"
+        ref="table"
         class="flex-1"
         :intervals="workout.intervals"
         v-model:selection="selection"
@@ -72,8 +72,6 @@ import { Workout } from '../../../modules/workout';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import { parseSeconds } from '../../../utils/datetime';
 
-const selection = ref(null);
-
 const durationInput = ref('5:00');
 const duration = computed(() => {
   if (durationInput.value == null) {
@@ -90,6 +88,10 @@ const intensity = computed(() => {
   return intensityInput.value / 100;
 });
 
+const router = useRouter();
+const { custom } = storeToRefs(useWorkoutsStore());
+
+const selection = ref(null);
 const workout = reactive(new Workout());
 
 const add = () => {
@@ -100,9 +102,6 @@ const remove = () => {
   workout.intervals.splice(selection.value, 1);
   selection.value = null;
 };
-
-const router = useRouter();
-const { custom } = storeToRefs(useWorkoutsStore());
 
 const save = () => {
   const index = custom.value.push(workout) - 1;

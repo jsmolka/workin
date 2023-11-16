@@ -3,7 +3,9 @@
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
-        <Button @click="remove">Delete</Button>
+        <MenuItem>
+          <Button @click="remove">Delete</Button>
+        </MenuItem>
       </Dots>
     </div>
     <Header :activity="activity" />
@@ -15,7 +17,7 @@
         :selection="selection"
         @update:selection="
           selection = $event;
-          table.scrollTo($event);
+          $refs.table.scrollTo($event);
         "
       />
       <ChartHeartRate class="pointer-events-none" :data="activity.data" />
@@ -29,6 +31,7 @@
 </template>
 
 <script setup>
+import { MenuItem } from '@headlessui/vue';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -42,6 +45,7 @@ import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
 import ChartLaps from '../../../components/chart/ChartLaps.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
+import { Activity } from '../../../modules/activity';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
 import { formatDate } from '../../../utils/datetime';
@@ -61,13 +65,12 @@ const router = useRouter();
 const { athlete } = storeToRefs(useAthleteStore());
 const { activities } = storeToRefs(useActivitiesStore());
 
-const activity = computed(() => activities.value[props.index]);
+const selection = ref(null);
+const activity = computed(() => activities.value[props.index] ?? new Activity());
 const laps = computed(() => activity.value.laps);
 
-const table = ref();
-const selection = ref(null);
-
-const back = () => {
+const remove = () => {
+  activities.value.splice(props.index, 1);
   router.back();
 };
 
@@ -77,10 +80,5 @@ const tcx = () => {
     `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );
-};
-
-const remove = () => {
-  activities.value.splice(props.index, 1);
-  back();
 };
 </script>

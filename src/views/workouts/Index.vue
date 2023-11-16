@@ -34,6 +34,7 @@ const props = defineProps({
 
 const router = useRouter();
 const store = useWorkoutsStore();
+
 const workouts = computed(() => store.workouts(props.type));
 </script>
 

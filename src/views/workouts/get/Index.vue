@@ -16,13 +16,13 @@
         :selection="selection"
         @update:selection="
           selection = $event;
-          $refs.intervals.scrollTo($event);
+          $refs.table.scrollTo($event);
         "
       />
     </Chart>
     <Label class="flex-1" text="Intervals">
       <Intervals
-        ref="intervals"
+        ref="table"
         class="flex-1"
         :intervals="workout.intervals"
         v-model:selection="selection"
@@ -65,18 +65,17 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const { activity } = storeToRefs(useActivityStore());
+const { activities } = storeToRefs(useActivitiesStore());
 const store = useWorkoutsStore();
-const workout = computed(() => store.workouts(props.type)[props.index] ?? new Workout());
 
 const selection = ref(null);
+const workout = computed(() => store.workouts(props.type)[props.index] ?? new Workout());
 
 const remove = () => {
   store.custom.splice(props.index, 1);
   router.back();
 };
-
-const { activity } = storeToRefs(useActivityStore());
-const { activities } = storeToRefs(useActivitiesStore());
 
 const select = () => {
   if (activity.value != null && activity.value.seconds > 0) {
