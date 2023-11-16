@@ -31,9 +31,7 @@
       />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="toggle" :blue="activity.seconds === 0">
-        {{ toggleText }}
-      </Button>
+      <Button class="flex-1" @click="toggle" blue>{{ toggleText }} </Button>
       <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped">
         Finish
       </Button>
@@ -117,7 +115,7 @@ const targetPower = computed(() => {
   if (interval.value == null) {
     return null;
   }
-  return Math.round(interval.value.intensity * athlete.value.ftp);
+  return Math.round(athlete.value.ftp * interval.value.intensity);
 });
 
 const setTargetPower = async () => {

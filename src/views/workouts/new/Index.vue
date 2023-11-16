@@ -104,7 +104,7 @@ const remove = () => {
 };
 
 const save = () => {
-  const index = custom.value.push(workout) - 1;
-  router.push(`/workouts/custom/${index}`);
+  custom.value.push(workout);
+  router.push(`/workouts/custom/${custom.value.length - 1}`);
 };
 </script>
