@@ -9,7 +9,9 @@
         </div>
         <ChevronUpDownIcon class="w-5 h-5 text-gray-3" aria-hidden="true" />
       </ListboxButton>
-      <ListboxOptions class="absolute w-full max-h-60 mt-2 bg-gray-6 rounded-sm overflow-auto z-50">
+      <ListboxOptions
+        class="absolute w-full max-h-60 mt-2 bg-gray-6 rounded-sm shadow overflow-auto z-50"
+      >
         <ListboxOption
           v-for="item in items"
           v-slot="{ selected, disabled }"

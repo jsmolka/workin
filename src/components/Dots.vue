@@ -3,7 +3,7 @@
     <MenuButton>
       <EllipsisVerticalIcon class="w-5 h-5" />
     </MenuButton>
-    <MenuItems class="dots-items absolute right-0 mt-2 p-1 bg-gray-6 rounded-sm">
+    <MenuItems class="dots-items absolute right-0 mt-2 p-1 bg-gray-6 rounded-sm shadow">
       <slot />
     </MenuItems>
   </Menu>
