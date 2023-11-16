@@ -50,7 +50,7 @@ import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
 import { formatDate } from '../../../utils/datetime';
 import { download } from '../../../utils/download';
-import { powerToSpeed } from '../../../utils/equations';
+import { powerToSpeed } from '../../../utils/speed';
 import Header from '../Header.vue';
 import Laps from './Laps.vue';
 
