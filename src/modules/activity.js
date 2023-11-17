@@ -60,34 +60,52 @@ export class Activity {
           xml.element('Activity', 'Sport="Biking"', () => {
             xml.element('Id', this.date.toISOString());
 
+            let data = [];
             let distance = 0;
-            let timestamp = new Date(this.date);
-            for (const data of this.laps) {
-              xml.element('Lap', `StartTime="${timestamp.toISOString()}"`, () => {
-                xml.element('TotalTimeSeconds', data.length);
+            for (const [i, item] of this.data.entries()) {
+              const date = new Date(this.date);
+              date.setSeconds(date.getSeconds() + i);
+              data.push({ date, distance, ...item });
+              distance += powerToSpeed(item.power);
+            }
+
+            const last = data.at(-1);
+            last.date = new Date(last.date);
+            last.date.setSeconds(last.date.getSeconds() + 1);
+
+            let laps = [];
+            let totalSeconds = 0;
+            for (const { seconds } of this.workout.intervals) {
+              const lap = data.slice(totalSeconds, totalSeconds + seconds + 1);
+              if (lap.length === 0) {
+                break;
+              }
+              laps.push(lap);
+              totalSeconds += seconds;
+            }
+
+            for (const lap of laps) {
+              xml.element('Lap', `StartTime="${lap[0].date.toISOString()}"`, () => {
                 xml.element('Track', () => {
-                  for (const item of data) {
+                  for (const { date, distance, power, heartRate, cadence } of lap) {
                     xml.element('Trackpoint', () => {
-                      xml.element('Time', timestamp.toISOString());
+                      xml.element('Time', date.toISOString());
                       xml.element('DistanceMeters', distance);
                       xml.element('Extensions', () => {
                         xml.element('ns3:TPX', () => {
-                          xml.element('ns3:Watts', item.power);
+                          xml.element('ns3:Watts', power);
                         });
                       });
 
-                      if (item.heartRate != null) {
+                      if (heartRate != null) {
                         xml.element('HeartRateBpm', () => {
-                          xml.element('Value', item.heartRate);
+                          xml.element('Value', heartRate);
                         });
                       }
 
-                      if (item.cadence != null) {
-                        xml.element('Cadence', item.cadence);
+                      if (cadence != null) {
+                        xml.element('Cadence', cadence);
                       }
-
-                      distance += powerToSpeed(item.power);
-                      timestamp.setSeconds(timestamp.getSeconds() + 1);
                     });
                   }
                 });
