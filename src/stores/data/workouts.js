@@ -50,21 +50,21 @@ const cooldown = [
 // prettier-ignore
 export const workouts = [
   // Active recovery
-  ...['30:00', '1:00:00'].map(d =>
+  ...['30:00', '1:00:00'].map((d) =>
     workout('Recovery', [
       interval(d, 0.5),
     ]),
   ),
 
   // Endurance
-  ...['1:00:00', '1:30:00', '2:00:00', '2:30:00'].map(d =>
+  ...['1:00:00', '1:30:00', '2:00:00', '2:30:00'].map((d) =>
     workout('LIT', [
       interval(d, 0.6),
     ]),
   ),
 
   // Zone 2
-  ...['1:00:00', '1:30:00', '2:00:00', '2:30:00'].map(d =>
+  ...['1:00:00', '1:30:00', '2:00:00', '2:30:00'].map((d) =>
     workout('Zone 2', [
       interval(d, 0.7),
     ]),
