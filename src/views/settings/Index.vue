@@ -33,18 +33,11 @@
     <Label text="Log as notification">
       <Switch v-model:value="settings.logAsNotification" />
     </Label>
-    <Button
-      @click="
-        download(JSON.stringify(useActivitiesStore().activities), 'act.json', 'application/json')
-      "
-      >:)</Button
-    >
   </Form>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
 import InputNumber from '../../components/InputNumber.vue';
 import Label from '../../components/Label.vue';
@@ -52,11 +45,9 @@ import Select from '../../components/Select.vue';
 import Switch from '../../components/Switch.vue';
 import { FitnessMachine } from '../../modules/bluetooth/fitnessMachine';
 import { HeartRate } from '../../modules/bluetooth/heartRate';
-import { useActivitiesStore } from '../../stores/activities';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';
-import { download } from '../../utils/download';
 import { log } from '../../utils/log';
 import { notify } from '../../utils/notify';
 import DeviceButton from './DeviceButton.vue';
