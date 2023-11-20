@@ -3,7 +3,7 @@
     <!-- prettier-ignore -->
     <div class="grid grid-rows-3 sm:grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-4 font-feature-tnum">
       <Metric class="order-1 sm:order-1" text="Power" :value="trainer?.power" />
-      <Metric class="order-5 sm:order-2" text="Interval time" :value="formatSeconds(intervalSeconds)"/>
+      <Metric class="order-5 sm:order-2" text="Interval time" :value="formatSeconds(intervalSeconds)" />
       <Metric class="order-2 sm:order-3" text="Heart rate" :value="hrm?.heartRate" />
       <Metric class="order-3 sm:order-4" text="Target power" :value="targetPower" />
       <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
