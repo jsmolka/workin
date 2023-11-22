@@ -69,9 +69,9 @@ export class Activity {
               distance += powerToSpeed(item.power);
             }
 
-            const last = data.at(-1);
-            last.date = new Date(last.date);
+            const last = structuredClone(data.at(-1));
             last.date.setSeconds(last.date.getSeconds() + 1);
+            data.push(last);
 
             let laps = [];
             let totalSeconds = 0;
