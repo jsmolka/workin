@@ -60,7 +60,7 @@ export const workouts = [
 
   // Endurance
   ...['1:00:00', '1:30:00', '2:00:00', '2:30:00'].map((d) =>
-    workout('LIT', [
+    workout('Endurance', [
       interval(d, 0.6),
     ]),
   ),
@@ -162,7 +162,7 @@ export const workouts = [
     workout(`${r} x 1/4`, [
       ...warmup,
       repeat(r, [
-        interval('01:00', 1.2),
+        interval('01:00', 1.25),
         interval('04:00', 1.05),
         interval('05:00', 0.5),
       ]),
