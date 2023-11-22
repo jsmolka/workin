@@ -47,6 +47,8 @@ const cooldown = [
   interval('01:00', 0.4),
 ];
 
+// https://robertovukovic.com/cycling-interval-training/
+
 // prettier-ignore
 export const workouts = [
   // Active recovery
@@ -119,7 +121,6 @@ export const workouts = [
     ]),
   ),
 
-
   ...[2, 3, 4].map((r) =>
     workout(`${r} x 3 x 1/4`, [
       ...warmup,
@@ -136,17 +137,6 @@ export const workouts = [
 
   // VO2 max
   ...[4, 5, 6].map((r) =>
-    workout(`${r} x 8`, [
-      ...warmup,
-      repeat(r, [
-        interval('08:00', 1.05),
-        interval('04:00', 0.5),
-      ]),
-      ...cooldown
-    ]),
-  ),
-
-  ...[4, 5, 6].map((r) =>
     workout(`${r} x 4`, [
       ...warmup,
       repeat(r, [
@@ -154,6 +144,17 @@ export const workouts = [
         interval('04:00', 0.5),
       ]),
       ...cooldown,
+    ]),
+  ),
+
+  ...[4, 5, 6].map((r) =>
+    workout(`${r} x 8`, [
+      ...warmup,
+      repeat(r, [
+        interval('08:00', 1.05),
+        interval('08:00', 0.5),
+      ]),
+      ...cooldown
     ]),
   ),
 
