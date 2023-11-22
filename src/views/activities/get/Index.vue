@@ -1,7 +1,7 @@
 <template>
   <Form class="h-full">
     <div class="flex justify-between gap-4">
-      <Back />
+      <Back to="/activities" />
       <Dots>
         <MenuItem>
           <Button @click="remove">Delete</Button>

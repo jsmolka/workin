@@ -1,7 +1,7 @@
 <template>
   <Form class="h-full">
     <div class="flex justify-between gap-4">
-      <Back />
+      <Back :to="`/workouts/${type}`" />
       <Dots v-if="type === 'custom'">
         <MenuItem>
           <Button @click="remove">Delete</Button>

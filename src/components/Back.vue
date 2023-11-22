@@ -1,12 +1,16 @@
 <template>
-  <button>
-    <ArrowLeftIcon class="w-5 h-5" @click="router.back()" />
-  </button>
+  <RouterLink :to="to">
+    <ArrowLeftIcon class="w-5 h-5" />
+  </RouterLink>
 </template>
 
 <script setup>
 import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
+defineProps({
+  to: {
+    type: String,
+    required: true,
+  },
+});
 </script>

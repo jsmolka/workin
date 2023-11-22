@@ -1,7 +1,7 @@
 <template>
   <Form class="h-full">
     <div class="flex justify-between gap-4">
-      <Back />
+      <Back to="/workouts/custom" />
       <Dots>
         <MenuItem>
           <Button :class="{ disabled: selection == null }" @click="remove">Delete interval</Button>
