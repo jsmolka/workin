@@ -1,7 +1,7 @@
 <template>
   <Dialog :open="open" @close="hide">
     <div class="fixed inset-0 flex justify-center items-center p-4 bg-black/50">
-      <DialogPanel class="max-w-screen-sm p-4 bg-gray-7 rounded-sm shadow">
+      <DialogPanel class="max-w-screen-sm p-4 bg-gray-7 rounded-sm shadow z-50">
         <slot :hide="hide" />
       </DialogPanel>
     </div>

@@ -1,4 +1,4 @@
-import { Interval } from '../../modules/interval';
+import { Interval, cooldown, warmup } from '../../modules/interval';
 import { Workout } from '../../modules/workout';
 import { parseSeconds } from '../../utils/datetime';
 
@@ -29,23 +29,6 @@ function repeat(count, data, pop = true) {
   }
   return result;
 }
-
-const warmup = [
-  interval('02:00', 0.5),
-  interval('02:00', 0.625),
-  interval('02:00', 0.75),
-  interval('02:00', 0.875),
-  interval('02:00', 1.0),
-  interval('05:00', 0.5),
-];
-
-const cooldown = [
-  interval('01:00', 0.5),
-  interval('01:00', 0.475),
-  interval('01:00', 0.45),
-  interval('01:00', 0.425),
-  interval('01:00', 0.4),
-];
 
 // https://robertovukovic.com/cycling-interval-training/
 

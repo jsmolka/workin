@@ -4,6 +4,12 @@
       <Back to="/workouts/custom" />
       <Dots>
         <MenuItem>
+          <Button @click="workout.intervals.push(...warmup)">Add warmup</Button>
+        </MenuItem>
+        <MenuItem>
+          <Button @click="workout.intervals.push(...cooldown)">Add cooldown</Button>
+        </MenuItem>
+        <MenuItem>
           <Button :class="{ disabled: selection == null }" @click="remove">Delete interval</Button>
         </MenuItem>
       </Dots>
@@ -67,7 +73,7 @@ import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
-import { Interval } from '../../../modules/interval';
+import { Interval, cooldown, warmup } from '../../../modules/interval';
 import { Workout } from '../../../modules/workout';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import { parseSeconds } from '../../../utils/datetime';
