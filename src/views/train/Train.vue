@@ -146,18 +146,27 @@ const start = async () => {
   });
 };
 
-let startTimeout = 0;
+let autoStart = null;
+
+const clearAutoStart = () => {
+  if (autoStart != null) {
+    clearTimeout(autoStart);
+    autoStart = null;
+  }
+};
 
 watch(
   () => trainer.value?.power ?? 0,
   (newPower, oldPower) => {
     if (oldPower === 0 && newPower > 0) {
-      startTimeout = setTimeout(start, 5000);
+      autoStart = setTimeout(start, 5000);
     } else if (newPower === 0) {
-      clearTimeout(startTimeout);
+      clearAutoStart();
     }
   },
 );
+
+onUnmounted(clearAutoStart);
 
 const stop = () => {
   stopInterval.value?.();
@@ -172,18 +181,27 @@ useEventListener(document, 'visibilitychange', () => {
   }
 });
 
-let stopTimeout = 0;
+let autoStop = 0;
+
+const clearAutoStop = () => {
+  if (autoStop != null) {
+    clearTimeout(autoStop);
+    autoStop = null;
+  }
+};
 
 watch(
   () => trainer.value?.power ?? 0,
   (newPower, oldPower) => {
     if (newPower === 0 && oldPower > 0) {
-      stopTimeout = setTimeout(stop, 5000);
+      autoStop = setTimeout(stop, 5000);
     } else if (newPower > 0) {
-      clearTimeout(stopTimeout);
+      clearAutoStop();
     }
   },
 );
+
+onUnmounted(clearAutoStop);
 
 const stopped = computed(() => stopInterval.value == null);
 
