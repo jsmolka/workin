@@ -32,7 +32,7 @@
     </Label>
     <div class="flex gap-4">
       <Button class="flex-1" @click="toggle" blue>{{ toggleText }} </Button>
-      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped">
+      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped" blue>
         Finish
       </Button>
     </div>
@@ -54,7 +54,6 @@ import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
-import { useInterval } from '../../composables/useInterval';
 import { DataPoint } from '../../modules/dataPoint';
 import { router } from '../../router';
 import { useActivitiesStore } from '../../stores/activities';
@@ -62,6 +61,7 @@ import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { formatSeconds } from '../../utils/datetime';
+import { interval as setAccurateInterval } from '../../utils/interval';
 import Metric from './Metric.vue';
 import NoTrainerDialog from './NoTrainerDialog.vue';
 
@@ -139,7 +139,7 @@ const start = async () => {
 
   await setTargetPower();
 
-  stopInterval.value = useInterval(1000, () => {
+  stopInterval.value = setAccurateInterval(1000, () => {
     activity.value.data.push(
       new DataPoint(trainer.value.power, trainer.value.cadence, hrm.value?.heartRate),
     );
@@ -163,6 +163,8 @@ const stop = () => {
   stopInterval.value?.();
   stopInterval.value = null;
 };
+
+onUnmounted(stop);
 
 useEventListener(document, 'visibilitychange', () => {
   if (document.visibilityState === 'hidden') {
