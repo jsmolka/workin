@@ -278,7 +278,6 @@ class Control extends Characteristic {
 
     await this.notified((dataView) => {
       const notification = new ControlNotification(dataView);
-      console.log(notification);
       if (!notification.isOk) {
         log.error('FTMS control malformed', notification);
       } else if (!notification.isSuccess) {
