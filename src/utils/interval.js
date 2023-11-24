@@ -1,9 +1,9 @@
-export function interval(ms, callback) {
+export function interval(ms, fn) {
   let time = null;
   let timeout = null;
 
   const tick = () => {
-    callback();
+    fn();
 
     time ??= performance.now();
     time += ms;
