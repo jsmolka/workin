@@ -28,7 +28,7 @@
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useAthleteStore } from '../stores/athlete';
-import { formatSeconds } from '../utils/datetime';
+import { formatSeconds } from '../utils/time';
 import FlexTable from './FlexTable.vue';
 import Reserve from './Reserve.vue';
 

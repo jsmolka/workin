@@ -60,8 +60,8 @@ import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
-import { formatSeconds } from '../../utils/datetime';
 import { interval } from '../../utils/interval';
+import { formatSeconds } from '../../utils/time';
 import Metric from './Metric.vue';
 import NoTrainerDialog from './NoTrainerDialog.vue';
 

@@ -76,7 +76,7 @@ import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Interval, cooldown, warmup } from '../../../modules/interval';
 import { Workout } from '../../../modules/workout';
 import { useWorkoutsStore } from '../../../stores/workouts';
-import { parseSeconds } from '../../../utils/datetime';
+import { parseSeconds } from '../../../utils/time';
 
 const durationInput = ref('5:00');
 const duration = computed(() => {

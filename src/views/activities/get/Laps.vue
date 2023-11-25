@@ -29,7 +29,7 @@ import { ref } from 'vue';
 import FlexTable from '../../../components/FlexTable.vue';
 import Reserve from '../../../components/Reserve.vue';
 import { getAverageHeartRate, getAveragePower } from '../../../modules/dataPoint';
-import { formatSeconds } from '../../../utils/datetime';
+import { formatSeconds } from '../../../utils/time';
 
 const props = defineProps({
   laps: {

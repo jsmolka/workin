@@ -31,7 +31,7 @@ import { computed } from 'vue';
 import Attribute from '../../components/Attribute.vue';
 import FlexWrapHidden from '../../components/FlexWrapHidden.vue';
 import { Activity } from '../../modules/activity';
-import { formatDate, formatSeconds } from '../../utils/datetime';
+import { formatDate, formatSeconds } from '../../utils/time';
 
 const props = defineProps({
   activity: {

@@ -25,7 +25,7 @@ import Attribute from '../../components/Attribute.vue';
 import FlexWrapHidden from '../../components/FlexWrapHidden.vue';
 import { Workout } from '../../modules/workout';
 import { useAthleteStore } from '../../stores/athlete';
-import { formatSeconds } from '../../utils/datetime';
+import { formatSeconds } from '../../utils/time';
 
 defineProps({
   workout: {

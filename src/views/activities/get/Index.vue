@@ -48,9 +48,9 @@ import ChartPower from '../../../components/chart/ChartPower.vue';
 import { Activity } from '../../../modules/activity';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
-import { formatDate } from '../../../utils/datetime';
 import { download } from '../../../utils/download';
 import { powerToSpeed } from '../../../utils/speed';
+import { formatDate } from '../../../utils/time';
 import Header from '../Header.vue';
 import Laps from './Laps.vue';
 
