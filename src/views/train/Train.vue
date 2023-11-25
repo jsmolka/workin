@@ -141,6 +141,7 @@ const start = async () => {
 
   await setTargetPower();
 
+  stopInterval.value?.();
   stopInterval.value = setAccurateInterval(1000, () => {
     activity.value.data.push(
       new DataPoint(trainer.value.power, trainer.value.cadence, hrm.value?.heartRate),
