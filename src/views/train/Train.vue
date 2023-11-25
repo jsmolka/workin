@@ -118,17 +118,17 @@ const targetPower = computed(() => {
   return Math.round(athlete.value.ftp * interval.value.intensity);
 });
 
-const setTargetPower = async () => {
-  await trainer.value.setTargetPower(targetPower.value ?? 0);
+const setTargetPower = () => {
+  trainer.value?.setTargetPower(targetPower.value ?? 0);
 };
 
-watch(targetPower, setTargetPower);
+watch(targetPower, setTargetPower, { immediate: true });
 
 const dialog = ref();
 const stopInterval = ref(null);
 const stopped = computed(() => stopInterval.value == null);
 
-const start = async () => {
+const start = () => {
   clearAutoStart();
 
   if (trainer.value == null) {
@@ -139,8 +139,6 @@ const start = async () => {
   if (activity.value.seconds === 0) {
     activity.value.date = new Date();
   }
-
-  await setTargetPower();
 
   stopInterval.value?.();
   stopInterval.value = setAccurateInterval(1000, () => {
