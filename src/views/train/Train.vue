@@ -3,7 +3,7 @@
     <!-- prettier-ignore -->
     <div class="grid grid-rows-3 sm:grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-4 font-feature-tnum">
       <Metric class="order-1 sm:order-1" text="Power" :value="trainer?.power" />
-      <Metric class="order-5 sm:order-2" text="Interval time" :value="formatSeconds(intervalSeconds)" />
+      <Metric class="order-5 sm:order-2" text="Interval time" :value="formatSeconds(currentIntervalSeconds)" />
       <Metric class="order-2 sm:order-3" text="Heart rate" :value="hrm?.heartRate" />
       <Metric class="order-3 sm:order-4" text="Target power" :value="targetPower" />
       <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
@@ -27,7 +27,7 @@
         ref="table"
         class="flex-1 [&_*]:cursor-default"
         :intervals="workout.intervals"
-        :selection="intervalIndex"
+        :selection="currentIntervalIndex"
       />
     </Label>
     <div class="flex gap-4">
@@ -61,7 +61,7 @@ import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { formatSeconds } from '../../utils/datetime';
-import { interval as setAccurateInterval } from '../../utils/interval';
+import { interval } from '../../utils/interval';
 import Metric from './Metric.vue';
 import NoTrainerDialog from './NoTrainerDialog.vue';
 
@@ -78,22 +78,31 @@ const workout = computed(() => activity.value.workout);
 const workoutSeconds = computed(() => workout.value.seconds);
 const currentSeconds = computed(() => activity.value.seconds);
 
-const intervalIndex = computed(() => {
+const currentIntervalData = computed(() => {
   let totalSeconds = 0;
-  for (const [i, { seconds }] of workout.value.intervals.entries()) {
-    totalSeconds += seconds;
+  for (const [index, interval] of workout.value.intervals.entries()) {
+    totalSeconds += interval.seconds;
     if (currentSeconds.value < totalSeconds) {
-      return i;
+      return { index, interval, totalSeconds };
     }
   }
   return null;
+});
+
+const currentInterval = computed(() => currentIntervalData.value?.interval);
+const currentIntervalIndex = computed(() => currentIntervalData.value?.index);
+const currentIntervalSeconds = computed(() => {
+  if (currentIntervalData.value == null) {
+    return null;
+  }
+  return currentIntervalData.value.totalSeconds - currentSeconds.value;
 });
 
 const table = ref();
 
 onMounted(() => {
   watch(
-    intervalIndex,
+    currentIntervalIndex,
     (index) => {
       if (index != null) {
         table.value.scrollTo(index);
@@ -103,19 +112,11 @@ onMounted(() => {
   );
 });
 
-const interval = computed(() => workout.value.intervals[intervalIndex.value]);
-const intervalSeconds = computed(() => {
-  if (interval.value == null) {
-    return 0;
-  }
-  return interval.value.seconds - (currentSeconds.value % interval.value.seconds);
-});
-
 const targetPower = computed(() => {
-  if (interval.value == null) {
+  if (currentInterval.value == null) {
     return null;
   }
-  return Math.round(athlete.value.ftp * interval.value.intensity);
+  return Math.round(athlete.value.ftp * currentInterval.value.intensity);
 });
 
 const setTargetPower = () => {
@@ -141,7 +142,7 @@ const start = () => {
   }
 
   stopInterval.value?.();
-  stopInterval.value = setAccurateInterval(1000, () => {
+  stopInterval.value = interval(1000, () => {
     activity.value.data.push(
       new DataPoint(trainer.value.power, trainer.value.cadence, hrm.value?.heartRate),
     );
