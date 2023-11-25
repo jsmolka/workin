@@ -128,6 +128,8 @@ const dialog = ref();
 const stopInterval = ref(null);
 
 const start = async () => {
+  clearAutoStart();
+
   if (trainer.value == null) {
     dialog.value.show();
     return;
@@ -151,8 +153,8 @@ let autoStart = null;
 const clearAutoStart = () => {
   if (autoStart != null) {
     clearTimeout(autoStart);
-    autoStart = null;
   }
+  autoStart = null;
 };
 
 watch(
@@ -169,6 +171,8 @@ watch(
 onUnmounted(clearAutoStart);
 
 const stop = () => {
+  clearAutoStop();
+
   stopInterval.value?.();
   stopInterval.value = null;
 };
@@ -186,8 +190,8 @@ let autoStop = 0;
 const clearAutoStop = () => {
   if (autoStop != null) {
     clearTimeout(autoStop);
-    autoStop = null;
   }
+  autoStop = null;
 };
 
 watch(
