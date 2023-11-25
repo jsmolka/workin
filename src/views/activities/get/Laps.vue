@@ -11,7 +11,7 @@
         {{ Math.round(getAveragePower(item)) }} W
       </Reserve>
     </div>
-    <div class="flex-1 flex items-center justify-center">
+    <div v-if="hasHeartRate(item)" class="flex-1 flex items-center justify-center">
       <Reserve class="text-right" reserve="100 bpm">
         {{ Math.round(getAverageHeartRate(item)) }} bpm
       </Reserve>
@@ -42,6 +42,10 @@ const selection = defineModel('selection', {
   type: Number,
   default: null,
 });
+
+const hasHeartRate = (lap) => {
+  return lap.some(({ heartRate }) => heartRate != null);
+};
 
 const table = ref();
 
