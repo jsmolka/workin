@@ -126,6 +126,7 @@ watch(targetPower, setTargetPower);
 
 const dialog = ref();
 const stopInterval = ref(null);
+const stopped = computed(() => stopInterval.value == null);
 
 const start = async () => {
   clearAutoStart();
@@ -161,6 +162,10 @@ const clearAutoStart = () => {
 watch(
   () => trainer.value?.power ?? 0,
   (newPower, oldPower) => {
+    if (!stopped.value) {
+      return;
+    }
+
     if (oldPower === 0 && newPower > 0) {
       autoStart = setTimeout(start, 5000);
     } else if (newPower === 0) {
@@ -198,6 +203,10 @@ const clearAutoStop = () => {
 watch(
   () => trainer.value?.power ?? 0,
   (newPower, oldPower) => {
+    if (stopped.value) {
+      return;
+    }
+
     if (newPower === 0 && oldPower > 0) {
       autoStop = setTimeout(stop, 5000);
     } else if (newPower > 0) {
@@ -207,8 +216,6 @@ watch(
 );
 
 onUnmounted(clearAutoStop);
-
-const stopped = computed(() => stopInterval.value == null);
 
 const toggle = () => {
   if (stopped.value) {
