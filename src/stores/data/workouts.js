@@ -30,7 +30,7 @@ function repeat(count, data, pop = true) {
   return result;
 }
 
-function map(intensity) {
+function maxAerobicPower(intensity) {
   return 1.3 * intensity;
 }
 
@@ -138,8 +138,8 @@ export const workouts = [
     workout(`${repeats} x 5 Decrease`, [
       warmup,
       repeat(repeats, [
-        interval('1:30', map(1.0)),
-        interval('3:30', map(0.85)),
+        interval('1:30', maxAerobicPower(1.0)),
+        interval('3:30', maxAerobicPower(0.85)),
         interval('5:00', 0.5),
       ]),
       cooldown,
@@ -154,12 +154,12 @@ export const workouts = [
     workout(`${repeats} x 5 Variation`, [
       warmup,
       repeat(repeats, [
-        interval('0:30', map(1.0)),
-        interval('1:00', map(0.77)),
-        interval('0:30', map(1.0)),
-        interval('1:00', map(0.77)),
-        interval('0:30', map(1.0)),
-        interval('1:30', map(0.77)),
+        interval('0:30', maxAerobicPower(1.0)),
+        interval('1:00', maxAerobicPower(0.77)),
+        interval('0:30', maxAerobicPower(1.0)),
+        interval('1:00', maxAerobicPower(0.77)),
+        interval('0:30', maxAerobicPower(1.0)),
+        interval('1:30', maxAerobicPower(0.77)),
         interval('5:00', 0.5),
       ]),
       cooldown,
@@ -174,8 +174,8 @@ export const workouts = [
       warmup,
       repeat(repeats, [
         repeat(13, [
-          interval('0:30', map(1.0)),
-          interval('0:15', map(0.5)),
+          interval('0:30', maxAerobicPower(1.0)),
+          interval('0:15', maxAerobicPower(0.5)),
         ]),
         interval('5:00', 0.5),
       ]),
@@ -188,8 +188,8 @@ export const workouts = [
       warmup,
       repeat(repeats, [
         repeat(15, [
-          interval('0:40', map(1.0)),
-          interval('0:20', map(0.5)),
+          interval('0:40', maxAerobicPower(1.0)),
+          interval('0:20', maxAerobicPower(0.5)),
         ]),
         interval('7:30', 0.5),
       ]),
