@@ -1,7 +1,7 @@
 <template>
   <Form class="h-full">
     <div class="flex justify-between gap-4">
-      <Back to="/activities" />
+      <Back :to="back" />
       <Dots>
         <MenuItem>
           <Button @click="remove">Delete</Button>
@@ -62,6 +62,7 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const back = '/activities';
 const { athlete } = storeToRefs(useAthleteStore());
 const { activities } = storeToRefs(useActivitiesStore());
 
@@ -69,9 +70,9 @@ const selection = ref(null);
 const activity = computed(() => activities.value[props.index] ?? new Activity());
 const laps = computed(() => activity.value.laps);
 
-const remove = () => {
+const remove = async () => {
+  await router.push(back);
   activities.value.splice(props.index, 1);
-  router.back();
 };
 
 const tcx = () => {
