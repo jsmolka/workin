@@ -31,7 +31,7 @@ function repeat(count, data, pop = true) {
 }
 
 function maxAerobicPower(intensity) {
-  return 1.3 * intensity;
+  return 1.25 * intensity;
 }
 
 // https://robertovukovic.com/cycling-interval-training/
