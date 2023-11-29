@@ -35,7 +35,7 @@
 <script setup>
 import { MenuItem } from '@headlessui/vue';
 import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
 import Button from '../../../components/Button.vue';
@@ -47,7 +47,6 @@ import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Activity } from '../../../modules/activity';
-import { Workout } from '../../../modules/workout';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
@@ -71,7 +70,7 @@ const { activities } = storeToRefs(useActivitiesStore());
 const store = useWorkoutsStore();
 
 const selection = ref(null);
-const workout = computed(() => store.workouts(props.type)[props.index] ?? new Workout());
+const workout = store.workouts(props.type)[props.index];
 
 const remove = async () => {
   await router.push(back);
@@ -82,7 +81,7 @@ const select = () => {
   if (activity.value != null && activity.value.seconds > 0) {
     activities.value.push(activity.value);
   }
-  activity.value = new Activity(workout.value);
+  activity.value = new Activity(workout);
   router.push('/train');
 };
 </script>

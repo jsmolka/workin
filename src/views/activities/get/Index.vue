@@ -33,7 +33,7 @@
 <script setup>
 import { MenuItem } from '@headlessui/vue';
 import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
 import Button from '../../../components/Button.vue';
@@ -45,7 +45,6 @@ import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
 import ChartLaps from '../../../components/chart/ChartLaps.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
-import { Activity } from '../../../modules/activity';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
 import { download } from '../../../utils/download';
@@ -67,8 +66,8 @@ const { athlete } = storeToRefs(useAthleteStore());
 const { activities } = storeToRefs(useActivitiesStore());
 
 const selection = ref(null);
-const activity = computed(() => activities.value[props.index] ?? new Activity());
-const laps = computed(() => activity.value.laps);
+const activity = activities.value[props.index];
+const laps = activity.laps;
 
 const remove = async () => {
   await router.push(back);
@@ -77,8 +76,8 @@ const remove = async () => {
 
 const tcx = () => {
   download(
-    activity.value.tcx((power) => powerToSpeed(power, { m: athlete.value.weight + 8 })),
-    `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}.tcx`,
+    activity.tcx((power) => powerToSpeed(power, { m: athlete.value.weight + 8 })),
+    `${formatDate(activity.date, 'YYMMDD')} - ${activity.workout.name}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );
 };
