@@ -31,23 +31,26 @@ const percent = (value) => 100 * math.clamp(value, 0, 1);
 
 function* lines(data) {
   let points = [];
+  const maxX = props.maxX;
+  const maxY = props.maxY;
+  const property = props.property;
   for (let i = 0; i < data.length; i++) {
-    const value = data[i]?.[props.property];
+    const value = data[i]?.[property];
     if (value != null) {
-      points.push(percent(i / (props.maxX - 1)));
-      points.push(percent(value / props.maxY));
+      points.push(percent(i / (maxX - 1)));
+      points.push(percent(value / maxY));
 
       let j = i + 1;
       for (; j < data.length; j++) {
-        const nextValue = data[j]?.[props.property];
+        const nextValue = data[j]?.[property];
         if (nextValue !== value) {
           break;
         }
       }
 
       if (j !== i + 1) {
-        points.push(percent(j / (props.maxX - 1)));
-        points.push(percent(value / props.maxY));
+        points.push(percent(j / (maxX - 1)));
+        points.push(percent(value / maxY));
         i = j;
       }
     }
