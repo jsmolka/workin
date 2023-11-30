@@ -42,7 +42,7 @@ const selection = defineModel('selection', {
 });
 
 const hasHeartRate = (lap) => {
-  return lap.some(({ heartRate }) => heartRate != null);
+  return lap.some((data) => data[1] != null);
 };
 
 const table = ref();
