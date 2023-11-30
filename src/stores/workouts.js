@@ -6,6 +6,7 @@ import { deserialize, serialize } from '../utils/persist';
 import { workouts as standardWorkouts } from './data/workouts';
 
 const id = 'workouts';
+const version = 1;
 
 export const useWorkoutsStore = defineStore(id, () => {
   const standard = ref(standardWorkouts);
@@ -13,13 +14,13 @@ export const useWorkoutsStore = defineStore(id, () => {
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null) {
-      custom.value = deserialize(Workout, data);
+    if (data != null && data.version === version) {
+      custom.value = deserialize(Workout, data.data);
     }
   };
 
   const persist = async () => {
-    await set(id, serialize(custom.value));
+    await set(id, { version, data: serialize(custom.value) });
   };
 
   watch(custom, persist, { deep: true });

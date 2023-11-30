@@ -5,19 +5,20 @@ import { Athlete } from '../modules/athlete';
 import { deserialize, serialize } from '../utils/persist';
 
 const id = 'athlete';
+const version = 1;
 
 export const useAthleteStore = defineStore(id, () => {
   const athlete = ref(new Athlete());
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null) {
-      athlete.value = deserialize(Athlete, data);
+    if (data != null && data.version === version) {
+      athlete.value = deserialize(Athlete, data.data);
     }
   };
 
   const persist = async () => {
-    await set(id, serialize(athlete.value));
+    await set(id, { version, data: serialize(athlete.value) });
   };
 
   watch(athlete, persist, { deep: true });
