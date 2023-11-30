@@ -20,8 +20,8 @@
           $refs.table.scrollTo($event);
         "
       />
-      <ChartHeartRate class="pointer-events-none" :data="activity.data" />
-      <ChartPower class="pointer-events-none" :data="activity.data" />
+      <ChartHeartRate class="pointer-events-none" :polylines="activity.polylinesHeartRate" />
+      <ChartPower class="pointer-events-none" :polylines="activity.polylinesPower" />
     </Chart>
     <Label class="flex-1" text="Laps">
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />

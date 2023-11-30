@@ -10,6 +10,8 @@ export class Activity {
     this.averagePower = 0;
     this.averageHeartRate = null;
     this.averageCadence = null;
+    this.polylinesPower = [];
+    this.polylinesHeartRate = [];
   }
 
   get seconds() {
@@ -116,29 +118,6 @@ createSchema(Activity, {
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),
+  polylinesPower: list(list(primitive())),
+  polylinesHeartRate: list(list(primitive())),
 });
-
-function getAverage(data, index) {
-  let result = 0;
-  let length = 0;
-  for (const item of data) {
-    const value = item[index];
-    if (value != null) {
-      result += value;
-      length++;
-    }
-  }
-  return length > 0 ? result / length : null;
-}
-
-export function getAveragePower(data) {
-  return getAverage(data, 0);
-}
-
-export function getAverageHeartRate(data) {
-  return getAverage(data, 1);
-}
-
-export function getAverageCadence(data) {
-  return getAverage(data, 2);
-}

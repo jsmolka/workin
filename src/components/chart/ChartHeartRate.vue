@@ -1,28 +1,16 @@
 <template>
-  <ChartData
-    :data="data"
-    :index="1"
-    :max-x="maxX ?? data.length"
-    :max-y="2 * athlete.ftp"
-    class="stroke-2 stroke-[#bf616a]"
-  />
+  <g class="stroke-2 stroke-[#bf616a]">
+    <Polyline v-for="points in polylines" :points="points" />
+  </g>
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useAthleteStore } from '../../stores/athlete';
-import ChartData from './ChartData.vue';
+import Polyline from './Polyline.vue';
 
 defineProps({
-  data: {
+  polylines: {
     type: Array,
     required: true,
   },
-  maxX: {
-    type: Number,
-    default: null,
-  },
 });
-
-const { athlete } = storeToRefs(useAthleteStore());
 </script>

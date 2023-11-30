@@ -28,7 +28,7 @@
 import { ref } from 'vue';
 import FlexTable from '../../../components/FlexTable.vue';
 import Reserve from '../../../components/Reserve.vue';
-import { getAverageHeartRate, getAveragePower } from '../../../modules/activity';
+import { getAverageHeartRate, getAveragePower } from '../../../modules/data';
 import { formatSeconds } from '../../../utils/time';
 
 const props = defineProps({

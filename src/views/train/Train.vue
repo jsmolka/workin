@@ -18,8 +18,10 @@
       />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
         <ChartLines :x2="x" />
-        <ChartHeartRate :data="activity.data" :max-x="workoutSeconds" />
-        <ChartPower :data="activity.data" :max-x="workoutSeconds" />
+        <ChartHeartRate
+          :polylines="polylinesHeartRate(activity.data, workoutSeconds, 2 * athlete.ftp)"
+        />
+        <ChartPower :polylines="polylinesPower(activity.data, workoutSeconds, 2 * athlete.ftp)" />
       </ChartProgress>
     </Chart>
     <Label class="flex-1" text="Intervals">
@@ -54,7 +56,13 @@ import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
-import { getAverageCadence, getAverageHeartRate, getAveragePower } from '../../modules/activity';
+import {
+  getAverageCadence,
+  getAverageHeartRate,
+  getAveragePower,
+  polylinesHeartRate,
+  polylinesPower,
+} from '../../modules/data';
 import { router } from '../../router';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
@@ -233,9 +241,12 @@ const toggleText = computed(() => {
 const finish = () => {
   stop();
 
-  activity.value.averagePower = getAveragePower(activity.value.data);
-  activity.value.averageHeartRate = getAverageHeartRate(activity.value.data);
-  activity.value.averageCadence = getAverageCadence(activity.value.data);
+  const data = activity.value.data;
+  activity.value.averagePower = getAveragePower(data);
+  activity.value.averageHeartRate = getAverageHeartRate(data);
+  activity.value.averageCadence = getAverageCadence(data);
+  activity.value.polylinesPower = polylinesPower(data, data.length, 2 * athlete.value.ftp);
+  activity.value.polylinesHeartRate = polylinesHeartRate(data, data.length, 2 * athlete.value.ftp);
   activities.value.push(activity.value);
   activity.value = null;
 
