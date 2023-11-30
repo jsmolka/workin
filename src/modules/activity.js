@@ -1,6 +1,6 @@
 import { createSchema, date, list, schema } from '../utils/persist';
 import { Xml } from '../utils/xml';
-import { DataPoint, getAverageCadence, getAverageHeartRate, getAveragePower } from './dataPoint';
+import { DataPoint } from './dataPoint';
 import { Workout } from './workout';
 
 export class Activity {
@@ -8,31 +8,13 @@ export class Activity {
     this.date = new Date();
     this.workout = workout;
     this.data = [];
+    this.averagePower = 0;
+    this.averageHeartRate = null;
+    this.averageCadence = null;
   }
 
   get seconds() {
     return this.data.length;
-  }
-
-  get averagePower() {
-    if (this._averagePower === undefined) {
-      this._averagePower = getAveragePower(this.data);
-    }
-    return this._averagePower;
-  }
-
-  get averageHeartRate() {
-    if (this._averageHeartRate === undefined) {
-      this._averageHeartRate = getAverageHeartRate(this.data);
-    }
-    return this._averageHeartRate;
-  }
-
-  get averageCadence() {
-    if (this._averageCadence === undefined) {
-      this._averageCadence = getAverageCadence(this.data);
-    }
-    return this._averageCadence;
   }
 
   get calories() {

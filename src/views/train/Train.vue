@@ -54,7 +54,12 @@ import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
-import { DataPoint } from '../../modules/dataPoint';
+import {
+  DataPoint,
+  getAverageCadence,
+  getAverageHeartRate,
+  getAveragePower,
+} from '../../modules/dataPoint';
 import { router } from '../../router';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
@@ -235,6 +240,9 @@ const toggleText = computed(() => {
 const finish = () => {
   stop();
 
+  activity.value.averagePower = getAveragePower(activity.value.data);
+  activity.value.averageHeartRate = getAverageHeartRate(activity.value.data);
+  activity.value.averageCadence = getAverageCadence(activity.value.data);
   activities.value.push(activity.value);
   activity.value = null;
 
