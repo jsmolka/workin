@@ -1,6 +1,5 @@
-import { createSchema, date, list, schema } from '../utils/persist';
+import { createSchema, date, list, primitive, schema } from '../utils/persist';
 import { Xml } from '../utils/xml';
-import { DataPoint } from './dataPoint';
 import { Workout } from './workout';
 
 export class Activity {
@@ -56,12 +55,12 @@ export class Activity {
             for (const [i, item] of this.data.entries()) {
               const date = new Date(this.date);
               date.setSeconds(date.getSeconds() + i);
-              data.push({ date, distance, ...item });
-              distance += powerToSpeed(item.power);
+              data.push([date, distance, ...item]);
+              distance += powerToSpeed(item[0]);
             }
 
             const last = structuredClone(data.at(-1));
-            last.date.setSeconds(last.date.getSeconds() + 1);
+            last[0].setSeconds(last[0].getSeconds() + 1);
             data.push(last);
 
             let laps = [];
@@ -76,9 +75,9 @@ export class Activity {
             }
 
             for (const lap of laps) {
-              xml.element('Lap', `StartTime="${lap[0].date.toISOString()}"`, () => {
+              xml.element('Lap', `StartTime="${lap[0][0].toISOString()}"`, () => {
                 xml.element('Track', () => {
-                  for (const { date, distance, power, heartRate, cadence } of lap) {
+                  for (const [date, distance, power, heartRate, cadence] of lap) {
                     xml.element('Trackpoint', () => {
                       xml.element('Time', date.toISOString());
                       xml.element('DistanceMeters', distance);
@@ -113,5 +112,33 @@ export class Activity {
 createSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: list(schema(DataPoint)),
+  data: list(list(primitive())),
+  averagePower: primitive(),
+  averageHeartRate: primitive(),
+  averageCadence: primitive(),
 });
+
+function getAverage(data, index) {
+  let result = 0;
+  let length = 0;
+  for (const item of data) {
+    const value = item[index];
+    if (value != null) {
+      result += value;
+      length++;
+    }
+  }
+  return length > 0 ? result / length : null;
+}
+
+export function getAveragePower(data) {
+  return getAverage(data, 0);
+}
+
+export function getAverageHeartRate(data) {
+  return getAverage(data, 1);
+}
+
+export function getAverageCadence(data) {
+  return getAverage(data, 2);
+}

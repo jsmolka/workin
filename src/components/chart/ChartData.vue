@@ -13,8 +13,8 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  property: {
-    type: String,
+  index: {
+    type: Number,
     required: true,
   },
   maxX: {
@@ -33,16 +33,16 @@ function* lines(data) {
   let points = [];
   const maxX = props.maxX;
   const maxY = props.maxY;
-  const property = props.property;
+  const index = props.index;
   for (let i = 0; i < data.length; i++) {
-    const value = data[i]?.[property];
+    const value = data[i]?.[index];
     if (value != null) {
       points.push(percent(i / (maxX - 1)));
       points.push(percent(value / maxY));
 
       let j = i + 1;
       for (; j < data.length; j++) {
-        const nextValue = data[j]?.[property];
+        const nextValue = data[j]?.[index];
         if (nextValue !== value) {
           break;
         }

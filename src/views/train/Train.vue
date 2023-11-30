@@ -54,12 +54,7 @@ import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
-import {
-  DataPoint,
-  getAverageCadence,
-  getAverageHeartRate,
-  getAveragePower,
-} from '../../modules/dataPoint';
+import { getAverageCadence, getAverageHeartRate, getAveragePower } from '../../modules/activity';
 import { router } from '../../router';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
@@ -148,9 +143,7 @@ const start = () => {
 
   stopInterval.value?.();
   stopInterval.value = interval(1000, () => {
-    activity.value.data.push(
-      new DataPoint(trainer.value.power, trainer.value.cadence, hrm.value?.heartRate),
-    );
+    activity.value.data.push([trainer.value.power, hrm.value?.heartRate, trainer.value.cadence]);
   });
 };
 

@@ -1,7 +1,7 @@
 <template>
   <ChartData
     :data="data"
-    property="power"
+    :index="0"
     :max-x="maxX ?? data.length"
     :max-y="2 * athlete.ftp"
     class="stroke-2 stroke-blue-3"
