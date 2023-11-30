@@ -15,15 +15,24 @@ export class Activity {
   }
 
   get averagePower() {
-    return getAveragePower(this.data);
+    if (this._averagePower === undefined) {
+      this._averagePower = getAveragePower(this.data);
+    }
+    return this._averagePower;
   }
 
   get averageHeartRate() {
-    return getAverageHeartRate(this.data);
+    if (this._averageHeartRate === undefined) {
+      this._averageHeartRate = getAverageHeartRate(this.data);
+    }
+    return this._averageHeartRate;
   }
 
   get averageCadence() {
-    return getAverageCadence(this.data);
+    if (this._averageCadence === undefined) {
+      this._averageCadence = getAverageCadence(this.data);
+    }
+    return this._averageCadence;
   }
 
   get calories() {
