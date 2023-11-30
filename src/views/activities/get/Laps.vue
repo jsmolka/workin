@@ -7,13 +7,11 @@
     v-slot="{ item }"
   >
     <div class="flex-1 flex items-center justify-start">
-      <Reserve class="text-right" reserve="100 W">
-        {{ Math.round(getAveragePower(item)) }} W
-      </Reserve>
+      <Reserve class="text-right" reserve="100 W">{{ Math.round(averagePower(item)) }} W</Reserve>
     </div>
     <div v-if="hasHeartRate(item)" class="flex-1 flex items-center justify-center">
       <Reserve class="text-right" reserve="100 bpm">
-        {{ Math.round(getAverageHeartRate(item)) }} bpm
+        {{ Math.round(averageHeartRate(item)) }} bpm
       </Reserve>
     </div>
     <div class="flex-1 flex items-center justify-end">
@@ -28,7 +26,7 @@
 import { ref } from 'vue';
 import FlexTable from '../../../components/FlexTable.vue';
 import Reserve from '../../../components/Reserve.vue';
-import { getAverageHeartRate, getAveragePower } from '../../../modules/data';
+import { averageHeartRate, averagePower } from '../../../modules/data';
 import { formatSeconds } from '../../../utils/time';
 
 const props = defineProps({

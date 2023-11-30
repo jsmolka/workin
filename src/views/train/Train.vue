@@ -18,9 +18,7 @@
       />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
         <ChartLines :x2="x" />
-        <ChartHeartRate
-          :polylines="polylinesHeartRate(activity.data, workoutSeconds, 2 * athlete.ftp)"
-        />
+        <ChartHeartRate :polylines="polylinesHeartRate(activity.data, workoutSeconds)" />
         <ChartPower :polylines="polylinesPower(activity.data, workoutSeconds, 2 * athlete.ftp)" />
       </ChartProgress>
     </Chart>
@@ -57,9 +55,9 @@ import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
 import {
-  getAverageCadence,
-  getAverageHeartRate,
-  getAveragePower,
+  averageCadence,
+  averageHeartRate,
+  averagePower,
   polylinesHeartRate,
   polylinesPower,
 } from '../../modules/data';
@@ -242,11 +240,11 @@ const finish = () => {
   stop();
 
   const data = activity.value.data;
-  activity.value.averagePower = getAveragePower(data);
-  activity.value.averageHeartRate = getAverageHeartRate(data);
-  activity.value.averageCadence = getAverageCadence(data);
+  activity.value.averagePower = averagePower(data);
+  activity.value.averageHeartRate = averageHeartRate(data);
+  activity.value.averageCadence = averageCadence(data);
   activity.value.polylinesPower = polylinesPower(data, data.length, 2 * athlete.value.ftp);
-  activity.value.polylinesHeartRate = polylinesHeartRate(data, data.length, 2 * athlete.value.ftp);
+  activity.value.polylinesHeartRate = polylinesHeartRate(data, data.length);
   activities.value.push(activity.value);
   activity.value = null;
 

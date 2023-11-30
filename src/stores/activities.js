@@ -7,7 +7,7 @@ import { deserialize, serialize } from '../utils/persist';
 import { useAthleteStore } from './athlete';
 
 const id = 'activities';
-const version = 2;
+const version = 3;
 
 export const useActivitiesStore = defineStore(id, () => {
   const activities = ref([]);
@@ -31,7 +31,8 @@ export const useActivitiesStore = defineStore(id, () => {
 function convert(data) {
   const { version, data: activities } = data;
   switch (version) {
-    case 1: {
+    case 1:
+    case 2: {
       const { athlete } = useAthleteStore();
       for (const activity of activities) {
         activity.polylinesPower = polylinesPower(
@@ -39,11 +40,7 @@ function convert(data) {
           activity.data.length,
           2 * athlete.ftp,
         );
-        activity.polylinesHeartRate = polylinesHeartRate(
-          activity.data,
-          activity.data.length,
-          2 * athlete.ftp,
-        );
+        activity.polylinesHeartRate = polylinesHeartRate(activity.data, activity.data.length);
       }
     }
   }

@@ -1,6 +1,6 @@
 import { math } from '../utils/math';
 
-function getAverage(data, index) {
+function average(data, index) {
   let result = 0;
   let length = 0;
   for (const item of data) {
@@ -13,28 +13,30 @@ function getAverage(data, index) {
   return length > 0 ? result / length : null;
 }
 
-export function getAveragePower(data) {
-  return getAverage(data, 0);
+export function averagePower(data) {
+  return average(data, 0);
 }
 
-export function getAverageHeartRate(data) {
-  return getAverage(data, 1);
+export function averageHeartRate(data) {
+  return average(data, 1);
 }
 
-export function getAverageCadence(data) {
-  return getAverage(data, 2);
+export function averageCadence(data) {
+  return average(data, 2);
 }
 
-const percent = (value) => 100 * math.clamp(value, 0, 1);
+function polylines(data, index, minX, maxX, minY, maxY) {
+  const p = (value) => 100 * math.clamp(value, 0, 1);
+  const x = (value) => p((value - minX) / (maxX - 1));
+  const y = (value) => p((value - minY) / (maxY - 0));
 
-export function polylines(data, index, maxX, maxY) {
   let result = [];
   let points = [];
   for (let i = 0; i < data.length; i++) {
     const value = data[i]?.[index];
     if (value != null) {
-      points.push(percent(i / (maxX - 1)));
-      points.push(percent(value / maxY));
+      points.push(x(i));
+      points.push(y(value));
 
       let j = i + 1;
       for (; j < data.length; j++) {
@@ -45,8 +47,8 @@ export function polylines(data, index, maxX, maxY) {
       }
 
       if (j !== i + 1) {
-        points.push(percent(j / (maxX - 1)));
-        points.push(percent(value / maxY));
+        points.push(x(j));
+        points.push(y(value));
         i = j;
       }
     }
@@ -60,9 +62,9 @@ export function polylines(data, index, maxX, maxY) {
 }
 
 export function polylinesPower(data, maxX, maxY) {
-  return polylines(data, 0, maxX, maxY);
+  return polylines(data, 0, 0, maxX, 0, maxY);
 }
 
-export function polylinesHeartRate(data, maxX, maxY) {
-  return polylines(data, 1, maxX, maxY);
+export function polylinesHeartRate(data, maxX) {
+  return polylines(data, 1, 0, maxX, 50, 450);
 }
