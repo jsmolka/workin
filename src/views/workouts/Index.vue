@@ -4,17 +4,19 @@
       <RouterLink class="tab flex-1" to="/workouts/standard">Standard</RouterLink>
       <RouterLink class="tab flex-1" to="/workouts/custom">Custom</RouterLink>
     </div>
-    <div class="relative flex-1">
-      <div v-if="workouts.length > 0" class="absolute inset-0 flex flex-col gap-4 overflow-y-auto">
-        <RouterLink v-for="(workout, index) in workouts" :to="`/workouts/${type}/${index}`">
+    <div class="relative flex-1" :class="{ '-mb-4': standard }">
+      <Form v-if="workouts.length > 0" class="absolute inset-0 overflow-y-auto">
+        <RouterLink
+          v-for="(workout, index) in workouts"
+          :to="`/workouts/${type}/${index}`"
+          :class="{ 'last:mb-4': standard }"
+        >
           <Workout :workout="workout" />
         </RouterLink>
-      </div>
+      </Form>
       <div v-else class="flex justify-center items-center h-full">No workouts, yet.</div>
     </div>
-    <Button v-if="type === 'custom'" @click="router.push('/workouts/new')" blue>
-      New workout
-    </Button>
+    <Button v-if="!standard" @click="router.push('/workouts/new')" blue>New workout</Button>
   </Form>
 </template>
 
@@ -37,6 +39,7 @@ const router = useRouter();
 const store = useWorkoutsStore();
 
 const workouts = computed(() => store.workouts(props.type));
+const standard = computed(() => props.type === 'standard');
 </script>
 
 <style lang="scss" scoped>
