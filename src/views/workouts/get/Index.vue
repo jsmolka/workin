@@ -34,7 +34,6 @@
 
 <script setup>
 import { MenuItem } from '@headlessui/vue';
-import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
@@ -47,7 +46,6 @@ import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Activity } from '../../../modules/activity';
-import { useActivitiesStore } from '../../../stores/activities';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import Header from '../Header.vue';
@@ -64,8 +62,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const { activity } = storeToRefs(useActivityStore());
-const { activities } = storeToRefs(useActivitiesStore());
 const store = useWorkoutsStore();
 
 const selection = ref(null);
@@ -77,10 +73,11 @@ const remove = () => {
 };
 
 const select = () => {
-  if (activity.value != null && activity.value.seconds > 0) {
-    activities.value.push(activity.value);
+  const store = useActivityStore();
+  if (store.activity != null && store.activity.seconds > 0) {
+    store.finish();
   }
-  activity.value = new Activity(workout);
+  store.activity = new Activity(workout);
   router.push('/train');
 };
 </script>

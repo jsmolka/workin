@@ -54,13 +54,7 @@ import ChartIntervals from '../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../components/chart/ChartLines.vue';
 import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
-import {
-  averageCadence,
-  averageHeartRate,
-  averagePower,
-  polylinesHeartRate,
-  polylinesPower,
-} from '../../modules/data';
+import { polylinesHeartRate, polylinesPower } from '../../modules/data';
 import { router } from '../../router';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
@@ -239,14 +233,8 @@ const toggleText = computed(() => {
 const finish = () => {
   stop();
 
-  const data = activity.value.data;
-  activity.value.averagePower = averagePower(data);
-  activity.value.averageHeartRate = averageHeartRate(data);
-  activity.value.averageCadence = averageCadence(data);
-  activity.value.polylinesPower = polylinesPower(data, data.length, 2 * athlete.value.ftp);
-  activity.value.polylinesHeartRate = polylinesHeartRate(data, data.length);
-  activities.value.push(activity.value);
-  activity.value = null;
+  const store = useActivityStore();
+  store.finish();
 
   router.push(`/activities/${activities.value.length - 1}`);
 };
