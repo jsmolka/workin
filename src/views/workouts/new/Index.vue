@@ -1,7 +1,7 @@
 <template>
   <Form class="h-full">
     <div class="flex justify-between gap-4">
-      <Back to="/workouts/custom" />
+      <Back />
       <Dots>
         <MenuItem>
           <Button @click="workout.intervals.push(...warmup)">Add warmup</Button>

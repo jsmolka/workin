@@ -1,6 +1,6 @@
 <template>
   <div class="relative border border-gray-6 rounded-sm overflow-hidden">
-    <div ref="items" class="absolute inset-0 overflow-y-scroll select-none">
+    <div ref="items" class="absolute inset-0 overflow-y-auto select-none">
       <div
         v-for="(item, index) in data"
         class="flex gap-4 px-2 py-1.5 odd:bg-gray-6 hover:bg-gray-5 cursor-pointer"

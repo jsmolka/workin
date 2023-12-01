@@ -5,6 +5,7 @@ import App from './App.vue';
 import { percent } from './directives/percent';
 import './main.scss';
 import { router } from './router';
+import { createRouterScroller } from './router/scroller';
 import { useActivitiesStore } from './stores/activities';
 import { useActivityStore } from './stores/activity';
 import { useAthleteStore } from './stores/athlete';
@@ -30,6 +31,7 @@ async function main() {
   }
 
   app.use(router);
+  app.use(createRouterScroller(['.overflow-y-auto']));
   app.mount('#app');
 }
 
