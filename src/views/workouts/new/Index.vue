@@ -17,7 +17,7 @@
     <Label text="Name">
       <Input v-model:value="workout.name" />
     </Label>
-    <Chart class="aspect-[5/2]">
+    <Chart class="shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
