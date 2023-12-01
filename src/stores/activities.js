@@ -7,14 +7,14 @@ import { deserialize, serialize } from '../utils/persist';
 import { useAthleteStore } from './athlete';
 
 const id = 'activities';
-const version = 3;
+const version = 4;
 
 export const useActivitiesStore = defineStore(id, () => {
   const activities = ref([]);
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null) {
+    if (data != null && data.version != null) {
       activities.value = deserialize(Activity, convert(data).data);
     }
   };
@@ -28,21 +28,23 @@ export const useActivitiesStore = defineStore(id, () => {
   return { activities, hydrate };
 });
 
+function updatePolylines(activities) {
+  const { athlete } = useAthleteStore();
+  for (const activity of activities) {
+    activity.polylinesPower = polylinesPower(activity.data, activity.data.length, 2 * athlete.ftp);
+    activity.polylinesHeartRate = polylinesHeartRate(activity.data, activity.data.length);
+  }
+}
+
 function convert(data) {
   const { version, data: activities } = data;
   switch (version) {
     case 1:
-    case 2: {
-      const { athlete } = useAthleteStore();
-      for (const activity of activities) {
-        activity.polylinesPower = polylinesPower(
-          activity.data,
-          activity.data.length,
-          2 * athlete.ftp,
-        );
-        activity.polylinesHeartRate = polylinesHeartRate(activity.data, activity.data.length);
-      }
-    }
+      updatePolylines(activities);
+    case 2:
+      updatePolylines(activities);
+    case 3:
+      updatePolylines(activities);
   }
   return data;
 }

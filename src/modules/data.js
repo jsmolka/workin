@@ -27,8 +27,8 @@ export function averageCadence(data) {
 
 function polylines(data, index, minX, maxX, minY, maxY) {
   const p = (value) => 100 * math.clamp(value, 0, 1);
-  const x = (value) => p((value - minX) / (maxX - 1));
-  const y = (value) => p((value - minY) / (maxY - 0));
+  const x = (value) => p((value - minX) / (maxX - minX - 1));
+  const y = (value) => p((value - minY) / (maxY - minY));
 
   let result = [];
   let points = [];
