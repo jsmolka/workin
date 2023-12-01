@@ -59,7 +59,6 @@
 
 <script setup>
 import { MenuItem } from '@headlessui/vue';
-import { storeToRefs } from 'pinia';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
@@ -78,6 +77,8 @@ import { Workout } from '../../../modules/workout';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import { parseSeconds } from '../../../utils/time';
 
+const router = useRouter();
+
 const durationInput = ref('5:00');
 const duration = computed(() => {
   if (durationInput.value == null) {
@@ -93,9 +94,6 @@ const intensity = computed(() => {
   }
   return intensityInput.value / 100;
 });
-
-const router = useRouter();
-const { custom } = storeToRefs(useWorkoutsStore());
 
 const selection = ref(null);
 const workout = reactive(new Workout('New workout'));
