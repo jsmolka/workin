@@ -12,13 +12,13 @@
       {{ formatSeconds(activity.seconds) }}
     </Attribute>
     <Attribute text="Avg W">
-      {{ Math.round(averagePower) }}
+      {{ Math.round(activity.averagePower) }}
     </Attribute>
-    <Attribute v-if="averageHeartRate != null" text="Avg bpm">
-      {{ Math.round(averageHeartRate) }}
+    <Attribute v-if="activity.averageHeartRate != null" text="Avg bpm">
+      {{ Math.round(activity.averageHeartRate) }}
     </Attribute>
-    <Attribute v-if="averageCadence != null" text="Avg rpm">
-      {{ Math.round(averageCadence) }}
+    <Attribute v-if="activity.averageCadence != null" text="Avg rpm">
+      {{ Math.round(activity.averageCadence) }}
     </Attribute>
     <Attribute text="Calories">
       {{ Math.round(activity.calories) }}
@@ -27,20 +27,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import Attribute from '../../components/Attribute.vue';
 import FlexWrapHidden from '../../components/FlexWrapHidden.vue';
 import { Activity } from '../../modules/activity';
 import { formatDate, formatSeconds } from '../../utils/time';
 
-const props = defineProps({
+defineProps({
   activity: {
     type: Activity,
     required: true,
   },
 });
-
-const averagePower = computed(() => props.activity.averagePower);
-const averageHeartRate = computed(() => props.activity.averageHeartRate);
-const averageCadence = computed(() => props.activity.averageCadence);
 </script>
