@@ -38,22 +38,22 @@ function polylines(data, index, minX, maxX, minY, maxY) {
       points.push(x(i));
       points.push(y(value));
 
-      let j = i + 1;
+      let j = i;
       for (; j < data.length; j++) {
-        const nextValue = data[j]?.[index];
-        if (nextValue !== value) {
+        const next = data[j + 1]?.[index];
+        if (value !== next) {
           break;
         }
       }
 
-      if (j !== i + 1) {
+      if (i !== j) {
         points.push(x(j));
         points.push(y(value));
         i = j;
       }
     }
 
-    if ((value == null || i >= data.length - 1) && points.length > 0) {
+    if ((value == null || i === data.length - 1) && points.length > 0) {
       result.push(points);
       points = [];
     }

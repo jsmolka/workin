@@ -7,7 +7,7 @@ import { deserialize, serialize } from '../utils/persist';
 import { useAthleteStore } from './athlete';
 
 const id = 'activities';
-const version = 4;
+const version = 5;
 
 export const useActivitiesStore = defineStore(id, () => {
   const activities = ref([]);
@@ -44,6 +44,8 @@ function convert(data) {
     case 2:
       updatePolylines(activities);
     case 3:
+      updatePolylines(activities);
+    case 4:
       updatePolylines(activities);
   }
   return data;
