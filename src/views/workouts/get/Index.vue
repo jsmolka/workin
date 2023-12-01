@@ -9,7 +9,7 @@
       </Dots>
     </div>
     <Header :workout="workout" />
-    <Chart class="aspect-[3/1]">
+    <Chart class="aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"

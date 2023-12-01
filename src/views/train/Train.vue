@@ -9,7 +9,7 @@
       <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
-    <Chart class="aspect-[3/1]">
+    <Chart class="aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         class="pointer-events-none"

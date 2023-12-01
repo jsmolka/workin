@@ -9,7 +9,7 @@
       </Dots>
     </div>
     <Header :activity="activity" />
-    <Chart class="aspect-[3/1]">
+    <Chart class="aspect-[5/2]">
       <ChartLines />
       <ChartLaps
         :laps="laps"
