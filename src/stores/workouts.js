@@ -14,7 +14,7 @@ export const useWorkoutsStore = defineStore(id, () => {
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version === version) {
+    if (data != null && data.version != null) {
       custom.value = deserialize(Workout, data.data);
     }
   };

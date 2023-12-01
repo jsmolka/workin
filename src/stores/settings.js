@@ -13,7 +13,7 @@ export const useSettingsStore = defineStore(id, () => {
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version === version) {
+    if (data != null && data.version != null) {
       settings.value = deserialize(Settings, data.data);
     }
   };

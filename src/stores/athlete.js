@@ -12,7 +12,7 @@ export const useAthleteStore = defineStore(id, () => {
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version === version) {
+    if (data != null && data.version != null) {
       athlete.value = deserialize(Athlete, data.data);
     }
   };

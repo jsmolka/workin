@@ -13,7 +13,7 @@ export const useActivityStore = defineStore(id, () => {
 
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version === version) {
+    if (data != null && data.version != null) {
       activity.value = deserialize(Activity, data.data);
     }
   };
