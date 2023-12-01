@@ -1,6 +1,7 @@
+import { watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { shallowRef, triggerRef } from 'vue';
 import { Activity } from '../modules/activity';
 import { polylinesHeartRate, polylinesPower } from '../modules/data';
 import { deserialize, serialize } from '../utils/persist';
@@ -10,22 +11,30 @@ const id = 'activities';
 const version = 5;
 
 export const useActivitiesStore = defineStore(id, () => {
-  const activities = ref([]);
-
-  const hydrate = async () => {
-    const data = await get(id);
-    if (data != null && data.version != null) {
-      activities.value = deserialize(Activity, convert(data).data);
-    }
-  };
+  const activities = shallowRef([]);
 
   const persist = async () => {
     await set(id, { version, data: serialize(activities.value) });
   };
 
-  watch(activities, persist, { deep: true });
+  const { ignoreUpdates } = watchIgnorable(activities, persist);
 
-  return { activities, hydrate };
+  const hydrate = async () => {
+    const data = await get(id);
+    if (data != null && data.version != null) {
+      ignoreUpdates(() => {
+        activities.value = deserialize(Activity, convert(data).data);
+      });
+    }
+  };
+
+  const push = (activity) => {
+    activities.value.push(activity);
+    triggerRef(activities);
+    return activities.value.length - 1;
+  };
+
+  return { activities, hydrate, push };
 });
 
 function updatePolylines(activities) {

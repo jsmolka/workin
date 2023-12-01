@@ -234,9 +234,8 @@ const finish = () => {
   stop();
 
   const store = useActivityStore();
-  store.finish();
-
-  router.push(`/activities/${activities.value.length - 1}`);
+  const index = store.finish();
+  router.push(`/activities/${index}`);
 };
 
 watchEffect(() => {

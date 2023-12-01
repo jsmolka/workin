@@ -110,8 +110,8 @@ const remove = () => {
 };
 
 const save = () => {
-  custom.value.push(workout);
-  custom.value.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
-  router.push(`/workouts/custom/${custom.value.findIndex((value) => value === workout)}`);
+  const store = useWorkoutsStore();
+  const index = store.push(workout);
+  router.push(`/workouts/custom/${index}`);
 };
 </script>

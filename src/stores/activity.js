@@ -1,7 +1,7 @@
-import { useDebounceFn } from '@vueuse/core';
+import { useDebounceFn, watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { Activity } from '../modules/activity';
 import {
   averageCadence,
@@ -20,22 +20,27 @@ const version = 1;
 export const useActivityStore = defineStore(id, () => {
   const activity = ref(null);
 
-  const hydrate = async () => {
-    const data = await get(id);
-    if (data != null && data.version != null) {
-      activity.value = deserialize(Activity, data.data);
-    }
-  };
-
   const persist = async () => {
     await set(id, activity.value != null ? { version, data: serialize(activity.value) } : null);
   };
 
-  watch(activity, useDebounceFn(persist, 2000, { maxWait: 10000 }), { deep: true });
+  const { ignoreUpdates } = watchIgnorable(
+    activity,
+    useDebounceFn(persist, 1500, { maxWait: 10000 }),
+    { deep: true },
+  );
+
+  const hydrate = async () => {
+    const data = await get(id);
+    if (data != null && data.version != null) {
+      ignoreUpdates(() => {
+        activity.value = deserialize(Activity, data.data);
+      });
+    }
+  };
 
   const finish = () => {
     const { athlete } = useAthleteStore();
-    const { activities } = useActivitiesStore();
 
     const value = activity.value;
     value.averagePower = averagePower(value.data);
@@ -43,9 +48,11 @@ export const useActivityStore = defineStore(id, () => {
     value.averageCadence = averageCadence(value.data);
     value.polylinesPower = polylinesPower(value.data, value.data.length, 2 * athlete.ftp);
     value.polylinesHeartRate = polylinesHeartRate(value.data, value.data.length);
-    activities.push(value);
 
+    const store = useActivitiesStore();
+    const index = store.push(value);
     activity.value = null;
+    return index;
   };
 
   return { activity, hydrate, finish };
