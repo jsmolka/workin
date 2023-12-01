@@ -98,7 +98,7 @@ const router = useRouter();
 const { custom } = storeToRefs(useWorkoutsStore());
 
 const selection = ref(null);
-const workout = reactive(new Workout());
+const workout = reactive(new Workout('New workout'));
 
 const add = () => {
   workout.intervals.push(new Interval(duration.value, intensity.value));

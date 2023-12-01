@@ -1,5 +1,5 @@
 <template>
-  <div class="grid place-items-center h-full p-4">
+  <div class="flex justify-center items-center h-full p-4">
     <p>
       Your browser doesn't support Bluetooth. Click
       <a

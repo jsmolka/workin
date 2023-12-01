@@ -4,7 +4,7 @@
       <Activity :activity="activity" />
     </RouterLink>
   </Form>
-  <div v-else class="grid place-items-center h-full">No activities, yet.</div>
+  <div v-else class="flex justify-center items-center h-full">No activities, yet.</div>
 </template>
 
 <script setup>
