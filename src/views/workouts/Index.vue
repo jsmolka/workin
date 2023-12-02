@@ -5,15 +5,19 @@
       <RouterLink class="tab flex-1" to="/workouts/custom">Custom</RouterLink>
     </div>
     <div class="relative flex-1" :class="{ '-mb-4': standard }">
-      <Form v-if="workouts.length > 0" class="absolute inset-0 overflow-y-auto">
-        <RouterLink
-          v-for="(workout, index) in workouts"
-          :to="`/workouts/${type}/${index}`"
-          :class="{ 'last:mb-4': standard }"
-        >
-          <Workout :workout="workout" />
+      <Scroller
+        class="absolute inset-0"
+        v-if="workouts.length > 0"
+        :class="{ 'pb-4': standard }"
+        :items="workouts"
+        :size="128"
+        :size-gap="14"
+        v-slot="{ item, index }"
+      >
+        <RouterLink :to="`/workouts/${type}/${index}`">
+          <Workout :workout="item" />
         </RouterLink>
-      </Form>
+      </Scroller>
       <div v-else class="flex justify-center items-center h-full">No workouts, yet.</div>
     </div>
     <Button v-if="!standard" @click="router.push('/workouts/new')" blue>New workout</Button>
@@ -25,6 +29,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
+import Scroller from '../../components/Scroller.vue';
 import { useWorkoutsStore } from '../../stores/workouts';
 import Workout from './Workout.vue';
 

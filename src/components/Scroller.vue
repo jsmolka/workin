@@ -49,25 +49,16 @@ const toPx = (value) => {
   return 0;
 };
 
-const size = computed(() => {
-  return toPx(props.size);
-});
-
-const sizeGap = computed(() => {
-  return toPx(props.sizeGap);
-});
-
-const prerender = computed(() => {
-  return Math.round(document.body.clientHeight / size.value);
-});
-
-const items = computed(() => {
-  return props.items.map((item, index, items) => ({
+const size = computed(() => toPx(props.size));
+const sizeGap = computed(() => toPx(props.sizeGap));
+const prerender = computed(() => Math.ceil(document.body.clientHeight / size.value));
+const items = computed(() =>
+  props.items.map((item, index) => ({
     id: nanoid(),
-    size: size.value + (index === items.length - 1 ? 0 : sizeGap.value),
+    size: size.value + (index === props.items.length - 1 ? 0 : sizeGap.value),
     item,
-  }));
-});
+  })),
+);
 
 const scroller = ref();
 onMounted(() => {

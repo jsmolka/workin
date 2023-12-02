@@ -77,7 +77,9 @@ function applyPositions(positions, selectors) {
     const elements = querySelectorAll(selector);
     for (const [i, element] of elements.entries()) {
       const position = positions?.[selector]?.[i];
-      element.scrollTo(position ?? { top: 0, left: 0 });
+      if (position != null) {
+        element.scrollTo(position);
+      }
     }
   }
 }

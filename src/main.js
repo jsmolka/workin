@@ -32,7 +32,7 @@ async function main() {
   }
 
   app.use(router);
-  app.use(createRouterScroller(['.overflow-y-auto']));
+  app.use(createRouterScroller(['.scroller']));
   app.mount('#app');
 }
 
