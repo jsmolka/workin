@@ -56,7 +56,6 @@ import ChartPower from '../../components/chart/ChartPower.vue';
 import ChartProgress from '../../components/chart/ChartProgress.vue';
 import { polylinesHeartRate, polylinesPower } from '../../modules/data';
 import { router } from '../../router';
-import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
@@ -71,7 +70,6 @@ onUnmounted(() => wakeLock.release());
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
-const { activities } = storeToRefs(useActivitiesStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 
 const workout = computed(() => activity.value.workout);
