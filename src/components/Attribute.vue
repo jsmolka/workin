@@ -1,8 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <span>
-      <slot />
-    </span>
+    <slot />
     <span class="label">{{ text }}</span>
   </div>
 </template>

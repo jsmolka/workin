@@ -29,7 +29,7 @@ import Reserve from '../../../components/Reserve.vue';
 import { averageHeartRate, averagePower } from '../../../modules/data';
 import { formatSeconds } from '../../../utils/time';
 
-const props = defineProps({
+defineProps({
   laps: {
     type: Array,
     required: true,

@@ -1,14 +1,14 @@
 <template>
   <Form class="h-full">
-    <div class="flex rounded-sm">
+    <div class="flex rounded-sm overflow-hidden">
       <RouterLink class="tab flex-1" to="/workouts/standard">Standard</RouterLink>
       <RouterLink class="tab flex-1" to="/workouts/custom">Custom</RouterLink>
     </div>
-    <div class="relative flex-1" :class="{ '-mb-4': standard }">
+    <div class="relative flex-1">
       <Scroller
-        class="absolute inset-0"
         v-if="workouts.length > 0"
-        :class="{ 'pb-4': standard }"
+        class="absolute inset-0"
+        :class="{ '-mb-4 pb-4': standard }"
         :items="workouts"
         :size="128"
         :size-gap="14"

@@ -1,6 +1,6 @@
-// Based on https://github.com/antfu/vue-router-better-scroller
-
 import { nextTick } from 'vue';
+
+// Based on https://github.com/antfu/vue-router-better-scroller
 
 export function setupRouterScroller(router, selectors) {
   if (router.options.scrollBehavior) {

@@ -18,7 +18,6 @@ import Dialog from '../../components/Dialog.vue';
 import Form from '../../components/Form.vue';
 
 const router = useRouter();
-
 const dialog = ref();
 
 defineExpose({

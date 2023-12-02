@@ -41,7 +41,9 @@ defineProps({
   },
 });
 
-const value = defineModel('value', { required: true });
+const value = defineModel('value', {
+  required: true,
+});
 
 const isObject = (item) => {
   return typeof item === 'object' && item !== null;

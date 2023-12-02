@@ -20,7 +20,9 @@ defineProps({
   },
 });
 
-const value = defineModel('value', { required: true });
+const value = defineModel('value', {
+  required: true,
+});
 
 const forceUpdate = useForceUpdate();
 

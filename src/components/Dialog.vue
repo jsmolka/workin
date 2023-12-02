@@ -13,7 +13,6 @@ import { Dialog, DialogPanel } from '@headlessui/vue';
 import { ref } from 'vue';
 
 const open = ref(false);
-
 const show = () => (open.value = true);
 const hide = () => (open.value = false);
 
