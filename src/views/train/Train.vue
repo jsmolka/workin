@@ -182,6 +182,12 @@ useEventListener(document, 'visibilitychange', () => {
   }
 });
 
+watch(trainer.value, (value) => {
+  if (value == null) {
+    stop();
+  }
+});
+
 let autoStop = 0;
 
 const clearAutoStop = () => {
