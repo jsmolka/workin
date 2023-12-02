@@ -12,14 +12,14 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
     "@heroicons/vue": "^2.0.18",
-    "@vueuse/core": "^10.5.0",
+    "@vueuse/core": "^10.6.1",
     "dayjs": "^1.11.10",
     "idb-keyval": "^6.2.1",
-    "mathjs": "^12.0.0",
+    "mathjs": "^12.1.0",
     "nanoid": "^5.0.3",
     "notyf": "^3.10.0",
     "pinia": "^2.1.7",
-    "vue": "^3.3.7",
+    "vue": "^3.3.9",
     "vue-router": "^4.2.5",
     "vue-virtual-scroller": "^2.0.0-beta.8"
   },
