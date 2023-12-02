@@ -69,7 +69,8 @@ const laps = activity.laps;
 
 const remove = () => {
   router.back();
-  activities.value.splice(props.index, 1);
+  const store = useActivitiesStore();
+  store.remove(props.index);
 };
 
 const tcx = () => {

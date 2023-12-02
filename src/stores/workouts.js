@@ -45,5 +45,10 @@ export const useWorkoutsStore = defineStore(id, () => {
     return custom.value.findIndex((value) => value === workout);
   };
 
-  return { standard, custom, workouts, hydrate, push };
+  const remove = (index) => {
+    custom.value.splice(index, 1);
+    triggerRef(custom);
+  };
+
+  return { standard, custom, workouts, hydrate, push, remove };
 });

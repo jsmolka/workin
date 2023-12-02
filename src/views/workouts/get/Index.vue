@@ -69,7 +69,7 @@ const workout = store.workouts(props.type)[props.index];
 
 const remove = () => {
   router.back();
-  store.custom.splice(props.index, 1);
+  store.remove(props.index);
 };
 
 const select = () => {

@@ -34,7 +34,12 @@ export const useActivitiesStore = defineStore(id, () => {
     return activities.value.length - 1;
   };
 
-  return { activities, hydrate, push };
+  const remove = (index) => {
+    activities.value.splice(index, 1);
+    triggerRef(activities);
+  };
+
+  return { activities, hydrate, push, remove };
 });
 
 function updatePolylines(activities) {
