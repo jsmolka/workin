@@ -1,11 +1,11 @@
 <template>
-  <g>
+  <g class="fill-transparent cursor-pointer">
     <Rect
       v-for="({ x, width }, index) in rectangles(laps)"
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="1"
-      class="fill-transparent hover:fill-white/5 cursor-pointer"
+      class="hover:fill-white/5"
       :class="{ '!fill-white/10': index === selection }"
       @click="selection = index"
     />
@@ -13,15 +13,12 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Rect from './Rect.vue';
 
 const props = defineProps({
   laps: {
     type: Array,
-    required: true,
-  },
-  totalSeconds: {
-    type: Number,
     required: true,
   },
 });
@@ -31,11 +28,19 @@ const selection = defineModel('selection', {
   default: null,
 });
 
+const totalSeconds = computed(() => {
+  let result = 0;
+  for (const lap of props.laps) {
+    result += lap.length;
+  }
+  return result;
+});
+
 function* rectangles(laps) {
   let rectangle;
   for (const lap of laps) {
     const x = rectangle ? rectangle.x + rectangle.width : 0;
-    yield (rectangle = { x, width: lap.length / props.totalSeconds });
+    yield (rectangle = { x, width: lap.length / totalSeconds.value });
   }
 }
 </script>

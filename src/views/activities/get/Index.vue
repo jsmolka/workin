@@ -13,7 +13,6 @@
       <ChartLines />
       <ChartLaps
         :laps="laps"
-        :total-seconds="activity.seconds"
         :selection="selection"
         @update:selection="
           selection = $event;

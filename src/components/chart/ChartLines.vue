@@ -1,12 +1,11 @@
 <template>
-  <g>
+  <g class="stroke-1 stroke-gray-7">
     <Line
       v-for="value in y"
-      v-percent:x1="x1"
+      v-percent:x1="x[0]"
       v-percent:y1="value"
-      v-percent:x2="x2"
+      v-percent:x2="x[1]"
       v-percent:y2="value"
-      class="stroke-1 stroke-gray-7"
     />
   </g>
 </template>
@@ -15,13 +14,9 @@
 import Line from './Line.vue';
 
 defineProps({
-  x1: {
-    type: Number,
-    default: 0,
-  },
-  x2: {
-    type: Number,
-    default: 1,
+  x: {
+    type: Array,
+    default: [0, 1],
   },
   y: {
     type: Array,

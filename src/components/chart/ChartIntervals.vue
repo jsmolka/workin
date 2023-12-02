@@ -1,12 +1,12 @@
 <template>
-  <g>
+  <g class="fill-blue-3 cursor-pointer">
     <Rect
       v-for="({ x, width, height }, index) in rectangles(intervals)"
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="height"
-      class="hover:fill-blue-2 cursor-pointer"
-      :class="index === selection ? '!fill-blue-1' : 'fill-blue-3'"
+      class="hover:fill-blue-2"
+      :class="{ '!fill-blue-1': index === selection }"
       @click="selection = index"
     />
   </g>
@@ -21,10 +21,6 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  totalSeconds: {
-    type: Number,
-    default: null,
-  },
 });
 
 const selection = defineModel('selection', {
@@ -33,10 +29,6 @@ const selection = defineModel('selection', {
 });
 
 const totalSeconds = computed(() => {
-  if (props.totalSeconds != null) {
-    return props.totalSeconds;
-  }
-
   let result = 0;
   for (const { seconds } of props.intervals) {
     result += seconds;

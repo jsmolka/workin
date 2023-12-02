@@ -11,13 +11,9 @@
     </div>
     <Chart class="shrink-0 aspect-[5/2]">
       <ChartLines />
-      <ChartIntervals
-        class="pointer-events-none"
-        :intervals="workout.intervals"
-        :total-seconds="workoutSeconds"
-      />
+      <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
-        <ChartLines :x2="x" />
+        <ChartLines :x="[0, x]" />
         <ChartHeartRate :polylines="polylinesHeartRate(activity.data, workoutSeconds)" />
         <ChartPower :polylines="polylinesPower(activity.data, workoutSeconds, 2 * athlete.ftp)" />
       </ChartProgress>
