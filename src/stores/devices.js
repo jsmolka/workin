@@ -11,7 +11,7 @@ export const useDevicesStore = defineStore(id, () => {
   for (const device of [hrm, trainer]) {
     watch(device, (value) => {
       value?.on('disconnected', () => {
-        notify.info(`${value.name} disconnected`);
+        notify.error(`${value.name} disconnected`);
         device.value = null;
       });
     });
