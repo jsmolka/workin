@@ -182,7 +182,7 @@ useEventListener(document, 'visibilitychange', () => {
   }
 });
 
-watch(trainer.value, (value) => {
+watch(trainer, (value) => {
   if (value == null) {
     stop();
   }
