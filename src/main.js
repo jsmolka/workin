@@ -1,6 +1,7 @@
 import { useBluetooth } from '@vueuse/core';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import App from './App.vue';
 import { percent } from './directives/percent';
 import './main.scss';
