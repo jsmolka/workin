@@ -46,7 +46,7 @@ import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
-import { download } from '../../../utils/download';
+import { download } from '../../../utils/filesystem';
 import { powerToSpeed } from '../../../utils/speed';
 import { formatDate } from '../../../utils/time';
 import Header from '../Header.vue';

@@ -11,20 +11,26 @@ const version = 1;
 export const useAthleteStore = defineStore(id, () => {
   const athlete = ref(new Athlete());
 
+  const exportData = () => {
+    return { version, data: serialize(athlete.value) };
+  };
+
   const persist = async () => {
-    await set(id, { version, data: serialize(athlete.value) });
+    await set(id, exportData());
   };
 
   const { ignoreUpdates } = watchIgnorable(athlete, persist, { deep: true });
 
-  const hydrate = async () => {
-    const data = await get(id);
+  const importData = (data) => {
     if (data != null && data.version != null) {
-      ignoreUpdates(() => {
-        athlete.value = deserialize(Athlete, data.data);
-      });
+      athlete.value = deserialize(Athlete, data.data);
     }
   };
 
-  return { athlete, hydrate };
+  const hydrate = async () => {
+    const data = await get(id);
+    ignoreUpdates(() => importData(data));
+  };
+
+  return { athlete, hydrate, importData, exportData };
 });

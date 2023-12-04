@@ -12,24 +12,30 @@ const version = 1;
 export const useSettingsStore = defineStore(id, () => {
   const settings = ref(new Settings());
 
+  const exportData = () => {
+    return { version, data: serialize(settings.value) };
+  };
+
   const persist = async () => {
-    await set(id, { version, data: serialize(settings.value) });
+    await set(id, exportData());
   };
 
   const { ignoreUpdates } = watchIgnorable(settings, persist, { deep: true });
 
+  const importData = (data) => {
+    if (data != null && data.version != null) {
+      settings.value = deserialize(Settings, data.data);
+    }
+  };
+
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version != null) {
-      ignoreUpdates(() => {
-        settings.value = deserialize(Settings, data.data);
-      });
-    }
+    ignoreUpdates(() => importData(data));
   };
 
   watchEffect(() => {
     log.level = settings.value.logLevel;
   });
 
-  return { settings, hydrate };
+  return { settings, hydrate, importData, exportData };
 });

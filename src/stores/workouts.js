@@ -13,19 +13,25 @@ export const useWorkoutsStore = defineStore(id, () => {
   const standard = shallowRef(standardWorkouts);
   const custom = shallowRef([]);
 
+  const exportData = () => {
+    return { version, data: serialize(custom.value) };
+  };
+
   const persist = async () => {
-    await set(id, { version, data: serialize(custom.value) });
+    await set(id, exportData());
   };
 
   const { ignoreUpdates } = watchIgnorable(custom, persist);
 
+  const importData = (data) => {
+    if (data != null && data.version != null) {
+      custom.value = deserialize(Workout, data.data);
+    }
+  };
+
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version != null) {
-      ignoreUpdates(() => {
-        custom.value = deserialize(Workout, data.data);
-      });
-    }
+    ignoreUpdates(() => importData(data));
   };
 
   const workouts = (type) => {
@@ -50,5 +56,5 @@ export const useWorkoutsStore = defineStore(id, () => {
     triggerRef(custom);
   };
 
-  return { standard, custom, workouts, hydrate, push, remove };
+  return { standard, custom, workouts, hydrate, push, remove, importData, exportData };
 });

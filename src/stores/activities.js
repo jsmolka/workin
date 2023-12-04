@@ -13,19 +13,25 @@ const version = 5;
 export const useActivitiesStore = defineStore(id, () => {
   const activities = shallowRef([]);
 
+  const exportData = () => {
+    return { version, data: serialize(activities.value) };
+  };
+
   const persist = async () => {
-    await set(id, { version, data: serialize(activities.value) });
+    await set(id, exportData());
   };
 
   const { ignoreUpdates } = watchIgnorable(activities, persist);
 
+  const importData = (data) => {
+    if (data != null && data.version != null) {
+      activities.value = deserialize(Activity, convert(data));
+    }
+  };
+
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version != null) {
-      ignoreUpdates(() => {
-        activities.value = deserialize(Activity, convert(data).data);
-      });
-    }
+    ignoreUpdates(() => importData(data));
   };
 
   const push = (activity) => {
@@ -39,7 +45,7 @@ export const useActivitiesStore = defineStore(id, () => {
     triggerRef(activities);
   };
 
-  return { activities, hydrate, push, remove };
+  return { activities, hydrate, push, remove, importData, exportData };
 });
 
 function updatePolylines(activities) {
@@ -62,5 +68,5 @@ function convert(data) {
     case 4:
       updatePolylines(activities);
   }
-  return data;
+  return activities;
 }

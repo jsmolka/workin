@@ -20,8 +20,12 @@ const version = 1;
 export const useActivityStore = defineStore(id, () => {
   const activity = ref(null);
 
+  const exportData = () => {
+    return activity.value != null ? { version, data: serialize(activity.value) } : null;
+  };
+
   const persist = async () => {
-    await set(id, activity.value != null ? { version, data: serialize(activity.value) } : null);
+    await set(id, exportData());
   };
 
   const { ignoreUpdates } = watchIgnorable(
@@ -30,13 +34,15 @@ export const useActivityStore = defineStore(id, () => {
     { deep: true },
   );
 
+  const importData = (data) => {
+    if (data != null && data.version != null) {
+      activity.value = deserialize(Activity, data.data);
+    }
+  };
+
   const hydrate = async () => {
     const data = await get(id);
-    if (data != null && data.version != null) {
-      ignoreUpdates(() => {
-        activity.value = deserialize(Activity, data.data);
-      });
-    }
+    ignoreUpdates(() => importData(data));
   };
 
   const finish = () => {
@@ -55,5 +61,5 @@ export const useActivityStore = defineStore(id, () => {
     return index;
   };
 
-  return { activity, hydrate, finish };
+  return { activity, hydrate, finish, importData, exportData };
 });
