@@ -60,12 +60,7 @@ export const workouts = [
     interval('1:00', 1.48),
     interval('1:00', 1.54),
     interval('1:00', 1.60),
-    interval('1:00', 1.66),
-    interval('1:00', 1.72),
-    interval('1:00', 1.78),
-    interval('1:00', 1.84),
-    interval('1:00', 1.90),
-    interval('1:00', 1.96),
+    cooldown
   ]),
 
   ...['24:00', '54:00'].map((duration) =>
