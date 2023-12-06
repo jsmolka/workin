@@ -38,6 +38,36 @@ function maxAerobicPower(intensity) {
 
 // prettier-ignore
 export const workouts = [
+  // FTP = 0.75 * best one minute power
+  workout('Ramp test', [
+    interval('5:00', 0.46),
+    interval('1:00', 0.52),
+    interval('1:00', 0.58),
+    interval('1:00', 0.64),
+    interval('1:00', 0.70),
+    interval('1:00', 0.76),
+    interval('1:00', 0.82),
+    interval('1:00', 0.88),
+    interval('1:00', 0.94),
+    interval('1:00', 1.00),
+    interval('1:00', 1.06),
+    interval('1:00', 1.12),
+    interval('1:00', 1.18),
+    interval('1:00', 1.24),
+    interval('1:00', 1.30),
+    interval('1:00', 1.36),
+    interval('1:00', 1.42),
+    interval('1:00', 1.48),
+    interval('1:00', 1.54),
+    interval('1:00', 1.60),
+    interval('1:00', 1.66),
+    interval('1:00', 1.72),
+    interval('1:00', 1.78),
+    interval('1:00', 1.84),
+    interval('1:00', 1.90),
+    interval('1:00', 1.96),
+  ]),
+
   ...['24:00', '54:00'].map((duration) =>
     workout('Recovery', [
       ramp(parseSeconds('6:00'), 0.4, 0.5, 6),
