@@ -60,6 +60,7 @@ export const workouts = [
     interval('1:00', 1.48),
     interval('1:00', 1.54),
     interval('1:00', 1.60),
+    interval('1:00', 1.64),
     cooldown
   ]),
 
