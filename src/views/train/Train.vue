@@ -27,7 +27,7 @@
       />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="toggle" blue>{{ toggleText }} </Button>
+      <Button class="flex-1" @click="toggle" blue>{{ toggleText }}</Button>
       <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped" blue>
         Finish
       </Button>
