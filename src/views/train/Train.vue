@@ -54,7 +54,7 @@ import { router } from '../../router';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
-import { show } from '../../utils/dialog';
+import { dialog } from '../../utils/dialog';
 import { interval } from '../../utils/interval';
 import { formatSeconds } from '../../utils/time';
 import Metric from './Metric.vue';
@@ -125,17 +125,14 @@ const start = async () => {
   clearAutoStart();
 
   if (trainer.value == null) {
-    switch (
-      await show('No smart trainer connected', [
-        { text: 'Cancel' },
-        { text: 'Settings', blue: true, value: 'settings' },
-      ])
-    ) {
-      case 'settings':
-        router.push('/settings');
-      default:
-        return;
+    const value = await dialog('No smart trainer connected.', [
+      { text: 'Cancel', value: 'cancel' },
+      { text: 'Settings', value: 'settings', blue: true },
+    ]);
+    if (value === 'settings') {
+      router.push('/settings');
     }
+    return;
   }
 
   if (activity.value.seconds === 0) {

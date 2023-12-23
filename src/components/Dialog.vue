@@ -5,7 +5,12 @@
         <Form>
           {{ data.text }}
           <div class="flex justify-end gap-4">
-            <Button v-for="button in data.buttons" v-bind="button" @click="close(button.value)" />
+            <Button
+              class="min-w-[4rem]"
+              v-for="button in data.buttons"
+              v-bind="button"
+              @click="close(button.value)"
+            />
           </div>
         </Form>
       </DialogPanel>

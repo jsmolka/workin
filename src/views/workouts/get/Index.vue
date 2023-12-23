@@ -54,6 +54,7 @@ import { Activity } from '../../../modules/activity';
 import { Workout } from '../../../modules/workout';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
+import { dialog } from '../../../utils/dialog';
 import Header from '../Header.vue';
 
 const props = defineProps({
@@ -73,17 +74,36 @@ const store = useWorkoutsStore();
 const selection = ref(null);
 const workout = store.workouts(props.type)[props.index];
 
-const select = (index) => {
+const select = async (index) => {
   const store = useActivityStore();
   if (store.activity != null && store.activity.seconds > 0) {
-    store.finish();
+    const value = await dialog('Do you want to save the current activity?', [
+      { text: 'Cancel', value: 'cancel' },
+      { text: 'No', value: 'no' },
+      { text: 'Yes', value: 'yes', blue: true },
+    ]);
+    switch (value) {
+      case 'yes':
+        store.finish();
+        break;
+      case 'no':
+        break;
+      default:
+        return;
+    }
   }
   store.activity = new Activity(new Workout(workout.name, workout.intervals.slice(index)));
   router.push('/train');
 };
 
-const remove = () => {
-  router.back();
-  store.remove(props.index);
+const remove = async () => {
+  const value = await dialog('Do you want to delete this workout?', [
+    { text: 'Cancel', value: 'cancel' },
+    { text: 'Delete', value: 'delete', blue: true },
+  ]);
+  if (value === 'delete') {
+    router.back();
+    store.remove(props.index);
+  }
 };
 </script>

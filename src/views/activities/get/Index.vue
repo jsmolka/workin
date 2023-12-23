@@ -46,6 +46,7 @@ import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useActivitiesStore } from '../../../stores/activities';
 import { useAthleteStore } from '../../../stores/athlete';
+import { dialog } from '../../../utils/dialog';
 import { download } from '../../../utils/filesystem';
 import { powerToSpeed } from '../../../utils/speed';
 import { formatDate } from '../../../utils/time';
@@ -67,10 +68,16 @@ const selection = ref(null);
 const activity = activities.value[props.index];
 const laps = activity.laps;
 
-const remove = () => {
-  router.back();
-  const store = useActivitiesStore();
-  store.remove(props.index);
+const remove = async () => {
+  const value = await dialog('Do you want to delete this activity?', [
+    { text: 'Cancel', value: 'cancel' },
+    { text: 'Delete', value: 'delete', blue: true },
+  ]);
+  if (value === 'delete') {
+    router.back();
+    const store = useActivitiesStore();
+    store.remove(props.index);
+  }
 };
 
 const tcx = () => {
