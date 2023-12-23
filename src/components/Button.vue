@@ -8,17 +8,21 @@
     ]"
     v-bind="$attrs"
   >
-    <slot />
+    <slot>{{ text }}</slot>
   </button>
 </template>
 
 <script setup>
 defineProps({
-  disabled: {
+  text: {
+    type: String,
+    default: '',
+  },
+  blue: {
     type: Boolean,
     default: false,
   },
-  blue: {
+  disabled: {
     type: Boolean,
     default: false,
   },
