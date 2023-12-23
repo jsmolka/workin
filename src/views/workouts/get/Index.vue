@@ -2,8 +2,13 @@
   <Form class="h-full">
     <div class="flex justify-between gap-4">
       <Back />
-      <Dots v-if="type === 'custom'">
+      <Dots>
         <MenuItem>
+          <Button :class="{ disabled: selection == null }" @click="select(selection)">
+            Select at interval
+          </Button>
+        </MenuItem>
+        <MenuItem v-if="type === 'custom'">
           <Button @click="remove">Delete</Button>
         </MenuItem>
       </Dots>
@@ -28,7 +33,7 @@
         v-model:selection="selection"
       />
     </Label>
-    <Button @click="select" blue>Select</Button>
+    <Button @click="select(0)" blue>Select</Button>
   </Form>
 </template>
 
@@ -46,6 +51,7 @@ import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import { Activity } from '../../../modules/activity';
+import { Workout } from '../../../modules/workout';
 import { useActivityStore } from '../../../stores/activity';
 import { useWorkoutsStore } from '../../../stores/workouts';
 import Header from '../Header.vue';
@@ -67,17 +73,17 @@ const store = useWorkoutsStore();
 const selection = ref(null);
 const workout = store.workouts(props.type)[props.index];
 
-const remove = () => {
-  router.back();
-  store.remove(props.index);
-};
-
-const select = () => {
+const select = (index) => {
   const store = useActivityStore();
   if (store.activity != null && store.activity.seconds > 0) {
     store.finish();
   }
-  store.activity = new Activity(workout);
+  store.activity = new Activity(new Workout(workout.name, workout.intervals.slice(index)));
   router.push('/train');
+};
+
+const remove = () => {
+  router.back();
+  store.remove(props.index);
 };
 </script>
