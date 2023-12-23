@@ -33,7 +33,6 @@
       </Button>
     </div>
   </Form>
-  <NoTrainerDialog ref="dialog" />
 </template>
 
 <script setup>
@@ -55,10 +54,10 @@ import { router } from '../../router';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
+import { show } from '../../utils/dialog';
 import { interval } from '../../utils/interval';
 import { formatSeconds } from '../../utils/time';
 import Metric from './Metric.vue';
-import NoTrainerDialog from './NoTrainerDialog.vue';
 
 const wakeLock = useWakeLock();
 onMounted(() => wakeLock.request());
@@ -119,16 +118,24 @@ const setTargetPower = () => {
 
 watch(targetPower, setTargetPower, { immediate: true });
 
-const dialog = ref();
 const stopInterval = ref(null);
 const stopped = computed(() => stopInterval.value == null);
 
-const start = () => {
+const start = async () => {
   clearAutoStart();
 
   if (trainer.value == null) {
-    dialog.value.show();
-    return;
+    switch (
+      await show('No smart trainer connected', [
+        { text: 'Cancel' },
+        { text: 'Settings', blue: true, value: 'settings' },
+      ])
+    ) {
+      case 'settings':
+        router.push('/settings');
+      default:
+        return;
+    }
   }
 
   if (activity.value.seconds === 0) {

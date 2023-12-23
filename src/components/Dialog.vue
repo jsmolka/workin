@@ -1,8 +1,13 @@
 <template>
-  <Dialog :open="open" @close="hide">
+  <Dialog :open="data.open" @close="close">
     <div class="fixed inset-0 flex justify-center items-center p-4 bg-black/50">
       <DialogPanel class="max-w-screen-sm p-4 bg-gray-7 rounded-sm shadow z-50">
-        <slot :hide="hide" />
+        <Form>
+          {{ data.text }}
+          <div class="flex justify-end gap-4">
+            <Button v-for="button in data.buttons" v-bind="button" @click="close(button.value)" />
+          </div>
+        </Form>
       </DialogPanel>
     </div>
   </Dialog>
@@ -10,11 +15,30 @@
 
 <script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue';
-import { ref } from 'vue';
+import { reactive } from 'vue';
+import Button from './Button.vue';
+import Form from './Form.vue';
 
-const open = ref(false);
-const show = () => (open.value = true);
-const hide = () => (open.value = false);
+const data = reactive({
+  text: '',
+  buttons: [],
+  resolve: null,
+  open: false,
+});
 
-defineExpose({ show, hide });
+const show = async (text, buttons) => {
+  return new Promise((resolve) => {
+    data.text = text;
+    data.buttons = buttons;
+    data.resolve = resolve;
+    data.open = true;
+  });
+};
+
+const close = (value = null) => {
+  data.open = false;
+  data.resolve(value);
+};
+
+defineExpose({ show });
 </script>
