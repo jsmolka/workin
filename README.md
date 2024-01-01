@@ -7,4 +7,5 @@ An app to create and run smart trainer workouts.
 - There is no Strava integration. You will need to export the activity to TCX and [upload it manually](https://www.strava.com/upload/select).
 - Data is stored locally in the IndexedDB. If you want to create a backup or share it with other devices, you can use the [backup page](https://workin.smolka.dev/backup) to import/export it.
 
-![screenshots](docs/screenshots.png)
+## Screenshots
+<img src="docs/screenshots/workout.png" width="32%"><img src="docs/screenshots/train.png" width="32%" hspace="2%"><img src="docs/screenshots/activity.png" width="32%">
