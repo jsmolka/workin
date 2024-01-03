@@ -21,9 +21,10 @@
     <Label class="flex-1" text="Intervals">
       <Intervals
         ref="table"
-        class="flex-1 [&_*]:cursor-default pointer-events-none"
+        class="flex-1 [&_*]:cursor-default"
         :intervals="workout.intervals"
         :selection="currentIntervalIndex"
+        @update:selection=""
       />
     </Label>
     <div class="flex gap-4">
