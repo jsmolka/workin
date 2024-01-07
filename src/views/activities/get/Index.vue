@@ -4,10 +4,10 @@
       <Back />
       <Dots>
         <MenuItem>
-          <Button @click="remove">Delete</Button>
+          <Button @click="exportGraphic">Export graphic</Button>
         </MenuItem>
         <MenuItem>
-          <Button @click="exportGraphic">Export graphic</Button>
+          <Button @click="remove">Delete</Button>
         </MenuItem>
       </Dots>
     </div>
@@ -71,18 +71,6 @@ const selection = ref(null);
 const activity = activities.value[props.index];
 const laps = activity.laps;
 
-const remove = async () => {
-  const value = await dialog('Do you want to delete this activity?', [
-    { text: 'Cancel', value: 'cancel' },
-    { text: 'Delete', value: 'delete', blue: true },
-  ]);
-  if (value === 'delete') {
-    router.back();
-    const store = useActivitiesStore();
-    store.remove(props.index);
-  }
-};
-
 const filename = `${formatDate(activity.date, 'YYMMDD')} - ${activity.workout.name}`;
 
 const exportTcx = () => {
@@ -143,5 +131,17 @@ const exportGraphic = () => {
   link.href = canvas.toDataURL('image/png');
   link.download = `${filename}.png`;
   link.click();
+};
+
+const remove = async () => {
+  const value = await dialog('Do you want to delete this activity?', [
+    { text: 'Cancel', value: 'cancel' },
+    { text: 'Delete', value: 'delete', blue: true },
+  ]);
+  if (value === 'delete') {
+    router.back();
+    const store = useActivitiesStore();
+    store.remove(props.index);
+  }
 };
 </script>
