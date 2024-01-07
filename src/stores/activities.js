@@ -60,13 +60,11 @@ function convert(data) {
   const { version, data: activities } = data;
   switch (version) {
     case 1:
-      updatePolylines(activities);
     case 2:
-      updatePolylines(activities);
     case 3:
-      updatePolylines(activities);
     case 4:
       updatePolylines(activities);
   }
+  console.log(activities);
   return activities;
 }
