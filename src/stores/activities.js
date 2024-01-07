@@ -65,6 +65,5 @@ function convert(data) {
     case 4:
       updatePolylines(activities);
   }
-  console.log(activities);
   return activities;
 }
