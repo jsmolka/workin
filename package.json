@@ -18,10 +18,11 @@
     "dayjs": "^1.11.10",
     "idb-keyval": "^6.2.1",
     "mathjs": "^12.1.0",
+    "micromark": "^4.0.0",
     "nanoid": "^5.0.3",
     "notyf": "^3.10.0",
     "pinia": "^2.1.7",
-    "vue": "^3.4.5",
+    "vue": "^3.4.7",
     "vue-router": "^4.2.5",
     "vue-virtual-scroller": "^2.0.0-beta.8"
   },
