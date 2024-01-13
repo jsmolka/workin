@@ -118,13 +118,15 @@ export const workouts = [
     ]),
   ),
 
+  // https://www.highnorth.co.uk/articles/lactate-threshold-cycling
+  // https://www.evoq.bike/blog/over-under-cycling-workouts-for-increasing-your-ftp
   ...[3, 4, 5].map((repeats) =>
     workout(`${repeats} x 12 Lactate`, [
       warmup,
       repeat(repeats, [
-        repeat(3, [
-          interval('2:00', 1.05),
-          interval('2:00', 0.85),
+        repeat(4, [
+          interval('1:00', 1.15),
+          interval('2:00', 0.8),
         ], false),
         interval('6:00', 0.5),
       ]),
@@ -210,14 +212,14 @@ export const workouts = [
   ),
 
   ...[3, 4].map((repeats) =>
-    workout(`${repeats} x 15 x 40/20`, [
+    workout(`${repeats} x 10 x 40/20`, [
       warmup,
       repeat(repeats, [
-        repeat(15, [
+        repeat(10, [
           interval('0:40', maxAerobicPower(1.0)),
           interval('0:20', maxAerobicPower(0.5)),
         ]),
-        interval('7:30', 0.5),
+        interval('5:00', 0.5),
       ]),
       cooldown,
     ]),
