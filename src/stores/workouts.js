@@ -44,7 +44,7 @@ export const useWorkoutsStore = defineStore(id, () => {
     return [];
   };
 
-  const push = (workout) => {
+  const add = (workout) => {
     custom.value.push(workout);
     custom.value.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
     triggerRef(custom);
@@ -56,5 +56,5 @@ export const useWorkoutsStore = defineStore(id, () => {
     triggerRef(custom);
   };
 
-  return { standard, custom, workouts, hydrate, push, remove, importData, exportData };
+  return { standard, custom, workouts, hydrate, add, remove, importData, exportData };
 });

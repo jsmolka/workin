@@ -8,7 +8,7 @@ import { deserialize, serialize } from '../utils/persist';
 import { useAthleteStore } from './athlete';
 
 const id = 'activities';
-const version = 5;
+const version = 6;
 
 export const useActivitiesStore = defineStore(id, () => {
   const activities = shallowRef([]);
@@ -34,10 +34,10 @@ export const useActivitiesStore = defineStore(id, () => {
     ignoreUpdates(() => importData(data));
   };
 
-  const push = (activity) => {
-    activities.value.push(activity);
+  const add = (activity) => {
+    activities.value.unshift(activity);
     triggerRef(activities);
-    return activities.value.length - 1;
+    return 0;
   };
 
   const remove = (index) => {
@@ -45,7 +45,7 @@ export const useActivitiesStore = defineStore(id, () => {
     triggerRef(activities);
   };
 
-  return { activities, hydrate, push, remove, importData, exportData };
+  return { activities, hydrate, add, remove, importData, exportData };
 });
 
 function updatePolylines(activities) {
@@ -64,6 +64,10 @@ function convert(data) {
     case 3:
     case 4:
       updatePolylines(activities);
+      break;
+    case 5:
+      activities.reverse();
+      break;
   }
   return activities;
 }

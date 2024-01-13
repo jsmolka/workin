@@ -109,7 +109,7 @@ const remove = () => {
 
 const save = () => {
   const store = useWorkoutsStore();
-  const index = store.push(workout);
+  const index = store.add(workout);
   router.push(`/workouts/custom/${index}`);
 };
 </script>

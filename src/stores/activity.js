@@ -56,7 +56,7 @@ export const useActivityStore = defineStore(id, () => {
     value.polylinesHeartRate = polylinesHeartRate(value.data, value.data.length);
 
     const store = useActivitiesStore();
-    const index = store.push(value);
+    const index = store.add(value);
     activity.value = null;
     return index;
   };
