@@ -1,0 +1,58 @@
+@import 'hsv';
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: block;
+  font-style: normal;
+  src: url('/src/assets/fonts/inter.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: block;
+  font-style: oblique 14deg;
+  src: url('/src/assets/fonts/inter.woff2') format('woff2');
+}
+
+:root {
+  --gray-1: #{hsv(220, 03%, 95%)};
+  --gray-2: #{hsv(220, 03%, 90%)};
+  --gray-3: #{hsv(220, 29%, 50%)};
+  --gray-4: #{hsv(220, 29%, 40%)};
+  --gray-5: #{hsv(220, 29%, 35%)};
+  --gray-6: #{hsv(220, 29%, 30%)};
+  --gray-7: #{hsv(220, 29%, 25%)};
+  --gray-8: #{hsv(220, 29%, 20%)};
+  --blue-1: #{hsv(213, 45%, 80%)};
+  --blue-2: #{hsv(213, 45%, 75%)};
+  --blue-3: #{hsv(213, 45%, 70%)};
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  @apply bg-gray-8;
+  @apply text-gray-2;
+
+  font-family: Inter, Roboto, ui-sans-serif, sans-serif;
+  font-size: 14px;
+}
+
+::selection {
+  @apply bg-blue-3;
+  @apply text-gray-2;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  @apply hidden;
+}
