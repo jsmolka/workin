@@ -2,8 +2,8 @@
   <button
     :class="[
       blue
-        ? 'bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
-        : 'bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
+        ? 'text-gray-8 bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
+        : 'text-gray-2 bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
       { disabled },
     ]"
     v-bind="$attrs"

@@ -25,9 +25,9 @@
   --gray-6: #{hsv(220, 29%, 30%)};
   --gray-7: #{hsv(220, 29%, 25%)};
   --gray-8: #{hsv(220, 29%, 20%)};
-  --blue-1: #{hsv(213, 45%, 80%)};
-  --blue-2: #{hsv(213, 45%, 75%)};
-  --blue-3: #{hsv(213, 45%, 70%)};
+  --blue-1: #6291b6;
+  --blue-2: #6291b6;
+  --blue-3: #6291b6;
 }
 
 html,
@@ -46,7 +46,7 @@ body {
 
 ::selection {
   @apply bg-blue-3;
-  @apply text-gray-2;
+  @apply text-gray-8;
 }
 
 * {

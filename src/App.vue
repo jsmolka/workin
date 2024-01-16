@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col h-full">
     <div class="container relative flex-1">
-      <div class="absolute inset-0 p-4 bg-gray-7 overflow-y-auto">
+      <div class="absolute inset-0 p-4 overflow-y-auto">
         <RouterView />
       </div>
     </div>
-    <div class="bg-gray-6 border-t border-gray-4">
+    <div class="bg-gray-6">
       <nav class="container flex justify-between">
         <RouterLink class="tab flex-1" to="/train">Train</RouterLink>
         <RouterLink class="tab flex-1" to="/workouts">Workouts</RouterLink>
@@ -58,6 +58,6 @@ if (device.isMobile()) {
 
 .router-link-active {
   @apply border-t-blue-3;
-  background: var(--gray-4) !important;
+  background: var(--gray-5) !important;
 }
 </style>
