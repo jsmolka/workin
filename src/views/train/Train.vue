@@ -9,7 +9,7 @@
       <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
-    <Chart class="shrink-0 aspect-[5/2]">
+    <Chart class="border border-gray-7 shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">

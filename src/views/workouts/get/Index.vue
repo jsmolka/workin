@@ -14,7 +14,7 @@
       </Dots>
     </div>
     <Header :workout="workout" />
-    <Chart class="shrink-0 aspect-[5/2]">
+    <Chart class="border border-gray-7 shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
