@@ -1,14 +1,14 @@
 <template>
-  <Form class="h-full">
-    <div class="flex rounded-sm overflow-hidden">
+  <div class="flex flex-col h-full">
+    <div class="flex rounded-sm shadow z-10">
       <RouterLink class="tab flex-1" to="/workouts/standard">Standard</RouterLink>
       <RouterLink class="tab flex-1" to="/workouts/custom">Custom</RouterLink>
     </div>
     <div class="relative flex-1">
       <Scroller
         v-if="workouts.length > 0"
-        class="absolute inset-0"
-        :class="{ '-mb-4 pb-4': standard }"
+        class="absolute inset-0 -mb-4"
+        :class="{ 'py-4': standard }"
         :items="workouts"
         :size="128"
         :size-gap="14"
@@ -21,14 +21,13 @@
       <div v-else class="flex justify-center items-center h-full">No workouts, yet.</div>
     </div>
     <Button v-if="!standard" @click="router.push('/workouts/new')" blue>New workout</Button>
-  </Form>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../components/Button.vue';
-import Form from '../../components/Form.vue';
 import Scroller from '../../components/Scroller.vue';
 import { useWorkoutsStore } from '../../stores/workouts';
 import Workout from './Workout.vue';
