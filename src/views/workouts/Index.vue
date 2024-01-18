@@ -21,11 +21,11 @@
     </div>
     <Button
       v-if="!standard"
-      class="absolute bottom-4 right-8 !p-2 shadow z-10"
+      class="absolute bottom-4 right-4 !p-2 shadow z-10"
       @click="router.push('/workouts/new')"
       blue
     >
-      <PlusIcon class="w-12 h-12" />
+      <PlusIcon class="w-8 h-8" />
     </Button>
   </div>
 </template>
