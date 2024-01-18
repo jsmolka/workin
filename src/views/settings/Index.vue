@@ -15,9 +15,6 @@
         {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
       </DeviceButton>
     </Label>
-    <Label text="Weight [kg]">
-      <InputNumber :min="1" v-model:value="athlete.weight" />
-    </Label>
     <Label text="FTP [W]">
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>

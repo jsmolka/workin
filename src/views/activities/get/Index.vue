@@ -75,7 +75,7 @@ const filename = `${formatDate(activity.date, 'YYMMDD')} - ${activity.workout.na
 
 const exportTcx = () => {
   download(
-    activity.tcx((power) => powerToSpeed(power, { m: athlete.value.weight + 8 })),
+    activity.tcx((power) => powerToSpeed(power)),
     `${filename}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );

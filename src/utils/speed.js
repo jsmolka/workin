@@ -12,7 +12,7 @@ const defaults = {
   vh: 0, // Headwind velocity in m/s
   cda: 0.4, // Drag coefficient times frontal area in m^2
   gradient: 0, // Gradient in %
-  m: 75, // Weight in kg
+  m: 80, // Weight in kg
 };
 
 export function speedToPower(v, parameters = {}) {
