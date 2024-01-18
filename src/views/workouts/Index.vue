@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col h-full gap-4 p-4 pb-0">
+  <div class="relative flex flex-col h-full gap-4 pb-0">
     <div class="flex gap-4">
       <RouterLink class="chip" to="/workouts/standard">Standard</RouterLink>
       <RouterLink class="chip" to="/workouts/custom">Custom</RouterLink>
@@ -79,6 +79,7 @@ useSwipe(window, {
   @apply py-1.5;
   @apply bg-shade-6;
   @apply rounded-sm;
+  @apply select-none;
 }
 
 .router-link-active {

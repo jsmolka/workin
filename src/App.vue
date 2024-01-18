@@ -2,7 +2,7 @@
   <div class="flex flex-col h-full">
     <div class="container relative flex-1">
       <div class="absolute inset-0 overflow-y-auto">
-        <RouterView />
+        <RouterView class="p-4" />
       </div>
     </div>
     <div class="bg-shade-6 shadow-t z-10">
