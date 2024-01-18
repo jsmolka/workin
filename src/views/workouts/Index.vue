@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="relative flex flex-col h-full gap-4 p-4 pb-0">
+  <div class="relative flex flex-col h-full gap-4 p-4 pb-0">
     <div class="flex gap-4">
       <RouterLink class="chip" to="/workouts/standard">Standard</RouterLink>
       <RouterLink class="chip" to="/workouts/custom">Custom</RouterLink>
@@ -33,7 +33,7 @@
 <script setup>
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { useSwipe } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import IconButton from '../../components/IconButton.vue';
 import Scroller from '../../components/Scroller.vue';
@@ -53,9 +53,8 @@ const store = useWorkoutsStore();
 const workouts = computed(() => store.workouts(props.type));
 const standard = computed(() => props.type === 'standard');
 
-const container = ref();
-useSwipe(container, {
-  threshold: 100,
+useSwipe(window, {
+  threshold: 128,
   onSwipeEnd(_, direction) {
     switch (direction) {
       case 'left': {
