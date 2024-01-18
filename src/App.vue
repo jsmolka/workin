@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-full">
     <div class="container relative flex-1">
-      <div class="absolute inset-0 p-4 overflow-y-auto">
+      <div class="absolute inset-0 overflow-y-auto">
         <RouterView />
       </div>
     </div>
@@ -56,8 +56,26 @@ if (device.isMobile()) {
   @apply mx-auto;
 }
 
+.tab {
+  @apply p-2;
+  @apply bg-gray-6;
+  @apply border-y-4;
+  @apply border-transparent;
+  @apply text-center;
+  @apply cursor-pointer;
+  @apply select-none;
+
+  &:hover {
+    @apply bg-gray-5;
+  }
+
+  &:active {
+    @apply bg-gray-4;
+  }
+}
+
 .router-link-active {
+  @apply bg-gray-4;
   @apply border-t-blue-3;
-  background: var(--gray-4) !important;
 }
 </style>

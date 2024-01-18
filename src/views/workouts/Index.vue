@@ -1,30 +1,37 @@
 <template>
-  <div class="flex flex-col h-full">
-    <div class="flex rounded-sm shadow z-10">
-      <RouterLink class="tab flex-1" to="/workouts/standard">Standard</RouterLink>
-      <RouterLink class="tab flex-1" to="/workouts/custom">Custom</RouterLink>
+  <div class="relative flex flex-col h-full gap-4 p-4 pb-0">
+    <div class="flex gap-4">
+      <RouterLink class="chip" to="/workouts/standard">Standard</RouterLink>
+      <RouterLink class="chip" to="/workouts/custom">Custom</RouterLink>
     </div>
     <div class="relative flex-1">
       <Scroller
         v-if="workouts.length > 0"
-        class="absolute inset-0 -mb-4"
-        :class="{ 'py-4': standard }"
+        class="absolute inset-0 pb-4"
         :items="workouts"
         :size="128"
-        :size-gap="14"
+        :size-gap="16"
         v-slot="{ item, index }"
       >
         <RouterLink :to="`/workouts/${type}/${index}`">
           <Workout :workout="item" />
         </RouterLink>
       </Scroller>
-      <div v-else class="flex justify-center items-center h-full">No workouts, yet.</div>
+      <div v-else class="flex justify-center items-center h-full">No workouts</div>
     </div>
-    <Button v-if="!standard" @click="router.push('/workouts/new')" blue>New workout</Button>
+    <Button
+      v-if="!standard"
+      class="absolute bottom-4 right-8 !p-2 shadow z-10"
+      @click="router.push('/workouts/new')"
+      blue
+    >
+      <PlusIcon class="w-12 h-12" />
+    </Button>
   </div>
 </template>
 
 <script setup>
+import { PlusIcon } from '@heroicons/vue/20/solid';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import Button from '../../components/Button.vue';
@@ -47,8 +54,15 @@ const standard = computed(() => props.type === 'standard');
 </script>
 
 <style lang="scss" scoped>
+.chip {
+  @apply px-2;
+  @apply py-1.5;
+  @apply bg-gray-6;
+  @apply rounded-sm;
+}
+
 .router-link-active {
-  @apply bg-gray-4;
-  @apply border-b-blue-3;
+  @apply text-gray-8;
+  @apply bg-blue-3;
 }
 </style>
