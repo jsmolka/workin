@@ -19,14 +19,14 @@
       </Scroller>
       <div v-else class="flex justify-center items-center h-full">No workouts</div>
     </div>
-    <Button
+    <IconButton
       v-if="!standard"
-      class="absolute bottom-4 right-4 !p-2 shadow z-10"
+      class="absolute bottom-4 right-4 shadow z-10"
       @click="router.push('/workouts/new')"
       brand
     >
       <PlusIcon class="w-8 h-8" />
-    </Button>
+    </IconButton>
   </div>
 </template>
 
@@ -34,7 +34,7 @@
 import { PlusIcon } from '@heroicons/vue/20/solid';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import Button from '../../components/Button.vue';
+import IconButton from '../../components/IconButton.vue';
 import Scroller from '../../components/Scroller.vue';
 import { useWorkoutsStore } from '../../stores/workouts';
 import Workout from './Workout.vue';
