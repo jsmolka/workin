@@ -10,7 +10,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 useSwipe(window, {
-  threshold: 128,
   onSwipeEnd(_, direction) {
     if (direction === 'right') {
       router.back();

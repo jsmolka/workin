@@ -54,7 +54,6 @@ const workouts = computed(() => store.workouts(props.type));
 const standard = computed(() => props.type === 'standard');
 
 useSwipe(window, {
-  threshold: 128,
   onSwipeEnd(_, direction) {
     switch (direction) {
       case 'left': {
