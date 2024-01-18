@@ -12,7 +12,7 @@
       </Dots>
     </div>
     <Header :activity="activity" />
-    <Chart class="border border-gray-7 shrink-0 aspect-[5/2]">
+    <Chart class="border border-shade-7 shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartLaps
         :laps="laps"
@@ -28,7 +28,7 @@
     <Label class="flex-1" text="Laps">
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
     </Label>
-    <Button @click="exportTcx" blue>Export TCX</Button>
+    <Button @click="exportTcx" brand>Export TCX</Button>
   </Form>
 </template>
 
@@ -136,7 +136,7 @@ const exportGraphic = () => {
 const remove = async () => {
   const value = await dialog('Do you want to delete this activity?', [
     { text: 'Cancel', value: 'cancel' },
-    { text: 'Delete', value: 'delete', blue: true },
+    { text: 'Delete', value: 'delete', brand: true },
   ]);
   if (value === 'delete') {
     router.back();

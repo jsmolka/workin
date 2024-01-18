@@ -43,18 +43,18 @@ const select = () => {
 input {
   @apply px-2;
   @apply py-1.5;
-  @apply bg-gray-6;
+  @apply bg-shade-6;
   @apply rounded-sm;
   @apply cursor-text;
 
   &:hover {
-    @apply bg-gray-5;
+    @apply bg-shade-5;
   }
 
   &:focus {
     @apply outline-none;
     @apply ring-2;
-    @apply ring-blue-3;
+    @apply ring-brand-3;
   }
 
   &[type='number'] {
@@ -68,7 +68,7 @@ input {
   }
 
   &::placeholder {
-    @apply text-gray-3;
+    @apply text-shade-3;
   }
 }
 </style>

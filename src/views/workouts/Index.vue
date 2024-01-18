@@ -23,7 +23,7 @@
       v-if="!standard"
       class="absolute bottom-4 right-4 !p-2 shadow z-10"
       @click="router.push('/workouts/new')"
-      blue
+      brand
     >
       <PlusIcon class="w-8 h-8" />
     </Button>
@@ -57,12 +57,12 @@ const standard = computed(() => props.type === 'standard');
 .chip {
   @apply px-2;
   @apply py-1.5;
-  @apply bg-gray-6;
+  @apply bg-shade-6;
   @apply rounded-sm;
 }
 
 .router-link-active {
-  @apply text-gray-8;
-  @apply bg-blue-3;
+  @apply text-shade-8;
+  @apply bg-brand-3;
 }
 </style>

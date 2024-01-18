@@ -1,12 +1,12 @@
 <template>
-  <g class="fill-blue-3 cursor-pointer">
+  <g class="fill-brand-3 cursor-pointer">
     <Rect
       v-for="({ x, width, height }, index) in rectangles(intervals)"
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="height"
-      class="hover:fill-blue-2"
-      :class="{ '!fill-blue-1': index === selection }"
+      class="hover:fill-brand-2"
+      :class="{ '!fill-brand-1': index === selection }"
       @click="selection = index"
     />
   </g>

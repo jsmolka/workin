@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="cartesian bg-gray-8 rounded-sm overflow-hidden"
+    class="cartesian bg-shade-8 rounded-sm overflow-hidden"
     viewBox="0 0 100 100"
     shape-rendering="geometricPrecision"
     preserveAspectRatio="none"

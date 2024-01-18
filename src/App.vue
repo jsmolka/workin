@@ -5,7 +5,7 @@
         <RouterView />
       </div>
     </div>
-    <div class="bg-gray-6 shadow-t z-10">
+    <div class="bg-shade-6 shadow-t z-10">
       <nav class="container flex justify-between">
         <RouterLink class="tab flex-1" to="/train">Train</RouterLink>
         <RouterLink class="tab flex-1" to="/workouts">Workouts</RouterLink>
@@ -58,7 +58,7 @@ if (device.isMobile()) {
 
 .tab {
   @apply p-2;
-  @apply bg-gray-6;
+  @apply bg-shade-6;
   @apply border-y-4;
   @apply border-transparent;
   @apply text-center;
@@ -66,16 +66,16 @@ if (device.isMobile()) {
   @apply select-none;
 
   &:hover {
-    @apply bg-gray-5;
+    @apply bg-shade-5;
   }
 
   &:active {
-    @apply bg-gray-4;
+    @apply bg-shade-4;
   }
 }
 
 .router-link-active {
-  @apply bg-gray-4;
-  @apply border-t-blue-3;
+  @apply bg-shade-4;
+  @apply border-t-brand-3;
 }
 </style>

@@ -7,10 +7,10 @@
             {{ value }}
           </slot>
         </div>
-        <ChevronUpDownIcon class="w-5 h-5 text-gray-3" aria-hidden="true" />
+        <ChevronUpDownIcon class="w-5 h-5 text-shade-3" aria-hidden="true" />
       </ListboxButton>
       <ListboxOptions
-        class="absolute w-full max-h-60 mt-2 bg-gray-6 rounded-sm shadow overflow-auto z-50"
+        class="absolute w-full max-h-60 mt-2 bg-shade-6 rounded-sm shadow overflow-auto z-50"
       >
         <ListboxOption
           v-for="item in items"
@@ -19,7 +19,7 @@
           :disabled="isDisabled(item)"
           as="template"
         >
-          <li class="button !rounded-none truncate" :class="{ '!bg-gray-4': selected, disabled }">
+          <li class="button !rounded-none truncate" :class="{ '!bg-shade-4': selected, disabled }">
             <slot name="item" :item="item">
               {{ item }}
             </slot>
@@ -58,13 +58,13 @@ const isDisabled = (item) => {
 .button {
   @apply px-2;
   @apply py-1.5;
-  @apply bg-gray-6;
+  @apply bg-shade-6;
   @apply rounded-sm;
   @apply cursor-pointer;
   @apply select-none;
 
   &:hover {
-    @apply bg-gray-5;
+    @apply bg-shade-5;
   }
 
   &:focus {
@@ -72,7 +72,7 @@ const isDisabled = (item) => {
   }
 
   &:active {
-    @apply bg-gray-4;
+    @apply bg-shade-4;
   }
 }
 </style>

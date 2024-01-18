@@ -16,7 +16,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .label {
-  @apply text-gray-3;
+  @apply text-shade-3;
   @apply text-xs;
   @apply font-medium;
   @apply uppercase;

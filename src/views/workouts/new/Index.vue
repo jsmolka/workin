@@ -17,7 +17,7 @@
     <Label text="Name">
       <Input v-model:value="workout.name" />
     </Label>
-    <Chart class="border border-gray-7 shrink-0 aspect-[5/2]">
+    <Chart class="border border-shade-7 shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
@@ -50,7 +50,7 @@
     <Button
       :disabled="workout.name.length === 0 || workout.intervals.length === 0"
       @click="save"
-      blue
+      brand
     >
       Save
     </Button>

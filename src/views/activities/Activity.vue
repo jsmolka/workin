@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap-4 p-4 bg-gray-6 hover:bg-gray-5 rounded-sm select-none">
-    <Chart class="border border-gray-7 shrink-0 h-24 aspect-[3/2] sm:aspect-[5/2]">
+  <div class="flex gap-4 p-4 bg-shade-6 hover:bg-shade-5 rounded-sm select-none">
+    <Chart class="border border-shade-7 shrink-0 h-24 aspect-[3/2] sm:aspect-[5/2]">
       <ChartLines />
       <ChartHeartRate :polylines="activity.polylinesHeartRate" />
       <ChartPower :polylines="activity.polylinesPower" />

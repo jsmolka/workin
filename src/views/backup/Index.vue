@@ -1,7 +1,7 @@
 <template>
   <Form>
-    <Button @click="exportData" blue>Export data</Button>
-    <Button @click="importData" blue>Import data</Button>
+    <Button @click="exportData" brand>Export data</Button>
+    <Button @click="importData" brand>Import data</Button>
   </Form>
 </template>
 

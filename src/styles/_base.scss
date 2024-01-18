@@ -17,17 +17,17 @@
 }
 
 :root {
-  --gray-1: #{hsv(220, 3%, 95%)};
-  --gray-2: #{hsv(220, 3%, 90%)};
-  --gray-3: #{hsv(220, 29%, 50%)};
-  --gray-4: #{hsv(220, 29%, 40%)};
-  --gray-5: #{hsv(220, 29%, 35%)};
-  --gray-6: #{hsv(220, 29%, 30%)};
-  --gray-7: #{hsv(220, 29%, 25%)};
-  --gray-8: #{hsv(220, 29%, 20%)};
-  --blue-1: #{hsv(206, 46%, 80%)};
-  --blue-2: #{hsv(206, 46%, 75%)};
-  --blue-3: #{hsv(206, 46%, 70%)};
+  --shade-1: #{hsv(220, 3%, 95%)};
+  --shade-2: #{hsv(220, 3%, 90%)};
+  --shade-3: #{hsv(220, 29%, 50%)};
+  --shade-4: #{hsv(220, 29%, 40%)};
+  --shade-5: #{hsv(220, 29%, 35%)};
+  --shade-6: #{hsv(220, 29%, 30%)};
+  --shade-7: #{hsv(220, 29%, 25%)};
+  --shade-8: #{hsv(220, 29%, 20%)};
+  --brand-1: #{hsv(206, 46%, 80%)};
+  --brand-2: #{hsv(206, 46%, 75%)};
+  --brand-3: #{hsv(206, 46%, 70%)};
 }
 
 html,
@@ -37,16 +37,16 @@ body,
 }
 
 body {
-  @apply bg-gray-8;
-  @apply text-gray-2;
+  @apply bg-shade-8;
+  @apply text-shade-2;
 
   font-family: Inter, Roboto, ui-sans-serif, sans-serif;
   font-size: 14px;
 }
 
 ::selection {
-  @apply bg-blue-3;
-  @apply text-gray-8;
+  @apply bg-brand-3;
+  @apply text-shade-8;
 }
 
 * {

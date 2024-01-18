@@ -1,9 +1,9 @@
 <template>
   <button
     :class="[
-      blue
-        ? 'text-gray-8 bg-blue-3 hover:bg-blue-2 active:bg-blue-1'
-        : 'text-gray-2 bg-gray-6 hover:bg-gray-5 active:bg-gray-4',
+      brand
+        ? 'text-shade-8 bg-brand-3 hover:bg-brand-2 active:bg-brand-1'
+        : 'text-shade-2 bg-shade-6 hover:bg-shade-5 active:bg-shade-4',
       { disabled },
     ]"
     v-bind="$attrs"
@@ -18,7 +18,7 @@ defineProps({
     type: String,
     default: '',
   },
-  blue: {
+  brand: {
     type: Boolean,
     default: false,
   },

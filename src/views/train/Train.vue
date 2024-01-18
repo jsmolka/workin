@@ -9,7 +9,7 @@
       <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
-    <Chart class="border border-gray-7 shrink-0 aspect-[5/2]">
+    <Chart class="border border-shade-7 shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
@@ -28,8 +28,8 @@
       />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="toggle" blue>{{ toggleText }}</Button>
-      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped" blue>
+      <Button class="flex-1" @click="toggle" brand>{{ toggleText }}</Button>
+      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped" brand>
         Finish
       </Button>
     </div>
@@ -128,7 +128,7 @@ const start = async () => {
   if (trainer.value == null) {
     const value = await dialog('No smart trainer connected.', [
       { text: 'Cancel', value: 'cancel' },
-      { text: 'Settings', value: 'settings', blue: true },
+      { text: 'Settings', value: 'settings', brand: true },
     ]);
     if (value === 'settings') {
       router.push('/settings');

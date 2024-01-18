@@ -1,5 +1,5 @@
 <template>
-  <g class="stroke-1 stroke-gray-7">
+  <g class="stroke-1 stroke-shade-7">
     <Line
       v-for="value in y"
       v-percent:x1="x[0]"

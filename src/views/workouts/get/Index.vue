@@ -14,7 +14,7 @@
       </Dots>
     </div>
     <Header :workout="workout" />
-    <Chart class="border border-gray-7 shrink-0 aspect-[5/2]">
+    <Chart class="border border-shade-7 shrink-0 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
@@ -33,7 +33,7 @@
         v-model:selection="selection"
       />
     </Label>
-    <Button @click="select(0)" blue>Select</Button>
+    <Button @click="select(0)" brand>Select</Button>
   </Form>
 </template>
 
@@ -80,7 +80,7 @@ const select = async (index) => {
     const value = await dialog('Do you want to save the current activity?', [
       { text: 'Cancel', value: 'cancel' },
       { text: 'No', value: 'no' },
-      { text: 'Yes', value: 'yes', blue: true },
+      { text: 'Yes', value: 'yes', brand: true },
     ]);
     switch (value) {
       case 'yes':
@@ -99,7 +99,7 @@ const select = async (index) => {
 const remove = async () => {
   const value = await dialog('Do you want to delete this workout?', [
     { text: 'Cancel', value: 'cancel' },
-    { text: 'Delete', value: 'delete', blue: true },
+    { text: 'Delete', value: 'delete', brand: true },
   ]);
   if (value === 'delete') {
     router.back();

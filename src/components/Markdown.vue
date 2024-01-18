@@ -29,7 +29,7 @@ const html = computed(() => micromark(props.content));
   }
 
   h1 {
-    @apply text-gray-1;
+    @apply text-shade-1;
     @apply text-xl;
     @apply font-extrabold;
   }
@@ -37,7 +37,7 @@ const html = computed(() => micromark(props.content));
   a {
     font-weight: 700;
     text-decoration: underline;
-    text-decoration-color: var(--gray-5);
+    text-decoration-color: var(--shade-5);
     text-decoration-skip-ink: none;
     text-decoration-thickness: 2px;
     text-underline-offset: spacing(0.5);

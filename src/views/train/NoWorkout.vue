@@ -1,7 +1,7 @@
 <template>
   <Form class="justify-center items-center h-full">
     Select a workout to start training.
-    <Button @click="router.push('/workouts')" blue>Workouts</Button>
+    <Button @click="router.push('/workouts')" brand>Workouts</Button>
   </Form>
 </template>
 
