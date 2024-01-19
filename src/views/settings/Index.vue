@@ -15,7 +15,7 @@
         {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
       </DeviceButton>
     </Label>
-    <Label text="FTP [W]">
+    <Label text="FTP">
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
     <Label text="Log level">
