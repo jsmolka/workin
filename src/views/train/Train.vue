@@ -252,6 +252,6 @@ watchEffect(() => {
 
 <style lang="scss">
 .v-train-intervals tr {
-  @apply cursor-default;
+  @apply pointer-events-none;
 }
 </style>
