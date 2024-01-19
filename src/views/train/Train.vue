@@ -21,7 +21,7 @@
     <Label class="flex-1" text="Intervals">
       <Intervals
         ref="table"
-        class="flex-1 [&_*]:cursor-default"
+        class="v-train-intervals flex-1"
         :intervals="workout.intervals"
         :selection="currentIntervalIndex"
         @update:selection=""
@@ -249,3 +249,9 @@ watchEffect(() => {
   }
 });
 </script>
+
+<style lang="scss">
+.v-train-intervals tr {
+  @apply cursor-default;
+}
+</style>

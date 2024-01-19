@@ -1,31 +1,39 @@
 <template>
-  <FlexTable
+  <Table
     ref="table"
     class="font-feature-tnum"
     :data="laps"
     v-model:selection="selection"
     v-slot="{ item }"
   >
-    <div class="flex-1 flex items-center justify-start">
-      <Reserve class="text-right" reserve="100 W">{{ Math.round(averagePower(item)) }} W</Reserve>
-    </div>
-    <div v-if="hasHeartRate(item)" class="flex-1 flex items-center justify-center">
-      <Reserve class="text-right" reserve="100 bpm">
-        {{ Math.round(averageHeartRate(item)) }} bpm
-      </Reserve>
-    </div>
-    <div class="flex-1 flex items-center justify-end">
-      <Reserve class="text-right" reserve="1:00:00">
-        {{ formatSeconds(item.length) }}
-      </Reserve>
-    </div>
-  </FlexTable>
+    <td>
+      <div class="flex justify-start">
+        <Reserve class="text-right" reserve="100 W">
+          {{ Math.round(averagePower(item)) }} W
+        </Reserve>
+      </div>
+    </td>
+    <td v-if="hasHeartRate(item)">
+      <div class="flex justify-center">
+        <Reserve class="text-right" reserve="100 bpm">
+          {{ Math.round(averageHeartRate(item)) }} bpm
+        </Reserve>
+      </div>
+    </td>
+    <td>
+      <div class="flex justify-end">
+        <Reserve class="text-right" reserve="1:00:00">
+          {{ formatSeconds(item.length) }}
+        </Reserve>
+      </div>
+    </td>
+  </Table>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import FlexTable from '../../../components/FlexTable.vue';
 import Reserve from '../../../components/Reserve.vue';
+import Table from '../../../components/Table.vue';
 import { averageHeartRate, averagePower } from '../../../modules/data';
 import { formatSeconds } from '../../../utils/time';
 
