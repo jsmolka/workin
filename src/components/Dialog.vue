@@ -3,7 +3,7 @@
     <div class="fixed inset-0 flex justify-center items-center p-4 bg-black/50">
       <DialogPanel class="max-w-screen-sm p-4 bg-shade-7 rounded-sm shadow z-50">
         <Form>
-          {{ data.text }}
+          <div v-html="data.content" />
           <div class="flex justify-end gap-4">
             <Button
               class="min-w-[4rem]"
@@ -25,20 +25,19 @@ import Button from './Button.vue';
 import Form from './Form.vue';
 
 const data = reactive({
-  text: '',
+  content: '',
   buttons: [],
   resolve: null,
   open: false,
 });
 
-const show = async (text, buttons) => {
-  return new Promise((resolve) => {
-    data.text = text;
+const show = async (content, buttons) =>
+  new Promise((resolve) => {
+    data.content = content;
     data.buttons = buttons;
     data.resolve = resolve;
     data.open = true;
   });
-};
 
 const close = (value = null) => {
   data.open = false;
