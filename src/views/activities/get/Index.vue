@@ -12,7 +12,7 @@
       </Dots>
     </div>
     <Header :activity="activity" />
-    <Chart class="border border-shade-7 shrink-0 aspect-[5/2]">
+    <Chart class="shrink-0 border border-shade-7 aspect-[5/2]">
       <ChartLines />
       <ChartLaps
         :laps="laps"
@@ -48,7 +48,6 @@ import ChartLaps from '../../../components/chart/ChartLaps.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
 import ChartPower from '../../../components/chart/ChartPower.vue';
 import { useActivitiesStore } from '../../../stores/activities';
-import { useAthleteStore } from '../../../stores/athlete';
 import { dialog } from '../../../utils/dialog';
 import { download } from '../../../utils/filesystem';
 import { powerToSpeed } from '../../../utils/speed';
@@ -64,7 +63,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const { athlete } = storeToRefs(useAthleteStore());
 const { activities } = storeToRefs(useActivitiesStore());
 
 const selection = ref(null);

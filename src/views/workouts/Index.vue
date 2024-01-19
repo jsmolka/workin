@@ -80,10 +80,26 @@ useSwipe(window, {
   @apply bg-shade-6;
   @apply rounded-sm;
   @apply select-none;
+
+  &:hover {
+    @apply bg-shade-5;
+  }
+
+  &:active {
+    @apply bg-shade-4;
+  }
 }
 
 .router-link-active {
-  @apply text-shade-8;
   @apply bg-brand-3;
+  @apply text-shade-8;
+
+  &:hover {
+    @apply bg-brand-2;
+  }
+
+  &:active {
+    @apply bg-brand-1;
+  }
 }
 </style>

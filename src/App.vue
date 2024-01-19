@@ -75,7 +75,8 @@ if (platform.isMobile()) {
 }
 
 .router-link-active {
-  @apply bg-shade-4;
   @apply border-t-brand-3;
+
+  background-color: var(--shade-4) !important;
 }
 </style>

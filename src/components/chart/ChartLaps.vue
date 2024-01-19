@@ -5,7 +5,7 @@
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="1"
-      class="hover:fill-white/5"
+      class="hover:fill-white/5 active:fill-white/10"
       :class="{ '!fill-white/10': index === selection }"
       @click="selection = index"
     />

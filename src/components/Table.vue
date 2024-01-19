@@ -51,6 +51,10 @@ defineExpose({ scrollTo });
     &:hover {
       @apply bg-shade-6;
     }
+
+    &:active {
+      @apply bg-shade-5;
+    }
   }
 
   td {

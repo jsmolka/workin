@@ -54,6 +54,5 @@ const hasHeartRate = (lap) => {
 };
 
 const table = ref();
-
 defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>
