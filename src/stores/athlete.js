@@ -6,7 +6,7 @@ import { Athlete } from '../modules/athlete';
 import { deserialize, serialize } from '../utils/persist';
 
 const id = 'athlete';
-const version = 1;
+const version = 2;
 
 export const useAthleteStore = defineStore(id, () => {
   const athlete = ref(new Athlete());
@@ -23,7 +23,7 @@ export const useAthleteStore = defineStore(id, () => {
 
   const importData = (data) => {
     if (data != null && data.version != null) {
-      athlete.value = deserialize(Athlete, data.data);
+      athlete.value = deserialize(Athlete, convert(data));
     }
   };
 
@@ -34,3 +34,13 @@ export const useAthleteStore = defineStore(id, () => {
 
   return { athlete, hydrate, importData, exportData };
 });
+
+function convert(data) {
+  const { version, data: athlete } = data;
+  switch (version) {
+    case 1:
+      delete athlete.weight;
+      break;
+  }
+  return athlete;
+}
