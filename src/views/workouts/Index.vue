@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col h-full gap-4 pb-0">
+  <div class="flex flex-col h-full gap-4 pb-0">
     <div class="flex gap-4">
       <RouterLink class="chip" to="/workouts/standard">Standard</RouterLink>
       <RouterLink class="chip" to="/workouts/custom">Custom</RouterLink>
