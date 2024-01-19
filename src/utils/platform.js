@@ -19,6 +19,6 @@ function isMobile() {
   );
 }
 
-export const device = {
+export const platform = {
   isMobile,
 };

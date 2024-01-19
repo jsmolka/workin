@@ -21,9 +21,9 @@ import { useEventListener } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useEmitter } from './composables/useEmitter';
 import { useSettingsStore } from './stores/settings';
-import { device } from './utils/device';
 import { log } from './utils/log';
 import { notify } from './utils/notify';
+import { platform } from './utils/platform';
 
 const { settings } = storeToRefs(useSettingsStore());
 
@@ -43,7 +43,7 @@ useEmitter(log, '*', (level, ...args) => {
   }
 });
 
-if (device.isMobile()) {
+if (platform.isMobile()) {
   useEventListener('error', ({ message }) => {
     notify.error(message);
   });
