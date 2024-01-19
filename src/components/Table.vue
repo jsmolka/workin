@@ -3,7 +3,7 @@
     <table ref="table" class="v-table absolute inset-0">
       <tr
         v-for="(item, index) in data"
-        :class="{ selected: index === selection }"
+        :class="{ '!bg-brand-3 !text-shade-8': index === selection }"
         :data-index="index"
         @click="selection = index"
       >
@@ -29,7 +29,6 @@ const selection = defineModel('selection', {
 });
 
 const table = ref();
-
 const scrollTo = (index) => {
   const element = table.value.querySelector(`[data-index="${index}"`);
   element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -51,11 +50,6 @@ defineExpose({ scrollTo });
 
     &:hover {
       @apply bg-shade-6;
-    }
-
-    &.selected {
-      color: var(--shade-8) !important;
-      background-color: var(--brand-3) !important;
     }
   }
 

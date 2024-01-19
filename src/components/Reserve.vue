@@ -15,10 +15,11 @@ defineProps({
 
 <style lang="scss" scoped>
 .reserve::after {
-  content: attr(data-reserve);
   @apply block;
   @apply h-0;
   @apply overflow-hidden;
   @apply invisible;
+
+  content: attr(data-reserve);
 }
 </style>

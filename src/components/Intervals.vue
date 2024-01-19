@@ -53,6 +53,5 @@ const selection = defineModel('selection', {
 const { athlete } = storeToRefs(useAthleteStore());
 
 const table = ref();
-
 defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>

@@ -1,8 +1,12 @@
 <template>
   <Switch
-    v-model="value"
     class="flex items-center w-11 h-6 rounded-sm"
-    :class="value ? 'bg-brand-3 hover:bg-brand-2' : 'bg-shade-6 hover:bg-shade-5'"
+    :class="
+      value
+        ? 'bg-brand-3 hover:bg-brand-2 active:bg-brand-1'
+        : 'bg-shade-6 hover:bg-shade-5 active:bg-shade-4'
+    "
+    v-model="value"
   >
     <div
       class="w-4 h-4 bg-shade-2 rounded-sm transform transition"

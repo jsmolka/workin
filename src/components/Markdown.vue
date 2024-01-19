@@ -1,5 +1,5 @@
 <template>
-  <span class="markdown" v-html="html" />
+  <span class="v-markdown" v-html="html" />
 </template>
 
 <script setup>
@@ -17,7 +17,7 @@ const html = computed(() => micromark(props.content));
 </script>
 
 <style lang="scss">
-.markdown {
+.v-markdown {
   @apply leading-relaxed;
 
   & > *:not(:first-child) {

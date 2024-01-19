@@ -2,8 +2,8 @@
   <button
     :class="[
       brand
-        ? 'text-shade-8 bg-brand-3 hover:bg-brand-2 active:bg-brand-1'
-        : 'text-shade-2 bg-shade-6 hover:bg-shade-5 active:bg-shade-4',
+        ? 'bg-brand-3 hover:bg-brand-2 active:bg-brand-1 text-shade-8'
+        : 'bg-shade-6 hover:bg-shade-5 active:bg-shade-4 text-shade-2',
       { disabled },
     ]"
     v-bind="$attrs"
