@@ -13,7 +13,8 @@
 
 <script setup>
 import { nanoid } from 'nanoid';
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { RecycleScroller } from 'vue-virtual-scroller';
 
 const props = defineProps({
@@ -67,5 +68,10 @@ onMounted(() => {
     await nextTick();
     scroller.value.scrollToPosition(position.top);
   };
+
+  const route = useRoute();
+  watch(route, () => {
+    scroller.value.scrollToPosition(0);
+  });
 });
 </script>
