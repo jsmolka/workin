@@ -79,6 +79,10 @@ const exportTcx = () => {
   );
 };
 
+const color = (name) => {
+  return getComputedStyle(document.documentElement).getPropertyValue(name);
+};
+
 const exportGraphic = () => {
   const w = 1000;
   const h = 0.4 * w;
@@ -91,11 +95,11 @@ const exportGraphic = () => {
 
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#242933';
+  ctx.fillStyle = color('--shade-8');
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.lineWidth = 2;
-  ctx.strokeStyle = '#2d3340';
+  ctx.strokeStyle = color('--shade-7');
   for (const ry of [25, 50, 75]) {
     ctx.beginPath();
     ctx.moveTo(x(0), y(ry));
@@ -104,8 +108,8 @@ const exportGraphic = () => {
   }
 
   const data = [
-    { polylines: activity.polylinesHeartRate, style: '#bf616a' },
-    { polylines: activity.polylinesPower, style: '#6286b3' },
+    { polylines: activity.polylinesHeartRate, style: color('--red') },
+    { polylines: activity.polylinesPower, style: color('--brand-3') },
   ];
   for (const { polylines, style } of data) {
     ctx.lineWidth = 3;

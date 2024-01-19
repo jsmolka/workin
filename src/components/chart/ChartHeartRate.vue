@@ -1,5 +1,5 @@
 <template>
-  <g class="stroke-2 stroke-[#bf616a]">
+  <g class="stroke-2 stroke-red">
     <Polyline v-for="points in polylines" :points="points" />
   </g>
 </template>

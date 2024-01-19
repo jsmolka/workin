@@ -16,17 +16,17 @@ class Notify extends Notyf {
       types: [
         {
           type: 'info',
-          background: '#5e81ac',
+          background: 'var(--brand-3)',
           icon: false,
         },
         {
           type: 'warn',
-          background: '#ebcb8b',
+          background: 'var(--yellow)',
           icon: false,
         },
         {
           type: 'error',
-          background: '#bf616a',
+          background: 'var(--red)',
           icon: false,
         },
       ],
