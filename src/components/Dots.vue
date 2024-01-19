@@ -3,7 +3,7 @@
     <MenuButton>
       <EllipsisVerticalIcon class="w-5 h-5" />
     </MenuButton>
-    <MenuItems class="dots-items absolute right-0 mt-2 p-1 bg-shade-6 rounded-sm shadow z-50">
+    <MenuItems class="v-dots-items absolute right-0 mt-2 p-1 bg-shade-6 rounded-sm shadow z-50">
       <slot />
     </MenuItems>
   </Menu>
@@ -15,7 +15,7 @@ import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid';
 </script>
 
 <style lang="scss">
-.dots-items > * {
+.v-dots-items > * {
   @apply w-full;
   @apply text-left;
   @apply whitespace-nowrap;
