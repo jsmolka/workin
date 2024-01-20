@@ -10,7 +10,7 @@ const defaults = {
   eta: 0.98, // Energy conversion efficiency (drivetrain loss)
   crr: 0.005, // Coefficient of rolling resistance
   vh: 0, // Headwind velocity in m/s
-  cda: 0.4, // Drag coefficient times frontal area in m^2
+  cda: 0.321, // Drag coefficient times frontal area in m^2
   gradient: 0, // Gradient in %
   m: 80, // Weight in kg
 };
