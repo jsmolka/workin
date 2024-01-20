@@ -15,7 +15,7 @@
         {{ device.heartRate != null ? `${device.name} [${device.heartRate} bpm]` : device.name }}
       </DeviceButton>
     </Label>
-    <Label text="FTP">
+    <Label text="FTP [W]">
       <InputNumber :min="1" v-model:value="athlete.ftp" />
     </Label>
     <Label text="Log level">
