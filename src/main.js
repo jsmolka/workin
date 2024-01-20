@@ -1,4 +1,3 @@
-import { useBluetooth } from '@vueuse/core';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
@@ -12,11 +11,9 @@ import { useActivityStore } from './stores/activity';
 import { useAthleteStore } from './stores/athlete';
 import { useSettingsStore } from './stores/settings';
 import { useWorkoutsStore } from './stores/workouts';
-import NoBluetooth from './views/NoBluetooth.vue';
 
 async function main() {
-  const { isSupported } = useBluetooth();
-  const app = createApp(isSupported.value ? App : NoBluetooth);
+  const app = createApp(App);
   app.directive('percent', percent);
   app.use(createPinia());
 

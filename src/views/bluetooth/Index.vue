@@ -1,11 +1,19 @@
 <template>
-  <div class="flex flex-col justify-center items-center h-full p-4">
-    <Markdown class="max-w-screen-sm" :content="content" />
+  <div class="flex justify-center items-center h-full p-4">
+    <Form class="items-center max-w-screen-sm">
+      <Markdown :content="content" />
+      <Button @click="router.push('/')" brand>Continue</Button>
+    </Form>
   </div>
 </template>
 
 <script setup>
-import Markdown from '../components/Markdown.vue';
+import { useRouter } from 'vue-router';
+import Button from '../../components/Button.vue';
+import Form from '../../components/Form.vue';
+import Markdown from '../../components/Markdown.vue';
+
+const router = useRouter();
 
 const content = `
 # No Web Bluetooth Support

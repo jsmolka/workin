@@ -5,6 +5,7 @@ import { useWorkoutsStore } from '../stores/workouts';
 import Activities from '../views/activities/Index.vue';
 import GetActivity from '../views/activities/get/Index.vue';
 import Backup from '../views/backup/Index.vue';
+import Bluetooth from '../views/bluetooth/Index.vue';
 import Settings from '../views/settings/Index.vue';
 import Train from '../views/train/Index.vue';
 import Workouts from '../views/workouts/Index.vue';
@@ -84,6 +85,10 @@ export const router = createRouter({
       path: '/backup',
       meta: { layout: App },
       component: Backup,
+    },
+    {
+      path: '/bluetooth',
+      component: Bluetooth,
     },
     {
       path: '/:pathMatch(.*)*',

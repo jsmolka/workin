@@ -1,5 +1,5 @@
 <template>
-  <Button :disabled="connecting" @click="connect">
+  <Button :disabled="!isSupported || connecting" @click="connect">
     <template v-if="connecting">Connecting...</template>
     <template v-else-if="device">
       <slot :device="device">
@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+import { useBluetooth } from '@vueuse/core';
 import { reactive } from 'vue';
 import Button from '../../components/Button.vue';
 import { useAsyncFn } from '../../composables/useAsyncFn';
@@ -28,6 +29,8 @@ const device = defineModel('device', {
   type: Device,
   default: null,
 });
+
+const { isSupported } = useBluetooth();
 
 const [connect, connecting] = useAsyncFn(async () => {
   device.value?.disconnect();
