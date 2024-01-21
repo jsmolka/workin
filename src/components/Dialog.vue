@@ -1,6 +1,9 @@
 <template>
-  <Dialog :open="data.open" @close="close">
-    <div class="fixed inset-0 flex justify-center items-center p-4 bg-black/50 z-[9999]">
+  <Dialog :open="data.open" @close="close" style="touch-action: none">
+    <div
+      class="fixed inset-0 flex justify-center items-center p-4 bg-black/50 z-[9999]"
+      @touchstart.prevent
+    >
       <DialogPanel class="max-w-screen-sm p-4 bg-shade-7 rounded-sm shadow">
         <Form>
           <div v-html="data.content" />
