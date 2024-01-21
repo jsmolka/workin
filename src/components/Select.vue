@@ -9,23 +9,35 @@
         </div>
         <ChevronUpDownIcon class="w-5 h-5 text-shade-3" aria-hidden="true" />
       </ListboxButton>
-      <ListboxOptions
-        class="absolute w-full max-h-60 mt-2 bg-shade-6 rounded-sm shadow overflow-auto z-50"
+      <Transition
+        enter-active-class="duration-150 ease-out"
+        enter-from-class="opacity-0 -translate-y-1"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-1"
       >
-        <ListboxOption
-          v-for="item in items"
-          v-slot="{ selected, disabled }"
-          :value="item"
-          :disabled="isDisabled(item)"
-          as="template"
+        <ListboxOptions
+          class="absolute w-full max-h-60 mt-2 bg-shade-6 rounded-sm shadow overflow-auto z-50"
         >
-          <li class="button !rounded-none truncate" :class="{ '!bg-shade-4': selected, disabled }">
-            <slot name="item" :item="item">
-              {{ item }}
-            </slot>
-          </li>
-        </ListboxOption>
-      </ListboxOptions>
+          <ListboxOption
+            v-for="item in items"
+            v-slot="{ selected, disabled }"
+            :value="item"
+            :disabled="isDisabled(item)"
+            as="template"
+          >
+            <li
+              class="button !rounded-none truncate"
+              :class="{ '!bg-shade-4': selected, disabled }"
+            >
+              <slot name="item" :item="item">
+                {{ item }}
+              </slot>
+            </li>
+          </ListboxOption>
+        </ListboxOptions>
+      </Transition>
     </div>
   </Listbox>
 </template>
