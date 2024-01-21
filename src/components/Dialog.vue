@@ -1,12 +1,12 @@
 <template>
   <TransitionRoot appear :show="state.visible" as="template">
-    <Dialog :open="state.visible" @close="close">
+    <Dialog @close="close">
       <TransitionChild
         as="template"
-        enter="duration-300 ease-out"
+        enter="duration-150 ease-out"
         enter-from="opacity-0"
         enter-to="opacity-100"
-        leave="duration-300 ease-in"
+        leave="duration-150 ease-in"
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
@@ -16,10 +16,10 @@
         >
           <TransitionChild
             as="template"
-            enter="duration-300 ease-out"
+            enter="duration-150 ease-out"
             enter-from="scale-95"
             enter-to="scale-100"
-            leave="duration-300 ease-in"
+            leave="duration-150 ease-in"
             leave-from="scale-100"
             leave-to="scale-95"
           >
