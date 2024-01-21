@@ -4,9 +4,8 @@
   @apply p-4;
 
   * {
-    animation-delay: 0ms;
-    animation-duration: 300ms;
-    animation-timing-function: ease-out;
+    animation-delay: 0ms !important;
+    animation-duration: 150ms !important;
   }
 
   &__toast {
@@ -14,6 +13,12 @@
     @apply rounded-sm;
     @apply cursor-pointer;
     @apply shadow;
+
+    animation-timing-function: ease-out;
+
+    &--disappear {
+      animation-timing-function: ease-in;
+    }
   }
 
   &__wrapper {
