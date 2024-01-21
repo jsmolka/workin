@@ -1,19 +1,32 @@
+@import 'notyf/notyf.min.css';
+
 .notyf {
-  &__dismiss {
-    width: 56px;
+  @apply p-4;
+
+  * {
+    animation-delay: 0ms;
+    animation-duration: 300ms;
+    animation-timing-function: ease-out;
   }
 
   &__toast {
-    &--dismissible {
-      .notyf__wrapper {
-        padding-right: 60px;
-      }
-    }
+    @apply p-0;
+    @apply rounded-sm;
+    @apply cursor-pointer;
+    @apply shadow;
+  }
+
+  &__wrapper {
+    @apply p-4;
+  }
+
+  &__message {
+    @apply text-shade-8;
   }
 }
 
 @media only screen and (max-width: 480px) {
   .notyf {
-    padding: 20px;
+    @apply p-4;
   }
 }

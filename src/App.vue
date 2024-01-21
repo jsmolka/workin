@@ -27,23 +27,13 @@ const { settings } = storeToRefs(useSettingsStore());
 
 useEmitter(log, '*', (level, ...args) => {
   if (settings.value.logAsNotification) {
-    switch (level) {
-      case 'warn':
-        notify.warn(...args);
-        break;
-      case 'error':
-        notify.error(...args);
-        break;
-      default:
-        notify.info(...args);
-        break;
-    }
+    notify(...args);
   }
 });
 
 if (platform.isMobile()) {
   useEventListener('error', ({ message }) => {
-    notify.error(message);
+    notify(message);
   });
 }
 </script>
