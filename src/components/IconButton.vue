@@ -28,7 +28,7 @@ defineProps({
 <style lang="scss" scoped>
 button {
   @apply p-2;
-  @apply rounded-sm;
+  @apply rounded-full;
   @apply cursor-pointer;
   @apply select-none;
 
