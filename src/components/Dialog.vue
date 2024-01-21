@@ -1,16 +1,11 @@
 <template>
   <Dialog :open="data.open" @close="close">
-    <div class="fixed inset-0 flex justify-center items-center p-4 bg-black/50">
-      <DialogPanel class="max-w-screen-sm p-4 bg-shade-7 rounded-sm shadow z-50">
+    <div class="fixed inset-0 flex justify-center items-center p-4 bg-black/50 z-[9999]">
+      <DialogPanel class="max-w-screen-sm p-4 bg-shade-7 rounded-sm shadow">
         <Form>
           <div v-html="data.content" />
           <div class="flex justify-end gap-4">
-            <Button
-              class="min-w-[4rem]"
-              v-for="button in data.buttons"
-              v-bind="button"
-              @click="close(button.value)"
-            />
+            <Button v-for="button in data.buttons" @click="close(button.value)" v-bind="button" />
           </div>
         </Form>
       </DialogPanel>
