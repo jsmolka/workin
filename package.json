@@ -37,6 +37,7 @@
     "nanoid": "^5.0.7",
     "notyf": "^3.10.0",
     "pinia": "^2.1.7",
+    "radix-vue": "^1.8.3",
     "tailwind-merge": "^2.3.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
