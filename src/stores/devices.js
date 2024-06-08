@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
-import { notify } from '../utils/notify';
+import { toast } from '../utils/toast';
 
 const id = 'devices';
 
@@ -11,7 +11,7 @@ export const useDevicesStore = defineStore(id, () => {
   for (const device of [hrm, trainer]) {
     watch(device, (value) => {
       value?.on('disconnected', () => {
-        notify.error(`${value.name} disconnected`);
+        toast.error(`${value.name} disconnected`);
         device.value = null;
       });
     });

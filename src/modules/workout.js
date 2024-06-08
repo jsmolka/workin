@@ -1,4 +1,4 @@
-import { createSchema, list, primitive, schema } from '../utils/persist';
+import { array, createSchema, primitive, schema } from '../utils/persist';
 import { Interval } from './interval';
 import { zones } from './zones';
 
@@ -48,5 +48,5 @@ export class Workout {
 
 createSchema(Workout, {
   name: primitive(),
-  intervals: list(schema(Interval)),
+  intervals: array(schema(Interval)),
 });

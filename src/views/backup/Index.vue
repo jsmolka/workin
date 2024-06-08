@@ -13,7 +13,7 @@ import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';
 import { useSettingsStore } from '../../stores/settings';
 import { useWorkoutsStore } from '../../stores/workouts';
-import { download, readFileAsync, selectFileDialog } from '../../utils/filesystem';
+import { download, readAsText, selectFile } from '../../utils/filesystem';
 
 const activities = useActivitiesStore();
 const activity = useActivityStore();
@@ -33,8 +33,8 @@ const exportData = () => {
 };
 
 const importData = async () => {
-  const file = await selectFileDialog('json');
-  const json = await readFileAsync(file);
+  const file = await selectFile('json');
+  const json = await readAsText(file);
   const data = JSON.parse(json);
   activities.importData(data.activities);
   activity.importData(data.activity);

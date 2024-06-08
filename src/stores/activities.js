@@ -14,7 +14,7 @@ export const useActivitiesStore = defineStore(id, () => {
   const activities = shallowRef([]);
 
   const exportData = () => {
-    return { version, data: serialize(activities.value) };
+    return { version, data: activities.value.map((activity) => serialize(activity)) };
   };
 
   const persist = async () => {
@@ -25,7 +25,7 @@ export const useActivitiesStore = defineStore(id, () => {
 
   const importData = (data) => {
     if (data != null && data.version != null) {
-      activities.value = deserialize(Activity, convert(data));
+      activities.value = convert(data).map((activity) => deserialize(Activity, activity));
     }
   };
 

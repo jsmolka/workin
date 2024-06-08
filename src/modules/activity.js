@@ -1,4 +1,4 @@
-import { createSchema, date, list, primitive, schema } from '../utils/persist';
+import { array, createSchema, date, primitive, schema } from '../utils/persist';
 import { Xml } from '../utils/xml';
 import { Workout } from './workout';
 
@@ -114,10 +114,10 @@ export class Activity {
 createSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: list(list(primitive())),
+  data: array(array(primitive())),
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),
-  polylinesPower: list(list(primitive())),
-  polylinesHeartRate: list(list(primitive())),
+  polylinesPower: array(array(primitive())),
+  polylinesHeartRate: array(array(primitive())),
 });

@@ -6,14 +6,15 @@
 </template>
 
 <script setup>
+import { stringify } from '@/utils/stringify';
 import { useBluetooth, useEventListener } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { useEmitter } from './composables/useEmitter';
 import { useSettingsStore } from './stores/settings';
 import { log } from './utils/log';
-import { notify } from './utils/notify';
 import { platform } from './utils/platform';
+import { toast } from './utils/toast';
 
 const route = useRoute();
 const router = useRouter();
@@ -27,13 +28,13 @@ const { settings } = storeToRefs(useSettingsStore());
 
 useEmitter(log, '*', (level, ...args) => {
   if (settings.value.logAsNotification) {
-    notify(...args);
+    toast(args.map(stringify).join(' '));
   }
 });
 
 if (platform.isMobile()) {
   useEventListener('error', ({ message }) => {
-    notify(message);
+    toast(message);
   });
 }
 </script>

@@ -1,5 +1,20 @@
 @import 'hsv';
 
+:root {
+  --shade-1: #{hsv(220, 3%, 95%)};
+  --shade-2: #{hsv(220, 3%, 90%)};
+  --shade-3: #{hsv(220, 29%, 50%)};
+  --shade-4: #{hsv(220, 29%, 40%)};
+  --shade-5: #{hsv(220, 29%, 35%)};
+  --shade-6: #{hsv(220, 29%, 30%)};
+  --shade-7: #{hsv(220, 29%, 25%)};
+  --shade-8: #{hsv(220, 29%, 20%)};
+  --brand-1: #{hsv(206, 46%, 80%)};
+  --brand-2: #{hsv(206, 46%, 75%)};
+  --brand-3: #{hsv(206, 46%, 70%)};
+  --red: #bf616a;
+}
+
 @font-face {
   font-family: 'Inter';
   font-weight: 100 900;
@@ -16,33 +31,18 @@
   src: url('/src/assets/fonts/inter.woff2') format('woff2');
 }
 
-:root {
-  --shade-1: #{hsv(220, 3%, 95%)};
-  --shade-2: #{hsv(220, 3%, 90%)};
-  --shade-3: #{hsv(220, 29%, 50%)};
-  --shade-4: #{hsv(220, 29%, 40%)};
-  --shade-5: #{hsv(220, 29%, 35%)};
-  --shade-6: #{hsv(220, 29%, 30%)};
-  --shade-7: #{hsv(220, 29%, 25%)};
-  --shade-8: #{hsv(220, 29%, 20%)};
-  --brand-1: #{hsv(206, 46%, 80%)};
-  --brand-2: #{hsv(206, 46%, 75%)};
-  --brand-3: #{hsv(206, 46%, 70%)};
-  --red: #bf616a;
-}
-
 html,
 body,
 #app {
-  height: 100%;
+  @apply h-full;
 }
 
 body {
   @apply bg-shade-8;
+  @apply text-sm;
   @apply text-shade-2;
 
   font-family: Inter, Roboto, ui-sans-serif, sans-serif;
-  font-size: 14px;
 }
 
 ::selection {
@@ -51,6 +51,8 @@ body {
 }
 
 * {
+  @apply border-shade-5;
+
   scrollbar-width: none;
 }
 

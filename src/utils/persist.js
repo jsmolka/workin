@@ -1,4 +1,6 @@
-const schemas = new WeakMap();
+import { enumerate } from '@/utils/iterator.js';
+
+const schemas = new Map();
 
 export function createSchema(class_, schema) {
   schemas.set(class_.prototype, schema);
@@ -25,10 +27,10 @@ export function schema(class_) {
   };
 }
 
-export function list(definition) {
+export function array(definition, class_ = Array) {
   return {
-    serialize: (value) => value.map(definition.serialize),
-    deserialize: (value) => value.map(definition.deserialize),
+    serialize: (value) => Array.from(value, definition.serialize),
+    deserialize: (value) => class_.from(value, definition.deserialize),
   };
 }
 
@@ -39,6 +41,10 @@ export function nullable(definition) {
   };
 }
 
+export function alias(name, definition) {
+  return { name, ...definition };
+}
+
 function* prototypes(object) {
   let prototype = Object.getPrototypeOf(object);
   for (; prototype; prototype = Object.getPrototypeOf(prototype)) {
@@ -47,56 +53,44 @@ function* prototypes(object) {
 }
 
 export function serialize(object) {
-  if (object instanceof Array) {
-    return object.map((item) => serialize(item));
-  }
-
   const data = {};
-  for (const prototype of prototypes(object)) {
+  for (const [i, prototype] of enumerate(prototypes(object))) {
     const schema = schemas.get(prototype);
     if (schema == null) {
+      if (i === 0) {
+        throw new Error('No schema');
+      }
       continue;
     }
-    for (const [key, { serialize }] of Object.entries(schema)) {
+    for (const [key, { name = key, serialize }] of Object.entries(schema)) {
       const value = object[key];
       if (value === undefined) {
-        throw `key does not exist: ${key}`;
+        console.warn('No value for key', key);
+        continue;
       }
-      data[key] = serialize(value);
+      data[name] = serialize(value);
     }
   }
   return data;
 }
 
-export function deserialize(class_, data) {
-  if (data instanceof Array) {
-    return data.map((item) => deserialize(class_, item));
-  }
-
-  const object = new class_();
-  for (const prototype of prototypes(object)) {
+export function deserialize(class_, data, target = new class_()) {
+  for (const [i, prototype] of enumerate(prototypes(target))) {
     const schema = schemas.get(prototype);
     if (schema == null) {
+      if (i === 0) {
+        throw new Error('No schema');
+      }
       continue;
     }
-    for (const [key, { deserialize }] of Object.entries(schema)) {
-      const value = data[key];
+    for (const [key, { name = key, deserialize }] of Object.entries(schema)) {
+      const value = data[name];
       if (value === undefined) {
+        console.warn('No value for key', name);
         continue;
       }
-      object[key] = deserialize(value);
+      target[key] = deserialize(value);
     }
   }
-  return object;
+  return target;
 }
-
-export const persist = {
-  createSchema,
-  primitive,
-  date,
-  schema,
-  list,
-  nullable,
-  serialize,
-  deserialize,
-};

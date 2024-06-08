@@ -14,7 +14,7 @@ export const useWorkoutsStore = defineStore(id, () => {
   const custom = shallowRef([]);
 
   const exportData = () => {
-    return { version, data: serialize(custom.value) };
+    return { version, data: custom.value.map((workout) => serialize(workout)) };
   };
 
   const persist = async () => {
@@ -25,7 +25,7 @@ export const useWorkoutsStore = defineStore(id, () => {
 
   const importData = (data) => {
     if (data != null && data.version != null) {
-      custom.value = deserialize(Workout, data.data);
+      custom.value = data.data.map((workout) => deserialize(Workout, workout));
     }
   };
 

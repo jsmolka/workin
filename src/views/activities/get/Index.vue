@@ -136,11 +136,11 @@ const exportGraphic = () => {
 };
 
 const remove = async () => {
-  const value = await dialog('Do you want to delete this activity?', [
-    { text: 'Cancel', value: 'cancel' },
-    { text: 'Delete', value: 'delete', brand: true },
-  ]);
-  if (value === 'delete') {
+  const index = await dialog({
+    content: 'Do you want to delete this activity?',
+    buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
+  });
+  if (index === 0) {
     router.back();
     const store = useActivitiesStore();
     store.remove(props.index);

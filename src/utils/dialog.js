@@ -1,11 +1,27 @@
+import Dialog from '@/utils/Dialog.vue';
 import { createApp } from 'vue';
-import Dialog from '../components/Dialog.vue';
 
-const div = document.createElement('div');
-document.body.appendChild(div);
+function mount() {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  const app = createApp(Dialog);
 
-const component = createApp(Dialog).mount(div);
+  return {
+    dialog: app.mount(div),
+    unmount() {
+      setTimeout(() => {
+        app.unmount();
+        div.remove();
+      }, 150);
+    },
+  };
+}
 
-export async function dialog(content, buttons) {
-  return component.show(content, buttons);
+export async function dialog(options) {
+  const { dialog, unmount } = mount();
+  try {
+    return await dialog.open(options);
+  } finally {
+    unmount();
+  }
 }

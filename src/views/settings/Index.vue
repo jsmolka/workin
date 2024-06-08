@@ -46,7 +46,7 @@ import { useAthleteStore } from '../../stores/athlete';
 import { useDevicesStore } from '../../stores/devices';
 import { useSettingsStore } from '../../stores/settings';
 import { log } from '../../utils/log';
-import { notify } from '../../utils/notify';
+import { toast } from '../../utils/toast';
 import DeviceButton from './DeviceButton.vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
@@ -58,7 +58,7 @@ const setTrainer = (device) => {
     return;
   }
   if (!device.supportsPower) {
-    notify.info(`${device.name} does not support power`);
+    toast.info(`${device.name} does not support power`);
     device.disconnect();
     return;
   }

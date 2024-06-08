@@ -126,11 +126,11 @@ const start = async () => {
   clearAutoStart();
 
   if (trainer.value == null) {
-    const value = await dialog('No smart trainer connected.', [
-      { text: 'Cancel', value: 'cancel' },
-      { text: 'Settings', value: 'settings', brand: true },
-    ]);
-    if (value === 'settings') {
+    const index = await dialog({
+      content: 'No smart trainer connected.',
+      buttons: [{ text: 'Settings' }, { text: 'Cancel', variant: 'secondary' }],
+    });
+    if (index === 0) {
       router.push('/settings');
     }
     return;

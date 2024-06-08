@@ -14,7 +14,7 @@ function accept(patterns) {
     .join(',');
 }
 
-export async function selectFileDialog(...patterns) {
+export async function selectFile(...patterns) {
   return new Promise((resolve) => {
     input.multiple = false;
     input.accept = accept(patterns);
@@ -27,7 +27,7 @@ export async function selectFileDialog(...patterns) {
   });
 }
 
-export async function selectFilesDialog(...patterns) {
+export async function selectFiles(...patterns) {
   return new Promise((resolve) => {
     input.multiple = true;
     input.accept = accept(patterns);
@@ -40,25 +40,37 @@ export async function selectFilesDialog(...patterns) {
   });
 }
 
-export async function readFileAsync(file) {
+export async function readAsText(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        return resolve(event.target.result);
+        resolve(event.target.result);
       } catch (error) {
-        return reject(error);
+        reject(error);
       }
     };
     reader.readAsText(file);
   });
 }
 
-export function download(content, filename, type) {
-  const file = new Blob([content], { type });
+export async function readAsArrayBuffer(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        resolve(event.target.result);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
 
+export function download(content, filename, type = '') {
   const link = document.createElement('a');
-  link.href = URL.createObjectURL(file);
+  link.href = URL.createObjectURL(new Blob([content], { type }));
   link.download = filename;
   link.click();
 

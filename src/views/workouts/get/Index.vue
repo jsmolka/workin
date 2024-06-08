@@ -77,16 +77,19 @@ const workout = store.workouts(props.type)[props.index];
 const select = async (index) => {
   const store = useActivityStore();
   if (store.activity != null && store.activity.seconds > 0) {
-    const value = await dialog('Do you want to save the current activity?', [
-      { text: 'Cancel', value: 'cancel' },
-      { text: 'No', value: 'no' },
-      { text: 'Yes', value: 'yes', brand: true },
-    ]);
-    switch (value) {
-      case 'yes':
+    const index = await dialog({
+      content: 'Do you want to save the current activity?',
+      buttons: [
+        { text: 'Yes' },
+        { text: 'No', variant: 'secondary' },
+        { text: 'Cancel', variant: 'secondary' },
+      ],
+    });
+    switch (index) {
+      case 0:
         store.finish();
         break;
-      case 'no':
+      case 1:
         break;
       default:
         return;
@@ -97,11 +100,11 @@ const select = async (index) => {
 };
 
 const remove = async () => {
-  const value = await dialog('Do you want to delete this workout?', [
-    { text: 'Cancel', value: 'cancel' },
-    { text: 'Delete', value: 'delete', brand: true },
-  ]);
-  if (value === 'delete') {
+  const index = await dialog({
+    content: 'Do you want to delete this workout?',
+    buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
+  });
+  if (index === 0) {
     router.back();
     store.remove(props.index);
   }

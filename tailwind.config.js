@@ -20,6 +20,7 @@ export default {
         2: 'var(--brand-2)',
         3: 'var(--brand-3)',
       },
+      red: 'var(--red)',
       black: colors.black,
       white: colors.white,
       transparent: colors.transparent,
