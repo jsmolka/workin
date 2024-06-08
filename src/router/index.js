@@ -2,15 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '../layouts/app/Index.vue';
 import { useActivitiesStore } from '../stores/activities';
 import { useWorkoutsStore } from '../stores/workouts';
-import Activities from '../views/activities/Index.vue';
-import GetActivity from '../views/activities/get/Index.vue';
-import Backup from '../views/backup/Index.vue';
-import Bluetooth from '../views/bluetooth/Index.vue';
-import Settings from '../views/settings/Index.vue';
-import Train from '../views/train/Index.vue';
-import Workouts from '../views/workouts/Index.vue';
-import GetWorkout from '../views/workouts/get/Index.vue';
-import NewWorkout from '../views/workouts/new/Index.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -19,7 +10,7 @@ export const router = createRouter({
     {
       path: '/train',
       meta: { layout: AppLayout },
-      component: Train,
+      component: () => import('../views/train/Index.vue'),
     },
     {
       path: '/workouts',
@@ -31,12 +22,12 @@ export const router = createRouter({
         },
         {
           path: ':type(standard|custom)',
-          component: Workouts,
+          component: () => import('../views/workouts/Index.vue'),
           props: true,
         },
         {
           path: ':type(standard|custom)/:index([0-9]+)',
-          component: GetWorkout,
+          component: () => import('../views/workouts/get/Index.vue'),
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
@@ -49,7 +40,7 @@ export const router = createRouter({
         },
         {
           path: 'new',
-          component: NewWorkout,
+          component: () => import('../views/workouts/new/Index.vue'),
         },
       ],
     },
@@ -59,11 +50,11 @@ export const router = createRouter({
       children: [
         {
           path: '',
-          component: Activities,
+          component: () => import('../views/activities/Index.vue'),
         },
         {
           path: ':index([0-9]+)',
-          component: GetActivity,
+          component: () => import('../views/activities/get/Index.vue'),
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
@@ -79,16 +70,16 @@ export const router = createRouter({
     {
       path: '/settings',
       meta: { layout: AppLayout },
-      component: Settings,
+      component: () => import('../views/settings/Index.vue'),
     },
     {
       path: '/backup',
       meta: { layout: AppLayout },
-      component: Backup,
+      component: () => import('../views/backup/Index.vue'),
     },
     {
       path: '/bluetooth',
-      component: Bluetooth,
+      component: () => import('../views/bluetooth/Index.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
