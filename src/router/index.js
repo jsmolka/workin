@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import App from '../layouts/App.vue';
+import AppLayout from '../layouts/app/Index.vue';
 import { useActivitiesStore } from '../stores/activities';
 import { useWorkoutsStore } from '../stores/workouts';
 import Activities from '../views/activities/Index.vue';
@@ -18,12 +18,12 @@ export const router = createRouter({
   routes: [
     {
       path: '/train',
-      meta: { layout: App },
+      meta: { layout: AppLayout },
       component: Train,
     },
     {
       path: '/workouts',
-      meta: { layout: App },
+      meta: { layout: AppLayout },
       children: [
         {
           path: '',
@@ -55,7 +55,7 @@ export const router = createRouter({
     },
     {
       path: '/activities',
-      meta: { layout: App },
+      meta: { layout: AppLayout },
       children: [
         {
           path: '',
@@ -78,12 +78,12 @@ export const router = createRouter({
     },
     {
       path: '/settings',
-      meta: { layout: App },
+      meta: { layout: AppLayout },
       component: Settings,
     },
     {
       path: '/backup',
-      meta: { layout: App },
+      meta: { layout: AppLayout },
       component: Backup,
     },
     {
