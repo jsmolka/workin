@@ -33,7 +33,6 @@
     "idb-keyval": "^6.2.1",
     "lodash": "^4.17.21",
     "mathjs": "^13.0.0",
-    "micromark": "^4.0.0",
     "nanoid": "^5.0.7",
     "notyf": "^3.10.0",
     "pinia": "^2.1.7",
