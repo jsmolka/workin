@@ -4,6 +4,7 @@
       <DataTableBody>
         <DataTableRow
           v-for="(item, index) in items"
+          class="grid grid-flow-col auto-cols-fr"
           :index="index"
           v-model:selected-index="selectedIndex"
         >
