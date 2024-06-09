@@ -18,7 +18,9 @@
         <ChartPower :polylines="polylinesPower(activity.data, workoutSeconds, 2 * athlete.ftp)" />
       </ChartProgress>
     </Chart>
-    <Label class="flex-1" text="Intervals">
+
+    <FormItem class="flex-1">
+      <Label>Intervals</Label>
       <Intervals
         ref="table"
         class="v-train-intervals flex-1"
@@ -26,7 +28,7 @@
         :selection="currentIntervalIndex"
         @update:selection=""
       />
-    </Label>
+    </FormItem>
     <div class="flex gap-4">
       <Button class="flex-1" @click="toggle">{{ toggleText }}</Button>
       <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped">
@@ -38,12 +40,12 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
+import { Form, FormItem } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { useEventListener, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
 import Intervals from '../../components/Intervals.vue';
-import Label from '../../components/Label.vue';
 import Chart from '../../components/chart/Chart.vue';
 import ChartHeartRate from '../../components/chart/ChartHeartRate.vue';
 import ChartIntervals from '../../components/chart/ChartIntervals.vue';

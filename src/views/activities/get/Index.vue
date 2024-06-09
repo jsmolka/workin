@@ -23,9 +23,11 @@
       <ChartHeartRate class="pointer-events-none" :polylines="activity.polylinesHeartRate" />
       <ChartPower class="pointer-events-none" :polylines="activity.polylinesPower" />
     </Chart>
-    <Label class="flex-1" text="Laps">
+
+    <FormItem class="flex-1">
+      <Label>Laps</Label>
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
-    </Label>
+    </FormItem>
     <Button @click="exportTcx">Export TCX</Button>
   </Form>
 </template>
@@ -33,13 +35,13 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Form } from '@/components/ui/form';
+import { Form, FormItem } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
 import Dots from '../../../components/Dots.vue';
-import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
 import ChartLaps from '../../../components/chart/ChartLaps.vue';
