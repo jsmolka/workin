@@ -54,5 +54,5 @@
   $g: math.round(255 * ($g + $m));
   $b: math.round(255 * ($b + $m));
 
-  @return rgb($r, $g, $b);
+  @return $r $g $b;
 }
