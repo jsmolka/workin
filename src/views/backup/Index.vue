@@ -7,7 +7,7 @@
 
 <script setup>
 import Button from '@/components/Button.vue';
-import Form from '../../components/Form.vue';
+import { Form } from '@/components/ui/form';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
 import { useAthleteStore } from '../../stores/athlete';

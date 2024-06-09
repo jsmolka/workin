@@ -38,10 +38,10 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { useEventListener, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
-import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';
 import Chart from '../../components/chart/Chart.vue';

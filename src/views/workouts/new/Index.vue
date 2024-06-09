@@ -41,7 +41,7 @@
         <Input v-model="durationInput" />
       </Label>
       <Label class="flex-1 min-w-0" text="Intensity">
-        <InputNumber :min="0" :max="1000" suffix="% FTP" v-model="intensityInput" />
+        <InputNumber :min="0" :max="1000" suffix=" % FTP" v-model="intensityInput" />
       </Label>
       <div class="flex items-end">
         <Button :disabled="duration == null || intensity == null" @click="add">Add</Button>
@@ -56,12 +56,12 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { Form } from '@/components/ui/form';
 import { Input, InputNumber } from '@/components/ui/input';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
 import Dots from '../../../components/Dots.vue';
-import Form from '../../../components/Form.vue';
 import Intervals from '../../../components/Intervals.vue';
 import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';

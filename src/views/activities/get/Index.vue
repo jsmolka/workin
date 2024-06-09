@@ -33,12 +33,12 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { Form } from '@/components/ui/form';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
 import Dots from '../../../components/Dots.vue';
-import Form from '../../../components/Form.vue';
 import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
