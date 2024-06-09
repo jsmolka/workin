@@ -4,7 +4,7 @@
     v-bind="forwarded"
     :class="
       cn(
-        'relative flex items-center pl-8 pr-2 py-1.5 cursor-pointer select-none rounded-sm outline-none transition-colors focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
+        'relative flex items-center pl-8 pr-2 py-1.5 cursor-pointer select-none rounded-sm outline-none focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
         props.class,
       )
     "

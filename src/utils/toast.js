@@ -7,7 +7,7 @@ const notyf = new Notyf({
   types: [
     {
       type: 'info',
-      background: 'var(--brand-3)',
+      background: 'rgb(var(--brand-3))',
       icon: false,
     },
   ],
