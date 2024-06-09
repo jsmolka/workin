@@ -37,8 +37,8 @@
       <Intervals
         ref="table"
         class="flex-1"
-        :intervals="workout.intervals"
-        v-model:selection="selection"
+        :items="workout.intervals"
+        v-model:selected-index="selection"
       />
     </FormItem>
 

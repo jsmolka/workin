@@ -23,10 +23,9 @@
       <Label>Intervals</Label>
       <Intervals
         ref="table"
-        class="v-train-intervals flex-1"
-        :intervals="workout.intervals"
-        :selection="currentIntervalIndex"
-        @update:selection=""
+        class="flex-1 [&_tr]:pointer-events-none"
+        :items="workout.intervals"
+        :selected-index="currentIntervalIndex"
       />
     </FormItem>
     <div class="flex gap-4">
@@ -251,9 +250,3 @@ watchEffect(() => {
   }
 });
 </script>
-
-<style lang="scss">
-.v-train-intervals tr {
-  @apply pointer-events-none;
-}
-</style>

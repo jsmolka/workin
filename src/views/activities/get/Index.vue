@@ -26,34 +26,34 @@
 
     <FormItem class="flex-1">
       <Label>Laps</Label>
-      <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
+      <Laps ref="table" class="flex-1" :items="laps" v-model:selected-index="selection" />
     </FormItem>
     <Button @click="exportTcx">Export TCX</Button>
   </Form>
 </template>
 
 <script setup>
+import Back from '@/components/Back.vue';
+import Dots from '@/components/Dots.vue';
+import Laps from '@/components/Laps.vue';
+import Chart from '@/components/chart/Chart.vue';
+import ChartHeartRate from '@/components/chart/ChartHeartRate.vue';
+import ChartLaps from '@/components/chart/ChartLaps.vue';
+import ChartLines from '@/components/chart/ChartLines.vue';
+import ChartPower from '@/components/chart/ChartPower.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { useActivitiesStore } from '@/stores/activities';
+import { dialog } from '@/utils/dialog';
+import { download } from '@/utils/filesystem';
+import { powerToSpeed } from '@/utils/speed';
+import { formatDate } from '@/utils/time';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Back from '../../../components/Back.vue';
-import Dots from '../../../components/Dots.vue';
-import Chart from '../../../components/chart/Chart.vue';
-import ChartHeartRate from '../../../components/chart/ChartHeartRate.vue';
-import ChartLaps from '../../../components/chart/ChartLaps.vue';
-import ChartLines from '../../../components/chart/ChartLines.vue';
-import ChartPower from '../../../components/chart/ChartPower.vue';
-import { useActivitiesStore } from '../../../stores/activities';
-import { dialog } from '../../../utils/dialog';
-import { download } from '../../../utils/filesystem';
-import { powerToSpeed } from '../../../utils/speed';
-import { formatDate } from '../../../utils/time';
 import Header from '../Header.vue';
-import Laps from './Laps.vue';
 
 const props = defineProps({
   index: {
