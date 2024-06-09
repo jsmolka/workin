@@ -1,6 +1,6 @@
 <template>
   <TableRow
-    :class="cn('cursor-pointer', selected && '!bg-brand-3 !text-shade-8', props.class)"
+    :class="cn('cursor-pointer', selected && '!bg-brand-3 !text-shade-8 !font-medium', props.class)"
     :data-index="index"
     @click="selectedIndex = index"
   >
