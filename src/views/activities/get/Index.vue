@@ -3,12 +3,10 @@
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
-        <MenuItem>
-          <Button @click="exportGraphic">Export graphic</Button>
-        </MenuItem>
-        <MenuItem>
-          <Button @click="remove">Delete</Button>
-        </MenuItem>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem @click="exportGraphic">Export graphic</DropdownMenuItem>
+          <DropdownMenuItem @click="remove">Delete</DropdownMenuItem>
+        </DropdownMenuContent>
       </Dots>
     </div>
     <Header :activity="activity" />
@@ -34,7 +32,7 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { MenuItem } from '@headlessui/vue';
+import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';

@@ -1,9 +1,12 @@
 <template>
-  <ArrowLeftIcon class="w-5 h-5 cursor-pointer" @click="router.back()" />
+  <Button variant="ghost" size="icon">
+    <ArrowLeftIcon class="size-5" @click="router.back()" />
+  </Button>
 </template>
 
 <script setup>
-import { ArrowLeftIcon } from '@heroicons/vue/20/solid';
+import { Button } from '@/components/ui/button';
+import { ArrowLeftIcon } from '@radix-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 

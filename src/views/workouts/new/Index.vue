@@ -3,15 +3,15 @@
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
-        <MenuItem>
-          <Button @click="workout.intervals.push(...warmup)">Add warmup</Button>
-        </MenuItem>
-        <MenuItem>
-          <Button @click="workout.intervals.push(...cooldown)">Add cooldown</Button>
-        </MenuItem>
-        <MenuItem>
-          <Button :class="{ disabled: selection == null }" @click="remove">Delete interval</Button>
-        </MenuItem>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem @click="workout.intervals.push(...warmup)">Add warmup</DropdownMenuItem>
+          <DropdownMenuItem @click="workout.intervals.push(...cooldown)">
+            Add cooldown
+          </DropdownMenuItem>
+          <DropdownMenuItem :disabled="selection == null" @click="remove">
+            Delete interval
+          </DropdownMenuItem>
+        </DropdownMenuContent>
       </Dots>
     </div>
     <Label text="Name">
@@ -55,7 +55,7 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { MenuItem } from '@headlessui/vue';
+import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';

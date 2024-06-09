@@ -3,14 +3,12 @@
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
-        <MenuItem>
-          <Button :class="{ disabled: selection == null }" @click="select(selection)">
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem :disabled="selection == null" @click="select(selection)">
             Select at interval
-          </Button>
-        </MenuItem>
-        <MenuItem v-if="type === 'custom'">
-          <Button @click="remove">Delete</Button>
-        </MenuItem>
+          </DropdownMenuItem>
+          <DropdownMenuItem v-if="type === 'custom'" @click="remove">Delete</DropdownMenuItem>
+        </DropdownMenuContent>
       </Dots>
     </div>
     <Header :workout="workout" />
@@ -39,7 +37,7 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { MenuItem } from '@headlessui/vue';
+import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
