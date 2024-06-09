@@ -28,8 +28,8 @@
       />
     </Label>
     <div class="flex gap-4">
-      <Button class="flex-1" @click="toggle" brand>{{ toggleText }}</Button>
-      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped" brand>
+      <Button class="flex-1" @click="toggle">{{ toggleText }}</Button>
+      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped">
         Finish
       </Button>
     </div>
@@ -37,10 +37,10 @@
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { useEventListener, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
-import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
 import Intervals from '../../components/Intervals.vue';
 import Label from '../../components/Label.vue';

@@ -28,17 +28,17 @@
     <Label class="flex-1" text="Laps">
       <Laps ref="table" class="flex-1" :laps="laps" v-model:selection="selection" />
     </Label>
-    <Button @click="exportTcx" brand>Export TCX</Button>
+    <Button @click="exportTcx">Export TCX</Button>
   </Form>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { MenuItem } from '@headlessui/vue';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
-import Button from '../../../components/Button.vue';
 import Dots from '../../../components/Dots.vue';
 import Form from '../../../components/Form.vue';
 import Label from '../../../components/Label.vue';

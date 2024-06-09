@@ -33,16 +33,16 @@
         v-model:selection="selection"
       />
     </Label>
-    <Button @click="select(0)" brand>Select</Button>
+    <Button @click="select(0)">Select</Button>
   </Form>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { MenuItem } from '@headlessui/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
-import Button from '../../../components/Button.vue';
 import Dots from '../../../components/Dots.vue';
 import Form from '../../../components/Form.vue';
 import Intervals from '../../../components/Intervals.vue';

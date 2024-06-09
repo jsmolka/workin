@@ -1,5 +1,5 @@
 <template>
-  <Button :disabled="!isSupported || connecting" @click="connect">
+  <Button variant="secondary" :disabled="!isSupported || connecting" @click="connect">
     <template v-if="connecting">Connecting...</template>
     <template v-else-if="device">
       <slot :device="device">
@@ -11,9 +11,9 @@
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { useBluetooth } from '@vueuse/core';
 import { reactive } from 'vue';
-import Button from '../../components/Button.vue';
 import { useAsyncFn } from '../../composables/useAsyncFn';
 import { Device } from '../../modules/bluetooth/device';
 import { log } from '../../utils/log';

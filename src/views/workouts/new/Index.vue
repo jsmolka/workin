@@ -47,22 +47,18 @@
         <Button :disabled="duration == null || intensity == null" @click="add">Add</Button>
       </div>
     </div>
-    <Button
-      :disabled="workout.name.length === 0 || workout.intervals.length === 0"
-      @click="save"
-      brand
-    >
+    <Button :disabled="workout.name.length === 0 || workout.intervals.length === 0" @click="save">
       Save
     </Button>
   </Form>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { MenuItem } from '@headlessui/vue';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
-import Button from '../../../components/Button.vue';
 import Dots from '../../../components/Dots.vue';
 import Form from '../../../components/Form.vue';
 import Input from '../../../components/Input.vue';

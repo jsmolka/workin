@@ -2,14 +2,14 @@
   <div class="flex justify-center items-center h-full p-4">
     <Form class="items-center max-w-screen-sm">
       <Markdown :content="content" />
-      <Button @click="router.push('/')" brand>Continue</Button>
+      <Button @click="router.push('/')">Continue</Button>
     </Form>
   </div>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'vue-router';
-import Button from '../../components/Button.vue';
 import Form from '../../components/Form.vue';
 import Markdown from '../../components/Markdown.vue';
 

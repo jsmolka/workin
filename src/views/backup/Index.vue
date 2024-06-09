@@ -1,12 +1,12 @@
 <template>
   <Form>
-    <Button @click="exportData" brand>Export</Button>
-    <Button @click="importData" brand>Import</Button>
+    <Button @click="exportData">Export</Button>
+    <Button @click="importData">Import</Button>
   </Form>
 </template>
 
 <script setup>
-import Button from '../../components/Button.vue';
+import Button from '@/components/Button.vue';
 import Form from '../../components/Form.vue';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
