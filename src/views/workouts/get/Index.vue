@@ -23,14 +23,16 @@
         "
       />
     </Chart>
-    <Label class="flex-1" text="Intervals">
+
+    <FormItem class="flex-1">
+      <Label>Intervals</Label>
       <Intervals
         ref="table"
         class="flex-1"
         :intervals="workout.intervals"
         v-model:selection="selection"
       />
-    </Label>
+    </FormItem>
     <Button @click="select(0)">Select</Button>
   </Form>
 </template>
@@ -38,13 +40,13 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Form } from '@/components/ui/form';
+import { Form, FormItem } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
 import Dots from '../../../components/Dots.vue';
 import Intervals from '../../../components/Intervals.vue';
-import Label from '../../../components/Label.vue';
 import Chart from '../../../components/chart/Chart.vue';
 import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
 import ChartLines from '../../../components/chart/ChartLines.vue';
