@@ -30,7 +30,6 @@
   @apply border-transparent;
   @apply cursor-pointer;
   @apply select-none;
-  @apply transition-colors;
 
   &:hover {
     @apply bg-shade-6;
