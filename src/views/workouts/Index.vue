@@ -1,9 +1,19 @@
 <template>
   <div class="flex flex-col h-full gap-4 pb-0">
-    <div class="flex gap-4">
-      <RouterLink class="chip" to="/workouts/standard">Standard</RouterLink>
-      <RouterLink class="chip" to="/workouts/custom">Custom</RouterLink>
-    </div>
+    <Tabs :model-value="route.fullPath">
+      <TabsList class="grid grid-cols-2">
+        <TabsTrigger
+          v-for="{ text, route } in [
+            { text: 'Standard', route: '/workouts/standard' },
+            { text: 'Custom', route: '/workouts/custom' },
+          ]"
+          :value="route"
+          as-child
+        >
+          <RouterLink :to="route">{{ text }}</RouterLink>
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
     <div class="relative flex-1">
       <Scroller
         v-if="workouts.length > 0"
@@ -32,10 +42,11 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PlusIcon } from '@radix-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Scroller from '../../components/Scroller.vue';
 import { useWorkoutsStore } from '../../stores/workouts';
 import Workout from './Workout.vue';
@@ -47,6 +58,7 @@ const props = defineProps({
   },
 });
 
+const route = useRoute();
 const router = useRouter();
 const store = useWorkoutsStore();
 
@@ -72,34 +84,3 @@ useSwipe(window, {
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.chip {
-  @apply px-2;
-  @apply py-1.5;
-  @apply bg-shade-6;
-  @apply rounded-sm;
-  @apply select-none;
-
-  &:hover {
-    @apply bg-shade-5;
-  }
-
-  &:active {
-    @apply bg-shade-4;
-  }
-}
-
-.router-link-active {
-  @apply bg-brand-3;
-  @apply text-shade-8;
-
-  &:hover {
-    @apply bg-brand-2;
-  }
-
-  &:active {
-    @apply bg-brand-1;
-  }
-}
-</style>
