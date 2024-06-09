@@ -78,10 +78,6 @@ export const router = createRouter({
       component: () => import('../views/backup/Index.vue'),
     },
     {
-      path: '/bluetooth',
-      component: () => import('../views/bluetooth/Index.vue'),
-    },
-    {
       path: '/:pathMatch(.*)*',
       redirect: '/train',
     },
