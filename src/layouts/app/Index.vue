@@ -5,12 +5,12 @@
         <RouterView class="p-4" />
       </div>
     </div>
-    <div class="bg-shade-6 shadow-t z-10">
-      <nav class="container flex justify-between">
-        <RouterLink class="tab flex-1" to="/train">Train</RouterLink>
-        <RouterLink class="tab flex-1" to="/workouts">Workouts</RouterLink>
-        <RouterLink class="tab flex-1" to="/activities">Activities</RouterLink>
-        <RouterLink class="tab flex-1" to="/settings">Settings</RouterLink>
+    <div class="z-10 bg-shade-7 border-t">
+      <nav class="container grid grid-flow-col auto-cols-fr">
+        <RouterLink class="tab" to="/train">Train</RouterLink>
+        <RouterLink class="tab" to="/workouts">Workouts</RouterLink>
+        <RouterLink class="tab" to="/activities">Activities</RouterLink>
+        <RouterLink class="tab" to="/settings">Settings</RouterLink>
       </nav>
     </div>
   </div>
@@ -24,25 +24,22 @@
 
 .tab {
   @apply p-2;
-  @apply bg-shade-6;
+  @apply bg-shade-7;
+  @apply text-center;
   @apply border-y-4;
   @apply border-transparent;
-  @apply text-center;
   @apply cursor-pointer;
   @apply select-none;
+  @apply transition-colors;
 
   &:hover {
-    @apply bg-shade-5;
-  }
-
-  &:active {
-    @apply bg-shade-4;
+    @apply bg-shade-6;
   }
 }
 
 .router-link-active {
   @apply border-t-brand-3;
 
-  background-color: var(--shade-4) !important;
+  background-color: rgb(var(--shade-5)) !important;
 }
 </style>
