@@ -33,17 +33,19 @@ const props = defineProps({
   max: { type: Number, default: Number.MAX_SAFE_INTEGER },
   min: { type: Number, default: Number.MIN_SAFE_INTEGER },
   precision: { type: Number, default: 0 },
-  unit: { type: String, default: '' },
-});
-
-const suffix = computed(() => {
-  return props.unit !== '' ? ` ${props.unit}` : '';
+  prefix: { type: String, default: '' },
+  suffix: { type: String, default: '' },
 });
 
 const unformat = (value) => {
-  return suffix.value.length > 0 && value.endsWith(suffix.value)
-    ? value.slice(0, -suffix.value.length)
-    : value;
+  const { prefix, suffix } = props;
+  if (prefix.length > 0 && value.startsWith(prefix)) {
+    value = value.slice(prefix.length);
+  }
+  if (suffix.length > 0 && value.endsWith(suffix)) {
+    value = value.slice(0, -suffix.length);
+  }
+  return value;
 };
 
 // Based on https://github.com/nosir/cleave-zen/blob/main/src/numeral/index.ts
@@ -75,7 +77,7 @@ const format = (value) => {
         ? `${integer}${decimalSeparator}${decimal.slice(0, props.precision)}`
         : integer;
   }
-  return (value || '0') + suffix.value;
+  return props.prefix + (value || '0') + props.suffix;
 };
 
 const inputmode = computed(() => {
@@ -90,10 +92,8 @@ let selectionStart = null;
 let selectionEnd = null;
 
 const select = (event) => {
-  const value = unformat(event.target.value);
-
-  selectionStart = 0;
-  selectionEnd = value.length;
+  selectionStart = props.prefix.length;
+  selectionEnd = event.target.value.length - props.suffix.length;
 
   event.target.setSelectionRange(selectionStart, selectionEnd);
 };
@@ -125,8 +125,6 @@ const keyDown = (event) => {
 };
 
 const navigate = (event) => {
-  const value = unformat(event.target.value);
-
   switch (event.key) {
     case 'ArrowLeft':
       if (!event.shiftKey && selectionStart !== selectionEnd) {
@@ -135,7 +133,7 @@ const navigate = (event) => {
       }
     case 'ArrowUp':
     case 'Home': {
-      selectionEnd -= !event.ctrlKey && event.key === 'ArrowLeft' ? 1 : value.length;
+      selectionEnd -= !event.ctrlKey && event.key === 'ArrowLeft' ? 1 : event.target.value.length;
       break;
     }
 
@@ -146,12 +144,16 @@ const navigate = (event) => {
       }
     case 'ArrowDown':
     case 'End': {
-      selectionEnd += !event.ctrlKey && event.key === 'ArrowRight' ? 1 : value.length;
+      selectionEnd += !event.ctrlKey && event.key === 'ArrowRight' ? 1 : event.target.value.length;
       break;
     }
   }
 
-  selectionEnd = _.clamp(selectionEnd, 0, value.length);
+  selectionEnd = _.clamp(
+    selectionEnd,
+    props.prefix.length,
+    event.target.value.length - props.suffix.length,
+  );
   if (!event.shiftKey) {
     selectionStart = selectionEnd;
   }
@@ -169,8 +171,10 @@ const navigate = (event) => {
 };
 
 const clampCursor = (event) => {
-  const value = unformat(event.target.value);
-  event.target.selectionEnd = Math.min(event.target.selectionEnd, value.length);
+  event.target.selectionEnd = Math.min(
+    event.target.selectionEnd,
+    event.target.value.length - props.suffix.length,
+  );
 
   selectionStart = event.target.selectionStart;
   selectionEnd = event.target.selectionEnd;
