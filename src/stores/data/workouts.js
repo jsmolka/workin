@@ -1,6 +1,6 @@
-import { Interval, cooldown, ramp, warmup } from '../../modules/interval';
-import { Workout } from '../../modules/workout';
-import { parseSeconds } from '../../utils/time';
+import { Interval, cooldown, ramp, warmup } from '@/modules/interval';
+import { Workout } from '@/modules/workout';
+import { parseSeconds } from '@/utils/time';
 
 function workout(name, data) {
   const intervals = [];

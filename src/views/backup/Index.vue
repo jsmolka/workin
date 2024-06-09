@@ -1,7 +1,7 @@
 <template>
   <Form>
-    <Button @click="exportData">Export</Button>
-    <Button @click="importData">Import</Button>
+    <Button @click="save">Save</Button>
+    <Button @click="load">Load</Button>
   </Form>
 </template>
 
@@ -21,25 +21,25 @@ const athlete = useAthleteStore();
 const settings = useSettingsStore();
 const workouts = useWorkoutsStore();
 
-const exportData = () => {
+const save = () => {
   const data = {
-    activities: activities.exportData(),
-    activity: activity.exportData(),
-    athlete: athlete.exportData(),
-    settings: settings.exportData(),
-    workouts: workouts.exportData(),
+    activities: activities.toJson(),
+    activity: activity.toJson(),
+    athlete: athlete.toJson(),
+    settings: settings.toJson(),
+    workouts: workouts.toJson(),
   };
   download(JSON.stringify(data), 'backup.json', 'application/json');
 };
 
-const importData = async () => {
+const load = async () => {
   const file = await selectFile('json');
   const json = await readAsText(file);
   const data = JSON.parse(json);
-  activities.importData(data.activities);
-  activity.importData(data.activity);
-  athlete.importData(data.athlete);
-  settings.importData(data.settings);
-  workouts.importData(data.workouts);
+  activities.fromJson(data.activities);
+  activity.fromJson(data.activity);
+  athlete.fromJson(data.athlete);
+  settings.fromJson(data.settings);
+  workouts.fromJson(data.workouts);
 };
 </script>

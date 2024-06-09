@@ -1,10 +1,10 @@
+import { Settings } from '@/modules/settings';
+import { log } from '@/utils/log';
+import { deserialize, serialize } from '@/utils/persist';
 import { watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref, watchEffect } from 'vue';
-import { Settings } from '../modules/settings';
-import { log } from '../utils/log';
-import { deserialize, serialize } from '../utils/persist';
 
 const id = 'settings';
 const version = 1;
@@ -12,30 +12,30 @@ const version = 1;
 export const useSettingsStore = defineStore(id, () => {
   const settings = ref(new Settings());
 
-  const exportData = () => {
+  const toJson = () => {
     return { version, data: serialize(settings.value) };
   };
 
-  const persist = async () => {
-    await set(id, exportData());
-  };
-
-  const { ignoreUpdates } = watchIgnorable(settings, persist, { deep: true });
-
-  const importData = (data) => {
+  const fromJson = (data) => {
     if (data != null && data.version != null) {
       settings.value = deserialize(Settings, data.data);
     }
   };
 
+  const persist = async () => {
+    await set(id, toJson());
+  };
+
+  const { ignoreUpdates } = watchIgnorable(settings, persist, { deep: true });
+
   const hydrate = async () => {
     const data = await get(id);
-    ignoreUpdates(() => importData(data));
+    ignoreUpdates(() => fromJson(data));
   };
 
   watchEffect(() => {
     log.level = settings.value.logLevel;
   });
 
-  return { settings, hydrate, importData, exportData };
+  return { settings, toJson, fromJson, hydrate };
 });

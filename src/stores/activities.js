@@ -1,11 +1,11 @@
+import { Activity } from '@/modules/activity';
+import { polylinesHeartRate, polylinesPower } from '@/modules/data';
+import { useAthleteStore } from '@/stores/athlete';
+import { deserialize, serialize } from '@/utils/persist';
 import { watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { shallowRef, triggerRef } from 'vue';
-import { Activity } from '../modules/activity';
-import { polylinesHeartRate, polylinesPower } from '../modules/data';
-import { deserialize, serialize } from '../utils/persist';
-import { useAthleteStore } from './athlete';
 
 const id = 'activities';
 const version = 6;
@@ -13,25 +13,25 @@ const version = 6;
 export const useActivitiesStore = defineStore(id, () => {
   const activities = shallowRef([]);
 
-  const exportData = () => {
+  const toJson = () => {
     return { version, data: activities.value.map((activity) => serialize(activity)) };
   };
 
-  const persist = async () => {
-    await set(id, exportData());
-  };
-
-  const { ignoreUpdates } = watchIgnorable(activities, persist);
-
-  const importData = (data) => {
+  const fromJson = (data) => {
     if (data != null && data.version != null) {
       activities.value = convert(data).map((activity) => deserialize(Activity, activity));
     }
   };
 
+  const persist = async () => {
+    await set(id, toJson());
+  };
+
+  const { ignoreUpdates } = watchIgnorable(activities, persist);
+
   const hydrate = async () => {
     const data = await get(id);
-    ignoreUpdates(() => importData(data));
+    ignoreUpdates(() => fromJson(data));
   };
 
   const add = (activity) => {
@@ -45,7 +45,7 @@ export const useActivitiesStore = defineStore(id, () => {
     triggerRef(activities);
   };
 
-  return { activities, hydrate, add, remove, importData, exportData };
+  return { activities, toJson, fromJson, hydrate, add, remove };
 });
 
 function updatePolylines(activities) {
