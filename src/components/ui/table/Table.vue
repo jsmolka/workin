@@ -1,9 +1,7 @@
 <template>
-  <div class="relative w-full border rounded-sm overflow-auto">
-    <table :class="cn('w-full', props.class)">
-      <slot />
-    </table>
-  </div>
+  <table :class="cn('w-full', props.class)">
+    <slot />
+  </table>
 </template>
 
 <script setup>

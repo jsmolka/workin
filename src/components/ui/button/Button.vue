@@ -32,7 +32,7 @@ const buttonVariants = cva(
         ghost: 'text-shade-2 hover:bg-shade-7',
       },
       size: {
-        default: 'h-8 px-4 py-2',
+        default: 'h-8 px-2.5 py-2',
         icon: 'size-8',
       },
     },

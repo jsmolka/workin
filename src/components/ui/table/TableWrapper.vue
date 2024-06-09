@@ -1,7 +1,7 @@
 <template>
-  <tbody :class="cn('odd:[&_tr]:bg-shade-7', props.class)">
+  <div :class="cn('relative w-full border rounded-sm overflow-auto', props.class)">
     <slot />
-  </tbody>
+  </div>
 </template>
 
 <script setup>
