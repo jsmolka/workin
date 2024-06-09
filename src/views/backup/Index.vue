@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import Button from '@/components/Button.vue';
+import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useActivitiesStore } from '../../stores/activities';
 import { useActivityStore } from '../../stores/activity';
