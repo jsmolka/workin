@@ -30,7 +30,7 @@ const open = ref(false);
 const { isSupported } = useBluetooth();
 
 const [connect, connecting] = useAsyncFn(async () => {
-  if (isSupported.value) {
+  if (!isSupported.value) {
     open.value = true;
     return;
   }
