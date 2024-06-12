@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "update": "npm i -g npm-check-updates && ncu -u && npm i"
+    "update": "npm i -g npm-check-updates && ncu -u && npm i && npm audit fix"
   },
   "prettier": {
     "singleQuote": true

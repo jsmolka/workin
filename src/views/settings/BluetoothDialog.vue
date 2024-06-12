@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-slot="{ close }">
+  <Dialog>
     <DialogContent>
       <DialogHeader>
         <DialogTitle>No Web Bluetooth</DialogTitle>
@@ -19,7 +19,9 @@
         that does.
       </p>
       <DialogFooter>
-        <Button variant="secondary" @click="close">Close</Button>
+        <DialogClose as-child>
+          <Button variant="secondary">Close</Button>
+        </DialogClose>
       </DialogFooter>
     </DialogContent>
   </Dialog>
@@ -29,6 +31,7 @@
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,

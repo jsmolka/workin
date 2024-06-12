@@ -4,7 +4,7 @@
       class="fixed inset-0 z-50 flex justify-center items-center p-4 bg-black/75 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
     >
       <DialogContent
-        v-bind="forwarded"
+        v-bind="forwardedProps"
         :class="
           cn(
             'grid max-w-screen-sm gap-4 p-4 bg-shade-8 border rounded-sm shadow data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -32,7 +32,7 @@ const props = defineProps({
   trapFocus: { type: Boolean, required: false },
 });
 
-const emits = defineEmits([
+const emit = defineEmits([
   'escapeKeyDown',
   'pointerDownOutside',
   'focusOutside',
@@ -47,5 +47,5 @@ const delegatedProps = computed(() => {
   return delegated;
 });
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits);
+const forwardedProps = useForwardPropsEmits(delegatedProps, emit);
 </script>

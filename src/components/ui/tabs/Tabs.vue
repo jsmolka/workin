@@ -1,5 +1,5 @@
 <template>
-  <TabsRoot v-bind="forwarded">
+  <TabsRoot v-bind="forwardedProps">
     <slot />
   </TabsRoot>
 </template>
@@ -17,7 +17,7 @@ const props = defineProps({
   orientation: { type: String, required: false },
 });
 
-const emits = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
-const forwarded = useForwardPropsEmits(props, emits);
+const forwardedProps = useForwardPropsEmits(props, emit);
 </script>

@@ -1,6 +1,6 @@
 <template>
   <DropdownMenuRadioItem
-    v-bind="forwarded"
+    v-bind="forwardedProps"
     :class="
       cn(
         'relative flex items-center pl-8 pr-2 py-1.5 cursor-pointer select-none rounded-sm outline-none focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
@@ -32,7 +32,7 @@ const props = defineProps({
   value: { type: String, required: true },
 });
 
-const emits = defineEmits(['select']);
+const emit = defineEmits(['select']);
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
@@ -40,5 +40,5 @@ const delegatedProps = computed(() => {
   return delegated;
 });
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits);
+const forwardedProps = useForwardPropsEmits(delegatedProps, emit);
 </script>

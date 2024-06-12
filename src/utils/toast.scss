@@ -20,7 +20,8 @@
   }
 
   &__wrapper {
-    @apply p-2;
+    @apply px-2;
+    @apply py-1.5;
   }
 
   &__message {

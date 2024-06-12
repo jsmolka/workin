@@ -1,5 +1,5 @@
 <template>
-  <SelectRoot v-bind="forwarded">
+  <SelectRoot v-bind="forwardedProps">
     <slot />
   </SelectRoot>
 </template>
@@ -19,7 +19,7 @@ const props = defineProps({
   required: { type: Boolean, required: false },
 });
 
-const emits = defineEmits(['update:modelValue', 'update:open']);
+const emit = defineEmits(['update:modelValue', 'update:open']);
 
-const forwarded = useForwardPropsEmits(props, emits);
+const forwardedProps = useForwardPropsEmits(props, emit);
 </script>

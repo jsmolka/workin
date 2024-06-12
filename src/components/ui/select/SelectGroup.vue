@@ -1,12 +1,12 @@
 <template>
-  <SelectGroup :class="cn('w-full', props.class)" v-bind="delegatedProps">
+  <SelectGroup v-bind="forwardedProps" :class="cn('w-full', props.class)">
     <slot />
   </SelectGroup>
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { SelectGroup } from 'radix-vue';
+import { SelectGroup, useForwardProps } from 'radix-vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -20,4 +20,6 @@ const delegatedProps = computed(() => {
 
   return delegated;
 });
+
+const forwardedProps = useForwardProps(delegatedProps);
 </script>

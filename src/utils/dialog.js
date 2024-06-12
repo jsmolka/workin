@@ -1,10 +1,11 @@
 import Dialog from '@/utils/Dialog.vue';
+import _ from 'lodash';
 import { createApp } from 'vue';
 
-function mount() {
+function mount(props) {
   const div = document.createElement('div');
   document.body.appendChild(div);
-  const app = createApp(Dialog);
+  const app = createApp(Dialog, props);
 
   return {
     dialog: app.mount(div),
@@ -18,9 +19,19 @@ function mount() {
 }
 
 export async function dialog(options) {
-  const { dialog, unmount } = mount();
+  options = _.merge(
+    {
+      title: '',
+      description: '',
+      content: '',
+      buttons: [],
+    },
+    options,
+  );
+
+  const { dialog, unmount } = mount(options);
   try {
-    return await dialog.open(options);
+    return await dialog.open();
   } finally {
     unmount();
   }

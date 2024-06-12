@@ -1,7 +1,8 @@
 <template>
   <DropdownMenuCheckboxItem
-    v-model:checked="modelValue"
-    v-bind="forwarded"
+    v-bind="forwardedProps"
+    :checked="modelValue"
+    @update:checked="emit('update:modelValue', $event)"
     :class="
       cn(
         'relative flex items-center pl-8 pr-2 py-1.5 cursor-pointer select-none rounded-sm outline-none focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
@@ -28,9 +29,8 @@ import {
 } from 'radix-vue';
 import { computed } from 'vue';
 
-const modelValue = defineModel({ type: Boolean, required: false });
-
 const props = defineProps({
+  modelValue: { type: Boolean, required: false },
   as: { required: false },
   asChild: { type: Boolean, required: false },
   class: { required: false },
@@ -38,7 +38,7 @@ const props = defineProps({
   textValue: { type: String, required: false },
 });
 
-const emits = defineEmits(['select']);
+const emit = defineEmits(['select', 'update:modelValue']);
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
@@ -46,5 +46,5 @@ const delegatedProps = computed(() => {
   return delegated;
 });
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits);
+const forwardedProps = useForwardPropsEmits(delegatedProps, emit);
 </script>

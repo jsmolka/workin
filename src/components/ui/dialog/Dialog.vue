@@ -1,22 +1,19 @@
 <template>
-  <DialogRoot v-model:open="open" v-bind="forwarded">
-    <slot :close="close" />
+  <DialogRoot v-bind="forwardedProps">
+    <slot />
   </DialogRoot>
 </template>
 
 <script setup>
-import { DialogRoot, useForwardProps } from 'radix-vue';
-
-const open = defineModel('open', { type: Boolean, required: false });
+import { DialogRoot, useForwardPropsEmits } from 'radix-vue';
 
 const props = defineProps({
   defaultOpen: { type: Boolean, required: false },
   modal: { type: Boolean, required: false },
+  open: { type: Boolean, required: false },
 });
 
-const forwarded = useForwardProps(props);
+const emit = defineEmits(['update:open']);
 
-const close = () => {
-  open.value = false;
-};
+const forwardedProps = useForwardPropsEmits(props, emit);
 </script>

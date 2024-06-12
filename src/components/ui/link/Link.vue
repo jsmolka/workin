@@ -1,9 +1,9 @@
 <template>
   <a
+    v-bind="$attrs"
     :class="
       cn('font-bold underline underline-offset-2 decoration-2 decoration-shade-5', props.class)
     "
-    v-bind="$attrs"
   >
     <slot />
   </a>

@@ -1,7 +1,8 @@
 <template>
   <SwitchRoot
-    v-model:checked="modelValue"
-    v-bind="forwarded"
+    v-bind="forwardedProps"
+    :checked="modelValue"
+    @update:checked="emit('update:modelValue', $event)"
     :class="
       cn(
         'peer inline-flex items-center shrink-0 w-9 h-5 cursor-pointer border-2 border-transparent rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-3 disabled:opacity-50 disabled:cursor-not-allowed data-[state=checked]:bg-brand-3 data-[state=unchecked]:bg-shade-6',
@@ -21,12 +22,11 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { SwitchRoot, SwitchThumb, useForwardProps } from 'radix-vue';
+import { SwitchRoot, SwitchThumb, useForwardPropsEmits } from 'radix-vue';
 import { computed } from 'vue';
 
-const modelValue = defineModel({ type: Boolean, required: false });
-
 const props = defineProps({
+  modelValue: { type: Boolean, required: false },
   as: { required: false },
   asChild: { type: Boolean, required: false },
   class: { required: false },
@@ -38,11 +38,13 @@ const props = defineProps({
   value: { type: String, required: false },
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
 
   return delegated;
 });
 
-const forwarded = useForwardProps(delegatedProps);
+const forwardedProps = useForwardPropsEmits(delegatedProps, emit);
 </script>

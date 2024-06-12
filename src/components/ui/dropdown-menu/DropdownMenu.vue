@@ -1,5 +1,5 @@
 <template>
-  <DropdownMenuRoot v-bind="forwarded">
+  <DropdownMenuRoot v-bind="forwardedProps">
     <slot />
   </DropdownMenuRoot>
 </template>
@@ -14,7 +14,7 @@ const props = defineProps({
   open: { type: Boolean, required: false },
 });
 
-const emits = defineEmits(['update:open']);
+const emit = defineEmits(['update:open']);
 
-const forwarded = useForwardPropsEmits(props, emits);
+const forwardedProps = useForwardPropsEmits(props, emit);
 </script>

@@ -1,14 +1,15 @@
 <template>
-  <DropdownMenuSub v-bind="forwardedProps">
+  <PopoverRoot v-bind="forwardedProps">
     <slot />
-  </DropdownMenuSub>
+  </PopoverRoot>
 </template>
 
 <script setup>
-import { DropdownMenuSub, useForwardPropsEmits } from 'radix-vue';
+import { PopoverRoot, useForwardPropsEmits } from 'radix-vue';
 
 const props = defineProps({
   defaultOpen: { type: Boolean, required: false },
+  modal: { type: Boolean, required: false },
   open: { type: Boolean, required: false },
 });
 

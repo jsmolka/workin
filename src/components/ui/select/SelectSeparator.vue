@@ -1,10 +1,10 @@
 <template>
-  <SelectSeparator v-bind="delegatedProps" :class="cn('h-px -mx-1 my-1 bg-shade-6', props.class)" />
+  <SelectSeparator v-bind="forwardedProps" :class="cn('h-px -mx-1 my-1 bg-shade-6', props.class)" />
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { SelectSeparator } from 'radix-vue';
+import { SelectSeparator, useForwardProps } from 'radix-vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -18,4 +18,6 @@ const delegatedProps = computed(() => {
 
   return delegated;
 });
+
+const forwardedProps = useForwardProps(delegatedProps);
 </script>

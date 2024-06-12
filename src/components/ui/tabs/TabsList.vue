@@ -1,6 +1,6 @@
 <template>
   <TabsList
-    v-bind="delegatedProps"
+    v-bind="forwardedProps"
     :class="
       cn(
         'inline-flex justify-center items-center h-10 p-1 bg-shade-7 text-shade-3 rounded-sm',
@@ -14,7 +14,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { TabsList } from 'radix-vue';
+import { TabsList, useForwardProps } from 'radix-vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -29,4 +29,6 @@ const delegatedProps = computed(() => {
 
   return delegated;
 });
+
+const forwardedProps = useForwardProps(delegatedProps);
 </script>

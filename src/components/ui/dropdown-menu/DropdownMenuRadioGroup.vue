@@ -1,5 +1,5 @@
 <template>
-  <DropdownMenuRadioGroup v-bind="forwarded">
+  <DropdownMenuRadioGroup v-bind="forwardedProps">
     <slot />
   </DropdownMenuRadioGroup>
 </template>
@@ -13,7 +13,7 @@ const props = defineProps({
   modelValue: { type: String, required: false },
 });
 
-const emits = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
-const forwarded = useForwardPropsEmits(props, emits);
+const forwardedProps = useForwardPropsEmits(props, emit);
 </script>

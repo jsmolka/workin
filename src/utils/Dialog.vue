@@ -1,13 +1,13 @@
 <template>
-  <Dialog :open="state.open" @update:open="close(null)">
+  <Dialog v-model:open="isOpen">
     <DialogContent>
-      <DialogHeader v-show="state.title || state.description">
-        <DialogTitle v-show="state.title">{{ state.title }}</DialogTitle>
-        <DialogDescription v-show="state.description">{{ state.description }}</DialogDescription>
+      <DialogHeader v-show="title || description">
+        <DialogTitle v-show="title">{{ title }}</DialogTitle>
+        <DialogDescription v-show="description">{{ description }}</DialogDescription>
       </DialogHeader>
-      <p class="max-w-max">{{ state.content }}</p>
-      <DialogFooter v-if="state.buttons.length > 0">
-        <Button v-for="(button, index) in state.buttons" @click="close(index)" v-bind="button">
+      <p class="max-w-max" v-html="content" />
+      <DialogFooter v-if="buttons.length > 0">
+        <Button v-for="(button, index) in buttons" v-bind="button" @click="close(index)">
           {{ button.text }}
         </Button>
       </DialogFooter>
@@ -25,44 +25,36 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import _ from 'lodash';
-import { reactive } from 'vue';
+import { computed, ref } from 'vue';
 
-const state = reactive({
-  title: '',
-  description: '',
-  content: '',
-  buttons: [],
-  resolve: () => {},
-  open: false,
+const props = defineProps({
+  title: { type: String, default: '' },
+  description: { type: String, default: '' },
+  content: { type: String, default: '' },
+  buttons: { type: Array, default: [] },
 });
 
-const open = async (options) => {
-  options = _.merge(
-    {
-      title: '',
-      description: '',
-      content: '',
-      buttons: [],
-    },
-    options,
-  );
+const resolve = ref(null);
 
-  state.title = options.title;
-  state.description = options.description;
-  state.content = options.content;
-  state.buttons = options.buttons;
-
-  return new Promise((resolve) => {
-    state.resolve = resolve;
-    state.open = true;
+const open = async () => {
+  return new Promise(async (res) => {
+    resolve.value = res;
   });
 };
 
 const close = (value) => {
-  state.open = false;
-  state.resolve(value);
+  resolve.value(value);
+  resolve.value = null;
 };
+
+const isOpen = computed({
+  get: () => resolve.value != null,
+  set: (open) => {
+    if (!open) {
+      close(null);
+    }
+  },
+});
 
 defineExpose({ open });
 </script>

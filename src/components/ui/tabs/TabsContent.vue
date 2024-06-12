@@ -1,12 +1,12 @@
 <template>
   <TabsContent
+    v-bind="forwardedProps"
     :class="
       cn(
         'mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-3',
         props.class,
       )
     "
-    v-bind="delegatedProps"
   >
     <slot />
   </TabsContent>
@@ -14,7 +14,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { TabsContent } from 'radix-vue';
+import { TabsContent, useForwardProps } from 'radix-vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -30,4 +30,6 @@ const delegatedProps = computed(() => {
 
   return delegated;
 });
+
+const forwardedProps = useForwardProps(delegatedProps);
 </script>
