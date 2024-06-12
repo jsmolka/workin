@@ -6,7 +6,7 @@
         props.class,
       )
     "
-    :model-value="modelValue"
+    :value="modelValue"
     @change="modelValue = $event.target.value"
     @focusin="$event.target.select()"
   />
