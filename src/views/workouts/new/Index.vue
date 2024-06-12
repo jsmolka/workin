@@ -45,7 +45,13 @@
     <div class="flex gap-4">
       <FormItem class="flex-1 min-w-0">
         <Label>Duration</Label>
-        <Input v-model="durationInput" />
+        <Input
+          v-model="durationInput"
+          v-maska
+          data-maska="['#:##', '##:##', '#:##:##', '##:##:##']"
+          type="text"
+          inputmode="numeric"
+        />
       </FormItem>
 
       <FormItem class="flex-1 min-w-0">
@@ -71,6 +77,7 @@ import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-
 import { Form, FormItem } from '@/components/ui/form';
 import { Input, InputNumber } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { vMaska } from 'maska/vue';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Back from '../../../components/Back.vue';
