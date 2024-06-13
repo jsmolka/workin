@@ -1,6 +1,6 @@
 <template>
-  <Button variant="ghost" size="icon">
-    <ArrowLeftIcon class="size-5" @click="router.back()" />
+  <Button variant="ghost" size="icon" @click="router.back()">
+    <ArrowLeftIcon class="size-5" />
   </Button>
 </template>
 
