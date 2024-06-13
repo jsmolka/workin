@@ -41,21 +41,18 @@
 </template>
 
 <script setup>
+import Scroller from '@/components/Scroller.vue';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useWorkoutsStore } from '@/stores/workouts';
+import Workout from '@/views/workouts/Workout.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Scroller from '../../components/Scroller.vue';
-import { useWorkoutsStore } from '../../stores/workouts';
-import Workout from './Workout.vue';
 
 const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
+  type: { type: String, required: true },
 });
 
 const route = useRoute();

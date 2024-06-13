@@ -1,6 +1,6 @@
-import { array, createSchema, date, primitive, schema } from '../utils/persist';
-import { Xml } from '../utils/xml';
-import { Workout } from './workout';
+import { Workout } from '@/modules/workout';
+import { array, createSchema, date, primitive, schema } from '@/utils/persist';
+import { Xml } from '@/utils/xml';
 
 export class Activity {
   constructor(workout = new Workout()) {

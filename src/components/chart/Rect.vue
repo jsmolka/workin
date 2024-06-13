@@ -1,3 +1,3 @@
 <template>
-  <rect shape-rendering="crispEdges" v-bind="$attrs" />
+  <rect shape-rendering="crispEdges" />
 </template>

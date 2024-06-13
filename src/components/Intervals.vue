@@ -36,6 +36,7 @@
 </template>
 
 <script setup>
+import Reserve from '@/components/Reserve.vue';
 import {
   DataTable,
   DataTableBody,
@@ -43,11 +44,10 @@ import {
   DataTableRow,
   DataTableWrapper,
 } from '@/components/ui/data-table';
+import { useAthleteStore } from '@/stores/athlete';
+import { formatSeconds } from '@/utils/time';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { useAthleteStore } from '../stores/athlete';
-import { formatSeconds } from '../utils/time';
-import Reserve from './Reserve.vue';
 
 const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });
 

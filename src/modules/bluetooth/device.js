@@ -1,6 +1,6 @@
-import { Emitter } from '../../utils/emitter';
-import { eventListener } from '../../utils/eventListener';
-import { log } from '../../utils/log';
+import { Emitter } from '@/utils/emitter';
+import { eventListener } from '@/utils/eventListener';
+import { log } from '@/utils/log';
 
 export class Device extends Emitter {
   constructor(uuid) {

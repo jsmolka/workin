@@ -8,23 +8,19 @@
 </template>
 
 <script setup>
+import _ from 'lodash';
 import { computed } from 'vue';
 
 const props = defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
-  value: {
-    default: null,
-  },
+  text: { type: String, required: true },
+  value: { type: [Number, String], required: false },
 });
 
 const metric = computed(() => {
   if (props.value == null) {
     return '-';
   }
-  if (typeof props.value === 'number') {
+  if (_.isNumber(props.value)) {
     return Math.round(props.value);
   }
   return props.value;

@@ -38,28 +38,28 @@
 </template>
 
 <script setup>
+import Intervals from '@/components/Intervals.vue';
+import Chart from '@/components/chart/Chart.vue';
+import ChartHeartRate from '@/components/chart/ChartHeartRate.vue';
+import ChartIntervals from '@/components/chart/ChartIntervals.vue';
+import ChartLines from '@/components/chart/ChartLines.vue';
+import ChartPower from '@/components/chart/ChartPower.vue';
+import ChartProgress from '@/components/chart/ChartProgress.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { polylinesHeartRate, polylinesPower } from '@/modules/data';
+import { router } from '@/router';
+import { useActivityStore } from '@/stores/activity';
+import { useAthleteStore } from '@/stores/athlete';
+import { useDevicesStore } from '@/stores/devices';
+import { dialog } from '@/utils/dialog';
+import { interval } from '@/utils/interval';
+import { formatSeconds } from '@/utils/time';
+import Metric from '@/views/train/Metric.vue';
 import { useEventListener, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
-import Intervals from '../../components/Intervals.vue';
-import Chart from '../../components/chart/Chart.vue';
-import ChartHeartRate from '../../components/chart/ChartHeartRate.vue';
-import ChartIntervals from '../../components/chart/ChartIntervals.vue';
-import ChartLines from '../../components/chart/ChartLines.vue';
-import ChartPower from '../../components/chart/ChartPower.vue';
-import ChartProgress from '../../components/chart/ChartProgress.vue';
-import { polylinesHeartRate, polylinesPower } from '../../modules/data';
-import { router } from '../../router';
-import { useActivityStore } from '../../stores/activity';
-import { useAthleteStore } from '../../stores/athlete';
-import { useDevicesStore } from '../../stores/devices';
-import { dialog } from '../../utils/dialog';
-import { interval } from '../../utils/interval';
-import { formatSeconds } from '../../utils/time';
-import Metric from './Metric.vue';
 
 const wakeLock = useWakeLock();
 onMounted(() => wakeLock.request());

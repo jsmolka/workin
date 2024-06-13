@@ -50,16 +50,13 @@ import { dialog } from '@/utils/dialog';
 import { download } from '@/utils/filesystem';
 import { powerToSpeed } from '@/utils/speed';
 import { formatDate } from '@/utils/time';
+import Header from '@/views/activities/Header.vue';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Header from '../Header.vue';
 
 const props = defineProps({
-  index: {
-    type: Number,
-    required: true,
-  },
+  index: { type: Number, required: true },
 });
 
 const router = useRouter();

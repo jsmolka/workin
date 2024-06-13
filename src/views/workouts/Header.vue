@@ -25,10 +25,10 @@
 
 <script setup>
 import { Stat, StatLabel, Stats } from '@/components/stats';
+import { Workout } from '@/modules/workout';
+import { useAthleteStore } from '@/stores/athlete';
+import { formatSeconds } from '@/utils/time';
 import { storeToRefs } from 'pinia';
-import { Workout } from '../../modules/workout';
-import { useAthleteStore } from '../../stores/athlete';
-import { formatSeconds } from '../../utils/time';
 
 defineProps({
   workout: { type: Workout, required: true },

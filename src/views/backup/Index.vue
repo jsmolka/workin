@@ -8,12 +8,12 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useActivitiesStore } from '../../stores/activities';
-import { useActivityStore } from '../../stores/activity';
-import { useAthleteStore } from '../../stores/athlete';
-import { useSettingsStore } from '../../stores/settings';
-import { useWorkoutsStore } from '../../stores/workouts';
-import { download, readAsText, selectFile } from '../../utils/filesystem';
+import { useActivitiesStore } from '@/stores/activities';
+import { useActivityStore } from '@/stores/activity';
+import { useAthleteStore } from '@/stores/athlete';
+import { useSettingsStore } from '@/stores/settings';
+import { useWorkoutsStore } from '@/stores/workouts';
+import { download, readAsText, selectFile } from '@/utils/filesystem';
 
 const activities = useActivitiesStore();
 const activity = useActivityStore();

@@ -1,5 +1,5 @@
 <template>
-  <SelectRoot v-model="selectModelValue" v-bind="$attrs">
+  <SelectRoot v-model="selectModelValue">
     <SelectTrigger :class="props.class">
       <SelectValue :placeholder="placeholder" />
     </SelectTrigger>

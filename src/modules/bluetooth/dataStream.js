@@ -1,4 +1,4 @@
-import { bit } from '../../utils/bit';
+import { bit } from '@/utils/bit';
 
 export class DataStream {
   constructor(dataView) {

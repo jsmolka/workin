@@ -13,18 +13,18 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
+import { useAsyncFn } from '@/composables/useAsyncFn';
+import { Device } from '@/modules/bluetooth/device';
+import { log } from '@/utils/log';
 import BluetoothDialog from '@/views/settings/BluetoothDialog.vue';
 import { useBluetooth } from '@vueuse/core';
 import { reactive, ref } from 'vue';
-import { useAsyncFn } from '../../composables/useAsyncFn';
-import { Device } from '../../modules/bluetooth/device';
-import { log } from '../../utils/log';
+
+const device = defineModel('device', { type: Device, required: false });
 
 const props = defineProps({
   constructor: { type: Function, required: true },
 });
-
-const device = defineModel('device', { type: Device, default: null });
 
 const open = ref(false);
 const { isSupported } = useBluetooth();

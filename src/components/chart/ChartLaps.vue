@@ -13,19 +13,13 @@
 </template>
 
 <script setup>
+import Rect from '@/components/chart/Rect.vue';
 import { computed } from 'vue';
-import Rect from './Rect.vue';
+
+const selection = defineModel('selection', { type: Number, required: false });
 
 const props = defineProps({
-  laps: {
-    type: Array,
-    required: true,
-  },
-});
-
-const selection = defineModel('selection', {
-  type: Number,
-  default: null,
+  laps: { type: Array, required: true },
 });
 
 const totalSeconds = computed(() => {

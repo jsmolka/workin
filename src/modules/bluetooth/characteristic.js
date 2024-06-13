@@ -1,4 +1,4 @@
-import { Queue } from '../../utils/queue';
+import { Queue } from '@/utils/queue';
 
 export class Characteristic {
   constructor(uuid) {

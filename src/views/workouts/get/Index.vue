@@ -38,34 +38,28 @@
 </template>
 
 <script setup>
+import Back from '@/components/Back.vue';
+import Dots from '@/components/Dots.vue';
+import Intervals from '@/components/Intervals.vue';
+import Chart from '@/components/chart/Chart.vue';
+import ChartIntervals from '@/components/chart/ChartIntervals.vue';
+import ChartLines from '@/components/chart/ChartLines.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { Activity } from '@/modules/activity';
+import { Workout } from '@/modules/workout';
+import { useActivityStore } from '@/stores/activity';
+import { useWorkoutsStore } from '@/stores/workouts';
+import { dialog } from '@/utils/dialog';
+import Header from '@/views/workouts/Header.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Back from '../../../components/Back.vue';
-import Dots from '../../../components/Dots.vue';
-import Intervals from '../../../components/Intervals.vue';
-import Chart from '../../../components/chart/Chart.vue';
-import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
-import ChartLines from '../../../components/chart/ChartLines.vue';
-import { Activity } from '../../../modules/activity';
-import { Workout } from '../../../modules/workout';
-import { useActivityStore } from '../../../stores/activity';
-import { useWorkoutsStore } from '../../../stores/workouts';
-import { dialog } from '../../../utils/dialog';
-import Header from '../Header.vue';
 
 const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
-  index: {
-    type: Number,
-    required: true,
-  },
+  index: { type: Number, required: true },
+  type: { type: String, required: true },
 });
 
 const router = useRouter();

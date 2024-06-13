@@ -33,8 +33,8 @@
 
 <script setup>
 import { Stat, StatLabel, Stats } from '@/components/stats';
-import { Activity } from '../../modules/activity';
-import { formatDate, formatSeconds } from '../../utils/time';
+import { Activity } from '@/modules/activity';
+import { formatDate, formatSeconds } from '@/utils/time';
 
 defineProps({
   activity: { type: Activity, required: true },

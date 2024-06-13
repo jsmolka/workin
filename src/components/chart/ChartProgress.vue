@@ -13,19 +13,13 @@
 </template>
 
 <script setup>
+import Line from '@/components/chart/Line.vue';
+import Rect from '@/components/chart/Rect.vue';
 import { computed } from 'vue';
-import Line from './Line.vue';
-import Rect from './Rect.vue';
 
 const props = defineProps({
-  x: {
-    type: Number,
-    required: true,
-  },
-  maxX: {
-    type: Number,
-    required: true,
-  },
+  maxX: { type: Number, required: true },
+  x: { type: Number, required: true },
 });
 
 const x = computed(() => props.x / props.maxX);

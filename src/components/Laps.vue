@@ -44,9 +44,9 @@ import {
   DataTableRow,
   DataTableWrapper,
 } from '@/components/ui/data-table';
+import { averageHeartRate, averagePower } from '@/modules/data';
+import { formatSeconds } from '@/utils/time';
 import { ref } from 'vue';
-import { averageHeartRate, averagePower } from '../modules/data';
-import { formatSeconds } from '../utils/time';
 
 const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });
 

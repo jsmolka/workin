@@ -1,6 +1,6 @@
-import { array, createSchema, primitive, schema } from '../utils/persist';
-import { Interval } from './interval';
-import { zones } from './zones';
+import { Interval } from '@/modules/interval';
+import { zones } from '@/modules/zones';
+import { array, createSchema, primitive, schema } from '@/utils/persist';
 
 export class Workout {
   constructor(name = '', intervals = []) {

@@ -1,4 +1,4 @@
-import { createSchema, primitive } from '../utils/persist';
+import { createSchema, primitive } from '@/utils/persist';
 
 export class Settings {
   constructor() {

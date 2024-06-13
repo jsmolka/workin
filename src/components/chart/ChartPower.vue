@@ -5,12 +5,9 @@
 </template>
 
 <script setup>
-import Polyline from './Polyline.vue';
+import Polyline from '@/components/chart/Polyline.vue';
 
 defineProps({
-  polylines: {
-    type: Array,
-    required: true,
-  },
+  polylines: { type: Array, required: true },
 });
 </script>

@@ -4,7 +4,6 @@
     class="scroller"
     :items="items"
     :prerender="prerender"
-    v-bind="$attrs"
     v-slot="{ item, index }"
   >
     <slot :item="item.item" :index="index" />
@@ -18,18 +17,9 @@ import { useRoute } from 'vue-router';
 import { RecycleScroller } from 'vue-virtual-scroller';
 
 const props = defineProps({
-  items: {
-    type: Array,
-    required: true,
-  },
-  size: {
-    type: [Number, String],
-    required: true,
-  },
-  sizeGap: {
-    type: [Number, String],
-    default: 0,
-  },
+  items: { type: Array, required: true },
+  size: { type: [Number, String], required: true },
+  sizeGap: { type: [Number, String], default: 0 },
 });
 
 const fontSize = parseFloat(getComputedStyle(document.body).fontSize);

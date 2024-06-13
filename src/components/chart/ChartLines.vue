@@ -11,16 +11,10 @@
 </template>
 
 <script setup>
-import Line from './Line.vue';
+import Line from '@/components/chart/Line.vue';
 
 defineProps({
-  x: {
-    type: Array,
-    default: [0, 1],
-  },
-  y: {
-    type: Array,
-    default: [0.25, 0.5, 0.75],
-  },
+  x: { type: Array, default: [0, 1] },
+  y: { type: Array, default: [0.25, 0.5, 0.75] },
 });
 </script>

@@ -11,16 +11,13 @@
 </template>
 
 <script setup>
-import Chart from '../../components/chart/Chart.vue';
-import ChartIntervals from '../../components/chart/ChartIntervals.vue';
-import ChartLines from '../../components/chart/ChartLines.vue';
-import { Workout } from '../../modules/workout';
-import Header from './Header.vue';
+import Chart from '@/components/chart/Chart.vue';
+import ChartIntervals from '@/components/chart/ChartIntervals.vue';
+import ChartLines from '@/components/chart/ChartLines.vue';
+import { Workout } from '@/modules/workout';
+import Header from '@/views/workouts/Header.vue';
 
 defineProps({
-  workout: {
-    type: Workout,
-    required: true,
-  },
+  workout: { type: Workout, required: true },
 });
 </script>

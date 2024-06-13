@@ -1,4 +1,4 @@
-import { math } from '../utils/math';
+import { math } from '@/utils/math';
 
 function setPercent(el, { arg, value }) {
   el.setAttribute(arg, 100 * math.clamp(value, 0, 1) + '%');

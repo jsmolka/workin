@@ -6,10 +6,7 @@
 
 <script setup>
 defineProps({
-  reserve: {
-    type: String,
-    required: true,
-  },
+  reserve: { type: String, required: true },
 });
 </script>
 

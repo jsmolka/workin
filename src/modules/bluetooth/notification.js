@@ -1,4 +1,4 @@
-import { DataStream } from './dataStream';
+import { DataStream } from '@/modules/bluetooth/dataStream';
 
 export class Notification {
   constructor(dataView) {

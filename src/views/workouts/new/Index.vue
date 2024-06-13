@@ -72,24 +72,24 @@
 </template>
 
 <script setup>
+import Back from '@/components/Back.vue';
+import Dots from '@/components/Dots.vue';
+import Intervals from '@/components/Intervals.vue';
+import Chart from '@/components/chart/Chart.vue';
+import ChartIntervals from '@/components/chart/ChartIntervals.vue';
+import ChartLines from '@/components/chart/ChartLines.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Input, InputNumber } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Interval, cooldown, warmup } from '@/modules/interval';
+import { Workout } from '@/modules/workout';
+import { useWorkoutsStore } from '@/stores/workouts';
+import { parseSeconds } from '@/utils/time';
 import { vMaska } from 'maska/vue';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Back from '../../../components/Back.vue';
-import Dots from '../../../components/Dots.vue';
-import Intervals from '../../../components/Intervals.vue';
-import Chart from '../../../components/chart/Chart.vue';
-import ChartIntervals from '../../../components/chart/ChartIntervals.vue';
-import ChartLines from '../../../components/chart/ChartLines.vue';
-import { Interval, cooldown, warmup } from '../../../modules/interval';
-import { Workout } from '../../../modules/workout';
-import { useWorkoutsStore } from '../../../stores/workouts';
-import { parseSeconds } from '../../../utils/time';
 
 const router = useRouter();
 

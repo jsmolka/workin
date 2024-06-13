@@ -4,10 +4,10 @@
 </template>
 
 <script setup>
+import { useActivityStore } from '@/stores/activity';
+import NoWorkout from '@/views/train/NoWorkout.vue';
+import Train from '@/views/train/Train.vue';
 import { storeToRefs } from 'pinia';
-import { useActivityStore } from '../../stores/activity';
-import NoWorkout from './NoWorkout.vue';
-import Train from './Train.vue';
 
 const { activity } = storeToRefs(useActivityStore());
 </script>

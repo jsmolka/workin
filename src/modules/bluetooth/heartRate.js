@@ -1,7 +1,7 @@
-import { log } from '../../utils/log';
-import { Characteristic } from './characteristic';
-import { Device } from './device';
-import { Notification } from './notification';
+import { Characteristic } from '@/modules/bluetooth/characteristic';
+import { Device } from '@/modules/bluetooth/device';
+import { Notification } from '@/modules/bluetooth/notification';
+import { log } from '@/utils/log';
 
 export class HeartRate extends Device {
   constructor() {

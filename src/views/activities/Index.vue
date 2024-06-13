@@ -19,10 +19,10 @@
 </template>
 
 <script setup>
+import Scroller from '@/components/Scroller.vue';
+import { useActivitiesStore } from '@/stores/activities';
+import Activity from '@/views/activities/Activity.vue';
 import { storeToRefs } from 'pinia';
-import Scroller from '../../components/Scroller.vue';
-import { useActivitiesStore } from '../../stores/activities';
-import Activity from './Activity.vue';
 
 const { activities } = storeToRefs(useActivitiesStore());
 </script>

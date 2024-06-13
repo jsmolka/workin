@@ -1,4 +1,4 @@
-import { math } from './math';
+import { math } from '@/utils/math';
 
 // Based on https://en.wikipedia.org/wiki/Bicycle_performance
 // Based on https://www.gribble.org/cycling/power_v_speed.html

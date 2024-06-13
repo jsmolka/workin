@@ -1,4 +1,4 @@
-import { math } from '../utils/math';
+import { math } from '@/utils/math';
 
 function average(data, index) {
   let result = 0;

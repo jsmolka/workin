@@ -1,10 +1,10 @@
-import { bit } from '../../utils/bit';
-import { log } from '../../utils/log';
-import { math } from '../../utils/math';
-import { Characteristic } from './characteristic';
-import { DataStream } from './dataStream';
-import { Device } from './device';
-import { Notification } from './notification';
+import { Characteristic } from '@/modules/bluetooth/characteristic';
+import { DataStream } from '@/modules/bluetooth/dataStream';
+import { Device } from '@/modules/bluetooth/device';
+import { Notification } from '@/modules/bluetooth/notification';
+import { bit } from '@/utils/bit';
+import { log } from '@/utils/log';
+import { math } from '@/utils/math';
 
 export class FitnessMachine extends Device {
   constructor() {
