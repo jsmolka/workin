@@ -73,11 +73,6 @@ export const router = createRouter({
       component: () => import('@/views/settings/Index.vue'),
     },
     {
-      path: '/backup',
-      meta: { layout: AppLayout },
-      component: () => import('@/views/backup/Index.vue'),
-    },
-    {
       path: '/:pathMatch(.*)*',
       redirect: '/train',
     },
