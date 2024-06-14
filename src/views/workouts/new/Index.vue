@@ -69,7 +69,10 @@
         </Button>
       </div>
     </div>
-    <Button :disabled="workout.name.length === 0 || workout.intervals.length === 0" @click="save">
+    <Button
+      :disabled="workout.name.length === 0 || workout.intervals.length === 0"
+      @click="saveWorkout"
+    >
       Save
     </Button>
   </Form>
@@ -96,6 +99,8 @@ import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const selectedIndex = ref(null);
+const workout = reactive(new Workout('New workout'));
 
 const durationInput = ref('5:00');
 const duration = computed(() => {
@@ -113,9 +118,6 @@ const intensity = computed(() => {
   return intensityInput.value / 100;
 });
 
-const selectedIndex = ref(null);
-const workout = reactive(new Workout('New workout'));
-
 const addInterval = () => {
   workout.intervals.push(new Interval(duration.value, intensity.value));
 };
@@ -125,7 +127,7 @@ const deleteInterval = () => {
   selectedIndex.value = null;
 };
 
-const save = () => {
+const saveWorkout = () => {
   const store = useWorkoutsStore();
   const index = store.add(workout);
   router.push(`/workouts/custom/${index}`);

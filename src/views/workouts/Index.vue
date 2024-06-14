@@ -60,10 +60,15 @@ const props = defineProps({
 
 const route = useRoute();
 const router = useRouter();
-const store = useWorkoutsStore();
 
-const workouts = computed(() => store.workouts(props.type));
-const standard = computed(() => props.type === 'standard');
+const workouts = computed(() => {
+  const { workouts } = useWorkoutsStore();
+  return workouts(props.type);
+});
+
+const standard = computed(() => {
+  return props.type === 'standard';
+});
 
 useSwipe(window, {
   onSwipeEnd(_, direction) {

@@ -10,7 +10,7 @@
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
 
-    <Chart class="shrink-0 border border-shade-7 aspect-[5/2]">
+    <Chart class="shrink-0 border aspect-[5/2]">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
@@ -69,9 +69,17 @@ const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 
-const workout = computed(() => activity.value.workout);
-const workoutSeconds = computed(() => workout.value.seconds);
-const currentSeconds = computed(() => activity.value.seconds);
+const workout = computed(() => {
+  return activity.value.workout;
+});
+
+const workoutSeconds = computed(() => {
+  return workout.value.seconds;
+});
+
+const currentSeconds = computed(() => {
+  return activity.value.seconds;
+});
 
 const currentIntervalData = computed(() => {
   let totalSeconds = 0;
@@ -84,8 +92,14 @@ const currentIntervalData = computed(() => {
   return null;
 });
 
-const currentInterval = computed(() => currentIntervalData.value?.interval);
-const currentIntervalIndex = computed(() => currentIntervalData.value?.index);
+const currentInterval = computed(() => {
+  return currentIntervalData.value?.interval;
+});
+
+const currentIntervalIndex = computed(() => {
+  return currentIntervalData.value?.index;
+});
+
 const currentIntervalSeconds = computed(() => {
   if (currentIntervalData.value == null) {
     return null;
@@ -121,7 +135,9 @@ const setTargetPower = () => {
 watch(targetPower, setTargetPower, { immediate: true });
 
 const stopInterval = ref(null);
-const stopped = computed(() => stopInterval.value == null);
+const stopped = computed(() => {
+  return stopInterval.value == null;
+});
 
 const start = async () => {
   clearAutoStart();

@@ -2,21 +2,21 @@
   <Form class="p-4">
     <FormItem>
       <Label>Smart trainer</Label>
-      <DeviceButton
+      <BluetoothDeviceButton
         :device="trainer"
         @update:device="setTrainer"
         :constructor="FitnessMachine"
         v-slot="{ device }"
       >
         {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
-      </DeviceButton>
+      </BluetoothDeviceButton>
     </FormItem>
 
     <FormItem>
       <Label>Heart rate monitor</Label>
-      <DeviceButton v-model:device="hrm" :constructor="HeartRate" v-slot="{ device }">
+      <BluetoothDeviceButton v-model:device="hrm" :constructor="HeartRate" v-slot="{ device }">
         {{ device.heartRate != null ? `${device.name} [${device.heartRate} bpm]` : device.name }}
-      </DeviceButton>
+      </BluetoothDeviceButton>
     </FormItem>
 
     <FormItem>
@@ -66,7 +66,7 @@ import { useSettingsStore } from '@/stores/settings';
 import { download, readAsText, selectFile } from '@/utils/filesystem';
 import { log } from '@/utils/log';
 import { toast } from '@/utils/toast';
-import DeviceButton from '@/views/settings/DeviceButton.vue';
+import BluetoothDeviceButton from '@/views/settings/BluetoothDeviceButton.vue';
 import { storeToRefs } from 'pinia';
 
 const { athlete } = storeToRefs(useAthleteStore());

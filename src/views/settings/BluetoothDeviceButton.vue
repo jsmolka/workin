@@ -38,11 +38,11 @@ const [connect, connecting] = useAsyncFn(async () => {
   device.value?.disconnect();
   device.value = null;
 
-  const newDevice = new props.constructor();
+  const newDevice = reactive(new props.constructor());
   try {
     await newDevice.request();
     await newDevice.connect();
-    device.value = reactive(newDevice);
+    device.value = newDevice;
   } catch (error) {
     newDevice.disconnect();
     log.error(error);

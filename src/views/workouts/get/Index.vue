@@ -11,7 +11,9 @@
         </DropdownMenuContent>
       </Dots>
     </div>
+
     <Header :workout="workout" />
+
     <Chart class="shrink-0 border aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
@@ -23,6 +25,7 @@
         "
       />
     </Chart>
+
     <FormItem class="flex-1">
       <Label>Intervals</Label>
       <Intervals
@@ -32,6 +35,7 @@
         v-model:selected-index="selectedIndex"
       />
     </FormItem>
+
     <Button @click="select(0)">Select</Button>
   </Form>
 </template>
@@ -62,10 +66,12 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const store = useWorkoutsStore();
-
 const selectedIndex = ref(null);
-const workout = computed(() => store.workouts(props.type)[props.index]);
+
+const workout = computed(() => {
+  const { workouts } = useWorkoutsStore();
+  return workouts(props.type)[props.index] ?? new Workout();
+});
 
 const select = async (index) => {
   const store = useActivityStore();
@@ -99,10 +105,10 @@ const remove = async () => {
     content: 'Do you want to delete this workout?',
     buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
   });
-  if (index !== 0) {
-    return;
+  if (index === 0) {
+    const store = useWorkoutsStore();
+    store.remove(props.index);
+    router.back();
   }
-  router.back();
-  store.remove(props.index);
 };
 </script>

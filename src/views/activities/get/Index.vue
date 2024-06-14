@@ -4,12 +4,14 @@
       <Back />
       <Dots>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem @click="exportGraphic">Export graphic</DropdownMenuItem>
+          <DropdownMenuItem @click="exportPng">Export PNG</DropdownMenuItem>
           <DropdownMenuItem @click="remove">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </Dots>
     </div>
+
     <Header :activity="activity" />
+
     <Chart class="shrink-0 border aspect-[5/2]">
       <ChartLines />
       <ChartLaps
@@ -23,6 +25,7 @@
       <ChartHeartRate class="pointer-events-none" :polylines="activity.polylinesHeartRate" />
       <ChartPower class="pointer-events-none" :polylines="activity.polylinesPower" />
     </Chart>
+
     <FormItem class="flex-1">
       <Label>Laps</Label>
       <Laps
@@ -32,6 +35,7 @@
         v-model:selected-index="selectedIndex"
       />
     </FormItem>
+
     <Button @click="exportTcx">Export TCX</Button>
   </Form>
 </template>
@@ -49,6 +53,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { Activity } from '@/modules/activity';
 import { useActivitiesStore } from '@/stores/activities';
 import { dialog } from '@/utils/dialog';
 import { download } from '@/utils/filesystem';
@@ -62,11 +67,14 @@ const props = defineProps({
   index: { type: Number, required: true },
 });
 
+const router = useRouter();
 const selectedIndex = ref(null);
+
 const activity = computed(() => {
   const { activities } = useActivitiesStore();
-  return activities[props.index];
+  return activities[props.index] ?? new Activity();
 });
+
 const filename = computed(() => {
   return `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}`;
 });
@@ -79,7 +87,7 @@ const exportTcx = () => {
   );
 };
 
-const exportGraphic = () => {
+const exportPng = () => {
   const link = document.createElement('a');
   link.href = activity.value.toCanvas().toDataURL('image/png');
   link.download = `${filename.value}.png`;
@@ -91,13 +99,10 @@ const remove = async () => {
     content: 'Do you want to delete this activity?',
     buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
   });
-  if (index !== 0) {
-    return;
+  if (index === 0) {
+    const store = useActivitiesStore();
+    store.remove(props.index);
+    router.back();
   }
-
-  const router = useRouter();
-  const { remove } = useActivitiesStore();
-  router.back();
-  remove(props.index);
 };
 </script>
