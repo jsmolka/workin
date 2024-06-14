@@ -21,7 +21,7 @@ export default {
         2: 'rgb(var(--brand-2) / <alpha-value>)',
         3: 'rgb(var(--brand-3) / <alpha-value>)',
       },
-      red: 'var(--red)',
+      red: 'rgb(var(--red))',
       black: colors.black,
       white: colors.white,
       transparent: colors.transparent,

@@ -37,7 +37,7 @@ export class Activity {
     return result;
   }
 
-  tcx(powerToSpeed) {
+  toTcx(powerToSpeed) {
     const xml = new Xml();
     xml.element(
       'TrainingCenterDatabase',
@@ -108,6 +108,54 @@ export class Activity {
       },
     );
     return xml.toString();
+  }
+
+  toCanvas() {
+    const w = 1000;
+    const h = 0.4 * w;
+    const x = (value) => (value / 100) * w;
+    const y = (value) => (1 - value / 100) * h;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#242933';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#363e4d';
+    for (const ry of [25, 50, 75]) {
+      ctx.beginPath();
+      ctx.moveTo(x(0), y(ry));
+      ctx.lineTo(x(100), y(ry));
+      ctx.stroke();
+    }
+
+    const data = [
+      { polylines: this.polylinesHeartRate, style: '#be6069' },
+      { polylines: this.polylinesPower, style: '#608fb3' },
+    ];
+    for (const { polylines, style } of data) {
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = style;
+      for (const polyline of polylines) {
+        ctx.beginPath();
+        for (let i = 0; i < polyline.length; i += 2) {
+          const rx = polyline[i];
+          const ry = polyline[i + 1];
+          if (i === 0) {
+            ctx.moveTo(x(rx), y(ry));
+          } else {
+            ctx.lineTo(x(rx), y(ry));
+          }
+        }
+        ctx.stroke();
+      }
+    }
+    return canvas;
   }
 }
 

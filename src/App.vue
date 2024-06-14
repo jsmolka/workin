@@ -21,7 +21,7 @@ const layout = computed(() => route.meta.layout);
 
 const { settings } = storeToRefs(useSettingsStore());
 
-useEmitter(log, '*', (level, ...args) => {
+useEmitter(log, '*', (_, ...args) => {
   if (settings.value.logAsNotification) {
     toast(args.map(stringify).join(' '));
   }

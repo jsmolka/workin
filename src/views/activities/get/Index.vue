@@ -1,5 +1,5 @@
 <template>
-  <Form class="h-full">
+  <Form class="p-4">
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
@@ -10,23 +10,27 @@
       </Dots>
     </div>
     <Header :activity="activity" />
-    <Chart class="shrink-0 border border-shade-7 aspect-[5/2]">
+    <Chart class="shrink-0 border aspect-[5/2]">
       <ChartLines />
       <ChartLaps
-        :laps="laps"
-        :selection="selection"
-        @update:selection="
-          selection = $event;
+        :laps="activity.laps"
+        :selected-index="selectedIndex"
+        @update:selected-index="
+          selectedIndex = $event;
           $refs.table.scrollTo($event);
         "
       />
       <ChartHeartRate class="pointer-events-none" :polylines="activity.polylinesHeartRate" />
       <ChartPower class="pointer-events-none" :polylines="activity.polylinesPower" />
     </Chart>
-
     <FormItem class="flex-1">
       <Label>Laps</Label>
-      <Laps ref="table" class="flex-1" :items="laps" v-model:selected-index="selection" />
+      <Laps
+        ref="table"
+        class="flex-1"
+        :items="activity.laps"
+        v-model:selected-index="selectedIndex"
+      />
     </FormItem>
     <Button @click="exportTcx">Export TCX</Button>
   </Form>
@@ -51,83 +55,33 @@ import { download } from '@/utils/filesystem';
 import { powerToSpeed } from '@/utils/speed';
 import { formatDate } from '@/utils/time';
 import Header from '@/views/activities/Header.vue';
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
   index: { type: Number, required: true },
 });
 
-const router = useRouter();
-const { activities } = storeToRefs(useActivitiesStore());
-
-const selection = ref(null);
-const activity = activities.value[props.index];
-const laps = activity.laps;
-
-const filename = `${formatDate(activity.date, 'YYMMDD')} - ${activity.workout.name}`;
+const selectedIndex = ref(null);
+const activity = computed(() => {
+  const { activities } = useActivitiesStore();
+  return activities[props.index];
+});
+const filename = computed(() => {
+  return `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}`;
+});
 
 const exportTcx = () => {
   download(
-    activity.tcx((power) => powerToSpeed(power)),
+    activity.value.toTcx((power) => powerToSpeed(power)),
     `${filename}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );
 };
 
-const color = (name) => {
-  return getComputedStyle(document.documentElement).getPropertyValue(name);
-};
-
 const exportGraphic = () => {
-  const w = 1000;
-  const h = 0.4 * w;
-  const x = (value) => (value / 100) * w;
-  const y = (value) => (1 - value / 100) * h;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
-
-  const ctx = canvas.getContext('2d');
-
-  ctx.fillStyle = color('--shade-8');
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = color('--shade-7');
-  for (const ry of [25, 50, 75]) {
-    ctx.beginPath();
-    ctx.moveTo(x(0), y(ry));
-    ctx.lineTo(x(100), y(ry));
-    ctx.stroke();
-  }
-
-  const data = [
-    { polylines: activity.polylinesHeartRate, style: color('--red') },
-    { polylines: activity.polylinesPower, style: color('--brand-3') },
-  ];
-  for (const { polylines, style } of data) {
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = style;
-    for (const polyline of polylines) {
-      ctx.beginPath();
-      for (let i = 0; i < polyline.length; i += 2) {
-        const rx = polyline[i];
-        const ry = polyline[i + 1];
-        if (i === 0) {
-          ctx.moveTo(x(rx), y(ry));
-        } else {
-          ctx.lineTo(x(rx), y(ry));
-        }
-      }
-      ctx.stroke();
-    }
-  }
-
   const link = document.createElement('a');
-  link.href = canvas.toDataURL('image/png');
+  link.href = activity.value.toCanvas().toDataURL('image/png');
   link.download = `${filename}.png`;
   link.click();
 };
@@ -137,10 +91,13 @@ const remove = async () => {
     content: 'Do you want to delete this activity?',
     buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
   });
-  if (index === 0) {
-    router.back();
-    const store = useActivitiesStore();
-    store.remove(props.index);
+  if (index !== 0) {
+    return;
   }
+
+  const router = useRouter();
+  const { remove } = useActivitiesStore();
+  router.back();
+  remove(props.index);
 };
 </script>

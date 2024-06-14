@@ -1,20 +1,18 @@
 <template>
-  <div class="h-full py-0">
-    <div class="relative h-full">
-      <Scroller
-        v-if="activities.length > 0"
-        class="!absolute inset-0 py-4"
-        :items="activities"
-        :size="128"
-        :size-gap="16"
-        v-slot="{ item, index }"
-      >
-        <RouterLink :to="`/activities/${index}`">
-          <Activity :activity="item" />
-        </RouterLink>
-      </Scroller>
-      <div v-else class="flex justify-center items-center h-full">No activities</div>
-    </div>
+  <Scroller
+    v-if="activities.length > 0"
+    class="!absolute inset-0 p-4"
+    :items="activities"
+    :size="128"
+    :size-gap="16"
+    v-slot="{ item, index }"
+  >
+    <RouterLink class="group focus-visible:outline-none" :to="`/activities/${index}`">
+      <Activity class="group-focus-visible:bg-shade-6" :activity="item" />
+    </RouterLink>
+  </Scroller>
+  <div v-else class="flex justify-center items-center">
+    <p>No activities</p>
   </div>
 </template>
 

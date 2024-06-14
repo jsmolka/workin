@@ -5,9 +5,8 @@
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="1"
-      class="hover:fill-white/5 active:fill-white/10"
-      :class="{ '!fill-white/10': index === selection }"
-      @click="selection = index"
+      :class="index === selectedIndex ? 'fill-white/10' : 'hover:fill-white/5'"
+      @click="selectedIndex = index"
     />
   </g>
 </template>
@@ -16,7 +15,7 @@
 import Rect from '@/components/chart/Rect.vue';
 import { computed } from 'vue';
 
-const selection = defineModel('selection', { type: Number, required: false });
+const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });
 
 const props = defineProps({
   laps: { type: Array, required: true },
@@ -34,7 +33,8 @@ function* rectangles(laps) {
   let rectangle;
   for (const lap of laps) {
     const x = rectangle ? rectangle.x + rectangle.width : 0;
-    yield (rectangle = { x, width: lap.length / totalSeconds.value });
+    rectangle = { x, width: lap.length / totalSeconds.value };
+    yield rectangle;
   }
 }
 </script>
