@@ -59,12 +59,10 @@ import { Select, SelectItemText } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { FitnessMachine } from '@/modules/bluetooth/fitnessMachine';
 import { HeartRate } from '@/modules/bluetooth/heartRate';
-import { useActivitiesStore } from '@/stores/activities';
-import { useActivityStore } from '@/stores/activity';
+import { useStores } from '@/stores';
 import { useAthleteStore } from '@/stores/athlete';
 import { useDevicesStore } from '@/stores/devices';
 import { useSettingsStore } from '@/stores/settings';
-import { useWorkoutsStore } from '@/stores/workouts';
 import { download, readAsText, selectFile } from '@/utils/filesystem';
 import { log } from '@/utils/log';
 import { toast } from '@/utils/toast';
@@ -87,37 +85,18 @@ const setTrainer = (device) => {
   trainer.value = device;
 };
 
-const exportBackup = () => {
-  const activities = useActivitiesStore();
-  const activity = useActivityStore();
-  const athlete = useAthleteStore();
-  const settings = useSettingsStore();
-  const workouts = useWorkoutsStore();
+const stores = useStores();
 
-  const data = {
-    activities: activities.toJson(),
-    activity: activity.toJson(),
-    athlete: athlete.toJson(),
-    settings: settings.toJson(),
-    workouts: workouts.toJson(),
-  };
-  download(JSON.stringify(data), 'backup.json', 'application/json');
+const exportBackup = () => {
+  const json = stores.toJson();
+  const data = JSON.stringify(json);
+  download(data, 'workin.json', 'application/json');
 };
 
 const importBackup = async () => {
-  const activities = useActivitiesStore();
-  const activity = useActivityStore();
-  const athlete = useAthleteStore();
-  const settings = useSettingsStore();
-  const workouts = useWorkoutsStore();
-
   const file = await selectFile('json');
   const json = await readAsText(file);
   const data = JSON.parse(json);
-  activities.fromJson(data.activities);
-  activity.fromJson(data.activity);
-  athlete.fromJson(data.athlete);
-  settings.fromJson(data.settings);
-  workouts.fromJson(data.workouts);
+  stores.fromJson(data);
 };
 </script>
