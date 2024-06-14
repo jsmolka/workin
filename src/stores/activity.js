@@ -26,7 +26,7 @@ export const useActivityStore = defineStore(id, () => {
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      activity.value = deserialize(Activity, data.data);
+      activity.value = deserialize(Activity, convert(data));
     }
   };
 
@@ -63,3 +63,10 @@ export const useActivityStore = defineStore(id, () => {
 
   return { activity, toJson, fromJson, hydrate, finish };
 });
+
+function convert(data) {
+  const { version, data: activity } = data;
+  switch (version) {
+  }
+  return activity;
+}

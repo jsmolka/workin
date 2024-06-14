@@ -20,7 +20,7 @@ export const useWorkoutsStore = defineStore(id, () => {
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      custom.value = data.data.map((workout) => deserialize(Workout, workout));
+      custom.value = convert(data).map((workout) => deserialize(Workout, workout));
     }
   };
 
@@ -59,3 +59,10 @@ export const useWorkoutsStore = defineStore(id, () => {
 
   return { standard, custom, toJson, fromJson, hydrate, workouts, add, remove };
 });
+
+function convert(data) {
+  const { version, data: workouts } = data;
+  switch (version) {
+  }
+  return workouts;
+}

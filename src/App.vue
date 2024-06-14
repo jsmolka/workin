@@ -8,7 +8,7 @@ import { useEmitter } from '@/composables/useEmitter';
 import Layout from '@/layouts/Layout.vue';
 import { useSettingsStore } from '@/stores/settings';
 import { log } from '@/utils/log';
-import { platform } from '@/utils/platform';
+import { isMobile } from '@/utils/platform';
 import { stringify } from '@/utils/stringify';
 import { toast } from '@/utils/toast';
 import { useEventListener } from '@vueuse/core';
@@ -27,7 +27,7 @@ useEmitter(log, '*', (_, ...args) => {
   }
 });
 
-if (platform.isMobile()) {
+if (isMobile()) {
   useEventListener('error', ({ message }) => {
     toast(message);
   });

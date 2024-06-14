@@ -32,8 +32,8 @@ export const router = createRouter({
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
 
-            const store = useWorkoutsStore();
-            if (params.index >= store.workouts(params.type).length) {
+            const { workouts } = useWorkoutsStore();
+            if (params.index >= workouts(params.type).length) {
               return '/workouts';
             }
           },

@@ -1,10 +1,11 @@
 <template>
-  <g class="fill-transparent cursor-pointer">
+  <g class="fill-transparent">
     <Rect
       v-for="({ x, width }, index) in rectangles(laps)"
       v-percent:x="x"
       v-percent:width="width"
       v-percent:height="1"
+      class="cursor-pointer"
       :class="index === selectedIndex ? 'fill-white/10' : 'hover:fill-white/5'"
       @click="selectedIndex = index"
     />

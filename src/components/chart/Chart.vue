@@ -10,7 +10,7 @@
   </svg>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .cartesian {
   transform-origin: 50% 50%;
   transform: scale(1, -1);

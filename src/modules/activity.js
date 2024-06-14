@@ -6,7 +6,7 @@ export class Activity {
   constructor(workout = new Workout()) {
     this.date = new Date();
     this.workout = workout;
-    this.data = [];
+    this.data = []; // [[power, heartRate, cadence]]
     this.averagePower = 0;
     this.averageHeartRate = null;
     this.averageCadence = null;

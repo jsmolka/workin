@@ -18,7 +18,7 @@ export const useSettingsStore = defineStore(id, () => {
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      settings.value = deserialize(Settings, data.data);
+      settings.value = deserialize(Settings, convert(data));
     }
   };
 
@@ -39,3 +39,10 @@ export const useSettingsStore = defineStore(id, () => {
 
   return { settings, toJson, fromJson, hydrate };
 });
+
+function convert(data) {
+  const { version, data: settings } = data;
+  switch (version) {
+  }
+  return settings;
+}

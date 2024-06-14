@@ -2,7 +2,7 @@ import { createSchema, primitive } from '@/utils/persist';
 
 export class Athlete {
   constructor() {
-    this.ftp = 300;
+    this.ftp = 200;
   }
 }
 
