@@ -1,5 +1,5 @@
 <template>
-  <Form class="h-full">
+  <Form class="p-4">
     <!-- prettier-ignore -->
     <div class="grid grid-rows-3 sm:grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-4 font-feature-tnum">
       <Metric class="order-1 sm:order-1" text="Power" :value="trainer?.power" />
@@ -9,6 +9,7 @@
       <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
+
     <Chart class="shrink-0 border border-shade-7 aspect-[5/2]">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
@@ -28,11 +29,10 @@
         :selected-index="currentIntervalIndex"
       />
     </FormItem>
-    <div class="flex gap-4">
-      <Button class="flex-1" @click="toggle">{{ toggleText }}</Button>
-      <Button class="flex-1" @click="finish" v-show="activity.seconds > 0 && stopped">
-        Finish
-      </Button>
+
+    <div class="grid grid-flow-col auto-cols-fr gap-4">
+      <Button @click="toggle">{{ toggleText }}</Button>
+      <Button @click="finish" v-show="activity.seconds > 0 && stopped">Finish</Button>
     </div>
   </Form>
 </template>
