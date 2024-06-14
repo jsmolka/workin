@@ -8,6 +8,8 @@ export class Activity {
     this.date = new Date();
     this.workout = workout;
     this.data = new DataPoints();
+
+    // Calculated once finished
     this.averagePower = 0;
     this.averageHeartRate = null;
     this.averageCadence = null;
@@ -55,11 +57,11 @@ export class Activity {
 
             let data = [];
             let distance = 0;
-            for (const [i, item] of this.data.entries()) {
+            for (const [i, dataPoint] of this.data.entries()) {
               const date = new Date(this.date);
               date.setSeconds(date.getSeconds() + i);
-              data.push([date, distance, ...item]);
-              distance += powerToSpeed(item[0]);
+              data.push([date, distance, ...dataPoint]);
+              distance += powerToSpeed(dataPoint.power);
             }
 
             const last = structuredClone(data.at(-1));
@@ -122,7 +124,6 @@ export class Activity {
     canvas.height = h;
 
     const ctx = canvas.getContext('2d');
-
     ctx.fillStyle = '#242933';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -136,10 +137,10 @@ export class Activity {
     }
 
     const data = [
-      { polylines: this.polylinesHeartRate, style: '#be6069' },
-      { polylines: this.polylinesPower, style: '#608fb3' },
+      { style: '#be6069', polylines: this.polylinesHeartRate },
+      { style: '#608fb3', polylines: this.polylinesPower },
     ];
-    for (const { polylines, style } of data) {
+    for (const { style, polylines } of data) {
       ctx.lineWidth = 3;
       ctx.strokeStyle = style;
       for (const polyline of polylines) {

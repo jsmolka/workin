@@ -74,7 +74,7 @@ const filename = computed(() => {
 const exportTcx = () => {
   download(
     activity.value.toTcx((power) => powerToSpeed(power)),
-    `${filename}.tcx`,
+    `${filename.value}.tcx`,
     'application/vnd.garmin.tcx+xml',
   );
 };
@@ -82,7 +82,7 @@ const exportTcx = () => {
 const exportGraphic = () => {
   const link = document.createElement('a');
   link.href = activity.value.toCanvas().toDataURL('image/png');
-  link.download = `${filename}.png`;
+  link.download = `${filename.value}.png`;
   link.click();
 };
 
