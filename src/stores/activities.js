@@ -1,5 +1,5 @@
 import { Activity } from '@/modules/activity';
-import { polylinesHeartRate, polylinesPower } from '@/modules/data';
+import { DataPoints } from '@/modules/data';
 import { useAthleteStore } from '@/stores/athlete';
 import { deserialize, serialize } from '@/utils/persist';
 import { watchIgnorable } from '@vueuse/core';
@@ -51,8 +51,9 @@ export const useActivitiesStore = defineStore(id, () => {
 function updatePolylines(activities) {
   const { athlete } = useAthleteStore();
   for (const activity of activities) {
-    activity.polylinesPower = polylinesPower(activity.data, activity.data.length, 2 * athlete.ftp);
-    activity.polylinesHeartRate = polylinesHeartRate(activity.data, activity.data.length);
+    const data = new DataPoints(activity.data);
+    activity.polylinesPower = data.polylinesPower(data.length, 2 * athlete.ftp);
+    activity.polylinesHeartRate = data.polylinesHeartRate(data.length);
   }
 }
 

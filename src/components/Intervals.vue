@@ -3,7 +3,7 @@
     <DataTable ref="table" class="absolute inset-0 font-feature-tnum">
       <DataTableBody>
         <DataTableRow
-          v-for="(item, index) in items"
+          v-for="(interval, index) in items"
           class="grid grid-flow-col auto-cols-fr"
           :index="index"
           v-model:selected-index="selectedIndex"
@@ -11,19 +11,19 @@
           <DataTableCell>
             <div class="flex justify-start">
               <Reserve class="text-right" reserve="100 W">
-                {{ Math.round(item.intensity * athlete.ftp) }} W
+                {{ Math.round(interval.intensity * athlete.ftp) }} W
               </Reserve>
             </div>
           </DataTableCell>
           <DataTableCell>
             <div class="flex justify-center">
               <Reserve class="text-right" reserve="100 %">
-                {{ Math.round(item.intensity * 100) }} %
+                {{ Math.round(interval.intensity * 100) }} %
               </Reserve>
             </div>
           </DataTableCell>
           <DataTableCell class="text-right">
-            {{ formatSeconds(item.seconds) }}
+            {{ formatSeconds(interval.seconds) }}
           </DataTableCell>
         </DataTableRow>
       </DataTableBody>

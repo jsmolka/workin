@@ -1,11 +1,4 @@
 import { Activity } from '@/modules/activity';
-import {
-  averageCadence,
-  averageHeartRate,
-  averagePower,
-  polylinesHeartRate,
-  polylinesPower,
-} from '@/modules/data';
 import { useActivitiesStore } from '@/stores/activities';
 import { useAthleteStore } from '@/stores/athlete';
 import { deserialize, serialize } from '@/utils/persist';
@@ -49,11 +42,11 @@ export const useActivityStore = defineStore(id, () => {
     const { athlete } = useAthleteStore();
 
     const value = activity.value;
-    value.averagePower = averagePower(value.data);
-    value.averageHeartRate = averageHeartRate(value.data);
-    value.averageCadence = averageCadence(value.data);
-    value.polylinesPower = polylinesPower(value.data, value.data.length, 2 * athlete.ftp);
-    value.polylinesHeartRate = polylinesHeartRate(value.data, value.data.length);
+    value.averagePower = value.data.averagePower();
+    value.averageHeartRate = value.data.averageHeartRate();
+    value.averageCadence = value.data.averageCadence();
+    value.polylinesPower = value.data.polylinesPower(value.data.length, 2 * athlete.ftp);
+    value.polylinesHeartRate = value.data.polylinesHeartRate(value.data.length);
 
     const store = useActivitiesStore();
     const index = store.add(value);

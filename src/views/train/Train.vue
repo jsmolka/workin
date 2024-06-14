@@ -15,8 +15,8 @@
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
         <ChartLines :x="[0, x]" />
-        <ChartHeartRate :polylines="polylinesHeartRate(activity.data, workoutSeconds)" />
-        <ChartPower :polylines="polylinesPower(activity.data, workoutSeconds, 2 * athlete.ftp)" />
+        <ChartHeartRate :polylines="activity.data.polylinesHeartRate(workoutSeconds)" />
+        <ChartPower :polylines="activity.data.polylinesPower(workoutSeconds, 2 * athlete.ftp)" />
       </ChartProgress>
     </Chart>
 
@@ -48,7 +48,7 @@ import ChartProgress from '@/components/chart/ChartProgress.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { DataPoint, polylinesHeartRate, polylinesPower } from '@/modules/data';
+import { DataPoint } from '@/modules/data';
 import { router } from '@/router';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';

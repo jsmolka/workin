@@ -1,4 +1,4 @@
-import { DataPoint } from '@/modules/data';
+import { DataPoint, DataPoints } from '@/modules/data';
 import { Workout } from '@/modules/workout';
 import { array, createSchema, date, primitive, schema } from '@/utils/persist';
 import { Xml } from '@/utils/xml';
@@ -7,7 +7,7 @@ export class Activity {
   constructor(workout = new Workout()) {
     this.date = new Date();
     this.workout = workout;
-    this.data = []; // [[power, heartRate, cadence]]
+    this.data = new DataPoints();
     this.averagePower = 0;
     this.averageHeartRate = null;
     this.averageCadence = null;
@@ -163,7 +163,7 @@ export class Activity {
 createSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: array(array(primitive(), DataPoint)),
+  data: array(array(primitive(), DataPoint), DataPoints),
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),
