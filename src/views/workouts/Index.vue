@@ -17,7 +17,7 @@
     <div class="relative flex-1">
       <Scroller
         v-if="workouts.length > 0"
-        class="absolute inset-0 pb-4"
+        class="!absolute inset-0 pb-4"
         :items="workouts"
         :size="128"
         :size-gap="16"
