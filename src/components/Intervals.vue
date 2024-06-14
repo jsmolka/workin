@@ -22,12 +22,8 @@
               </Reserve>
             </div>
           </DataTableCell>
-          <DataTableCell>
-            <div class="flex justify-end">
-              <Reserve class="text-right" reserve="1:00:00">
-                {{ formatSeconds(item.seconds) }}
-              </Reserve>
-            </div>
+          <DataTableCell class="text-right">
+            {{ formatSeconds(item.seconds) }}
           </DataTableCell>
         </DataTableRow>
       </DataTableBody>

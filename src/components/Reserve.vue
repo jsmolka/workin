@@ -10,7 +10,7 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .reserve::after {
   @apply block;
   @apply h-0;

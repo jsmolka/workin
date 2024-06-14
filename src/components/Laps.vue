@@ -22,12 +22,8 @@
               </Reserve>
             </div>
           </DataTableCell>
-          <DataTableCell>
-            <div class="flex justify-end">
-              <Reserve class="text-right" reserve="1:00:00">
-                {{ formatSeconds(item.length) }}
-              </Reserve>
-            </div>
+          <DataTableCell class="text-right">
+            {{ formatSeconds(item.length) }}
           </DataTableCell>
         </DataTableRow>
       </DataTableBody>
@@ -55,7 +51,7 @@ defineProps({
 });
 
 const hasHeartRate = (item) => {
-  return item.some((data) => data[1] != null);
+  return item.some((dataPoint) => dataPoint.heartRate != null);
 };
 
 const table = ref();

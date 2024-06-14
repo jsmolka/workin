@@ -1,5 +1,39 @@
 import { math } from '@/utils/math';
 
+export class DataPoint extends Array {
+  static IndexPower = 0;
+  static IndexHeartRate = 1;
+  static IndexCadence = 2;
+
+  constructor(power, heartRate, cadence) {
+    super(power, heartRate, cadence);
+  }
+
+  get power() {
+    return this[DataPoint.IndexPower];
+  }
+
+  set power(value) {
+    this[DataPoint.IndexPower] = value;
+  }
+
+  get heartRate() {
+    return this[DataPoint.IndexHeartRate];
+  }
+
+  set heartRate(value) {
+    this[DataPoint.IndexHeartRate] = value;
+  }
+
+  get cadence() {
+    return this[DataPoint.IndexCadence];
+  }
+
+  set cadence(value) {
+    this[DataPoint.IndexCadence] = value;
+  }
+}
+
 function average(data, index) {
   let result = 0;
   let length = 0;

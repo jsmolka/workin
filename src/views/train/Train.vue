@@ -48,7 +48,7 @@ import ChartProgress from '@/components/chart/ChartProgress.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { polylinesHeartRate, polylinesPower } from '@/modules/data';
+import { DataPoint, polylinesHeartRate, polylinesPower } from '@/modules/data';
 import { router } from '@/router';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';
@@ -143,7 +143,9 @@ const start = async () => {
 
   stopInterval.value?.();
   stopInterval.value = interval(1000, () => {
-    activity.value.data.push([trainer.value.power, hrm.value?.heartRate, trainer.value.cadence]);
+    activity.value.data.push(
+      new DataPoint(trainer.value.power, hrm.value?.heartRate, trainer.value.cadence),
+    );
   });
 };
 

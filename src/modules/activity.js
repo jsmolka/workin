@@ -1,3 +1,4 @@
+import { DataPoint } from '@/modules/data';
 import { Workout } from '@/modules/workout';
 import { array, createSchema, date, primitive, schema } from '@/utils/persist';
 import { Xml } from '@/utils/xml';
@@ -162,7 +163,7 @@ export class Activity {
 createSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: array(array(primitive())),
+  data: array(array(primitive(), DataPoint)),
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),
