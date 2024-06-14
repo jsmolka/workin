@@ -31,7 +31,7 @@
     </div>
     <Button
       v-if="!standard"
-      class="absolute bottom-4 right-4 shadow z-10"
+      class="absolute bottom-4 right-4 size-12 z-10 rounded-full shadow"
       @click="router.push('/workouts/new')"
       size="icon"
     >
