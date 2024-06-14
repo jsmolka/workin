@@ -1,6 +1,10 @@
 <template>
-  <div class="flex gap-4 p-4 bg-shade-7 hover:bg-shade-6 border rounded-sm select-none">
-    <Chart class="h-24 shrink-0 aspect-[3/2] sm:aspect-[5/2]">
+  <div
+    :class="
+      cn('flex gap-4 p-4 bg-shade-7 border rounded-sm select-none hover:bg-shade-6', props.class)
+    "
+  >
+    <Chart class="shrink-0 h-24 aspect-[3/2] sm:aspect-[5/2]">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
     </Chart>
@@ -15,9 +19,11 @@ import Chart from '@/components/chart/Chart.vue';
 import ChartIntervals from '@/components/chart/ChartIntervals.vue';
 import ChartLines from '@/components/chart/ChartLines.vue';
 import { Workout } from '@/modules/workout';
+import { cn } from '@/utils/ui';
 import Header from '@/views/workouts/Header.vue';
 
-defineProps({
+const props = defineProps({
+  class: { required: false },
   workout: { type: Workout, required: true },
 });
 </script>

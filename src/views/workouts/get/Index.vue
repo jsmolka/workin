@@ -1,10 +1,10 @@
 <template>
-  <Form class="h-full">
+  <Form class="p-4">
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem :disabled="selection == null" @click="select(selection)">
+          <DropdownMenuItem :disabled="selectedIndex == null" @click="select(selectedIndex)">
             Select at interval
           </DropdownMenuItem>
           <DropdownMenuItem v-if="type === 'custom'" @click="remove">Delete</DropdownMenuItem>
@@ -12,25 +12,24 @@
       </Dots>
     </div>
     <Header :workout="workout" />
-    <Chart class="shrink-0 border border-shade-7 aspect-[5/2]">
+    <Chart class="shrink-0 border aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
-        :selection="selection"
-        @update:selection="
-          selection = $event;
+        :selected-index="selectedIndex"
+        @update:selected-index="
+          selectedIndex = $event;
           $refs.table.scrollTo($event);
         "
       />
     </Chart>
-
     <FormItem class="flex-1">
       <Label>Intervals</Label>
       <Intervals
         ref="table"
         class="flex-1"
         :items="workout.intervals"
-        v-model:selected-index="selection"
+        v-model:selected-index="selectedIndex"
       />
     </FormItem>
     <Button @click="select(0)">Select</Button>
@@ -54,7 +53,7 @@ import { useActivityStore } from '@/stores/activity';
 import { useWorkoutsStore } from '@/stores/workouts';
 import { dialog } from '@/utils/dialog';
 import Header from '@/views/workouts/Header.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -65,8 +64,8 @@ const props = defineProps({
 const router = useRouter();
 const store = useWorkoutsStore();
 
-const selection = ref(null);
-const workout = store.workouts(props.type)[props.index];
+const selectedIndex = ref(null);
+const workout = computed(() => store.workouts(props.type)[props.index]);
 
 const select = async (index) => {
   const store = useActivityStore();
@@ -89,7 +88,9 @@ const select = async (index) => {
         return;
     }
   }
-  store.activity = new Activity(new Workout(workout.name, workout.intervals.slice(index)));
+  store.activity = new Activity(
+    new Workout(workout.value.name, workout.value.intervals.slice(index)),
+  );
   router.push('/train');
 };
 
@@ -98,9 +99,10 @@ const remove = async () => {
     content: 'Do you want to delete this workout?',
     buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
   });
-  if (index === 0) {
-    router.back();
-    store.remove(props.index);
+  if (index !== 0) {
+    return;
   }
+  router.back();
+  store.remove(props.index);
 };
 </script>

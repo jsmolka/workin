@@ -1,5 +1,5 @@
 <template>
-  <Form class="h-full">
+  <Form class="p-4">
     <div class="flex justify-between gap-4">
       <Back />
       <Dots>
@@ -8,7 +8,7 @@
           <DropdownMenuItem @click="workout.intervals.push(...cooldown)">
             Add cooldown
           </DropdownMenuItem>
-          <DropdownMenuItem :disabled="selection == null" @click="remove">
+          <DropdownMenuItem :disabled="selectedIndex == null" @click="deleteInterval">
             Delete interval
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -20,13 +20,13 @@
       <Input v-model="workout.name" />
     </FormItem>
 
-    <Chart class="shrink-0 border border-shade-7 aspect-[5/2]">
+    <Chart class="shrink-0 border aspect-[5/2]">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
-        :selection="selection"
-        @update:selection="
-          selection = $event;
+        :selected-index="selectedIndex"
+        @update:selected-index="
+          selectedIndex = $event;
           $refs.table.scrollTo($event);
         "
       />
@@ -38,7 +38,7 @@
         ref="table"
         class="flex-1"
         :items="workout.intervals"
-        v-model:selected-index="selection"
+        v-model:selected-index="selectedIndex"
       />
     </FormItem>
 
@@ -60,7 +60,11 @@
       </FormItem>
 
       <div class="flex items-end">
-        <Button variant="secondary" :disabled="duration == null || intensity == null" @click="add">
+        <Button
+          variant="secondary"
+          :disabled="duration == null || intensity == null"
+          @click="addInterval"
+        >
           Add
         </Button>
       </div>
@@ -109,16 +113,16 @@ const intensity = computed(() => {
   return intensityInput.value / 100;
 });
 
-const selection = ref(null);
+const selectedIndex = ref(null);
 const workout = reactive(new Workout('New workout'));
 
-const add = () => {
+const addInterval = () => {
   workout.intervals.push(new Interval(duration.value, intensity.value));
 };
 
-const remove = () => {
-  workout.intervals.splice(selection.value, 1);
-  selection.value = null;
+const deleteInterval = () => {
+  workout.intervals.splice(selectedIndex.value, 1);
+  selectedIndex.value = null;
 };
 
 const save = () => {
