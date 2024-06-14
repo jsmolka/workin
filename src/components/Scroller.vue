@@ -11,7 +11,8 @@
 </template>
 
 <script setup>
-import { nanoid } from 'nanoid';
+import _ from 'lodash';
+import { useId } from 'radix-vue';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { RecycleScroller } from 'vue-virtual-scroller';
@@ -25,10 +26,10 @@ const props = defineProps({
 const fontSize = parseFloat(getComputedStyle(document.body).fontSize);
 
 const toPx = (value) => {
-  if (typeof value === 'number') {
+  if (_.isNumber(value)) {
     return value;
   }
-  if (typeof value === 'string') {
+  if (_.isString(value)) {
     const number = parseFloat(value);
     if (value.endsWith('px')) {
       return number;
@@ -45,7 +46,7 @@ const sizeGap = computed(() => toPx(props.sizeGap));
 const prerender = computed(() => Math.ceil(document.body.clientHeight / size.value));
 const items = computed(() =>
   props.items.map((item, index) => ({
-    id: nanoid(),
+    id: useId(),
     size: size.value + (index === props.items.length - 1 ? 0 : sizeGap.value),
     item,
   })),
