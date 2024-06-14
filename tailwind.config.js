@@ -1,5 +1,6 @@
 import animate from 'tailwindcss-animate';
 import colors from 'tailwindcss/colors';
+import plugin from 'tailwindcss/plugin';
 
 export default {
   content: ['./index.html', './src/**/*.{js,vue}'],
@@ -26,5 +27,10 @@ export default {
       transparent: colors.transparent,
     },
   },
-  plugins: [animate],
+  plugins: [
+    animate,
+    plugin(({ addVariant }) => {
+      addVariant('router-link-active', ['&.router-link-active', '.router-link-active &']);
+    }),
+  ],
 };

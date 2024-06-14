@@ -7,38 +7,26 @@
     </div>
     <div class="z-10 bg-shade-7 border-t">
       <nav class="container grid grid-flow-col auto-cols-fr">
-        <RouterLink class="tab" to="/train">Train</RouterLink>
-        <RouterLink class="tab" to="/workouts">Workouts</RouterLink>
-        <RouterLink class="tab" to="/activities">Activities</RouterLink>
-        <RouterLink class="tab" to="/settings">Settings</RouterLink>
+        <RouterLink
+          v-for="{ text, route } in [
+            { text: 'Train', route: '/train' },
+            { text: 'Workouts', route: '/workouts' },
+            { text: 'Activities', route: '/activities' },
+            { text: 'Settings', route: '/settings' },
+          ]"
+          class="p-2 bg-shade-7 text-center border-y-4 border-transparent cursor-pointer select-none hover:bg-shade-6 focus-visible:outline-none focus-visible:bg-shade-6 router-link-active:bg-shade-5 router-link-active:border-t-brand-3"
+          :to="route"
+        >
+          {{ text }}
+        </RouterLink>
       </nav>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .container {
   @apply max-w-screen-sm;
   @apply mx-auto;
-}
-
-.tab {
-  @apply p-2;
-  @apply bg-shade-7;
-  @apply text-center;
-  @apply border-y-4;
-  @apply border-transparent;
-  @apply cursor-pointer;
-  @apply select-none;
-
-  &:hover {
-    @apply bg-shade-6;
-  }
-}
-
-.router-link-active {
-  @apply border-t-brand-3;
-
-  background-color: rgb(var(--shade-5)) !important;
 }
 </style>
