@@ -29,6 +29,7 @@ import { computed, nextTick } from 'vue';
 const modelValue = defineModel({ type: Number, required: false });
 
 const props = defineProps({
+  class: { required: false },
   max: { type: Number, default: Number.MAX_SAFE_INTEGER },
   min: { type: Number, default: Number.MIN_SAFE_INTEGER },
   precision: { type: Number, default: 0 },

@@ -1,38 +1,26 @@
 import Dialog from '@/utils/Dialog.vue';
-import _ from 'lodash';
-import { createApp } from 'vue';
+import { createApp, h } from 'vue';
 
-function mount(props) {
+export async function dialog(props) {
   const div = document.createElement('div');
   document.body.appendChild(div);
-  const app = createApp(Dialog, props);
 
-  return {
-    dialog: app.mount(div),
-    unmount() {
-      setTimeout(() => {
-        app.unmount();
-        div.remove();
-      }, 150);
-    },
-  };
-}
-
-export async function dialog(options) {
-  options = _.merge(
-    {
-      title: '',
-      description: '',
-      content: '',
-      buttons: [],
-    },
-    options,
-  );
-
-  const { dialog, unmount } = mount(options);
-  try {
-    return await dialog.open();
-  } finally {
-    unmount();
-  }
+  return new Promise((resolve) => {
+    const app = createApp(
+      h(Dialog, {
+        onClose: (value) => {
+          try {
+            resolve(value);
+          } finally {
+            setTimeout(() => {
+              app.unmount();
+              div.remove();
+            }, 150);
+          }
+        },
+      }),
+      props,
+    );
+    app.mount(div);
+  });
 }
