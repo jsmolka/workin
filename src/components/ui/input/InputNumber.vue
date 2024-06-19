@@ -15,7 +15,7 @@
     @change="change"
     @focusin="select"
     @keydown="keyDown"
-    @mouseup="clampCursor"
+    @pointerup="clampCursor"
     type="text"
   />
 </template>
