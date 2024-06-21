@@ -23,7 +23,7 @@
         :size-gap="16"
         v-slot="{ item, index }"
       >
-        <RouterLink class="group focus-visible:outline-none" :to="`/workouts/${type}/${index}`">
+        <RouterLink class="group focus-visible:ring-0" :to="`/workouts/${type}/${index}`">
           <Workout class="group-focus-visible:bg-shade-6" :workout="item" />
         </RouterLink>
       </Scroller>

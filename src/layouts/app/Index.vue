@@ -14,7 +14,7 @@
             { text: 'Activities', route: '/activities' },
             { text: 'Settings', route: '/settings' },
           ]"
-          class="p-2 bg-shade-7 text-center border-y-4 border-transparent cursor-pointer select-none hover:bg-shade-6 focus-visible:outline-none focus-visible:bg-shade-6 router-link-active:bg-shade-5 router-link-active:border-t-brand-3"
+          class="p-2 bg-shade-7 text-center border-y-4 border-transparent cursor-pointer select-none hover:bg-shade-6 focus-visible:bg-shade-6 focus-visible:ring-0 router-link-active:bg-shade-5 router-link-active:border-t-brand-3"
           :to="route"
         >
           {{ text }}

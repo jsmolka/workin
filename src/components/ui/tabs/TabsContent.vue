@@ -1,13 +1,5 @@
 <template>
-  <TabsContent
-    v-bind="forwardedProps"
-    :class="
-      cn(
-        'mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-3',
-        props.class,
-      )
-    "
-  >
+  <TabsContent v-bind="forwardedProps" :class="cn('mt-2', props.class)">
     <slot />
   </TabsContent>
 </template>

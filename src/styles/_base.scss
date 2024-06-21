@@ -54,8 +54,13 @@ body {
   @apply border-shade-6;
 
   scrollbar-width: none;
-}
 
-::-webkit-scrollbar {
-  @apply hidden;
+  &:focus-visible {
+    @apply outline-none;
+
+    &:not([tabindex^='-']) {
+      @apply ring-2;
+      @apply ring-brand-3;
+    }
+  }
 }

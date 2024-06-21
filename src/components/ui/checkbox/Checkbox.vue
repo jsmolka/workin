@@ -5,7 +5,7 @@
     @update:checked="emit('update:modelValue', $event)"
     :class="
       cn(
-        'peer size-4 shrink-0 border border-brand-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-3 disabled:opacity-50 disabled:cursor-not-allowed data-[state=checked]:bg-brand-3 data-[state=checked]:text-shade-8',
+        'peer size-4 shrink-0 border border-brand-3 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed data-[state=checked]:bg-brand-3 data-[state=checked]:text-shade-8',
         props.class,
       )
     "

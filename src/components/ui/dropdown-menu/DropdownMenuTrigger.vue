@@ -1,5 +1,5 @@
 <template>
-  <DropdownMenuTrigger v-bind="forwardedProps" class="outline-none">
+  <DropdownMenuTrigger v-bind="forwardedProps">
     <slot />
   </DropdownMenuTrigger>
 </template>
