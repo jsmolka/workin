@@ -8,12 +8,10 @@
       )
     "
   >
-    <span class="absolute right-2 flex justify-center items-center size-3.5">
-      <SelectItemIndicator>
-        <CheckIcon class="size-4 text-shade-3" />
-      </SelectItemIndicator>
-    </span>
     <slot />
+    <SelectItemIndicator as-child>
+      <CheckIcon class="absolute right-2 size-4 text-shade-3" />
+    </SelectItemIndicator>
   </SelectItem>
 </template>
 
