@@ -10,7 +10,7 @@
           :value="route"
           as-child
         >
-          <RouterLink class="focus-visible:z-10" :to="route">{{ text }}</RouterLink>
+          <RouterLink :to="route">{{ text }}</RouterLink>
         </TabsTrigger>
       </TabsList>
     </Tabs>
