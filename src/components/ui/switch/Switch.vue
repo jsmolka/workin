@@ -13,7 +13,7 @@
     <SwitchThumb
       :class="
         cn(
-          'block size-4 bg-shade-2 rounded-full pointer-events-none ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0',
+          'block size-4 bg-shade-2 rounded-full pointer-events-none transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0',
         )
       "
     />

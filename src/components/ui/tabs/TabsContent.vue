@@ -1,5 +1,5 @@
 <template>
-  <TabsContent v-bind="forwardedProps" :class="cn('mt-2', props.class)">
+  <TabsContent v-bind="forwardedProps" :class="cn('mt-2', props.class)" :tabindex="undefined">
     <slot />
   </TabsContent>
 </template>

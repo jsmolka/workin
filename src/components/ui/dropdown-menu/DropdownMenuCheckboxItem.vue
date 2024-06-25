@@ -5,12 +5,12 @@
     @update:checked="emit('update:modelValue', $event)"
     :class="
       cn(
-        'relative flex items-center pl-8 pr-2 py-1.5 cursor-pointer select-none rounded-sm focus:bg-shade-6 focus-visible:ring-0 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
+        'relative flex items-center pl-8 pr-2 py-1.5 cursor-pointer select-none rounded-sm focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
         props.class,
       )
     "
   >
-    <span class="absolute left-2 flex justify-center items-center size-3.5">
+    <span class="absolute left-2 flex justify-center items-center size-4">
       <DropdownMenuItemIndicator>
         <CheckIcon class="size-4" />
       </DropdownMenuItemIndicator>
