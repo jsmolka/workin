@@ -11,11 +11,14 @@
 </template>
 
 <script setup>
+import { useResizeObserver } from '@vueuse/core';
 import _ from 'lodash';
 import { useId } from 'radix-vue';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { RecycleScroller } from 'vue-virtual-scroller';
+
+const scroller = ref();
 
 const props = defineProps({
   items: { type: Array, required: true },
@@ -49,8 +52,13 @@ const sizeGap = computed(() => {
   return toPx(props.sizeGap);
 });
 
+const height = ref(0);
+useResizeObserver(scroller, ([entry]) => {
+  height.value = entry.contentRect.height;
+});
+
 const prerender = computed(() => {
-  return Math.ceil(document.body.clientHeight / size.value);
+  return Math.max(1, Math.ceil(height.value / size.value));
 });
 
 const items = computed(() => {
@@ -61,7 +69,6 @@ const items = computed(() => {
   }));
 });
 
-const scroller = ref();
 onMounted(() => {
   scroller.value.$el.scrollTo = async (position) => {
     await nextTick();
