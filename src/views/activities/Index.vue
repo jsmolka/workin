@@ -3,7 +3,7 @@
     v-if="activities.length > 0"
     class="!absolute inset-0 p-4"
     :items="activities"
-    :size="128"
+    :size="130"
     :size-gap="16"
     v-slot="{ item, index }"
   >

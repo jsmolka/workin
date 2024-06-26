@@ -19,7 +19,7 @@
         v-if="workouts.length > 0"
         class="!absolute inset-0 pb-4"
         :items="workouts"
-        :size="128"
+        :size="130"
         :size-gap="16"
         v-slot="{ item, index }"
       >
