@@ -7,8 +7,8 @@
     :size-gap="16"
     v-slot="{ item, index }"
   >
-    <RouterLink class="group focus-visible:ring-0" :to="`/activities/${index}`">
-      <Activity class="group-focus-visible:bg-shade-6" :activity="item" />
+    <RouterLink :to="`/activities/${index}`" :tabindex="-1">
+      <Activity :activity="item" />
     </RouterLink>
   </Scroller>
   <div v-else class="flex justify-center items-center">

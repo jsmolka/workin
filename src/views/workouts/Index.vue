@@ -23,8 +23,8 @@
         :size-gap="16"
         v-slot="{ item, index }"
       >
-        <RouterLink class="group focus-visible:ring-0" :to="`/workouts/${type}/${index}`">
-          <Workout class="group-focus-visible:bg-shade-6" :workout="item" />
+        <RouterLink :to="`/workouts/${type}/${index}`" :tabindex="-1">
+          <Workout :workout="item" />
         </RouterLink>
       </Scroller>
       <div v-else class="flex justify-center items-center h-full">
