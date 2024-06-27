@@ -130,6 +130,6 @@ const deleteInterval = () => {
 const saveWorkout = () => {
   const store = useWorkoutsStore();
   const index = store.add(workout);
-  router.push(`/workouts/custom/${index}`);
+  router.replace(`/workouts/custom/${index}`);
 };
 </script>
