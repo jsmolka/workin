@@ -4,9 +4,9 @@
     class="scroller"
     :items="items"
     :prerender="prerender"
-    v-slot="{ item, index }"
+    v-slot="{ item, index, active }"
   >
-    <slot :item="item.item" :index="index" />
+    <slot :item="item.item" :index="index" :active="active" />
   </RecycleScroller>
 </template>
 
