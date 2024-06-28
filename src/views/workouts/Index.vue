@@ -17,6 +17,7 @@
     <div class="relative flex-1">
       <Scroller
         v-if="workouts.length > 0"
+        ref="scroller"
         class="!absolute inset-0 pb-4"
         :items="workouts"
         :size="130"
@@ -51,7 +52,7 @@ import { useWorkoutsStore } from '@/stores/workouts';
 import Workout from '@/views/workouts/Workout.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { useSwipe } from '@vueuse/core';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -68,6 +69,11 @@ const workouts = computed(() => {
 
 const standard = computed(() => {
   return props.type === 'standard';
+});
+
+const scroller = ref();
+watch(route, () => {
+  scroller.value?.scrollToPosition(0);
 });
 
 useSwipe(window, {

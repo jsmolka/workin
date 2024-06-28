@@ -14,8 +14,7 @@
 import { useResizeObserver } from '@vueuse/core';
 import _ from 'lodash';
 import { useId } from 'radix-vue';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
 
 const scroller = ref();
@@ -70,15 +69,16 @@ const items = computed(() => {
 });
 
 onMounted(() => {
-  scroller.value.$el.scrollTo = async (position) => {
+  scroller.value.$el.scrollTo = async (...args) => {
     await nextTick();
     await nextTick();
-    scroller.value.scrollToPosition(position.top);
+    scroller.value?.scrollToPosition(args.length > 1 ? args[1] : args[0].top);
   };
+});
 
-  const route = useRoute();
-  watch(route, () => {
-    scroller.value.scrollToPosition(0);
-  });
+defineExpose({
+  scrollToPosition: (position) => {
+    scroller.value.scrollToPosition(position);
+  },
 });
 </script>
