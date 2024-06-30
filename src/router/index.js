@@ -1,4 +1,4 @@
-import AppLayout from '@/layouts/app/Index.vue';
+import { setupLayouts } from '@/layouts';
 import { useActivitiesStore } from '@/stores/activities';
 import { useWorkoutsStore } from '@/stores/workouts';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -6,16 +6,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 export const router = createRouter({
   history: createWebHistory(),
 
-  routes: [
+  routes: setupLayouts([
     {
       path: '/train',
-      meta: { layout: AppLayout },
       component: () => import('@/views/train/Index.vue'),
     },
     {
       path: '/workouts',
       redirect: '/workouts/standard',
-      meta: { layout: AppLayout },
       children: [
         {
           path: ':type(standard|custom)',
@@ -48,7 +46,6 @@ export const router = createRouter({
     },
     {
       path: '/activities',
-      meta: { layout: AppLayout },
       children: [
         {
           path: '',
@@ -71,12 +68,11 @@ export const router = createRouter({
     },
     {
       path: '/settings',
-      meta: { layout: AppLayout },
       component: () => import('@/views/settings/Index.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
       redirect: '/train',
     },
-  ],
+  ]),
 });
