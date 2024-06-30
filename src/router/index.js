@@ -14,29 +14,31 @@ export const router = createRouter({
     },
     {
       path: '/workouts',
+      redirect: '/workouts/standard',
       meta: { layout: AppLayout },
       children: [
         {
-          path: '',
-          redirect: '/workouts/standard',
-        },
-        {
           path: ':type(standard|custom)',
-          component: () => import('@/views/workouts/Index.vue'),
-          props: true,
-        },
-        {
-          path: ':type(standard|custom)/:index([0-9]+)',
-          component: () => import('@/views/workouts/get/Index.vue'),
-          props: true,
-          beforeEnter: ({ params }) => {
-            params.index = parseInt(params.index) || 0;
+          children: [
+            {
+              path: '',
+              component: () => import('@/views/workouts/Index.vue'),
+              props: true,
+            },
+            {
+              path: ':index([0-9]+)',
+              component: () => import('@/views/workouts/get/Index.vue'),
+              props: true,
+              beforeEnter: ({ params }) => {
+                params.index = parseInt(params.index) || 0;
 
-            const { workouts } = useWorkoutsStore();
-            if (params.index >= workouts(params.type).length) {
-              return '/workouts';
-            }
-          },
+                const { workouts } = useWorkoutsStore();
+                if (params.index >= workouts(params.type).length) {
+                  return '/workouts';
+                }
+              },
+            },
+          ],
         },
         {
           path: 'new',
