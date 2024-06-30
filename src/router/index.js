@@ -27,7 +27,7 @@ export const router = createRouter({
             },
             {
               path: ':index([0-9]+)',
-              component: () => import('@/views/workouts/get/Index.vue'),
+              component: () => import('@/views/workouts/index/Index.vue'),
               props: true,
               beforeEnter: ({ params }) => {
                 params.index = parseInt(params.index) || 0;
@@ -56,7 +56,7 @@ export const router = createRouter({
         },
         {
           path: ':index([0-9]+)',
-          component: () => import('@/views/activities/get/Index.vue'),
+          component: () => import('@/views/activities/index/Index.vue'),
           props: true,
           beforeEnter: ({ params }) => {
             params.index = parseInt(params.index) || 0;
