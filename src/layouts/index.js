@@ -4,19 +4,14 @@ function setupLayoutsRecursive(routes, isBase) {
       route.children = setupLayoutsRecursive(route.children, false);
     }
 
-    let layout = route.meta?.layout;
-    if (layout == null && isBase) {
-      layout = () => import('@/layouts/default/Index.vue');
-    }
-
-    if (layout) {
+    const layout = route.meta?.layout;
+    if (layout || isBase) {
       return {
         path: route.path,
-        component: layout,
+        component: layout ?? (() => import('@/layouts/default/Index.vue')),
         children: [{ ...route, path: '' }],
       };
     }
-
     return route;
   });
 }
