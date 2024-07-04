@@ -1,5 +1,6 @@
 import { DataPoint, DataPoints } from '@/modules/data';
 import { Workout } from '@/modules/workout';
+import { colors } from '@/utils/colors';
 import { array, createSchema, date, primitive, schema } from '@/utils/persist';
 import { Xml } from '@/utils/xml';
 
@@ -124,11 +125,11 @@ export class Activity {
     canvas.height = h;
 
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#242933';
+    ctx.fillStyle = colors.shade8.hex;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.lineWidth = 2;
-    ctx.strokeStyle = '#363e4d';
+    ctx.strokeStyle = colors.shade6.hex;
     for (const ry of [25, 50, 75]) {
       ctx.beginPath();
       ctx.moveTo(x(0), y(ry));
@@ -137,10 +138,10 @@ export class Activity {
     }
 
     const data = [
-      { style: '#be6069', polylines: this.polylinesHeartRate },
-      { style: '#608fb3', polylines: this.polylinesPower },
+      { polylines: this.polylinesHeartRate, style: colors.red.hex },
+      { polylines: this.polylinesPower, style: colors.brand3.hex },
     ];
-    for (const { style, polylines } of data) {
+    for (const { polylines, style } of data) {
       ctx.lineWidth = 3;
       ctx.strokeStyle = style;
       for (const polyline of polylines) {

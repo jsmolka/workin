@@ -4,7 +4,7 @@ export function useAsyncFn(fn, pending = ref(false)) {
   const wrapper = async (...args) => {
     pending.value = true;
     try {
-      await fn(...args);
+      return await fn(...args);
     } finally {
       pending.value = false;
     }
