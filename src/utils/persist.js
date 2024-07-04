@@ -94,3 +94,7 @@ export function deserialize(class_, data, target = new class_()) {
   }
   return target;
 }
+
+export function clone(data, target = new data.constructor()) {
+  return deserialize(data.constructor, serialize(data), target);
+}
