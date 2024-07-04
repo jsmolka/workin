@@ -7,6 +7,9 @@
           <DropdownMenuItem :disabled="selectedIndex == null" @click="select(selectedIndex)">
             Select at interval
           </DropdownMenuItem>
+          <DropdownMenuItem @click="router.push({ path: '/workouts/new', query: { type, index } })">
+            Duplicate
+          </DropdownMenuItem>
           <DropdownMenuItem v-if="type === 'custom'" @click="remove">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </Dots>

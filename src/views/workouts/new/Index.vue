@@ -93,14 +93,25 @@ import { Label } from '@/components/ui/label';
 import { Interval, cooldown, warmup } from '@/modules/interval';
 import { Workout } from '@/modules/workout';
 import { useWorkoutsStore } from '@/stores/workouts';
+import { clone } from '@/utils/persist';
 import { parseSeconds } from '@/utils/time';
 import { vMaska } from 'maska/vue';
-import { computed, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const parseQueryWorkout = () => {
+  if (!['standard', 'custom'].includes(route.query.type) || route.query.index == null) {
+    return null;
+  }
+  const { workouts } = useWorkoutsStore();
+  const workout = workouts(route.query.type)[parseInt(route.query.index) || 0];
+  return workout ? clone(workout) : null;
+};
 
 const router = useRouter();
 const selectedIndex = ref(null);
-const workout = reactive(new Workout('New workout'));
+const workout = ref(parseQueryWorkout() ?? new Workout('New workout'));
 
 const durationInput = ref('5:00');
 const duration = computed(() => {
@@ -119,17 +130,17 @@ const intensity = computed(() => {
 });
 
 const addInterval = () => {
-  workout.intervals.push(new Interval(duration.value, intensity.value));
+  workout.value.intervals.push(new Interval(duration.value, intensity.value));
 };
 
 const deleteInterval = () => {
-  workout.intervals.splice(selectedIndex.value, 1);
+  workout.value.intervals.splice(selectedIndex.value, 1);
   selectedIndex.value = null;
 };
 
 const saveWorkout = () => {
   const store = useWorkoutsStore();
-  const index = store.add(workout);
+  const index = store.add(workout.value);
   router.replace(`/workouts/custom/${index}`);
 };
 </script>
