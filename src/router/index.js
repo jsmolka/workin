@@ -36,6 +36,19 @@ export const router = createRouter({
                 }
               },
             },
+            {
+              path: ':index([0-9]+)/edit',
+              component: () => import('@/views/workouts/index/edit/Index.vue'),
+              props: true,
+              beforeEnter: ({ params }) => {
+                params.index = parseInt(params.index) || 0;
+
+                const { workouts } = useWorkoutsStore();
+                if (params.index >= workouts(params.type).length) {
+                  return '/workouts';
+                }
+              },
+            },
           ],
         },
         {

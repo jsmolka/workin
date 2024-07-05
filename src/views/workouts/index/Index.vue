@@ -10,7 +10,12 @@
           <DropdownMenuItem @click="router.push({ path: '/workouts/new', query: { type, index } })">
             Duplicate
           </DropdownMenuItem>
-          <DropdownMenuItem v-if="type === 'custom'" @click="remove">Delete</DropdownMenuItem>
+          <template v-if="type === 'custom'">
+            <DropdownMenuItem @click="router.push({ path: `/workouts/${type}/${index}/edit` })">
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem @click="remove">Delete</DropdownMenuItem>
+          </template>
         </DropdownMenuContent>
       </Dots>
     </div>
