@@ -95,6 +95,10 @@ export function deserialize(class_, data, target = new class_()) {
   return target;
 }
 
-export function clone(object, target = new object.constructor()) {
-  return deserialize(object.constructor, serialize(object), target);
+export function clone(object) {
+  return deserialize(object.constructor, serialize(object));
+}
+
+export function assign(target, source) {
+  return deserialize(source.constructor, serialize(source), target);
 }
