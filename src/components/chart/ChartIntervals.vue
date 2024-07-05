@@ -7,7 +7,7 @@
       v-percent:height="height"
       class="cursor-pointer"
       :class="index === selectedIndex ? 'fill-brand-1' : 'hover:fill-brand-2'"
-      @click="selectedIndex = index"
+      @click="selectedIndex = selectedIndex !== index ? index : null"
     />
   </g>
 </template>
