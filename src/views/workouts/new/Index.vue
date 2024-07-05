@@ -130,12 +130,21 @@ const intensity = computed(() => {
 });
 
 const addInterval = () => {
-  workout.value.intervals.push(new Interval(duration.value, intensity.value));
+  workout.value.intervals.splice(
+    selectedIndex.value != null ? selectedIndex.value : workout.value.intervals.length,
+    0,
+    new Interval(duration.value, intensity.value),
+  );
 };
 
 const deleteInterval = () => {
-  workout.value.intervals.splice(selectedIndex.value, 1);
-  selectedIndex.value = null;
+  const intervals = workout.value.intervals;
+  intervals.splice(selectedIndex.value, 1);
+  if (intervals.length > 0) {
+    selectedIndex.value = Math.max(selectedIndex.value - 1, 0);
+  } else {
+    selectedIndex.value = null;
+  }
 };
 
 const saveWorkout = () => {
