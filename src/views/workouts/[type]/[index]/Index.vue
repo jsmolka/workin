@@ -64,7 +64,7 @@ import { Workout } from '@/modules/workout';
 import { useActivityStore } from '@/stores/activity';
 import { useWorkoutsStore } from '@/stores/workouts';
 import { dialog } from '@/utils/dialog';
-import Header from '@/views/workouts/Header.vue';
+import Header from '@/views/workouts/[type]/Header.vue';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 

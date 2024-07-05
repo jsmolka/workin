@@ -24,7 +24,7 @@ export const router = createRouter({
           children: [
             {
               path: '',
-              component: () => import('@/views/workouts/Index.vue'),
+              component: () => import('@/views/workouts/[type]/Index.vue'),
               props: true,
             },
             {
@@ -32,12 +32,12 @@ export const router = createRouter({
               children: [
                 {
                   path: '',
-                  component: () => import('@/views/workouts/index/Index.vue'),
+                  component: () => import('@/views/workouts/[type]/[index]/Index.vue'),
                   props: parseIndex,
                 },
                 {
                   path: 'edit',
-                  component: () => import('@/views/workouts/index/edit/Index.vue'),
+                  component: () => import('@/views/workouts/[type]/[index]/edit/Index.vue'),
                   props: parseIndex,
                   beforeEnter: ({ params }) => {
                     if (params.type !== 'custom') {
@@ -70,7 +70,7 @@ export const router = createRouter({
         },
         {
           path: ':index([0-9]+)',
-          component: () => import('@/views/activities/index/Index.vue'),
+          component: () => import('@/views/activities/[index]/Index.vue'),
           props: parseIndex,
           beforeEnter: ({ params }) => {
             const index = Number.parseInt(params.index);

@@ -49,7 +49,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWorkoutsStore } from '@/stores/workouts';
-import Workout from '@/views/workouts/Workout.vue';
+import Workout from '@/views/workouts/[type]/Workout.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
