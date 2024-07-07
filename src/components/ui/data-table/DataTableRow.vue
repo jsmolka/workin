@@ -2,6 +2,7 @@
   <TableRow
     :class="cn('cursor-pointer', selected && '!bg-brand-3 !text-shade-8 !font-medium', props.class)"
     :data-index="index"
+    :data-selected="selectedIndex === index"
     @click="selectedIndex = selectedIndex !== index ? index : null"
   >
     <slot />

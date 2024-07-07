@@ -38,6 +38,7 @@
         ref="table"
         class="flex-1"
         :items="workout.intervals"
+        :sortable="true"
         v-model:selected-index="selectedIndex"
       />
     </FormItem>
