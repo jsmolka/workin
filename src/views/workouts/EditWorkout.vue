@@ -8,8 +8,11 @@
           <DropdownMenuItem @click="workout.intervals.push(...cooldown)">
             Add cooldown
           </DropdownMenuItem>
-          <DropdownMenuItem :disabled="selectedIndex == null" @click="deleteInterval">
-            Delete interval
+          <DropdownMenuItem :disabled="selectedIndex == null" @click="duplicate">
+            Duplicate
+          </DropdownMenuItem>
+          <DropdownMenuItem :disabled="selectedIndex == null" @click="remove">
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </Dots>
@@ -61,11 +64,7 @@
       </FormItem>
 
       <div class="flex items-end">
-        <Button
-          variant="secondary"
-          :disabled="duration == null || intensity == null"
-          @click="addInterval"
-        >
+        <Button variant="secondary" :disabled="duration == null || intensity == null" @click="add">
           Add
         </Button>
       </div>
@@ -118,15 +117,15 @@ const intensity = computed(() => {
   return intensityInput.value / 100;
 });
 
-const addInterval = () => {
-  workout.intervals.splice(
-    selectedIndex.value != null ? selectedIndex.value : workout.intervals.length,
-    0,
-    new Interval(duration.value, intensity.value),
-  );
+const add = () => {
+  workout.intervals.push(new Interval(duration.value, intensity.value));
 };
 
-const deleteInterval = () => {
+const duplicate = () => {
+  workout.intervals.splice(selectedIndex.value, 0, clone(workout.intervals[selectedIndex.value]));
+};
+
+const remove = () => {
   const intervals = workout.intervals;
   intervals.splice(selectedIndex.value, 1);
   if (intervals.length > 0) {
