@@ -27,7 +27,7 @@ export const useActivitiesStore = defineStore(id, () => {
     await set(id, toJson());
   };
 
-  const { ignoreUpdates } = watchIgnorable(activities, persist, { deep: true });
+  const { ignoreUpdates } = watchIgnorable(activities, persist);
 
   const hydrate = async () => {
     const data = await get(id);
