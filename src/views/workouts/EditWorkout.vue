@@ -123,6 +123,7 @@ const add = () => {
 
 const duplicate = () => {
   workout.intervals.splice(selectedIndex.value, 0, clone(workout.intervals[selectedIndex.value]));
+  selectedIndex.value++;
 };
 
 const remove = () => {
