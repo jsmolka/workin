@@ -8,6 +8,9 @@
           <DropdownMenuItem @click="workout.intervals.push(...cooldown)">
             Add cooldown
           </DropdownMenuItem>
+          <DropdownMenuItem :disabled="selectedIndex == null" @click="edit">
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuItem :disabled="selectedIndex == null" @click="duplicate">
             Duplicate
           </DropdownMenuItem>
@@ -44,29 +47,22 @@
         :sortable="true"
         v-model:selected-index="selectedIndex"
       />
+      <EditIntervalDialog v-model:open="open" :interval="workout.intervals[selectedIndex]" />
     </FormItem>
 
     <div class="flex gap-4">
       <FormItem class="flex-1 min-w-0">
         <Label>Duration</Label>
-        <Input
-          v-model="durationInput"
-          v-maska
-          data-maska="['#:##', '##:##', '#:##:##', '##:##:##']"
-          type="text"
-          inputmode="numeric"
-        />
+        <InputIntervalSeconds v-model="seconds" />
       </FormItem>
 
       <FormItem class="flex-1 min-w-0">
         <Label>Intensity</Label>
-        <InputNumber :min="0" :max="1000" suffix=" % FTP" v-model="intensityInput" />
+        <InputIntervalIntensity v-model="intensity" />
       </FormItem>
 
       <div class="flex items-end">
-        <Button variant="secondary" :disabled="duration == null || intensity == null" @click="add">
-          Add
-        </Button>
+        <Button variant="secondary" :disabled="seconds == null" @click="add">Add</Button>
       </div>
     </div>
     <Button
@@ -88,14 +84,17 @@ import ChartLines from '@/components/chart/ChartLines.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
-import { Input, InputNumber } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Interval, cooldown, warmup } from '@/modules/interval';
 import { Workout } from '@/modules/workout';
 import { clone } from '@/utils/persist';
-import { parseSeconds } from '@/utils/time';
-import { vMaska } from 'maska/vue';
-import { computed, reactive, ref } from 'vue';
+import EditIntervalDialog from '@/views/workouts/EditIntervalDialog.vue';
+import InputIntervalIntensity from '@/views/workouts/InputIntervalIntensity.vue';
+import InputIntervalSeconds from '@/views/workouts/InputIntervalSeconds.vue';
+import { reactive, ref } from 'vue';
+
+const open = ref(false);
 
 const props = defineProps({
   workout: { type: Workout, required: true },
@@ -107,18 +106,15 @@ const workout = reactive(clone(props.workout));
 
 const selectedIndex = ref(null);
 
-const durationInput = ref('5:00');
-const duration = computed(() => {
-  return parseSeconds(durationInput.value);
-});
-
-const intensityInput = ref(50);
-const intensity = computed(() => {
-  return intensityInput.value / 100;
-});
+const seconds = ref(300);
+const intensity = ref(0.5);
 
 const add = () => {
-  workout.intervals.push(new Interval(duration.value, intensity.value));
+  workout.intervals.push(new Interval(seconds.value, intensity.value));
+};
+
+const edit = () => {
+  open.value = true;
 };
 
 const duplicate = () => {
