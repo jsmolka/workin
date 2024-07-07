@@ -6,10 +6,10 @@
 import { InputNumber } from '@/components/ui/input';
 import { computed } from 'vue';
 
-const modelValue = defineModel({ type: Number, required: true });
+const modelValue = defineModel({ type: Number });
 
 const percentage = computed({
-  get: () => 100 * modelValue.value,
+  get: () => (modelValue.value != null ? 100 * modelValue.value : null),
   set: (value) => {
     modelValue.value = value / 100;
   },
