@@ -16,7 +16,7 @@
         </FormItem>
       </Form>
       <DialogFooter>
-        <Button variant="default" :disabled="seconds == null" @click="save">Save</Button>
+        <Button :disabled="isSaveDisabled" @click="save">Save</Button>
         <Button variant="secondary" @click="close">Cancel</Button>
       </DialogFooter>
     </DialogContent>
@@ -38,12 +38,12 @@ import { Label } from '@/components/ui/label';
 import { Interval } from '@/modules/interval';
 import InputIntervalIntensity from '@/views/workouts/InputIntervalIntensity.vue';
 import InputIntervalSeconds from '@/views/workouts/InputIntervalSeconds.vue';
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 
 const open = defineModel('open', { type: Boolean, required: false });
 
 const props = defineProps({
-  interval: { type: Interval },
+  interval: { type: Interval, default: null },
 });
 
 const seconds = ref(null);
@@ -57,6 +57,10 @@ watchEffect(() => {
 const close = () => {
   open.value = false;
 };
+
+const isSaveDisabled = computed(() => {
+  return props.interval == null || seconds.value == null || intensity.value == null;
+});
 
 const save = () => {
   props.interval.seconds = seconds.value;
