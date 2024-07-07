@@ -5,13 +5,13 @@ import { makeNaturalComparer } from '@/utils/sorting';
 import { watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { shallowRef, triggerRef } from 'vue';
 
 const id = 'workouts';
 const version = 1;
 
 export const useWorkoutsStore = defineStore(id, () => {
-  const custom = ref([]);
+  const custom = shallowRef([]);
 
   const toJson = () => {
     return { version, data: custom.value.map((workout) => serialize(workout)) };
@@ -37,14 +37,21 @@ export const useWorkoutsStore = defineStore(id, () => {
   const add = (workout) => {
     custom.value.push(workout);
     custom.value.sort(makeNaturalComparer('name'));
+    triggerRef(custom);
     return custom.value.indexOf(workout);
+  };
+
+  const edit = (index, workout) => {
+    custom.value[index] = workout;
+    triggerRef(custom);
   };
 
   const remove = (index) => {
     custom.value.splice(index, 1);
+    triggerRef(custom);
   };
 
-  return { standard, custom, toJson, fromJson, hydrate, add, remove };
+  return { standard, custom, toJson, fromJson, hydrate, add, edit, remove };
 });
 
 function convert(data) {

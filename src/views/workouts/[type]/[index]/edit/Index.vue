@@ -1,11 +1,11 @@
 <template>
-  <EditWorkout :workout="workout" @save="save" />
+  <EditWorkout :workout="workouts[index]" @save="save" />
 </template>
 
 <script setup>
 import { useWorkoutsStore } from '@/stores/workouts';
-import { assign } from '@/utils/persist';
 import EditWorkout from '@/views/workouts/EditWorkout.vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -14,10 +14,14 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const workout = useWorkoutsStore()[props.type][props.index];
 
-const save = (newWorkout) => {
-  assign(workout, newWorkout);
+const workouts = computed(() => {
+  return useWorkoutsStore()[props.type];
+});
+
+const save = (workout) => {
+  const store = useWorkoutsStore();
+  store.edit(props.index, workout);
   router.back();
 };
 </script>

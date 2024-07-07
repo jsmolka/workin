@@ -1,5 +1,5 @@
 <template>
-  <EditWorkout :workout="workout" @save="save" />
+  <EditWorkout :workout="parseQueryWorkout() ?? new Workout('New workout')" @save="save" />
 </template>
 
 <script setup>
@@ -7,13 +7,12 @@ import { Workout } from '@/modules/workout';
 import { useWorkoutsStore } from '@/stores/workouts';
 import { clone } from '@/utils/persist';
 import EditWorkout from '@/views/workouts/EditWorkout.vue';
-import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
 
-const queryWorkout = () => {
+const parseQueryWorkout = () => {
   if (!['standard', 'custom'].includes(route.query.type)) {
     return null;
   }
@@ -26,8 +25,6 @@ const queryWorkout = () => {
 
   return clone(workouts[index]);
 };
-
-const workout = ref(queryWorkout() ?? new Workout('New workout'));
 
 const save = (workout) => {
   const store = useWorkoutsStore();
