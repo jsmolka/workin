@@ -7,15 +7,16 @@
           <DropdownMenuItem :disabled="selectedIndex == null" @click="select(selectedIndex)">
             Select at interval
           </DropdownMenuItem>
+          <DropdownMenuItem
+            v-if="type === 'custom'"
+            @click="router.push({ path: `/workouts/${type}/${index}/edit` })"
+          >
+            Edit
+          </DropdownMenuItem>
           <DropdownMenuItem @click="router.push({ path: '/workouts/new', query: { type, index } })">
             Duplicate
           </DropdownMenuItem>
-          <template v-if="type === 'custom'">
-            <DropdownMenuItem @click="router.push({ path: `/workouts/${type}/${index}/edit` })">
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem @click="remove">Delete</DropdownMenuItem>
-          </template>
+          <DropdownMenuItem v-if="type === 'custom'" @click="remove">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </Dots>
     </div>
