@@ -5,13 +5,13 @@ import { deserialize, serialize } from '@/utils/persist';
 import { watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
-import { shallowRef, triggerRef } from 'vue';
+import { ref } from 'vue';
 
 const id = 'activities';
 const version = 6;
 
 export const useActivitiesStore = defineStore(id, () => {
-  const activities = shallowRef([]);
+  const activities = ref([]);
 
   const toJson = () => {
     return { version, data: activities.value.map((activity) => serialize(activity)) };
@@ -27,7 +27,7 @@ export const useActivitiesStore = defineStore(id, () => {
     await set(id, toJson());
   };
 
-  const { ignoreUpdates } = watchIgnorable(activities, persist);
+  const { ignoreUpdates } = watchIgnorable(activities, persist, { deep: true });
 
   const hydrate = async () => {
     const data = await get(id);
@@ -36,13 +36,11 @@ export const useActivitiesStore = defineStore(id, () => {
 
   const add = (activity) => {
     activities.value.unshift(activity);
-    triggerRef(activities);
     return 0;
   };
 
   const remove = (index) => {
     activities.value.splice(index, 1);
-    triggerRef(activities);
   };
 
   return { activities, toJson, fromJson, hydrate, add, remove };
