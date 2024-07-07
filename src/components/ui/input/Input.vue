@@ -7,17 +7,27 @@
       )
     "
     :value="modelValue"
-    @change="modelValue = $event.target.value"
+    @change="change"
     @focusin="$event.target.select()"
   />
 </template>
 
 <script setup>
+import { useForceUpdate } from '@/composables/useForceUpdate';
 import { cn } from '@/utils/ui';
+import { nextTick } from 'vue';
 
 const modelValue = defineModel({ type: String, required: false });
 
 const props = defineProps({
   class: { required: false },
 });
+
+const forceUpdate = useForceUpdate();
+
+const change = async (event) => {
+  modelValue.value = event.target.value;
+  await nextTick();
+  forceUpdate();
+};
 </script>

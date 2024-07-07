@@ -22,9 +22,6 @@ export function formatSeconds(seconds) {
 
 export function parseSeconds(string) {
   const units = string.split(':');
-  if (units.length <= 1) {
-    return null;
-  }
 
   units.reverse();
 

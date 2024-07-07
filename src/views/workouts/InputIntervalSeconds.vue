@@ -2,7 +2,7 @@
   <Input
     v-model="duration"
     v-maska
-    data-maska="['#:##', '##:##', '#:##:##', '##:##:##']"
+    data-maska="['##', '#:##', '##:##', '#:##:##', '##:##:##']"
     type="text"
     inputmode="numeric"
   />
