@@ -78,8 +78,7 @@ const router = useRouter();
 const selectedIndex = ref(null);
 
 const workout = computed(() => {
-  const { workouts } = useWorkoutsStore();
-  return workouts(props.type)[props.index] ?? new Workout();
+  return useWorkoutsStore()[props.type][props.index] ?? new Workout();
 });
 
 const select = async (index) => {

@@ -1,5 +1,5 @@
 import { Workout } from '@/modules/workout';
-import { workouts as standardWorkouts } from '@/stores/data/workouts';
+import { workouts as standard } from '@/stores/data/workouts';
 import { deserialize, serialize } from '@/utils/persist';
 import { makeNaturalComparer } from '@/utils/sorting';
 import { watchIgnorable } from '@vueuse/core';
@@ -11,7 +11,6 @@ const id = 'workouts';
 const version = 1;
 
 export const useWorkoutsStore = defineStore(id, () => {
-  const standard = ref(standardWorkouts);
   const custom = ref([]);
 
   const toJson = () => {
@@ -35,16 +34,6 @@ export const useWorkoutsStore = defineStore(id, () => {
     ignoreUpdates(() => fromJson(data));
   };
 
-  const workouts = (type) => {
-    switch (type) {
-      case 'standard':
-        return standard.value;
-      case 'custom':
-        return custom.value;
-    }
-    return [];
-  };
-
   const add = (workout) => {
     custom.value.push(workout);
     custom.value.sort(makeNaturalComparer('name'));
@@ -55,7 +44,7 @@ export const useWorkoutsStore = defineStore(id, () => {
     custom.value.splice(index, 1);
   };
 
-  return { standard, custom, toJson, fromJson, hydrate, workouts, add, remove };
+  return { standard, custom, toJson, fromJson, hydrate, add, remove };
 });
 
 function convert(data) {

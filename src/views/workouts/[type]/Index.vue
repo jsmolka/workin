@@ -63,8 +63,7 @@ const route = useRoute();
 const router = useRouter();
 
 const workouts = computed(() => {
-  const { workouts } = useWorkoutsStore();
-  return workouts(props.type);
+  return useWorkoutsStore()[props.type];
 });
 
 const standard = computed(() => {

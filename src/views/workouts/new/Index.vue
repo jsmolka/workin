@@ -12,12 +12,17 @@ import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const parseQueryWorkout = () => {
-  if (!['standard', 'custom'].includes(route.query.type) || route.query.index == null) {
+  if (!['standard', 'custom'].includes(route.query.type)) {
     return null;
   }
-  const { workouts } = useWorkoutsStore();
-  const workout = workouts(route.query.type)[parseInt(route.query.index) || 0];
-  return workout ? clone(workout) : null;
+
+  const index = Number.parseInt(route.query.index);
+  const workouts = useWorkoutsStore()[route.query.type];
+  if (!Number.isInteger(index) || index >= workouts.length) {
+    return null;
+  }
+
+  return clone(workouts[index]);
 };
 
 const router = useRouter();
