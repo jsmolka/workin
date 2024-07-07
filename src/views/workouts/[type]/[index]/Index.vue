@@ -9,7 +9,7 @@
           </DropdownMenuItem>
           <DropdownMenuItem
             v-if="type === 'custom'"
-            @click="router.push({ path: `/workouts/${type}/${index}/edit` })"
+            @click="router.push(`/workouts/${type}/${index}/edit`)"
           >
             Edit
           </DropdownMenuItem>

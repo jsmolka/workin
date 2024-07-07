@@ -18,6 +18,6 @@ const workout = useWorkoutsStore()[props.type][props.index];
 
 const save = (newWorkout) => {
   assign(workout, newWorkout);
-  router.replace(`/workouts/custom/${props.index}`);
+  router.back();
 };
 </script>
