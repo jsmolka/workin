@@ -3,9 +3,11 @@ import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
 import { array, createSchema, date, primitive, schema } from '@/utils/persist';
 import { Xml } from '@/utils/xml';
+import { nanoid } from 'nanoid';
 
 export class Activity {
   constructor(workout = new Workout()) {
+    this.id = nanoid();
     this.date = new Date();
     this.workout = workout;
     this.data = new DataPoints();

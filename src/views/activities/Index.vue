@@ -7,7 +7,7 @@
     :size-gap="16"
     v-slot="{ item, index }"
   >
-    <RouterLink :to="`/activities/${index}`" :tabindex="-1">
+    <RouterLink :to="`/activities/${index}`" :tabindex="-1" :key="item.id">
       <Activity :activity="item" />
     </RouterLink>
   </Scroller>
