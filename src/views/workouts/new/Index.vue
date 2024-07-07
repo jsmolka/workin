@@ -11,7 +11,9 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
-const parseQueryWorkout = () => {
+const router = useRouter();
+
+const queryWorkout = () => {
   if (!['standard', 'custom'].includes(route.query.type)) {
     return null;
   }
@@ -25,8 +27,7 @@ const parseQueryWorkout = () => {
   return clone(workouts[index]);
 };
 
-const router = useRouter();
-const workout = ref(parseQueryWorkout() ?? new Workout('New workout'));
+const workout = ref(queryWorkout() ?? new Workout('New workout'));
 
 const save = (workout) => {
   const store = useWorkoutsStore();

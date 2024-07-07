@@ -33,12 +33,14 @@
       </div>
     </div>
     <Button
-      v-if="!standard"
+      v-if="props.type === 'custom'"
       class="absolute bottom-4 right-4 size-12 z-10 rounded-full shadow"
       size="icon"
-      @click="router.push('/workouts/new')"
+      as-child
     >
-      <PlusIcon class="size-6" />
+      <RouterLink to="/workouts/new">
+        <PlusIcon class="size-6" />
+      </RouterLink>
     </Button>
   </Form>
 </template>
@@ -53,7 +55,7 @@ import Workout from '@/views/workouts/[type]/Workout.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 
 const props = defineProps({
   type: { type: String, required: true },
@@ -64,10 +66,6 @@ const router = useRouter();
 
 const workouts = computed(() => {
   return useWorkoutsStore()[props.type];
-});
-
-const standard = computed(() => {
-  return props.type === 'standard';
 });
 
 const scroller = ref();
