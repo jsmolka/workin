@@ -48,10 +48,10 @@ const unformat = (value) => {
   return value;
 };
 
+const decimalSeparator = (1.1).toLocaleString().charAt(1);
+
 // Based on https://github.com/nosir/cleave-zen/blob/main/src/numeral/index.ts
 const format = (value) => {
-  const decimalSeparator = (1.1).toLocaleString().charAt(1);
-
   value = unformat(value)
     // Strip alphabet letters
     .replace(/[A-Za-z]/g, '')
@@ -183,11 +183,18 @@ const clampCursor = (event) => {
 const forceUpdate = useForceUpdate();
 
 const change = async (event) => {
-  const value = unformat(event.target.value);
-  modelValue.value = _.clamp(parseFloat(value) || 0, props.min, props.max);
+  const value = _.clamp(
+    Number.parseFloat(unformat(event.target.value).replaceAll(decimalSeparator, '.')) || 0,
+    props.min,
+    props.max,
+  );
+  if (modelValue.value !== value) {
+    modelValue.value = value;
+  }
 
   await nextTick();
   forceUpdate();
+
   await nextTick();
   clampCursor(event);
 };

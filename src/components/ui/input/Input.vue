@@ -27,6 +27,7 @@ const forceUpdate = useForceUpdate();
 
 const change = async (event) => {
   modelValue.value = event.target.value;
+
   await nextTick();
   forceUpdate();
 };
