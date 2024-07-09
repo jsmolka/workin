@@ -14,7 +14,7 @@ function color(variable) {
     },
 
     get hex() {
-      return `#${this.int.toString(16)}`;
+      return `#${this.int.toString(16).padStart(6, '0')}`;
     },
   };
 }

@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { makeGetter } from '@/utils/get';
 import { computed } from 'vue';
 
 const modelValue = defineModel({ required: false });
@@ -31,11 +32,17 @@ const modelValue = defineModel({ required: false });
 const props = defineProps({
   class: { required: false },
   items: { type: Array, default: [] },
+  keyExpr: { required: false },
   placeholder: { type: String, required: false },
 });
 
+const keyGetter = computed(() => {
+  return makeGetter(props.keyExpr);
+});
+
 const modelIndex = computed(() => {
-  return props.items.indexOf(modelValue.value);
+  const key = keyGetter.value(modelValue.value);
+  return props.items.findIndex((item) => keyGetter.value(item) === key);
 });
 
 const selectModelValue = computed({
