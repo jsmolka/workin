@@ -194,6 +194,20 @@ export const workouts = [
     ]),
   ),
 
+  ...[3, 4].map((repeats) =>
+    workout(`${repeats} x 10 x 30/30`, [
+      warmup,
+      repeat(repeats, [
+        repeat(10, [
+          interval('0:30', maxAerobicPower(1.0)),
+          interval('0:30', maxAerobicPower(0.5)),
+        ]),
+        interval('5:00', 0.5),
+      ]),
+      cooldown,
+    ]),
+  ),
+
   // Rønnestad
   // https://pubmed.ncbi.nlm.nih.gov/24382021/
   // https://www.researchgate.net/publication/338808139/
