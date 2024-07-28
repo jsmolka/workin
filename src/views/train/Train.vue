@@ -38,13 +38,15 @@
 </template>
 
 <script setup>
+import {
+  Chart,
+  ChartHeartRate,
+  ChartIntervals,
+  ChartLines,
+  ChartPower,
+  ChartProgress,
+} from '@/components/chart';
 import Intervals from '@/components/Intervals.vue';
-import Chart from '@/components/chart/Chart.vue';
-import ChartHeartRate from '@/components/chart/ChartHeartRate.vue';
-import ChartIntervals from '@/components/chart/ChartIntervals.vue';
-import ChartLines from '@/components/chart/ChartLines.vue';
-import ChartPower from '@/components/chart/ChartPower.vue';
-import ChartProgress from '@/components/chart/ChartProgress.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';

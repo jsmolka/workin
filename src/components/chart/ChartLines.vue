@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import Line from '@/components/chart/Line.vue';
+import { Line } from '@/components/chart';
 
 defineProps({
   x: { type: Array, default: [0, 1] },

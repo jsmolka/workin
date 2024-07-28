@@ -42,13 +42,9 @@
 
 <script setup>
 import Back from '@/components/Back.vue';
+import { Chart, ChartHeartRate, ChartLaps, ChartLines, ChartPower } from '@/components/chart';
 import Dots from '@/components/Dots.vue';
 import Laps from '@/components/Laps.vue';
-import Chart from '@/components/chart/Chart.vue';
-import ChartHeartRate from '@/components/chart/ChartHeartRate.vue';
-import ChartLaps from '@/components/chart/ChartLaps.vue';
-import ChartLines from '@/components/chart/ChartLines.vue';
-import ChartPower from '@/components/chart/ChartPower.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';

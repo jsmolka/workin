@@ -15,9 +15,7 @@
 </template>
 
 <script setup>
-import Chart from '@/components/chart/Chart.vue';
-import ChartIntervals from '@/components/chart/ChartIntervals.vue';
-import ChartLines from '@/components/chart/ChartLines.vue';
+import { Chart, ChartIntervals, ChartLines } from '@/components/chart';
 import { Workout } from '@/modules/workout';
 import { cn } from '@/utils/ui';
 import Header from '@/views/workouts/[type]/Header.vue';

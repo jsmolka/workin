@@ -13,8 +13,7 @@
 </template>
 
 <script setup>
-import Line from '@/components/chart/Line.vue';
-import Rect from '@/components/chart/Rect.vue';
+import { Line, Rect } from '@/components/chart';
 import { computed } from 'vue';
 
 const props = defineProps({

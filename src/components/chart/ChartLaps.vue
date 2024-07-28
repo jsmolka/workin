@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import Rect from '@/components/chart/Rect.vue';
+import { Rect } from '@/components/chart';
 import { computed } from 'vue';
 
 const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });

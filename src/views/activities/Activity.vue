@@ -16,10 +16,7 @@
 </template>
 
 <script setup>
-import Chart from '@/components/chart/Chart.vue';
-import ChartHeartRate from '@/components/chart/ChartHeartRate.vue';
-import ChartLines from '@/components/chart/ChartLines.vue';
-import ChartPower from '@/components/chart/ChartPower.vue';
+import { Chart, ChartHeartRate, ChartLines, ChartPower } from '@/components/chart';
 import { Activity } from '@/modules/activity';
 import { cn } from '@/utils/ui';
 import Header from '@/views/activities/Header.vue';

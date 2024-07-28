@@ -51,11 +51,9 @@
 
 <script setup>
 import Back from '@/components/Back.vue';
+import { Chart, ChartIntervals, ChartLines } from '@/components/chart';
 import Dots from '@/components/Dots.vue';
 import Intervals from '@/components/Intervals.vue';
-import Chart from '@/components/chart/Chart.vue';
-import ChartIntervals from '@/components/chart/ChartIntervals.vue';
-import ChartLines from '@/components/chart/ChartLines.vue';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
