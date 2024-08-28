@@ -7,10 +7,9 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-const id = 'activity';
 const version = 1;
 
-export const useActivityStore = defineStore(id, () => {
+export const useActivityStore = defineStore('activity', () => {
   const activity = ref(null);
 
   const toJson = () => {
@@ -23,8 +22,10 @@ export const useActivityStore = defineStore(id, () => {
     }
   };
 
+  const storageKey = 'activity';
+
   const persist = async () => {
-    await set(id, toJson());
+    await set(storageKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(
@@ -34,7 +35,7 @@ export const useActivityStore = defineStore(id, () => {
   );
 
   const hydrate = async () => {
-    const data = await get(id);
+    const data = await get(storageKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -60,6 +61,8 @@ export const useActivityStore = defineStore(id, () => {
 function convert(data) {
   const { version, data: activity } = data;
   switch (version) {
+    case 1:
+      break;
   }
   return activity;
 }

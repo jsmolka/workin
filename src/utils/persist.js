@@ -2,7 +2,7 @@ import { enumerate } from '@/utils/iterator.js';
 
 const schemas = new Map();
 
-export function createSchema(class_, schema) {
+export function defineSchema(class_, schema) {
   schemas.set(class_.prototype, schema);
 }
 

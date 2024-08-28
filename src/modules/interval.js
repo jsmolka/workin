@@ -1,4 +1,4 @@
-import { createSchema, primitive } from '@/utils/persist';
+import { defineSchema, primitive } from '@/utils/persist';
 import { nanoid } from 'nanoid';
 
 export class Interval {
@@ -9,7 +9,7 @@ export class Interval {
   }
 }
 
-createSchema(Interval, {
+defineSchema(Interval, {
   seconds: primitive(),
   intensity: primitive(),
 });

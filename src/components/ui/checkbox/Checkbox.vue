@@ -10,15 +10,15 @@
       )
     "
   >
-    <CheckboxIndicator class="flex justify-center items-center size-full text-current">
-      <CheckIcon class="size-4" />
+    <CheckboxIndicator class="flex justify-center items-center">
+      <PhCheck class="size-3" weight="bold" />
     </CheckboxIndicator>
   </CheckboxRoot>
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { CheckIcon } from '@radix-icons/vue';
+import { PhCheck } from '@phosphor-icons/vue';
 import { CheckboxIndicator, CheckboxRoot, useForwardPropsEmits } from 'radix-vue';
 import { computed } from 'vue';
 

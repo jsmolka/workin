@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "formulahendry.auto-rename-tag",
+    "Vue.volar"
+  ]
+}

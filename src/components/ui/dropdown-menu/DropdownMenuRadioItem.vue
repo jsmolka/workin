@@ -8,9 +8,9 @@
       )
     "
   >
-    <span class="absolute left-2 flex justify-center items-center size-3.5">
+    <span class="absolute left-2 flex justify-center items-center size-4">
       <DropdownMenuItemIndicator>
-        <DotFilledIcon class="size-4" />
+        <PhCircle class="size-1.5" weight="fill" />
       </DropdownMenuItemIndicator>
     </span>
     <slot />
@@ -19,7 +19,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { DotFilledIcon } from '@radix-icons/vue';
+import { PhCircle } from '@phosphor-icons/vue';
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, useForwardPropsEmits } from 'radix-vue';
 import { computed } from 'vue';
 

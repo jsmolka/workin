@@ -7,10 +7,9 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { shallowRef, triggerRef } from 'vue';
 
-const id = 'workouts';
 const version = 1;
 
-export const useWorkoutsStore = defineStore(id, () => {
+export const useWorkoutsStore = defineStore('workouts', () => {
   const custom = shallowRef([]);
 
   const toJson = () => {
@@ -23,14 +22,16 @@ export const useWorkoutsStore = defineStore(id, () => {
     }
   };
 
+  const storageKey = 'workouts';
+
   const persist = async () => {
-    await set(id, toJson());
+    await set(storageKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(custom, persist, { deep: true });
 
   const hydrate = async () => {
-    const data = await get(id);
+    const data = await get(storageKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -57,6 +58,8 @@ export const useWorkoutsStore = defineStore(id, () => {
 function convert(data) {
   const { version, data: workouts } = data;
   switch (version) {
+    case 1:
+      break;
   }
   return workouts;
 }

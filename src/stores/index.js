@@ -3,8 +3,9 @@ import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';
 import { useSettingsStore } from '@/stores/settings';
 import { useWorkoutsStore } from '@/stores/workouts';
+import { defineStore } from 'pinia';
 
-export function useStores() {
+export const useStores = defineStore('stores', () => {
   const stores = {
     activities: useActivitiesStore(),
     activity: useActivityStore(),
@@ -34,4 +35,4 @@ export function useStores() {
   };
 
   return { toJson, fromJson, hydrate };
-}
+});

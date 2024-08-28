@@ -2,7 +2,7 @@
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button variant="ghost" size="icon">
-        <DotsVerticalIcon class="size-5" />
+        <PhDotsThreeVertical class="size-5" weight="bold" />
       </Button>
     </DropdownMenuTrigger>
     <slot />
@@ -12,5 +12,5 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { DotsVerticalIcon } from '@radix-icons/vue';
+import { PhDotsThreeVertical } from '@phosphor-icons/vue';
 </script>

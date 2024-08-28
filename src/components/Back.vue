@@ -1,12 +1,12 @@
 <template>
   <Button variant="ghost" size="icon" @click="router.back()">
-    <ArrowLeftIcon class="size-5" />
+    <PhArrowLeft class="size-5" />
   </Button>
 </template>
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { ArrowLeftIcon } from '@radix-icons/vue';
+import { PhArrowLeft } from '@phosphor-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 

@@ -2,9 +2,7 @@ import { toast } from '@/utils/toast';
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 
-const id = 'devices';
-
-export const useDevicesStore = defineStore(id, () => {
+export const useDevicesStore = defineStore('devices', () => {
   const hrm = ref(null);
   const trainer = ref(null);
 

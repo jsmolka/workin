@@ -1,4 +1,4 @@
-import { math } from '@/utils/math';
+import { clamp } from '@/utils/numeric';
 
 export class DataPoint extends Array {
   static IndexPower = 0;
@@ -68,7 +68,7 @@ export class DataPoints extends Array {
    * @private
    */
   polylines(index, minX, maxX, minY, maxY) {
-    const p = (value) => 100 * math.clamp(value, 0, 1);
+    const p = (value) => 100 * clamp(value, 0, 1);
     const x = (value) => p((value - minX) / (maxX - minX - 1));
     const y = (value) => p((value - minY) / (maxY - minY));
 

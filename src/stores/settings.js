@@ -6,10 +6,9 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref, watchEffect } from 'vue';
 
-const id = 'settings';
 const version = 1;
 
-export const useSettingsStore = defineStore(id, () => {
+export const useSettingsStore = defineStore('settings', () => {
   const settings = ref(new Settings());
 
   const toJson = () => {
@@ -22,14 +21,16 @@ export const useSettingsStore = defineStore(id, () => {
     }
   };
 
+  const storageKey = 'settings';
+
   const persist = async () => {
-    await set(id, toJson());
+    await set(storageKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(settings, persist, { deep: true });
 
   const hydrate = async () => {
-    const data = await get(id);
+    const data = await get(storageKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -43,6 +44,8 @@ export const useSettingsStore = defineStore(id, () => {
 function convert(data) {
   const { version, data: settings } = data;
   switch (version) {
+    case 1:
+      break;
   }
   return settings;
 }

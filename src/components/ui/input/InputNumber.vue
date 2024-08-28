@@ -22,8 +22,8 @@
 
 <script setup>
 import { useForceUpdate } from '@/composables/useForceUpdate';
+import { clamp } from '@/utils/numeric';
 import { cn } from '@/utils/ui';
-import _ from 'lodash';
 import { computed, nextTick } from 'vue';
 
 const modelValue = defineModel({ type: Number, required: false });
@@ -149,7 +149,7 @@ const navigate = (event) => {
     }
   }
 
-  selectionEnd = _.clamp(
+  selectionEnd = clamp(
     selectionEnd,
     props.prefix.length,
     event.target.value.length - props.suffix.length,
@@ -183,8 +183,8 @@ const clampCursor = (event) => {
 const forceUpdate = useForceUpdate();
 
 const change = async (event) => {
-  const value = _.clamp(
-    Number.parseFloat(unformat(event.target.value).replaceAll(decimalSeparator, '.')) || 0,
+  const value = clamp(
+    parseFloat(unformat(event.target.value).replaceAll(decimalSeparator, '.')) || 0,
     props.min,
     props.max,
   );

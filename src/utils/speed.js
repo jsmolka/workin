@@ -1,4 +1,4 @@
-import { math } from '@/utils/math';
+import { nthRoot } from '@/utils/numeric';
 
 // Based on https://en.wikipedia.org/wiki/Bicycle_performance
 // Based on https://www.gribble.org/cycling/power_v_speed.html
@@ -34,7 +34,7 @@ export function powerToSpeed(p, parameters = {}) {
 
   const Q = (3 * a * c - b ** 2) / (9 * a ** 2);
   const R = (9 * a * b * c - 27 * a ** 2 * d - 2 * b ** 3) / (54 * a ** 3);
-  const S = math.nthRoot(R + Math.sqrt(Q ** 3 + R ** 2), 3);
-  const T = math.nthRoot(R - Math.sqrt(Q ** 3 + R ** 2), 3);
+  const S = nthRoot(R + Math.sqrt(Q ** 3 + R ** 2), 3);
+  const T = nthRoot(R - Math.sqrt(Q ** 3 + R ** 2), 3);
   return S + T - b / (3 * a);
 }

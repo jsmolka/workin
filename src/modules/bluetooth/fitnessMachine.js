@@ -4,7 +4,7 @@ import { Device } from '@/modules/bluetooth/device';
 import { Notification } from '@/modules/bluetooth/notification';
 import { bit } from '@/utils/bit';
 import { log } from '@/utils/log';
-import { math } from '@/utils/math';
+import { clamp, nearestMultipleOf } from '@/utils/numeric';
 
 export class FitnessMachine extends Device {
   constructor() {
@@ -141,7 +141,7 @@ class PowerRange extends Characteristic {
   }
 
   clamp(value) {
-    return math.clamp(math.nearestMultipleOf(value, this.inc), this.min, this.max);
+    return clamp(nearestMultipleOf(value, this.inc), this.min, this.max);
   }
 }
 

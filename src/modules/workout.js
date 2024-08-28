@@ -1,6 +1,6 @@
 import { Interval } from '@/modules/interval';
 import { zones } from '@/modules/zones';
-import { array, createSchema, primitive, schema } from '@/utils/persist';
+import { array, defineSchema, primitive, schema } from '@/utils/persist';
 import { nanoid } from 'nanoid';
 
 export class Workout {
@@ -48,7 +48,7 @@ export class Workout {
   }
 }
 
-createSchema(Workout, {
+defineSchema(Workout, {
   name: primitive(),
   intervals: array(schema(Interval)),
 });

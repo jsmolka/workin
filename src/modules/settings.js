@@ -1,4 +1,4 @@
-import { createSchema, primitive } from '@/utils/persist';
+import { defineSchema, primitive } from '@/utils/persist';
 
 export class Settings {
   constructor() {
@@ -7,7 +7,7 @@ export class Settings {
   }
 }
 
-createSchema(Settings, {
+defineSchema(Settings, {
   logLevel: primitive(),
   logAsNotification: primitive(),
 });

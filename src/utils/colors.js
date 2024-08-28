@@ -4,19 +4,27 @@ function color(variable) {
     .split(' ', 3)
     .map((value) => parseInt(value));
 
-  return {
+  return Object.freeze({
     r,
     g,
     b,
 
     get int() {
-      return (r << 16) | (g << 8) | b;
+      return (this.r << 16) | (this.g << 8) | this.b;
     },
 
     get hex() {
-      return `#${this.int.toString(16).padStart(6, '0')}`;
+      return '#' + this.int.toString(16).padStart(6, '0');
     },
-  };
+
+    get rgb() {
+      return `rgb(${r}, ${g}, ${b})`;
+    },
+
+    rgba(alpha) {
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    },
+  });
 }
 
 export const colors = Object.freeze({
@@ -32,4 +40,7 @@ export const colors = Object.freeze({
   brand2: color('--brand-2'),
   brand3: color('--brand-3'),
   red: color('--red'),
+  orange: color('--orange'),
+  yellow: color('--yellow'),
+  green: color('--green'),
 });

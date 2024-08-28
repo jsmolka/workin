@@ -1,4 +1,4 @@
-import { createSchema, primitive } from '@/utils/persist';
+import { defineSchema, primitive } from '@/utils/persist';
 
 export class Athlete {
   constructor() {
@@ -6,6 +6,6 @@ export class Athlete {
   }
 }
 
-createSchema(Athlete, {
+defineSchema(Athlete, {
   ftp: primitive(),
 });

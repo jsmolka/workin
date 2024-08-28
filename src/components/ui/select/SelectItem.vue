@@ -10,14 +10,14 @@
   >
     <slot />
     <SelectItemIndicator as-child>
-      <CheckIcon class="absolute right-2 size-4 text-shade-3" />
+      <PhCheck class="absolute right-2 size-3 text-shade-3" weight="bold" />
     </SelectItemIndicator>
   </SelectItem>
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { CheckIcon } from '@radix-icons/vue';
+import { PhCheck } from '@phosphor-icons/vue';
 import { SelectItem, SelectItemIndicator, useForwardProps } from 'radix-vue';
 import { computed } from 'vue';
 

@@ -1,7 +1,7 @@
 import { DataPoint, DataPoints } from '@/modules/data';
 import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
-import { array, createSchema, date, primitive, schema } from '@/utils/persist';
+import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
 import { Xml } from '@/utils/xml';
 import { nanoid } from 'nanoid';
 
@@ -164,7 +164,7 @@ export class Activity {
   }
 }
 
-createSchema(Activity, {
+defineSchema(Activity, {
   date: date(),
   workout: schema(Workout),
   data: array(array(primitive(), DataPoint), DataPoints),

@@ -9,13 +9,13 @@
     "
   >
     <slot />
-    <ChevronRightIcon class="size-4 ml-auto" />
+    <PhCaretRight class="size-3 ml-auto" />
   </DropdownMenuSubTrigger>
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { ChevronRightIcon } from '@radix-icons/vue';
+import { PhCaretRight } from '@phosphor-icons/vue';
 import { DropdownMenuSubTrigger, useForwardProps } from 'radix-vue';
 import { computed } from 'vue';
 

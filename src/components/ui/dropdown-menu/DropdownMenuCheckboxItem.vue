@@ -12,7 +12,7 @@
   >
     <span class="absolute left-2 flex justify-center items-center size-4">
       <DropdownMenuItemIndicator>
-        <CheckIcon class="size-4" />
+        <PhCheck class="size-3" weight="bold" />
       </DropdownMenuItemIndicator>
     </span>
     <slot />
@@ -21,7 +21,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { CheckIcon } from '@radix-icons/vue';
+import { PhCheck } from '@phosphor-icons/vue';
 import {
   DropdownMenuCheckboxItem,
   DropdownMenuItemIndicator,
