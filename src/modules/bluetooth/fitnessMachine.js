@@ -2,7 +2,7 @@ import { Characteristic } from '@/modules/bluetooth/characteristic';
 import { DataStream } from '@/modules/bluetooth/dataStream';
 import { Device } from '@/modules/bluetooth/device';
 import { Notification } from '@/modules/bluetooth/notification';
-import { bit } from '@/utils/bit';
+import { bytes as toBytes } from '@/utils/bit';
 import { log } from '@/utils/log';
 import { clamp, nearestMultipleOf } from '@/utils/numeric';
 
@@ -315,7 +315,7 @@ for (const [name, code] of Object.entries(Control.Opcode)) {
           size = 4;
           break;
       }
-      bytes.push(...bit.bytes(parameters[i], size));
+      bytes.push(...toBytes(parameters[i], size));
     }
     await this.write(code, ...bytes);
   };

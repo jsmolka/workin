@@ -1,4 +1,4 @@
-function bytes(value, size) {
+export function bytes(value, size) {
   const bytes = [];
   while (size--) {
     bytes.push(value & 0xff);
@@ -7,12 +7,7 @@ function bytes(value, size) {
   return bytes;
 }
 
-function signExtend(value, size) {
+export function signExtend(value, size) {
   const sign = 8 * (4 - size);
   return (value << sign) >> sign;
 }
-
-export const bit = {
-  bytes,
-  signExtend,
-};
