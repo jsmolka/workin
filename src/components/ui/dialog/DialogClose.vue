@@ -8,7 +8,7 @@
 import { DialogClose } from 'radix-vue';
 
 const props = defineProps({
-  as: { type: null, required: false },
+  as: { required: false },
   asChild: { type: Boolean, required: false },
 });
 </script>

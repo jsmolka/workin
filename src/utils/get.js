@@ -1,17 +1,17 @@
-import _ from 'lodash';
+import { get, isFunction, isInteger, isString } from 'lodash-es';
 
 export function makeGetter(expr) {
-  if (_.isNil(expr)) {
+  if (expr == null) {
     return (value) => value;
   }
-  if (_.isFunction(expr)) {
+  if (isFunction(expr)) {
     return (value) => expr(value);
   }
-  if (_.isInteger(expr)) {
+  if (isInteger(expr)) {
     return (value) => value[expr];
   }
-  if (_.isString(expr)) {
-    return (value) => _.get(value, expr);
+  if (isString(expr)) {
+    return (value) => get(value, expr);
   }
   throw 'Bad expr';
 }

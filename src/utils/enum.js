@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isFunction, isString } from 'lodash-es';
 
 export class Enum {
   constructor(elements) {
@@ -6,7 +6,7 @@ export class Enum {
 
     const reverse = new Map();
     for (const element of elements) {
-      const key = _.isString(element) ? element : element.key;
+      const key = isString(element) ? element : element.key;
       const { value = key, translation = key } = element;
 
       this[key] = value;
@@ -20,9 +20,9 @@ export class Enum {
 
     this.$translate = (value) => {
       const translation = reverse.get(value)?.translation;
-      if (_.isString(translation)) {
+      if (isString(translation)) {
         return translation;
-      } else if (_.isFunction(translation)) {
+      } else if (isFunction(translation)) {
         return translation();
       }
       return '?';

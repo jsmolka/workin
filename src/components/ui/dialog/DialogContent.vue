@@ -7,7 +7,7 @@
         v-bind="forwardedProps"
         :class="
           cn(
-            'grid max-w-screen-sm gap-4 p-3 bg-shade-8 border rounded-sm shadow data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+            'grid max-w-screen-sm max-h-full gap-4 p-3 bg-shade-8 border rounded-sm shadow overflow-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
             props.class,
           )
         "

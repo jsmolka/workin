@@ -27,22 +27,35 @@ export function schema(class_) {
   };
 }
 
-export function array(definition, class_ = Array) {
+export function dynamic(getClass) {
   return {
-    serialize: (value) => Array.from(value, definition.serialize),
-    deserialize: (value) => class_.from(value, definition.deserialize),
+    serialize: (value) => serialize(value),
+    deserialize: (value) => {
+      const class_ = getClass(value);
+      if (class_ == null) {
+        throw new Error('No class');
+      }
+      return deserialize(class_, value);
+    },
   };
 }
 
-export function nullable(definition) {
+export function array(persist, class_ = Array) {
   return {
-    serialize: (value) => (value != null ? definition.serialize(value) : null),
-    deserialize: (value) => (value != null ? definition.deserialize(value) : null),
+    serialize: (value) => Array.from(value, persist.serialize),
+    deserialize: (value) => class_.from(value, persist.deserialize),
   };
 }
 
-export function alias(name, definition) {
-  return { name, ...definition };
+export function nullable(persist) {
+  return {
+    serialize: (value) => (value != null ? persist.serialize(value) : null),
+    deserialize: (value) => (value != null ? persist.deserialize(value) : null),
+  };
+}
+
+export function alias(name, persist) {
+  return { name, ...persist };
 }
 
 function* prototypes(object) {
@@ -58,14 +71,14 @@ export function serialize(object) {
     const schema = schemas.get(prototype);
     if (schema == null) {
       if (i === 0) {
-        throw new Error('No schema');
+        throw new Error(`No schema for ${prototype.constructor.name}`);
       }
       continue;
     }
     for (const [key, { name = key, serialize }] of Object.entries(schema)) {
       const value = object[key];
       if (value === undefined) {
-        console.warn('No value for key', key);
+        console.warn(`No value for ${prototype.constructor.name}.${key}`);
         continue;
       }
       data[name] = serialize(value);
@@ -79,14 +92,14 @@ export function deserialize(class_, data, target = new class_()) {
     const schema = schemas.get(prototype);
     if (schema == null) {
       if (i === 0) {
-        throw new Error('No schema');
+        throw new Error(`No schema for ${prototype.constructor.name}`);
       }
       continue;
     }
     for (const [key, { name = key, deserialize }] of Object.entries(schema)) {
       const value = data[name];
       if (value === undefined) {
-        console.warn('No value for key', name);
+        console.warn(`No value for ${prototype.constructor.name}.${key}`);
         continue;
       }
       target[key] = deserialize(value);

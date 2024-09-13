@@ -12,7 +12,7 @@
 
 <script setup>
 import { useResizeObserver } from '@vueuse/core';
-import _ from 'lodash';
+import { isNumber, isString } from 'lodash-es';
 import { useId } from 'radix-vue';
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
@@ -28,10 +28,10 @@ const props = defineProps({
 const fontSize = parseFloat(getComputedStyle(document.body).fontSize);
 
 const toPx = (value) => {
-  if (_.isNumber(value)) {
+  if (isNumber(value)) {
     return value;
   }
-  if (_.isString(value)) {
+  if (isString(value)) {
     const number = parseFloat(value);
     if (value.endsWith('px')) {
       return number;

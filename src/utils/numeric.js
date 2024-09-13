@@ -1,5 +1,3 @@
-export { nthRoot } from 'mathjs/number';
-
 export function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
@@ -25,4 +23,8 @@ export function radToDeg(radians) {
 
 export function nearestMultipleOf(value, step) {
   return Math.round(value / step) * step;
+}
+
+export function nthRoot(value, n) {
+  return value ** (1 / n);
 }

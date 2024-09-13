@@ -18,10 +18,10 @@ export function makeNumericComparer(expr = null, ascending = true) {
 }
 
 // https://stackoverflow.com/a/38641281
+const naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+
 export function compareNatural(a, b, ascending = true) {
-  a = (a ?? '').toString();
-  b = (b ?? '').toString();
-  return sign(a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }), ascending);
+  return sign(naturalCollator.compare(a, b), ascending);
 }
 
 export function makeNaturalComparer(expr = null, ascending = true) {

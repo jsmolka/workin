@@ -1,23 +1,25 @@
 <template>
-  <a
+  <Primitive
+    :as="as"
+    :as-child="asChild"
     :class="
-      cn('font-bold underline underline-offset-2 decoration-2 decoration-shade-5', props.class)
+      cn(
+        'font-bold cursor-pointer underline underline-offset-2 decoration-2 decoration-shade-5 skip-ink-none',
+        props.class,
+      )
     "
   >
     <slot />
-  </a>
+  </Primitive>
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
+import { Primitive } from 'radix-vue';
 
 const props = defineProps({
+  as: { default: 'a' },
+  asChild: { type: Boolean, required: false },
   class: { required: false },
 });
 </script>
-
-<style scoped>
-a {
-  text-decoration-skip-ink: none;
-}
-</style>

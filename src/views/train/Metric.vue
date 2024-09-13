@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import _ from 'lodash';
+import { isNumber } from 'lodash-es';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -20,7 +20,7 @@ const metric = computed(() => {
   if (props.value == null) {
     return '-';
   }
-  if (_.isNumber(props.value)) {
+  if (isNumber(props.value)) {
     return Math.round(props.value);
   }
   return props.value;

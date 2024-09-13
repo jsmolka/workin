@@ -1,5 +1,5 @@
 import '@/utils/toast.scss';
-import _ from 'lodash';
+import { merge } from 'lodash-es';
 import { Notyf } from 'notyf';
 
 const notyf = new Notyf({
@@ -10,12 +10,28 @@ const notyf = new Notyf({
       background: 'rgb(var(--brand-3))',
       icon: false,
     },
+    {
+      type: 'success',
+      background: 'rgb(var(--green))',
+      icon: false,
+    },
+    {
+      type: 'warning',
+      background: 'rgb(var(--yellow))',
+      icon: false,
+    },
+    {
+      type: 'error',
+      background: 'rgb(var(--red))',
+      icon: false,
+    },
   ],
 });
 
 export function toast(message, options = {}) {
-  options = _.merge(
+  options = merge(
     {
+      type: 'info',
       duration: 5000,
       position: {
         x: 'center',
@@ -25,7 +41,7 @@ export function toast(message, options = {}) {
     options,
   );
 
-  const notification = notyf.open({ type: 'info', message, ...options });
+  const notification = notyf.open({ message, ...options });
   notification.on('click', () => notyf.dismiss(notification));
   return notification;
 }

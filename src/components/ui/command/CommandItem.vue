@@ -1,21 +1,20 @@
 <template>
-  <DropdownMenuItem
+  <ComboboxItem
     v-bind="forwardedProps"
     :class="
       cn(
-        'flex items-center px-2 py-1.5 cursor-pointer select-none rounded-sm focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
-        inset && 'pl-8',
+        'flex items-center px-2 py-1.5 cursor-pointer select-none rounded-sm data-[highlighted]:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
         props.class,
       )
     "
   >
     <slot />
-  </DropdownMenuItem>
+  </ComboboxItem>
 </template>
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { DropdownMenuItem, useForwardProps } from 'radix-vue';
+import { ComboboxItem, useForwardPropsEmits } from 'radix-vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -23,9 +22,10 @@ const props = defineProps({
   asChild: { type: Boolean, required: false },
   class: { required: false },
   disabled: { type: Boolean, required: false },
-  inset: { type: Boolean, required: false },
-  textValue: { type: String, required: false },
+  value: { required: true },
 });
+
+const emit = defineEmits(['select']);
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
@@ -33,5 +33,5 @@ const delegatedProps = computed(() => {
   return delegated;
 });
 
-const forwardedProps = useForwardProps(delegatedProps);
+const forwardedProps = useForwardPropsEmits(delegatedProps, emit);
 </script>
