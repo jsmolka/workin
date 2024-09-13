@@ -20,7 +20,7 @@ useEmitter(log, '*', (_, ...args) => {
   }
 });
 
-if (isMobile()) {
+if (isMobile) {
   useEventListener('error', ({ message }) => {
     toast(message);
   });
