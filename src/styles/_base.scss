@@ -1,17 +1,17 @@
-@import 'hsv';
+@use 'color';
 
 :root {
-  --shade-1: #{hsv(220, 3%, 95%)};
-  --shade-2: #{hsv(220, 3%, 90%)};
-  --shade-3: #{hsv(220, 29%, 50%)};
-  --shade-4: #{hsv(220, 29%, 40%)};
-  --shade-5: #{hsv(220, 29%, 35%)};
-  --shade-6: #{hsv(220, 29%, 30%)};
-  --shade-7: #{hsv(220, 29%, 25%)};
-  --shade-8: #{hsv(220, 29%, 20%)};
-  --brand-1: #{hsv(206, 46%, 80%)};
-  --brand-2: #{hsv(206, 46%, 75%)};
-  --brand-3: #{hsv(206, 46%, 70%)};
+  --shade-1: #{color.hsv(220, 3%, 95%)};
+  --shade-2: #{color.hsv(220, 3%, 90%)};
+  --shade-3: #{color.hsv(220, 29%, 50%)};
+  --shade-4: #{color.hsv(220, 29%, 40%)};
+  --shade-5: #{color.hsv(220, 29%, 35%)};
+  --shade-6: #{color.hsv(220, 29%, 30%)};
+  --shade-7: #{color.hsv(220, 29%, 25%)};
+  --shade-8: #{color.hsv(220, 29%, 20%)};
+  --brand-1: #{color.hsv(206, 46%, 80%)};
+  --brand-2: #{color.hsv(206, 46%, 75%)};
+  --brand-3: #{color.hsv(206, 46%, 70%)};
   --red: 191 97 106;
   --orange: 208 135 112;
   --yellow: 235 203 139;
