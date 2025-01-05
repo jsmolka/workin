@@ -2,6 +2,7 @@ import { DataPoint, DataPoints } from '@/modules/data';
 import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
+import { powerToSpeed } from '@/utils/speed';
 import { Xml } from '@/utils/xml';
 import { nanoid } from 'nanoid';
 
@@ -43,7 +44,7 @@ export class Activity {
     return result;
   }
 
-  toTcx(powerToSpeed) {
+  toTcx() {
     const xml = new Xml();
     xml.element(
       'TrainingCenterDatabase',

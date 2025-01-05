@@ -53,7 +53,6 @@ import { Activity } from '@/modules/activity';
 import { useActivitiesStore } from '@/stores/activities';
 import { dialog } from '@/utils/dialog';
 import { download } from '@/utils/filesystem';
-import { powerToSpeed } from '@/utils/speed';
 import { formatDate } from '@/utils/time';
 import Header from '@/views/activities/Header.vue';
 import { computed, ref } from 'vue';
@@ -76,11 +75,7 @@ const filename = computed(() => {
 });
 
 const exportTcx = () => {
-  download(
-    activity.value.toTcx((power) => powerToSpeed(power)),
-    `${filename.value}.tcx`,
-    'application/vnd.garmin.tcx+xml',
-  );
+  download(activity.value.toTcx(), `${filename.value}.tcx`, 'application/vnd.garmin.tcx+xml');
 };
 
 const exportPng = () => {
