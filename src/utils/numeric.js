@@ -1,30 +1,53 @@
-export function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
+export function clamp(x, min, max) {
+  return Math.min(Math.max(x, min), max);
 }
 
-export function lerp(a, b, ratio) {
-  return a + ratio * (b - a);
+// Based on https://stackoverflow.com/a/4467559
+export function mod(x, y) {
+  return ((x % y) + y) % y;
 }
 
-export function remap(value, min1, max1, min2, max2, withinBounds = false) {
+export function nthRoot(x, root) {
+  return Math.sign(x) * Math.abs(x) ** (1 / root);
+}
+
+export function lerp(x, y, ratio) {
+  return x + ratio * (y - x);
+}
+
+export function remap(x, min1, max1, min2, max2, withinBounds = false) {
   if (withinBounds) {
-    value = clamp(value, min1, max1);
+    x = clamp(x, min1, max1);
   }
-  return lerp(min2, max2, (value - min1) / (max1 - min1));
+  return lerp(min2, max2, (x - min1) / (max1 - min1));
 }
 
-export function degToRad(degrees) {
-  return degrees * (Math.PI / 180);
+// Based on https://github.com/josdejong/mathjs/blob/v12.4.3/src/utils/number.js#L626
+export function equals(x, y, epsilon = null) {
+  if (x === y) {
+    return true;
+  }
+
+  if (isNaN(x) || isNaN(y) || !isFinite(x) || !isFinite(y)) {
+    return false;
+  }
+
+  const diff = Math.abs(x - y);
+  return diff <= Number.EPSILON || diff <= (epsilon ?? 1e-6);
 }
 
-export function radToDeg(radians) {
-  return radians * (180 / Math.PI);
+export function isZero(x, epsilon = null) {
+  return equals(x, 0, epsilon);
 }
 
-export function nearestMultipleOf(value, step) {
-  return Math.round(value / step) * step;
+export function greaterEq(x, y, epsilon = null) {
+  return x > y || equals(x, y, epsilon);
 }
 
-export function nthRoot(value, n) {
-  return value ** (1 / n);
+export function lessEq(x, y, epsilon = null) {
+  return x < y || equals(x, y, epsilon);
+}
+
+export function nearestMultipleOf(x, step) {
+  return Math.round(x / step) * step;
 }
