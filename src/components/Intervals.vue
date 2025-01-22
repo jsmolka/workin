@@ -18,8 +18,8 @@
           </DataTableCell>
           <DataTableCell>
             <div class="flex justify-center">
-              <Reserve class="text-right" reserve="100 %">
-                {{ Math.round(interval.intensity * 100) }} %
+              <Reserve class="text-right" reserve="100%">
+                {{ Math.round(interval.intensity * 100) }}%
               </Reserve>
             </div>
           </DataTableCell>

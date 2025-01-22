@@ -1,5 +1,5 @@
 <template>
-  <InputNumber v-model="percentage" :min="0" :max="1000" suffix=" % FTP" />
+  <InputNumber v-model="percentage" :min="0" :max="1000" suffix="% FTP" />
 </template>
 
 <script setup>
