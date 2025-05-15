@@ -66,6 +66,12 @@ export const router = createRouter({
         {
           path: 'new',
           component: () => import('@/views/workouts/new/Index.vue'),
+          props: ({ query }) => {
+            const { type, index } = parseIndex(query);
+            if (['standard', 'custom'].includes(type)) {
+              return { workout: useWorkoutsStore()[type][index] ?? null };
+            }
+          },
         },
       ],
     },
