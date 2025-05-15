@@ -16,10 +16,10 @@
     </Tabs>
     <div class="relative flex-1">
       <Scroller
-        v-if="sortedWorkouts.length > 0"
+        v-if="workouts.length > 0"
         ref="scroller"
         class="!absolute inset-0 pb-4"
-        :items="sortedWorkouts"
+        :items="workouts"
         :size="130"
         :size-gap="16"
         v-slot="{ item }"
@@ -67,15 +67,12 @@ const route = useRoute();
 const router = useRouter();
 
 const workouts = computed(() => {
-  return useWorkoutsStore()[props.type];
-});
-
-const sortedWorkouts = computed(() => {
-  const array = workouts.value.map((workout, index) => ({ workout, index, id: nanoid() }));
+  const store = useWorkoutsStore();
+  const workouts = store[props.type].map((workout, index) => ({ workout, index, id: nanoid() }));
   if (props.type !== 'standard') {
-    array.sort(makeNaturalComparer((item) => item.workout.name));
+    workouts.sort(makeNaturalComparer((item) => item.workout.name));
   }
-  return array;
+  return workouts;
 });
 
 const scroller = ref();
