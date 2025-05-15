@@ -44,7 +44,9 @@ export const useWorkoutsStore = defineStore('workouts', () => {
 
   const edit = (index, workout) => {
     custom.value[index] = workout;
+    custom.value.sort(makeNaturalComparer('name'));
     triggerRef(custom);
+    return custom.value.indexOf(workout);
   };
 
   const remove = (index) => {
