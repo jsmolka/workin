@@ -4,11 +4,9 @@ import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
 import { powerToSpeed } from '@/utils/speed';
 import { Xml } from '@/utils/xml';
-import { nanoid } from 'nanoid';
 
 export class Activity {
   constructor(workout = new Workout()) {
-    this.id = nanoid();
     this.date = new Date();
     this.workout = workout;
     this.data = new DataPoints();

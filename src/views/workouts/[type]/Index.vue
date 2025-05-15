@@ -16,16 +16,16 @@
     </Tabs>
     <div class="relative flex-1">
       <Scroller
-        v-if="workouts.length > 0"
+        v-if="sortedWorkouts.length > 0"
         ref="scroller"
         class="!absolute inset-0 pb-4"
-        :items="workouts"
+        :items="sortedWorkouts"
         :size="130"
         :size-gap="16"
-        v-slot="{ item, index }"
+        v-slot="{ item }"
       >
-        <RouterLink :to="`/workouts/${type}/${index}`" :tabindex="-1" :key="item.id">
-          <Workout :workout="item" />
+        <RouterLink :to="`/workouts/${type}/${item.index}`" :tabindex="-1" :key="item.id">
+          <Workout :workout="item.workout" />
         </RouterLink>
       </Scroller>
       <div v-else class="flex justify-center items-center h-full">
@@ -51,9 +51,11 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useWorkoutsStore } from '@/stores/workouts';
+import { makeNaturalComparer } from '@/utils/sorting';
 import Workout from '@/views/workouts/[type]/Workout.vue';
 import { PhPlus } from '@phosphor-icons/vue';
 import { useSwipe } from '@vueuse/core';
+import { nanoid } from 'nanoid';
 import { computed, ref, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 
@@ -66,6 +68,14 @@ const router = useRouter();
 
 const workouts = computed(() => {
   return useWorkoutsStore()[props.type];
+});
+
+const sortedWorkouts = computed(() => {
+  const array = workouts.value.map((workout, index) => ({ workout, index, id: nanoid() }));
+  if (props.type !== 'standard') {
+    array.sort(makeNaturalComparer((item) => item.workout.name));
+  }
+  return array;
 });
 
 const scroller = ref();

@@ -1,7 +1,6 @@
 import { Workout } from '@/modules/workout';
 import { workouts as standard } from '@/stores/data/workouts';
 import { deserialize, serialize } from '@/utils/persist';
-import { makeNaturalComparer } from '@/utils/sorting';
 import { watchIgnorable } from '@vueuse/core';
 import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
@@ -37,16 +36,13 @@ export const useWorkoutsStore = defineStore('workouts', () => {
 
   const add = (workout) => {
     custom.value.push(workout);
-    custom.value.sort(makeNaturalComparer('name'));
     triggerRef(custom);
-    return custom.value.indexOf(workout);
+    return custom.value.length - 1;
   };
 
   const edit = (index, workout) => {
     custom.value[index] = workout;
-    custom.value.sort(makeNaturalComparer('name'));
     triggerRef(custom);
-    return custom.value.indexOf(workout);
   };
 
   const remove = (index) => {

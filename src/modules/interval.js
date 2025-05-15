@@ -1,9 +1,7 @@
 import { defineSchema, primitive } from '@/utils/persist';
-import { nanoid } from 'nanoid';
 
 export class Interval {
   constructor(seconds = 0, intensity = 0) {
-    this.id = nanoid();
     this.seconds = seconds;
     this.intensity = intensity;
   }

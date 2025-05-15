@@ -1,11 +1,9 @@
 import { Interval } from '@/modules/interval';
 import { zones } from '@/modules/zones';
 import { array, defineSchema, primitive, schema } from '@/utils/persist';
-import { nanoid } from 'nanoid';
 
 export class Workout {
   constructor(name = '', intervals = []) {
-    this.id = nanoid();
     this.name = name;
     this.intervals = intervals;
   }

@@ -7,7 +7,6 @@
           class="grid grid-flow-col auto-cols-fr"
           :index="index"
           v-model:selected-index="selectedIndex"
-          :key="interval.id"
         >
           <DataTableCell>
             <div class="flex justify-start">
