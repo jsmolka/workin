@@ -1,6 +1,6 @@
 import { get, isFunction, isInteger, isString } from 'lodash-es';
 
-export function makeGetter(expr) {
+export function makeGet(expr) {
   if (expr == null) {
     return (value) => value;
   }

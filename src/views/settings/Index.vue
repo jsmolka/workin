@@ -34,13 +34,7 @@
 
     <FormItem>
       <Label>Log level</Label>
-      <Select :items="log.levels" v-model="settings.logLevel">
-        <template #item="{ item }">
-          <SelectItemText>
-            <span class="capitalize">{{ item }}</span>
-          </SelectItemText>
-        </template>
-      </Select>
+      <Select :items="log.levels" v-model="settings.logLevel" :display-expr="capitalize" />
     </FormItem>
 
     <FormItem>
@@ -55,7 +49,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { InputNumber } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectItemText } from '@/components/ui/select';
+import { Select } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { FitnessMachine } from '@/modules/bluetooth/fitnessMachine';
 import { HeartRate } from '@/modules/bluetooth/heartRate';
@@ -67,6 +61,7 @@ import { download, readAsText, selectFile } from '@/utils/filesystem';
 import { log } from '@/utils/log';
 import { toast } from '@/utils/toast';
 import BluetoothDeviceButton from '@/views/settings/BluetoothDeviceButton.vue';
+import { capitalize } from 'lodash-es';
 import { storeToRefs } from 'pinia';
 
 const { athlete } = storeToRefs(useAthleteStore());

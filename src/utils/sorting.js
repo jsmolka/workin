@@ -1,16 +1,24 @@
-import { makeGetter } from '@/utils/get';
+import { makeGet } from '@/utils/get';
 
 function sign(value, ascending) {
   return ascending ? value : -value;
 }
 
 export function makeComparer(compare, expr = null, ascending = true) {
-  const getter = makeGetter(expr);
-  return (a, b) => compare(getter(a), getter(b), ascending);
+  const get = makeGet(expr);
+  return (a, b) => compare(get(a), get(b), ascending);
 }
 
 export function compareNumeric(a, b, ascending = true) {
   return sign(a - b, ascending);
+}
+
+export function compareDate(a, b, ascending = true) {
+  return compareNumeric(a.getTime(), b.getTime(), ascending);
+}
+
+export function makeDateComparer(expr = null, ascending = true) {
+  return makeComparer(compareDate, expr, ascending);
 }
 
 export function makeNumericComparer(expr = null, ascending = true) {
