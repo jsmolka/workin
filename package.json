@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "update": "npx npm-check-updates -u && npm i && npm audit fix",
+    "format": "npx prettier --write src",
     "analyze": "npx vite-bundle-visualizer"
   },
   "prettier": {
