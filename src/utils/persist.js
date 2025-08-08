@@ -1,4 +1,5 @@
 import { enumerate } from '@/utils/iterator.js';
+import { cloneDeep } from 'lodash-es';
 
 const schemas = new Map();
 
@@ -13,44 +14,56 @@ export function primitive() {
   };
 }
 
+export function object() {
+  return {
+    serialize: (value) => cloneDeep(value),
+    deserialize: (value) => cloneDeep(value),
+  };
+}
+
 export function date() {
   return {
     serialize: (value) => value.getTime(),
-    deserialize: (value) => new Date(value),
+    deserialize: (value, target = null) => {
+      target ??= new Date();
+      target.setTime(value);
+      return target;
+    },
   };
 }
 
 export function schema(class_) {
   return {
     serialize: (value) => serialize(value),
-    deserialize: (value) => deserialize(class_, value),
+    deserialize: (value, target = null) => deserialize(class_, value, target),
   };
 }
 
 export function dynamic(getClass) {
   return {
     serialize: (value) => serialize(value),
-    deserialize: (value) => {
+    deserialize: (value, target = null) => {
       const class_ = getClass(value);
       if (class_ == null) {
         throw new Error('No class');
       }
-      return deserialize(class_, value);
+      return deserialize(class_, value, target);
     },
   };
 }
 
 export function array(persist, class_ = Array) {
   return {
-    serialize: (value) => Array.from(value, persist.serialize),
-    deserialize: (value) => class_.from(value, persist.deserialize),
+    serialize: (value) => Array.from(value, (item) => persist.serialize(item)),
+    deserialize: (value) => class_.from(value, (item) => persist.deserialize(item)),
   };
 }
 
 export function nullable(persist) {
   return {
     serialize: (value) => (value != null ? persist.serialize(value) : null),
-    deserialize: (value) => (value != null ? persist.deserialize(value) : null),
+    deserialize: (value, target = null) =>
+      value != null ? persist.deserialize(value, target) : null,
   };
 }
 
@@ -87,7 +100,11 @@ export function serialize(object) {
   return data;
 }
 
-export function deserialize(class_, data, target = new class_()) {
+export function deserialize(class_, data, target = null) {
+  if (!(target instanceof class_)) {
+    target = new class_();
+  }
+
   for (const [i, prototype] of enumerate(prototypes(target))) {
     const schema = schemas.get(prototype);
     if (schema == null) {
@@ -102,7 +119,7 @@ export function deserialize(class_, data, target = new class_()) {
         console.warn(`No value for ${prototype.constructor.name}.${key}`);
         continue;
       }
-      target[key] = deserialize(value);
+      target[key] = deserialize(value, target[key]);
     }
   }
   return target;
