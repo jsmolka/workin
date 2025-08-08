@@ -3,14 +3,14 @@
     v-bind="forwardedProps"
     :class="
       cn(
-        'relative flex items-center w-full pl-2 pr-8 py-1.5 cursor-pointer rounded-xs focus:bg-shade-6 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none',
+        'focus:bg-shade-6 relative flex w-full cursor-pointer items-center rounded-xs py-1.5 pr-8 pl-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         props.class,
       )
     "
   >
     <slot />
     <SelectItemIndicator as-child>
-      <PhCheck class="absolute right-2 size-3 text-shade-3" weight="bold" />
+      <PhCheck class="text-shade-3 absolute right-2 size-3" weight="bold" />
     </SelectItemIndicator>
   </SelectItem>
 </template>

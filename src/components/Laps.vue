@@ -1,10 +1,10 @@
 <template>
   <DataTableWrapper>
-    <DataTable ref="table" class="absolute inset-0 font-feature-tnum">
+    <DataTable ref="table" class="font-feature-tnum absolute inset-0">
       <DataTableBody>
         <DataTableRow
           v-for="(dataPoints, index) in items"
-          class="grid grid-flow-col auto-cols-fr"
+          class="grid auto-cols-fr grid-flow-col"
           :index="index"
           v-model:selected-index="selectedIndex"
         >

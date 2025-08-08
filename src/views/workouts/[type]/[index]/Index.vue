@@ -23,7 +23,7 @@
 
     <Header :workout="workout" />
 
-    <Chart class="shrink-0 border aspect-[5/2]">
+    <Chart class="aspect-[5/2] shrink-0 border">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"

@@ -1,7 +1,7 @@
 <template>
   <ToggleGroupRoot
     v-bind="forwardedProps"
-    :class="cn('flex justify-center items-center gap-2', props.class)"
+    :class="cn('flex items-center justify-center gap-2', props.class)"
   >
     <slot />
   </ToggleGroupRoot>

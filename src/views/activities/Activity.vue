@@ -1,10 +1,10 @@
 <template>
   <div
     :class="
-      cn('flex gap-4 p-4 bg-shade-7 border rounded-xs select-none hover:bg-shade-6', props.class)
+      cn('bg-shade-7 hover:bg-shade-6 flex gap-4 rounded-xs border p-4 select-none', props.class)
     "
   >
-    <Chart class="shrink-0 h-24 aspect-[3/2] sm:aspect-[5/2]">
+    <Chart class="aspect-[3/2] h-24 shrink-0 sm:aspect-[5/2]">
       <ChartLines />
       <ChartHeartRate :polylines="activity.polylinesHeartRate" />
       <ChartPower :polylines="activity.polylinesPower" />

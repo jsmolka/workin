@@ -11,14 +11,13 @@
     "format": "npx prettier --write src",
     "analyze": "npx vite-bundle-visualizer"
   },
-  "prettier": {
-    "singleQuote": true
-  },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
     "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "^4.2.0",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4.1.11",
     "tw-animate-css": "^1.3.6",
     "vite": "^7.1.1",

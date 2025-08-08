@@ -1,13 +1,13 @@
 <template>
   <DialogPortal>
     <DialogOverlay
-      class="fixed inset-0 z-50 flex justify-center items-center p-4 bg-black/75 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
     >
       <DialogContent
         v-bind="forwardedProps"
         :class="
           cn(
-            'grid max-w-screen-sm max-h-full gap-4 p-3 bg-shade-8 border rounded-xs shadow-sm overflow-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+            'bg-shade-8 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 grid max-h-full max-w-screen-sm gap-4 overflow-auto rounded-xs border p-3 shadow-sm',
             props.class,
           )
         "

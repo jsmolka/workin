@@ -4,7 +4,7 @@
     :as-child="asChild"
     :class="
       cn(
-        'font-bold cursor-pointer underline underline-offset-2 decoration-2 decoration-shade-5 skip-ink-none',
+        'decoration-shade-5 skip-ink-none cursor-pointer font-bold underline decoration-2 underline-offset-2',
         props.class,
       )
     "

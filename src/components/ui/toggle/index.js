@@ -3,12 +3,12 @@ import { cva } from 'class-variance-authority';
 export { default as Toggle } from './Toggle.vue';
 
 export const toggleVariants = cva(
-  'inline-flex justify-center items-center font-medium text-shade-2 whitespace-nowrap select-none rounded-xs hover:bg-shade-7 disabled:opacity-50 disabled:pointer-events-none',
+  'text-shade-2 hover:bg-shade-7 inline-flex items-center justify-center rounded-xs font-medium whitespace-nowrap select-none disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         default: 'data-[state=on]:bg-brand-3 data-[state=on]:text-shade-8',
-        outline: 'border data-[state=on]:bg-shade-6',
+        outline: 'data-[state=on]:bg-shade-6 border',
         ghost: 'data-[state=on]:bg-shade-6',
       },
       size: {

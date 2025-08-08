@@ -1,7 +1,7 @@
 <template>
   <SelectLabel
     v-bind="forwardedProps"
-    :class="cn('px-2 py-1.5 text-shade-1 font-semibold', props.class)"
+    :class="cn('text-shade-1 px-2 py-1.5 font-semibold', props.class)"
   >
     <slot />
   </SelectLabel>

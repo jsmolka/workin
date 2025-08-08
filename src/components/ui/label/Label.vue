@@ -3,7 +3,7 @@
     v-bind="forwardedProps"
     :class="
       cn(
-        'text-xs font-medium leading-none uppercase peer-disabled:opacity-50 peer-disabled:cursor-not-allowed',
+        'text-xs leading-none font-medium uppercase peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
         props.class,
       )
     "

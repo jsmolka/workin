@@ -11,7 +11,7 @@
       <Activity :activity="item.activity" />
     </RouterLink>
   </Scroller>
-  <div v-else class="flex justify-center items-center">
+  <div v-else class="flex items-center justify-center">
     <p>No activities</p>
   </div>
 </template>

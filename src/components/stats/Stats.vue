@@ -4,7 +4,7 @@
     :class="
       cn(
         'flex gap-4',
-        maxHeight != null ? 'flex-wrap overflow-hidden' : 'absolute invisible',
+        maxHeight != null ? 'flex-wrap overflow-hidden' : 'invisible absolute',
         props.class,
       )
     "

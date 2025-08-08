@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <span class="truncate text-lg text-shade-1 font-bold">
+    <span class="text-shade-1 truncate text-lg font-bold">
       {{ formatDate(activity.date, 'HH:mm') }}
     </span>
     <span class="truncate">

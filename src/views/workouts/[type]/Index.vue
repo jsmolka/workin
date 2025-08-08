@@ -28,13 +28,13 @@
           <Workout :workout="item.workout" />
         </RouterLink>
       </Scroller>
-      <div v-else class="flex justify-center items-center h-full">
+      <div v-else class="flex h-full items-center justify-center">
         <p>No workouts</p>
       </div>
     </div>
     <Button
       v-if="props.type === 'custom'"
-      class="absolute bottom-4 right-4 size-12 z-10 rounded-full shadow"
+      class="absolute right-4 bottom-4 z-10 size-12 rounded-full shadow"
       size="icon"
       as-child
     >

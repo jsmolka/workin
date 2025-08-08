@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <span class="truncate text-shade-1 text-lg font-bold">{{ workout.name }}</span>
+    <span class="text-shade-1 truncate text-lg font-bold">{{ workout.name }}</span>
     <span class="truncate">{{ workout.zone.name }}</span>
   </div>
   <Stats>

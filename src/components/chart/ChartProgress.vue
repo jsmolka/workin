@@ -7,7 +7,7 @@
       v-percent:y1="0"
       v-percent:x2="x"
       v-percent:y2="1"
-      class="stroke-2 stroke-shade-2"
+      class="stroke-shade-2 stroke-2"
     />
   </g>
 </template>

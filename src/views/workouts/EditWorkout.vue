@@ -26,7 +26,7 @@
       <Input v-model="workout.name" />
     </FormItem>
 
-    <Chart class="shrink-0 border aspect-[5/2]">
+    <Chart class="aspect-[5/2] shrink-0 border">
       <ChartLines />
       <ChartIntervals
         :intervals="workout.intervals"
@@ -51,12 +51,12 @@
     </FormItem>
 
     <div class="flex gap-4">
-      <FormItem class="flex-1 min-w-0">
+      <FormItem class="min-w-0 flex-1">
         <Label>Duration</Label>
         <InputIntervalSeconds v-model="seconds" />
       </FormItem>
 
-      <FormItem class="flex-1 min-w-0">
+      <FormItem class="min-w-0 flex-1">
         <Label>Intensity</Label>
         <InputIntervalIntensity v-model="intensity" />
       </FormItem>

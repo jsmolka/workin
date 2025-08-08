@@ -10,7 +10,7 @@
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
 
-    <Chart class="shrink-0 border aspect-[5/2]">
+    <Chart class="aspect-[5/2] shrink-0 border">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
@@ -30,7 +30,7 @@
       />
     </FormItem>
 
-    <div class="grid grid-flow-col auto-cols-fr gap-4">
+    <div class="grid auto-cols-fr grid-flow-col gap-4">
       <Button @click="toggle">{{ toggleText }}</Button>
       <Button @click="finish" v-show="activity.seconds > 0 && stopped">Finish</Button>
     </div>

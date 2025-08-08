@@ -1,5 +1,5 @@
 <template>
-  <SelectSeparator v-bind="forwardedProps" :class="cn('h-px -mx-1 my-1 bg-shade-6', props.class)" />
+  <SelectSeparator v-bind="forwardedProps" :class="cn('bg-shade-6 -mx-1 my-1 h-px', props.class)" />
 </template>
 
 <script setup>

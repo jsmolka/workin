@@ -3,14 +3,14 @@
     v-bind="forwardedProps"
     :class="
       cn(
-        'flex justify-between items-center w-full h-8 gap-2 px-2 py-1.5 bg-shade-7 whitespace-nowrap border rounded-xs placeholder:text-shade-3 disabled:opacity-50 disabled:cursor-not-allowed [&>span]:truncate',
+        'bg-shade-7 placeholder:text-shade-3 flex h-8 w-full items-center justify-between gap-2 rounded-xs border px-2 py-1.5 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-50 [&>span]:truncate',
         props.class,
       )
     "
   >
     <slot />
     <SelectIcon as-child>
-      <PhCaretUpDown class="shrink-0 size-3 text-shade-3" />
+      <PhCaretUpDown class="text-shade-3 size-3 shrink-0" />
     </SelectIcon>
   </SelectTrigger>
 </template>
