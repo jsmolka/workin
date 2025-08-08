@@ -1,4 +1,4 @@
-import '@/utils/toast.scss';
+import '@/utils/toast.css';
 import { merge } from 'lodash-es';
 import { Notyf } from 'notyf';
 

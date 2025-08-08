@@ -1,6 +1,6 @@
 import App from '@/App.vue';
 import { percent } from '@/directives/percent';
-import '@/main.scss';
+import '@/main.css';
 import { router } from '@/router';
 import { createRouterScroller } from '@/router/scroller';
 import { useStores } from '@/stores';
