@@ -1,7 +1,7 @@
 <template>
   <div
     :class="
-      cn('flex gap-4 p-4 bg-shade-7 border rounded-sm select-none hover:bg-shade-6', props.class)
+      cn('flex gap-4 p-4 bg-shade-7 border rounded-xs select-none hover:bg-shade-6', props.class)
     "
   >
     <Chart class="shrink-0 h-24 aspect-[3/2] sm:aspect-[5/2]">

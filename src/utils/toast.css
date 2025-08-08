@@ -21,7 +21,7 @@
   @apply p-0;
   @apply rounded-xs;
   @apply cursor-pointer;
-  @apply shadow-sm;
+  @apply shadow-xs;
 }
 
 .notyf__toast--lower {

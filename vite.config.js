@@ -1,7 +1,6 @@
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import autoprefixer from 'autoprefixer';
-import tailwindcss from 'tailwindcss';
 import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
 
@@ -10,12 +9,7 @@ function relative(path) {
 }
 
 export default defineConfig({
-  css: {
-    postcss: {
-      plugins: [autoprefixer, tailwindcss],
-    },
-  },
-  plugins: [vue(), vueJsx()],
+  plugins: [vue(), vueJsx(), tailwindcss()],
   resolve: {
     alias: {
       '@': relative('./src'),

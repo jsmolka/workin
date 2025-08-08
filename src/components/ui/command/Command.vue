@@ -1,5 +1,5 @@
 <template>
-  <ComboboxRoot v-bind="forwardedProps" :class="cn('flex flex-col rounded-sm', props.class)">
+  <ComboboxRoot v-bind="forwardedProps" :class="cn('flex flex-col rounded-xs', props.class)">
     <slot />
   </ComboboxRoot>
 </template>

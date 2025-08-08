@@ -11,6 +11,8 @@ defineProps({
 </script>
 
 <style scoped>
+@reference "@/main.css";
+
 .reserve::after {
   @apply block;
   @apply h-0;

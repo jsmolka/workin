@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 export { default as Toggle } from './Toggle.vue';
 
 export const toggleVariants = cva(
-  'inline-flex justify-center items-center font-medium text-shade-2 whitespace-nowrap select-none rounded-sm hover:bg-shade-7 disabled:opacity-50 disabled:pointer-events-none',
+  'inline-flex justify-center items-center font-medium text-shade-2 whitespace-nowrap select-none rounded-xs hover:bg-shade-7 disabled:opacity-50 disabled:pointer-events-none',
   {
     variants: {
       variant: {

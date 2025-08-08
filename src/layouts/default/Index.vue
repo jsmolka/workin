@@ -25,6 +25,8 @@
 </template>
 
 <style scoped>
+@reference "@/main.css";
+
 .container {
   @apply max-w-screen-sm;
   @apply mx-auto;

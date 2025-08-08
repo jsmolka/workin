@@ -1,5 +1,5 @@
 <template>
-  <tbody :class="cn('odd:[&_tr]:bg-shade-7', props.class)">
+  <tbody :class="cn('[&_tr]:odd:bg-shade-7 [&_tr]:hover:bg-shade-6', props.class)">
     <slot />
   </tbody>
 </template>
