@@ -14,7 +14,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { TabsTrigger, useForwardProps } from 'radix-vue';
+import { TabsTrigger, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

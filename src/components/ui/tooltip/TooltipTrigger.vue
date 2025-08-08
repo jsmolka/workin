@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { TooltipTrigger } from 'radix-vue';
+import { TooltipTrigger } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

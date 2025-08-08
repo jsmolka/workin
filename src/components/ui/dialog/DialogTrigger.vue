@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { DialogTrigger } from 'radix-vue';
+import { DialogTrigger } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

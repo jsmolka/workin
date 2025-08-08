@@ -9,7 +9,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { DropdownMenuLabel, useForwardProps } from 'radix-vue';
+import { DropdownMenuLabel, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

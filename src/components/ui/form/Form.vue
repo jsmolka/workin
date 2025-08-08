@@ -6,7 +6,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { Primitive } from 'radix-vue';
+import { Primitive } from 'reka-ui';
 
 const props = defineProps({
   as: { type: String, default: 'div' },

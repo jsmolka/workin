@@ -11,7 +11,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { Toggle, useForwardPropsEmits } from 'radix-vue';
+import { Toggle, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 import { toggleVariants } from '.';
 

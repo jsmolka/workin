@@ -9,7 +9,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { ToggleGroupRoot, useForwardPropsEmits } from 'radix-vue';
+import { ToggleGroupRoot, useForwardPropsEmits } from 'reka-ui';
 import { computed, provide } from 'vue';
 
 const props = defineProps({

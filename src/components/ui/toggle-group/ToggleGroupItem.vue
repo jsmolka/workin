@@ -18,7 +18,7 @@
 <script setup>
 import { toggleVariants } from '@/components/ui/toggle';
 import { cn } from '@/utils/ui';
-import { ToggleGroupItem, useForwardProps } from 'radix-vue';
+import { ToggleGroupItem, useForwardProps } from 'reka-ui';
 import { computed, inject } from 'vue';
 
 const props = defineProps({

@@ -16,7 +16,7 @@
 <script setup>
 import { cn } from '@/utils/ui';
 import { PhCaretRight } from '@phosphor-icons/vue';
-import { DropdownMenuSubTrigger, useForwardProps } from 'radix-vue';
+import { DropdownMenuSubTrigger, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

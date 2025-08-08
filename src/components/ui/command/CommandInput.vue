@@ -18,7 +18,7 @@
 <script setup>
 import { cn } from '@/utils/ui';
 import { PhMagnifyingGlass } from '@phosphor-icons/vue';
-import { ComboboxInput, useForwardProps } from 'radix-vue';
+import { ComboboxInput, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 defineOptions({

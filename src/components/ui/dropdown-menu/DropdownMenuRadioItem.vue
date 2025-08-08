@@ -20,7 +20,7 @@
 <script setup>
 import { cn } from '@/utils/ui';
 import { PhCircle } from '@phosphor-icons/vue';
-import { DropdownMenuItemIndicator, DropdownMenuRadioItem, useForwardPropsEmits } from 'radix-vue';
+import { DropdownMenuItemIndicator, DropdownMenuRadioItem, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

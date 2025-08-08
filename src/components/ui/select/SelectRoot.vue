@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { SelectRoot, useForwardPropsEmits } from 'radix-vue';
+import { SelectRoot, useForwardPropsEmits } from 'reka-ui';
 
 const props = defineProps({
   autocomplete: { type: String, required: false },

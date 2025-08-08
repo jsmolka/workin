@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { PopoverRoot, useForwardPropsEmits } from 'radix-vue';
+import { PopoverRoot, useForwardPropsEmits } from 'reka-ui';
 
 const props = defineProps({
   defaultOpen: { type: Boolean, required: false },

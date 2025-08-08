@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { DialogDescription, useForwardProps } from 'radix-vue';
+import { DialogDescription, useForwardProps } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

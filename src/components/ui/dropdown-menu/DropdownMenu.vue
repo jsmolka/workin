@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { DropdownMenuRoot, useForwardPropsEmits } from 'radix-vue';
+import { DropdownMenuRoot, useForwardPropsEmits } from 'reka-ui';
 
 const props = defineProps({
   defaultOpen: { type: Boolean, required: false },

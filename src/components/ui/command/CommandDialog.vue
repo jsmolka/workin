@@ -15,7 +15,7 @@
 <script setup>
 import { Command } from '@/components/ui/command';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { DialogDescription, useForwardPropsEmits } from 'radix-vue';
+import { DialogDescription, useForwardPropsEmits } from 'reka-ui';
 
 const props = defineProps({
   defaultOpen: { type: Boolean, required: false },

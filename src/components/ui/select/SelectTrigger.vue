@@ -18,7 +18,7 @@
 <script setup>
 import { cn } from '@/utils/ui';
 import { PhCaretUpDown } from '@phosphor-icons/vue';
-import { SelectIcon, SelectTrigger, useForwardProps } from 'radix-vue';
+import { SelectIcon, SelectTrigger, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

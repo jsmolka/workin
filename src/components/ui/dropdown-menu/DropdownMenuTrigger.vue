@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { DropdownMenuTrigger, useForwardProps } from 'radix-vue';
+import { DropdownMenuTrigger, useForwardProps } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

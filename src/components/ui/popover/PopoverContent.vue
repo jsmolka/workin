@@ -16,7 +16,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { PopoverContent, PopoverPortal, useForwardPropsEmits } from 'radix-vue';
+import { PopoverContent, PopoverPortal, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 
 defineOptions({

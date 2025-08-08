@@ -1,8 +1,6 @@
 <template>
   <CheckboxRoot
     v-bind="forwardedProps"
-    :checked="modelValue"
-    @update:checked="emit('update:modelValue', $event)"
     :class="
       cn(
         'peer size-4 shrink-0 border border-brand-3 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed data-[state=checked]:bg-brand-3 data-[state=checked]:text-shade-8',
@@ -19,7 +17,7 @@
 <script setup>
 import { cn } from '@/utils/ui';
 import { PhCheck } from '@phosphor-icons/vue';
-import { CheckboxIndicator, CheckboxRoot, useForwardPropsEmits } from 'radix-vue';
+import { CheckboxIndicator, CheckboxRoot, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

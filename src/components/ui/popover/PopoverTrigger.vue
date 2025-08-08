@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { PopoverTrigger } from 'radix-vue';
+import { PopoverTrigger } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

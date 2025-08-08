@@ -13,7 +13,7 @@
 <script setup>
 import { useResizeObserver } from '@vueuse/core';
 import { isNumber, isString } from 'lodash-es';
-import { useId } from 'radix-vue';
+import { useId } from 'reka-ui';
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
 

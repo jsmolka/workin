@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { DropdownMenuRadioGroup, useForwardPropsEmits } from 'radix-vue';
+import { DropdownMenuRadioGroup, useForwardPropsEmits } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

@@ -9,7 +9,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { ComboboxGroup, ComboboxLabel } from 'radix-vue';
+import { ComboboxGroup, ComboboxLabel } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

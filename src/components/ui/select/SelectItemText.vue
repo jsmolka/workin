@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { SelectItemText } from 'radix-vue';
+import { SelectItemText } from 'reka-ui';
 
 const props = defineProps({
   as: { required: false },

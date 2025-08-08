@@ -9,7 +9,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { SelectLabel, useForwardProps } from 'radix-vue';
+import { SelectLabel, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

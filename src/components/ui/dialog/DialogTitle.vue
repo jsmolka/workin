@@ -9,7 +9,7 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { DialogTitle, useForwardProps } from 'radix-vue';
+import { DialogTitle, useForwardProps } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({

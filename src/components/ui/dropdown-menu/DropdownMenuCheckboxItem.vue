@@ -22,11 +22,7 @@
 <script setup>
 import { cn } from '@/utils/ui';
 import { PhCheck } from '@phosphor-icons/vue';
-import {
-  DropdownMenuCheckboxItem,
-  DropdownMenuItemIndicator,
-  useForwardPropsEmits,
-} from 'radix-vue';
+import { DropdownMenuCheckboxItem, DropdownMenuItemIndicator, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
 
 const props = defineProps({
