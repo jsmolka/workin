@@ -6,31 +6,33 @@ import { useWorkoutsStore } from '@/stores/workouts';
 import { defineStore } from 'pinia';
 
 export const useStores = defineStore('stores', () => {
-  const stores = {
-    activities: useActivitiesStore(),
-    activity: useActivityStore(),
-    athlete: useAthleteStore(),
-    settings: useSettingsStore(),
-    workouts: useWorkoutsStore(),
-  };
+  const stores = [
+    useActivitiesStore(),
+    useActivityStore(),
+    useAthleteStore(),
+    useSettingsStore(),
+    useWorkoutsStore(),
+  ];
 
   const toJson = () => {
     const data = {};
-    for (const [key, store] of Object.entries(stores)) {
-      data[key] = store.toJson();
+    for (const store of stores) {
+      data[store.$id] = store.toJson();
     }
     return data;
   };
 
   const fromJson = (data) => {
-    for (const [key, store] of Object.entries(stores)) {
-      store.fromJson(data[key]);
+    for (const store of stores) {
+      store.fromJson(data[store.$id]);
     }
   };
 
   const hydrate = async () => {
-    for (const store of Object.values(stores)) {
-      await store.hydrate();
+    try {
+      await Promise.all(stores.map((store) => store.hydrate?.()));
+    } catch (error) {
+      console.error(error);
     }
   };
 
