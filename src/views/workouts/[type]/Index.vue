@@ -56,7 +56,7 @@ import Workout from '@/views/workouts/[type]/Workout.vue';
 import { PhPlus } from '@phosphor-icons/vue';
 import { useSwipe } from '@vueuse/core';
 import { nanoid } from 'nanoid';
-import { computed, ref, watch } from 'vue';
+import { computed, useTemplateRef, watch } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -75,7 +75,7 @@ const workouts = computed(() => {
   return workouts;
 });
 
-const scroller = ref();
+const scroller = useTemplateRef('scroller');
 watch(route, () => {
   scroller.value?.scrollToPosition(0);
 });

@@ -41,7 +41,7 @@ import {
   DataTableWrapper,
 } from '@/components/ui/data-table';
 import { formatSeconds } from '@/utils/time';
-import { ref } from 'vue';
+import { useTemplateRef } from 'vue';
 
 const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });
 
@@ -53,6 +53,6 @@ const hasHeartRate = (dataPoints) => {
   return dataPoints.some((dataPoint) => dataPoint.heartRate != null);
 };
 
-const table = ref();
+const table = useTemplateRef('table');
 defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>

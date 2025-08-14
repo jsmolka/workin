@@ -61,7 +61,7 @@ import { formatSeconds } from '@/utils/time';
 import Metric from '@/views/train/Metric.vue';
 import { useEventListener, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
 
 const wakeLock = useWakeLock();
 onMounted(() => wakeLock.request());
@@ -109,7 +109,7 @@ const currentIntervalSeconds = computed(() => {
   return currentIntervalData.value.totalSeconds - currentSeconds.value;
 });
 
-const table = ref();
+const table = useTemplateRef('table');
 
 onMounted(() => {
   watch(

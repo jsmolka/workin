@@ -44,7 +44,7 @@ import { useAthleteStore } from '@/stores/athlete';
 import { formatSeconds } from '@/utils/time';
 import { moveArrayElement, useSortable } from '@vueuse/integrations/useSortable';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref, watchEffect } from 'vue';
+import { onMounted, useTemplateRef, watchEffect } from 'vue';
 
 const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });
 
@@ -55,7 +55,7 @@ const props = defineProps({
 
 const { athlete } = storeToRefs(useAthleteStore());
 
-const body = ref();
+const body = useTemplateRef('body');
 const { option } = useSortable(body, props.items, {
   animation: 150,
   filter: '[data-selected="false"]',
@@ -71,6 +71,6 @@ onMounted(() => {
   });
 });
 
-const table = ref();
+const table = useTemplateRef('table');
 defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>

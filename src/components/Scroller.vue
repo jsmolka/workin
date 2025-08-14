@@ -14,10 +14,10 @@
 import { useResizeObserver } from '@vueuse/core';
 import { isNumber, isString } from 'lodash-es';
 import { useId } from 'reka-ui';
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
 
-const scroller = ref();
+const scroller = useTemplateRef('scroller');
 
 const props = defineProps({
   items: { type: Array, required: true },

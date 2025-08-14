@@ -16,13 +16,13 @@
 
 <script setup>
 import { cn } from '@/utils/ui';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, useTemplateRef } from 'vue';
 
 const props = defineProps({
   class: { required: false },
 });
 
-const element = ref();
+const element = useTemplateRef('element');
 const maxHeight = ref(null);
 
 onMounted(() => {
