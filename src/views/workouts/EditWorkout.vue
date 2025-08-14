@@ -110,7 +110,12 @@ const isAddDisabled = computed(() => {
 });
 
 const add = () => {
-  workout.value.intervals.push(new Interval(seconds.value, intensity.value));
+  const interval = new Interval(seconds.value, intensity.value);
+  if (selectedIndex.value != null) {
+    workout.value.intervals.splice(++selectedIndex.value, 0, interval);
+  } else {
+    workout.value.intervals.push(interval);
+  }
 };
 
 const editDialogOpen = ref(false);
@@ -120,8 +125,8 @@ const edit = () => {
 };
 
 const duplicate = () => {
-  workout.value.intervals.splice(selectedIndex.value, 0, clone(selectedInterval.value));
-  selectedIndex.value++;
+  const interval = clone(selectedInterval.value);
+  workout.value.intervals.splice(++selectedIndex.value, 0, interval);
 };
 
 const remove = () => {
