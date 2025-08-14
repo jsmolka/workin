@@ -1,11 +1,12 @@
 <template>
   <DataTableWrapper>
     <DataTable ref="table" class="font-feature-tnum absolute inset-0">
-      <DataTableBody ref="body">
+      <DataTableBody ref="tableBody">
         <DataTableRow
           v-for="(interval, index) in items"
           class="grid auto-cols-fr grid-flow-col"
           :index="index"
+          :key="`${tableKey}/${index}`"
           v-model:selected-index="selectedIndex"
         >
           <DataTableCell>
@@ -44,7 +45,7 @@ import { useAthleteStore } from '@/stores/athlete';
 import { formatSeconds } from '@/utils/time';
 import { moveArrayElement, useSortable } from '@vueuse/integrations/useSortable';
 import { storeToRefs } from 'pinia';
-import { onMounted, useTemplateRef, watchEffect } from 'vue';
+import { onMounted, ref, useTemplateRef, watchEffect } from 'vue';
 
 const selectedIndex = defineModel('selectedIndex', { type: Number, required: false });
 
@@ -55,13 +56,17 @@ const props = defineProps({
 
 const { athlete } = storeToRefs(useAthleteStore());
 
-const body = useTemplateRef('body');
-const { option } = useSortable(body, props.items, {
+const table = useTemplateRef('table');
+const tableBody = useTemplateRef('tableBody');
+const tableKey = ref(0);
+
+const { option } = useSortable(tableBody, props.items, {
   animation: 150,
   filter: '[data-selected="false"]',
   onUpdate: (event) => {
     moveArrayElement(props.items, event.oldIndex, event.newIndex);
     selectedIndex.value = event.newIndex;
+    tableKey.value++;
   },
 });
 
@@ -71,6 +76,5 @@ onMounted(() => {
   });
 });
 
-const table = useTemplateRef('table');
 defineExpose({ scrollTo: (index) => table.value.scrollTo(index) });
 </script>
