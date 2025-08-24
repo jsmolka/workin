@@ -14,7 +14,8 @@
 
 .notyf * {
   @apply delay-0;
-  @apply duration-150;
+
+  animation-duration: 150ms !important;
 }
 
 .notyf__toast {
