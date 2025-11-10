@@ -1,27 +1,38 @@
-export class Xml {
-  constructor() {
-    this.depth = 0;
-    this.content = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  }
+export function xml() {
+  return new Proxy(
+    {
+      depth: 0,
+      content: '<?xml version="1.0" encoding="UTF-8"?>\n',
+      get indent() {
+        return '  '.repeat(this.depth);
+      },
+    },
+    {
+      get(target, prop) {
+        switch (prop) {
+          case 'toString':
+          case 'toPrimitive':
+          case Symbol.toString:
+          case Symbol.toPrimitive:
+            return () => target.content;
+        }
 
-  element(name, ...args) {
-    const value = args.pop();
-    const attributes = args.length > 0 ? ` ${args.join(' ')}` : '';
-    this.content += '  '.repeat(this.depth);
-    this.content += `<${name}${attributes}>`;
-    if (value instanceof Function) {
-      this.content += '\n';
-      this.depth++;
-      value();
-      this.depth--;
-      this.content += '  '.repeat(this.depth);
-    } else {
-      this.content += value;
-    }
-    this.content += `</${name}>\n`;
-  }
+        return (...args) => {
+          const value = args.pop();
+          const attrs = args.map(([key, value]) => ` ${key}="${value}"`).join('');
 
-  toString() {
-    return this.content;
-  }
+          target.content += `${target.indent}<${prop}${attrs}>\n`;
+          target.depth++;
+          value();
+          target.depth--;
+          target.content += `${target.indent}</${prop}>\n`;
+        };
+      },
+
+      set(target, prop, value) {
+        target.content += `${target.indent}<${prop}>${value}</${prop}>\n`;
+        return true;
+      },
+    },
+  );
 }

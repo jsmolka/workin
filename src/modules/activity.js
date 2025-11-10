@@ -3,7 +3,7 @@ import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
 import { powerToSpeed } from '@/utils/speed';
-import { Xml } from '@/utils/xml';
+import { xml } from '@/utils/xml';
 
 export class Activity {
   constructor(workout = new Workout()) {
@@ -43,19 +43,18 @@ export class Activity {
   }
 
   toTcx() {
-    const xml = new Xml();
-    xml.element(
-      'TrainingCenterDatabase',
-      'xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd"',
-      'xmlns:ns5="http://www.garmin.com/xmlschemas/ActivityGoals/v1"',
-      'xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2"',
-      'xmlns:ns2="http://www.garmin.com/xmlschemas/UserProfile/v2"',
-      'xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"',
-      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+    const tcx = xml();
+    tcx['TrainingCenterDatabase'](
+      ['xsi:schemaLocation', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd'], // prettier-ignore
+      ['xmlns:ns5', 'http://www.garmin.com/xmlschemas/ActivityGoals/v1'],
+      ['xmlns:ns3', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2'],
+      ['xmlns:ns2', 'http://www.garmin.com/xmlschemas/UserProfile/v2'],
+      ['xmlns', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2'],
+      ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
       () => {
-        xml.element('Activities', () => {
-          xml.element('Activity', 'Sport="Biking"', () => {
-            xml.element('Id', this.date.toISOString());
+        tcx['Activities'](() => {
+          tcx['Activity'](['Sport', 'Biking'], () => {
+            tcx['Id'] = this.date.toISOString();
 
             let data = [];
             let distance = 0;
@@ -82,26 +81,26 @@ export class Activity {
             }
 
             for (const lap of laps) {
-              xml.element('Lap', `StartTime="${lap[0][0].toISOString()}"`, () => {
-                xml.element('Track', () => {
+              tcx['Lap'](['StartTime', lap[0][0].toISOString()], () => {
+                tcx['Track'](() => {
                   for (const [date, distance, power, heartRate, cadence] of lap) {
-                    xml.element('Trackpoint', () => {
-                      xml.element('Time', date.toISOString());
-                      xml.element('DistanceMeters', distance);
-                      xml.element('Extensions', () => {
-                        xml.element('ns3:TPX', () => {
-                          xml.element('ns3:Watts', power);
+                    tcx['Trackpoint'](() => {
+                      tcx['Time'] = date.toISOString();
+                      tcx['DistanceMeters'] = distance;
+                      tcx['Extensions'](() => {
+                        tcx['ns3:TPX'](() => {
+                          tcx['ns3:Watts'] = power;
                         });
                       });
 
                       if (heartRate != null) {
-                        xml.element('HeartRateBpm', () => {
-                          xml.element('Value', heartRate);
+                        tcx['HeartRateBpm'](() => {
+                          tcx['Value'] = heartRate;
                         });
                       }
 
                       if (cadence != null) {
-                        xml.element('Cadence', cadence);
+                        tcx['Cadence'] = cadence;
                       }
                     });
                   }
@@ -112,7 +111,7 @@ export class Activity {
         });
       },
     );
-    return xml.toString();
+    return tcx.toString();
   }
 
   toCanvas() {
