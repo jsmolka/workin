@@ -107,6 +107,10 @@ export class Activity {
                 });
               });
             }
+
+            tcx['Creator'](['xsi:type', 'Application_t'], () => {
+              tcx['Name'] = 'workin';
+            });
           });
         });
       },
