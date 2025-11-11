@@ -4,6 +4,7 @@
       <Back />
       <Dots>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem @click="exportTcx">Export TCX</DropdownMenuItem>
           <DropdownMenuItem @click="exportPng">Export PNG</DropdownMenuItem>
           <DropdownMenuItem @click="remove">Delete</DropdownMenuItem>
         </DropdownMenuContent>
@@ -36,7 +37,7 @@
       />
     </FormItem>
 
-    <Button @click="exportTcx">Export TCX</Button>
+    <Button @click="exportFit">Export FIT</Button>
   </Form>
 </template>
 
@@ -73,6 +74,10 @@ const activity = computed(() => {
 const filename = computed(() => {
   return `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}`;
 });
+
+const exportFit = () => {
+  download(activity.value.toFit(), `${filename.value}.fit`, 'application/vnd.ant.fit');
+};
 
 const exportTcx = () => {
   download(activity.value.toTcx(), `${filename.value}.tcx`, 'application/vnd.garmin.tcx+xml');

@@ -4,6 +4,7 @@ import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
 import { powerToSpeed } from '@/utils/speed';
 import { xml } from '@/utils/xml';
+import { Encoder, Profile, Utils } from '@garmin/fitsdk';
 
 export class Activity {
   constructor(workout = new Workout()) {
@@ -40,6 +41,102 @@ export class Activity {
       totalSeconds += seconds;
     }
     return result;
+  }
+
+  toFit() {
+    try {
+      const encoder = new Encoder();
+
+      const startTime = Utils.convertDateToDateTime(new Date());
+
+      let timestamp = startTime;
+
+      encoder.writeMesg({
+        mesgNum: Profile.MesgNum.FILE_ID,
+        type: 'activity',
+        manufacturer: 'development',
+        product: 0,
+        serialNumber: 0,
+        timeCreated: startTime,
+      });
+
+      encoder.writeMesg({
+        mesgNum: Profile.MesgNum.DEVICE_INFO,
+        deviceIndex: 'creator',
+        manufacturer: 'development',
+        product: 1,
+        productName: 'workin',
+        serialNumber: 0,
+        softwareVersion: 0,
+        timestamp,
+      });
+
+      encoder.writeMesg({
+        mesgNum: Profile.MesgNum.EVENT,
+        event: 'timer',
+        eventType: 'start',
+        timestamp,
+      });
+
+      let distance = 0;
+      for (const dataPoint of [this.data[0], ...this.data]) {
+        encoder.writeMesg({
+          mesgNum: Profile.MesgNum.RECORD,
+          distance,
+          heartRate: dataPoint.heartRate,
+          cadence: dataPoint.cadence,
+          power: dataPoint.power,
+          timestamp,
+        });
+        timestamp++;
+        distance += powerToSpeed(dataPoint.power);
+      }
+
+      encoder.writeMesg({
+        mesgNum: Profile.MesgNum.EVENT,
+        event: 'timer',
+        eventType: 'stop',
+        timestamp,
+      });
+
+      timestamp = startTime;
+      for (const [i, interval] of this.workout.intervals.entries()) {
+        encoder.writeMesg({
+          mesgNum: Profile.MesgNum.LAP,
+          messageIndex: i,
+          startTime: timestamp,
+          timestamp: timestamp + interval.seconds,
+          totalElapsedTime: interval.seconds, // Elapsed time
+          totalTimerTime: interval.seconds, // Moving time
+        });
+        timestamp += interval.seconds;
+      }
+
+      encoder.writeMesg({
+        mesgNum: Profile.MesgNum.SESSION,
+        startTime,
+        timestamp,
+        totalElapsedTime: this.data.length,
+        totalTimerTime: this.data.length,
+        sport: 'cycling',
+        subSport: 'indoorCycling',
+        firstLapIndex: 0,
+        numLaps: this.workout.intervals.length,
+      });
+
+      encoder.writeMesg({
+        mesgNum: Profile.MesgNum.ACTIVITY,
+        timestamp,
+        numSessions: 1,
+        localTimestamp: timestamp + new Date().getTimezoneOffset() * -60,
+        totalTimerTime: this.data.length,
+      });
+
+      return encoder.close();
+    } catch (error) {
+      console.log(error.cause);
+      throw error;
+    }
   }
 
   toTcx() {
