@@ -44,99 +44,92 @@ export class Activity {
   }
 
   toFit() {
-    try {
-      const encoder = new Encoder();
+    let startTime = Utils.convertDateToDateTime(this.date);
+    let timestamp = startTime;
 
-      const startTime = Utils.convertDateToDateTime(new Date());
+    const encoder = new Encoder();
+    encoder.writeMesg({
+      mesgNum: Profile.MesgNum.FILE_ID,
+      type: 'activity',
+      manufacturer: 'development',
+      product: 0,
+      serialNumber: 0,
+      timeCreated: startTime,
+    });
 
-      let timestamp = startTime;
+    encoder.writeMesg({
+      mesgNum: Profile.MesgNum.DEVICE_INFO,
+      deviceIndex: 'creator',
+      manufacturer: 'development',
+      product: 0,
+      productName: 'workin',
+      serialNumber: 0,
+      softwareVersion: 0,
+      timestamp,
+    });
 
-      encoder.writeMesg({
-        mesgNum: Profile.MesgNum.FILE_ID,
-        type: 'activity',
-        manufacturer: 'development',
-        product: 0,
-        serialNumber: 0,
-        timeCreated: startTime,
-      });
+    encoder.writeMesg({
+      mesgNum: Profile.MesgNum.EVENT,
+      event: 'timer',
+      eventType: 'start',
+      timestamp,
+    });
 
-      encoder.writeMesg({
-        mesgNum: Profile.MesgNum.DEVICE_INFO,
-        deviceIndex: 'creator',
-        manufacturer: 'development',
-        product: 1,
-        productName: 'workin',
-        serialNumber: 0,
-        softwareVersion: 0,
-        timestamp,
-      });
-
-      encoder.writeMesg({
-        mesgNum: Profile.MesgNum.EVENT,
-        event: 'timer',
-        eventType: 'start',
-        timestamp,
-      });
-
-      let distance = 0;
-      for (const dataPoint of [this.data[0], ...this.data]) {
+    let distance = 0;
+    const laps = this.laps;
+    for (const [i, lap] of laps.entries()) {
+      // Duplicate data point to display correct duration on Strava
+      for (const dataPoint of i === 0 ? [lap[0], ...lap] : lap) {
         encoder.writeMesg({
           mesgNum: Profile.MesgNum.RECORD,
-          distance,
-          heartRate: dataPoint.heartRate,
-          cadence: dataPoint.cadence,
           power: dataPoint.power,
+          cadence: dataPoint.cadence,
+          heartRate: dataPoint.heartRate,
+          distance,
           timestamp,
         });
-        timestamp++;
+
         distance += powerToSpeed(dataPoint.power);
+        timestamp++;
       }
 
       encoder.writeMesg({
-        mesgNum: Profile.MesgNum.EVENT,
-        event: 'timer',
-        eventType: 'stop',
+        mesgNum: Profile.MesgNum.LAP,
+        messageIndex: i,
+        startTime: timestamp - lap.length,
         timestamp,
+        totalElapsedTime: lap.length,
+        totalTimerTime: lap.length,
       });
-
-      timestamp = startTime;
-      for (const [i, interval] of this.workout.intervals.entries()) {
-        encoder.writeMesg({
-          mesgNum: Profile.MesgNum.LAP,
-          messageIndex: i,
-          startTime: timestamp,
-          timestamp: timestamp + interval.seconds,
-          totalElapsedTime: interval.seconds, // Elapsed time
-          totalTimerTime: interval.seconds, // Moving time
-        });
-        timestamp += interval.seconds;
-      }
-
-      encoder.writeMesg({
-        mesgNum: Profile.MesgNum.SESSION,
-        startTime,
-        timestamp,
-        totalElapsedTime: this.data.length,
-        totalTimerTime: this.data.length,
-        sport: 'cycling',
-        subSport: 'indoorCycling',
-        firstLapIndex: 0,
-        numLaps: this.workout.intervals.length,
-      });
-
-      encoder.writeMesg({
-        mesgNum: Profile.MesgNum.ACTIVITY,
-        timestamp,
-        numSessions: 1,
-        localTimestamp: timestamp + new Date().getTimezoneOffset() * -60,
-        totalTimerTime: this.data.length,
-      });
-
-      return encoder.close();
-    } catch (error) {
-      console.log(error.cause);
-      throw error;
     }
+
+    encoder.writeMesg({
+      mesgNum: Profile.MesgNum.EVENT,
+      event: 'timer',
+      eventType: 'stop',
+      timestamp,
+    });
+
+    encoder.writeMesg({
+      mesgNum: Profile.MesgNum.SESSION,
+      sport: 'cycling',
+      subSport: 'indoorCycling',
+      firstLapIndex: 0,
+      numLaps: laps.length,
+      startTime,
+      timestamp,
+      totalElapsedTime: this.data.length,
+      totalTimerTime: this.data.length,
+    });
+
+    encoder.writeMesg({
+      mesgNum: Profile.MesgNum.ACTIVITY,
+      numSessions: 1,
+      totalTimerTime: this.data.length,
+      timestamp,
+    });
+
+    return encoder.close();
   }
 
   toTcx() {
