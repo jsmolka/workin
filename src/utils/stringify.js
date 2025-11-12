@@ -1,26 +1,24 @@
+import { isArray, isFunction, isObject } from 'lodash-es';
+
 export function stringify(value) {
-  if (value instanceof Array) {
+  if (isArray(value)) {
     value = value.map(stringify).join(', ');
     return `[${value}]`;
   }
 
-  if (value != null) {
-    switch (typeof value) {
-      case 'function':
-        return `<function ${value.name}>`;
-
-      case 'object':
-        if (value.toString !== Object.prototype.toString) {
-          return String(value);
-        }
-        value = Object.entries(value);
-        value = value.map(([key, value]) => `${key}: ${stringify(value)}`);
-        value = value.join(', ');
-        return `{${value}}`;
-
-      case 'symbol':
-        return `<symbol ${value.description}>`;
-    }
+  if (isFunction(value)) {
+    return `<function ${value.name}>`;
   }
+
+  if (isObject(value)) {
+    if (value.toString !== Object.prototype.toString) {
+      return String(value);
+    }
+    value = Object.entries(value);
+    value = value.map(([key, value]) => `${key}: ${stringify(value)}`);
+    value = value.join(', ');
+    return `{${value}}`;
+  }
+
   return String(value);
 }
