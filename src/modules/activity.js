@@ -3,7 +3,6 @@ import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
 import { powerToSpeed } from '@/utils/speed';
-import { xml } from '@/utils/xml';
 import { Encoder, Profile, Utils } from '@garmin/fitsdk';
 
 export class Activity {
@@ -130,82 +129,6 @@ export class Activity {
     });
 
     return encoder.close();
-  }
-
-  toTcx() {
-    const tcx = xml();
-    tcx['TrainingCenterDatabase'](
-      ['xsi:schemaLocation', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd'], // prettier-ignore
-      ['xmlns:ns5', 'http://www.garmin.com/xmlschemas/ActivityGoals/v1'],
-      ['xmlns:ns3', 'http://www.garmin.com/xmlschemas/ActivityExtension/v2'],
-      ['xmlns:ns2', 'http://www.garmin.com/xmlschemas/UserProfile/v2'],
-      ['xmlns', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2'],
-      ['xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance'],
-      () => {
-        tcx['Activities'](() => {
-          tcx['Activity'](['Sport', 'Biking'], () => {
-            tcx['Id'] = this.date.toISOString();
-
-            let data = [];
-            let distance = 0;
-            for (const [i, dataPoint] of this.data.entries()) {
-              const date = new Date(this.date);
-              date.setSeconds(date.getSeconds() + i);
-              data.push([date, distance, ...dataPoint]);
-              distance += powerToSpeed(dataPoint.power);
-            }
-
-            const last = structuredClone(data.at(-1));
-            last[0].setSeconds(last[0].getSeconds() + 1);
-            data.push(last);
-
-            let laps = [];
-            let totalSeconds = 0;
-            for (const { seconds } of this.workout.intervals) {
-              const lap = data.slice(totalSeconds, totalSeconds + seconds + 1);
-              if (lap.length === 0) {
-                break;
-              }
-              laps.push(lap);
-              totalSeconds += seconds;
-            }
-
-            for (const lap of laps) {
-              tcx['Lap'](['StartTime', lap[0][0].toISOString()], () => {
-                tcx['Track'](() => {
-                  for (const [date, distance, power, heartRate, cadence] of lap) {
-                    tcx['Trackpoint'](() => {
-                      tcx['Time'] = date.toISOString();
-                      tcx['DistanceMeters'] = distance;
-                      tcx['Extensions'](() => {
-                        tcx['ns3:TPX'](() => {
-                          tcx['ns3:Watts'] = power;
-                        });
-                      });
-
-                      if (heartRate != null) {
-                        tcx['HeartRateBpm'](() => {
-                          tcx['Value'] = heartRate;
-                        });
-                      }
-
-                      if (cadence != null) {
-                        tcx['Cadence'] = cadence;
-                      }
-                    });
-                  }
-                });
-              });
-            }
-
-            tcx['Creator'](['xsi:type', 'Application_t'], () => {
-              tcx['Name'] = 'workin';
-            });
-          });
-        });
-      },
-    );
-    return tcx.toString();
   }
 
   toCanvas() {
