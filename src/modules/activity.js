@@ -77,7 +77,9 @@ export class Activity {
     let distance = 0;
     const laps = this.laps;
     for (const [i, lap] of laps.entries()) {
-      // Duplicate data point to display correct duration on Strava
+      // Duplicate the first data point of the first lap. Strava calculates
+      // moving time based on the interval between consecutive points, so we
+      // need at least two points to produce one second of moving time.
       for (const dataPoint of i === 0 ? [lap[0], ...lap] : lap) {
         encoder.writeMesg({
           mesgNum: Profile.MesgNum.RECORD,
