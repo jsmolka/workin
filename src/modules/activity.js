@@ -82,8 +82,8 @@ export class Activity {
         encoder.writeMesg({
           mesgNum: Profile.MesgNum.RECORD,
           power: dataPoint.power,
-          cadence: dataPoint.cadence,
           heartRate: dataPoint.heartRate,
+          cadence: dataPoint.cadence,
           distance,
           timestamp,
         });
@@ -124,8 +124,8 @@ export class Activity {
     encoder.writeMesg({
       mesgNum: Profile.MesgNum.ACTIVITY,
       numSessions: 1,
-      totalTimerTime: this.data.length,
       timestamp,
+      totalTimerTime: this.data.length,
     });
 
     return encoder.close();
