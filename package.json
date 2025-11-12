@@ -9,7 +9,7 @@
     "build": "vite build",
     "update": "npx npm-check-updates -u && npm i && npm audit fix",
     "format": "npx prettier --write src",
-    "analyze": "npx vite-bundle-visualizer"
+    "bundle": "npx vite-bundle-visualizer"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.17",

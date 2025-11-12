@@ -1,24 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-:root {
-  --shade-1: 235 237 242; /* hsv(220, 3%, 95%) */
-  --shade-2: 223 225 230; /* hsv(220, 3%, 90%) */
-  --shade-3: 91 103 128; /* hsv(220, 29%, 50%) */
-  --shade-4: 72 82 102; /* hsv(220, 29%, 40%) */
-  --shade-5: 63 72 89; /* hsv(220, 29%, 35%) */
-  --shade-6: 54 62 77; /* hsv(220, 29%, 30%) */
-  --shade-7: 45 51 64; /* hsv(220, 29%, 25%) */
-  --shade-8: 36 41 51; /* hsv(220, 29%, 20%) */
-  --brand-1: 110 163 204; /* hsv(206, 46%, 80%) */
-  --brand-2: 103 153 191; /* hsv(206, 46%, 75%) */
-  --brand-3: 96 143 179; /* hsv(206, 46%, 70%) */
-  --red: 191 97 106;
-  --orange: 208 135 112;
-  --yellow: 235 203 139;
-  --green: 163 190 140;
-}
-
 @font-face {
   font-family: 'Inter';
   font-weight: 100 900;
@@ -37,21 +19,21 @@
 
 @theme inline {
   --font-sans: Inter, Roboto, ui-sans-serif, sans-serif;
-  --color-shade-1: rgb(var(--shade-1));
-  --color-shade-2: rgb(var(--shade-2));
-  --color-shade-3: rgb(var(--shade-3));
-  --color-shade-4: rgb(var(--shade-4));
-  --color-shade-5: rgb(var(--shade-5));
-  --color-shade-6: rgb(var(--shade-6));
-  --color-shade-7: rgb(var(--shade-7));
-  --color-shade-8: rgb(var(--shade-8));
-  --color-brand-1: rgb(var(--brand-1));
-  --color-brand-2: rgb(var(--brand-2));
-  --color-brand-3: rgb(var(--brand-3));
-  --color-red: rgb(var(--red));
-  --color-orange: rgb(var(--orange));
-  --color-yellow: rgb(var(--yellow));
-  --color-green: rgb(var(--green));
+  --color-shade-1: #ebedf2; /* hsv(220,  3%, 95%) */
+  --color-shade-2: #dfe1e6; /* hsv(220,  3%, 90%) */
+  --color-shade-3: #5b6780; /* hsv(220, 29%, 50%) */
+  --color-shade-4: #485266; /* hsv(220, 29%, 40%) */
+  --color-shade-5: #3f4859; /* hsv(220, 29%, 35%) */
+  --color-shade-6: #363e4d; /* hsv(220, 29%, 30%) */
+  --color-shade-7: #2d3340; /* hsv(220, 29%, 25%) */
+  --color-shade-8: #242933; /* hsv(220, 29%, 20%) */
+  --color-brand-1: #6ea3cc; /* hsv(206, 46%, 80%) */
+  --color-brand-2: #6799bf; /* hsv(206, 46%, 75%) */
+  --color-brand-3: #608fb3; /* hsv(206, 46%, 70%) */
+  --color-red: #bf616a;
+  --color-orange: #d08770;
+  --color-yellow: #ebcb8b;
+  --color-green: #a3be8c;
 }
 
 @layer base {

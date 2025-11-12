@@ -71,10 +71,10 @@ const format = (value) => {
     .replace(/^(-)?0+(?=\d)/, '$1');
 
   if (value.includes(decimalSeparator)) {
-    const [integer, decimal] = value.split(decimalSeparator, 2);
+    const [integer, fraction] = value.split(decimalSeparator, 2);
     value =
       props.precision > 0
-        ? `${integer}${decimalSeparator}${decimal.slice(0, props.precision)}`
+        ? `${integer}${decimalSeparator}${fraction.slice(0, props.precision)}`
         : integer;
   }
   return props.prefix + (value || '0') + props.suffix;

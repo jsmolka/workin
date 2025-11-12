@@ -7,22 +7,22 @@ const notyf = new Notyf({
   types: [
     {
       type: 'info',
-      background: 'rgb(var(--brand-3))',
+      background: 'var(--color-brand-3)',
       icon: false,
     },
     {
       type: 'success',
-      background: 'rgb(var(--green))',
+      background: 'var(--color-green)',
       icon: false,
     },
     {
       type: 'warning',
-      background: 'rgb(var(--yellow))',
+      background: 'var(--color-yellow)',
       icon: false,
     },
     {
       type: 'error',
-      background: 'rgb(var(--red))',
+      background: 'var(--color-red)',
       icon: false,
     },
   ],
@@ -37,11 +37,14 @@ export function toast(message, options = {}) {
         x: 'center',
         y: 'bottom',
       },
+      dismissOnClick: true,
     },
     options,
   );
 
   const notification = notyf.open({ message, ...options });
-  notification.on('click', () => notyf.dismiss(notification));
+  if (options.dismissOnClick) {
+    notification.on('click', () => notyf.dismiss(notification));
+  }
   return notification;
 }

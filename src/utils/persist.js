@@ -1,5 +1,5 @@
 import { enumerate } from '@/utils/iterator.js';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep, isEqual } from 'lodash-es';
 
 const schemas = new Map();
 
@@ -24,10 +24,10 @@ export function object() {
 export function date() {
   return {
     serialize: (value) => value.getTime(),
-    deserialize: (value, target = null) => {
-      target ??= new Date();
-      target.setTime(value);
-      return target;
+    deserialize: (value) => {
+      const date = new Date();
+      date.setTime(value);
+      return date;
     },
   };
 }
@@ -35,19 +35,19 @@ export function date() {
 export function schema(class_) {
   return {
     serialize: (value) => serialize(value),
-    deserialize: (value, target = null) => deserialize(class_, value, target),
+    deserialize: (value) => deserialize(class_, value),
   };
 }
 
 export function dynamic(getClass) {
   return {
     serialize: (value) => serialize(value),
-    deserialize: (value, target = null) => {
+    deserialize: (value) => {
       const class_ = getClass(value);
       if (class_ == null) {
         throw new Error('No class');
       }
-      return deserialize(class_, value, target);
+      return deserialize(class_, value);
     },
   };
 }
@@ -62,8 +62,7 @@ export function array(persist, class_ = Array) {
 export function nullable(persist) {
   return {
     serialize: (value) => (value != null ? persist.serialize(value) : null),
-    deserialize: (value, target = null) =>
-      value != null ? persist.deserialize(value, target) : null,
+    deserialize: (value) => (value != null ? persist.deserialize(value) : null),
   };
 }
 
@@ -100,11 +99,7 @@ export function serialize(object) {
   return data;
 }
 
-export function deserialize(class_, data, target = null) {
-  if (!(target instanceof class_)) {
-    target = new class_();
-  }
-
+export function deserialize(class_, data, target = new class_()) {
   for (const [i, prototype] of enumerate(prototypes(target))) {
     const schema = schemas.get(prototype);
     if (schema == null) {
@@ -119,7 +114,7 @@ export function deserialize(class_, data, target = null) {
         console.warn(`No value for ${prototype.constructor.name}.${key}`);
         continue;
       }
-      target[key] = deserialize(value, target[key]);
+      target[key] = deserialize(value);
     }
   }
   return target;
@@ -131,4 +126,8 @@ export function clone(object) {
 
 export function assign(target, source) {
   return deserialize(source.constructor, serialize(source), target);
+}
+
+export function equals(a, b) {
+  return isEqual(serialize(a), serialize(b));
 }

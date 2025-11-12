@@ -6,8 +6,18 @@ export function* enumerate(iterable, start = 0) {
   }
 }
 
-export function* reversed(array) {
-  for (let i = array.length - 1; i >= 0; i--) {
-    yield [i, array[i]];
-  }
+export function reversed(array) {
+  return {
+    *entries() {
+      for (let i = array.length - 1; i >= 0; i--) {
+        yield [i, array[i]];
+      }
+    },
+
+    *[Symbol.iterator]() {
+      for (const [_, value] of this.entries()) {
+        yield value;
+      }
+    },
+  };
 }
