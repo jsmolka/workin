@@ -1,5 +1,5 @@
 import Dialog from '@/utils/Dialog.vue';
-import { createApp, h } from 'vue';
+import { createApp } from 'vue';
 
 export async function dialog(props) {
   const div = document.createElement('div');
@@ -7,20 +7,22 @@ export async function dialog(props) {
 
   return new Promise((resolve) => {
     const app = createApp(
-      h(Dialog, {
-        onClose: (value) => {
+      <Dialog
+        {...props}
+        onClose={(value) => {
           try {
             resolve(value);
           } finally {
             setTimeout(() => {
               app.unmount();
-              div.remove();
             }, 150);
           }
-        },
-      }),
-      props,
+        }}
+      />,
     );
     app.mount(div);
+    app.onUnmount(() => {
+      div.remove();
+    });
   });
 }
