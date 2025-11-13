@@ -1,3 +1,8 @@
 <template>
-  <polyline fill="none" vector-effect="non-scaling-stroke" />
+  <polyline
+    fill="none"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
 </template>
