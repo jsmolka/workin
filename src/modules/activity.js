@@ -148,6 +148,8 @@ export class Activity {
     ctx.fillStyle = colors.shade8.hex;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.lineWidth = 4;
     ctx.strokeStyle = colors.shade6.hex;
     for (const lineY of [25, 50, 75]) {
