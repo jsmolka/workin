@@ -5,43 +5,41 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-const version = 2;
-
 export const useAthleteStore = defineStore('athlete', () => {
   const athlete = ref(new Athlete());
 
   const toJson = () => {
-    return { version, data: serialize(athlete.value) };
+    return { version: 2, data: serialize(athlete.value) };
+  };
+
+  const migrate = (data) => {
+    const { version, data: athlete } = data;
+    switch (version) {
+      case 1:
+        delete athlete.weight;
+        break;
+    }
+    return athlete;
   };
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      athlete.value = deserialize(Athlete, convert(data));
+      athlete.value = deserialize(Athlete, migrate(data));
     }
   };
 
-  const storageKey = 'athlete';
+  const storeKey = 'athlete';
 
   const persist = async () => {
-    await set(storageKey, toJson());
+    await set(storeKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(athlete, persist, { deep: true });
 
   const hydrate = async () => {
-    const data = await get(storageKey);
+    const data = await get(storeKey);
     ignoreUpdates(() => fromJson(data));
   };
 
   return { athlete, toJson, fromJson, hydrate };
 });
-
-function convert(data) {
-  const { version, data: athlete } = data;
-  switch (version) {
-    case 1:
-      delete athlete.weight;
-      break;
-  }
-  return athlete;
-}

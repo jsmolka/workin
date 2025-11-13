@@ -6,31 +6,38 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref, watchEffect } from 'vue';
 
-const version = 1;
-
 export const useSettingsStore = defineStore('settings', () => {
   const settings = ref(new Settings());
 
   const toJson = () => {
-    return { version, data: serialize(settings.value) };
+    return { version: 1, data: serialize(settings.value) };
+  };
+
+  const migrate = (data) => {
+    const { version, data: settings } = data;
+    switch (version) {
+      case 1:
+        break;
+    }
+    return settings;
   };
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      settings.value = deserialize(Settings, convert(data));
+      settings.value = deserialize(Settings, migrate(data));
     }
   };
 
-  const storageKey = 'settings';
+  const storeKey = 'settings';
 
   const persist = async () => {
-    await set(storageKey, toJson());
+    await set(storeKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(settings, persist, { deep: true });
 
   const hydrate = async () => {
-    const data = await get(storageKey);
+    const data = await get(storeKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -40,12 +47,3 @@ export const useSettingsStore = defineStore('settings', () => {
 
   return { settings, toJson, fromJson, hydrate };
 });
-
-function convert(data) {
-  const { version, data: settings } = data;
-  switch (version) {
-    case 1:
-      break;
-  }
-  return settings;
-}

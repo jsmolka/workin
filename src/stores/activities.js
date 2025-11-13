@@ -7,31 +7,50 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { shallowRef, triggerRef } from 'vue';
 
-const version = 6;
-
 export const useActivitiesStore = defineStore('activities', () => {
   const activities = shallowRef([]);
 
   const toJson = () => {
-    return { version, data: activities.value.map((activity) => serialize(activity)) };
+    return { version: 6, data: activities.value.map((activity) => serialize(activity)) };
+  };
+
+  const migrate = (data) => {
+    const { version, data: activities } = data;
+    switch (version) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+        const { athlete } = useAthleteStore();
+        for (const activity of activities) {
+          const data = new DataPoints(activity.data);
+          activity.polylinesPower = data.polylinesPower(data.length, 2 * athlete.ftp);
+          activity.polylinesHeartRate = data.polylinesHeartRate(data.length);
+        }
+        break;
+      case 5:
+        activities.reverse();
+        break;
+    }
+    return activities;
   };
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      activities.value = convert(data).map((activity) => deserialize(Activity, activity));
+      activities.value = migrate(data).map((activity) => deserialize(Activity, activity));
     }
   };
 
-  const storageKey = 'activities';
+  const storeKey = 'activities';
 
   const persist = async () => {
-    await set(storageKey, toJson());
+    await set(storeKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(activities, persist);
 
   const hydrate = async () => {
-    const data = await get(storageKey);
+    const data = await get(storeKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -48,28 +67,3 @@ export const useActivitiesStore = defineStore('activities', () => {
 
   return { activities, toJson, fromJson, hydrate, add, remove };
 });
-
-function updatePolylines(activities) {
-  const { athlete } = useAthleteStore();
-  for (const activity of activities) {
-    const data = new DataPoints(activity.data);
-    activity.polylinesPower = data.polylinesPower(data.length, 2 * athlete.ftp);
-    activity.polylinesHeartRate = data.polylinesHeartRate(data.length);
-  }
-}
-
-function convert(data) {
-  const { version, data: activities } = data;
-  switch (version) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-      updatePolylines(activities);
-      break;
-    case 5:
-      activities.reverse();
-      break;
-  }
-  return activities;
-}

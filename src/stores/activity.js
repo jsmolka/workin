@@ -7,25 +7,34 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-const version = 1;
-
 export const useActivityStore = defineStore('activity', () => {
   const activity = ref(null);
 
   const toJson = () => {
-    return activity.value != null ? { version, data: serialize(activity.value) } : null;
+    return activity.value != null ? { version: 1, data: serialize(activity.value) } : null;
+  };
+
+  const migrate = (data) => {
+    const { version, data: activity } = data;
+    switch (version) {
+      case 1:
+        break;
+    }
+    return activity;
   };
 
   const fromJson = (data) => {
-    if (data != null && data.version != null) {
-      activity.value = deserialize(Activity, convert(data));
+    if (data == null) {
+      activity.value = null;
+    } else if (data.version != null) {
+      activity.value = deserialize(Activity, migrate(data));
     }
   };
 
-  const storageKey = 'activity';
+  const storeKey = 'activity';
 
   const persist = async () => {
-    await set(storageKey, toJson());
+    await set(storeKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(
@@ -35,7 +44,7 @@ export const useActivityStore = defineStore('activity', () => {
   );
 
   const hydrate = async () => {
-    const data = await get(storageKey);
+    const data = await get(storeKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -57,12 +66,3 @@ export const useActivityStore = defineStore('activity', () => {
 
   return { activity, toJson, fromJson, hydrate, finish };
 });
-
-function convert(data) {
-  const { version, data: activity } = data;
-  switch (version) {
-    case 1:
-      break;
-  }
-  return activity;
-}

@@ -6,31 +6,38 @@ import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { shallowRef, triggerRef } from 'vue';
 
-const version = 1;
-
 export const useWorkoutsStore = defineStore('workouts', () => {
   const custom = shallowRef([]);
 
   const toJson = () => {
-    return { version, data: custom.value.map((workout) => serialize(workout)) };
+    return { version: 1, data: custom.value.map((workout) => serialize(workout)) };
+  };
+
+  const migrate = (data) => {
+    const { version, data: workouts } = data;
+    switch (version) {
+      case 1:
+        break;
+    }
+    return workouts;
   };
 
   const fromJson = (data) => {
     if (data != null && data.version != null) {
-      custom.value = convert(data).map((workout) => deserialize(Workout, workout));
+      custom.value = migrate(data).map((workout) => deserialize(Workout, workout));
     }
   };
 
-  const storageKey = 'workouts';
+  const storeKey = 'workouts';
 
   const persist = async () => {
-    await set(storageKey, toJson());
+    await set(storeKey, toJson());
   };
 
   const { ignoreUpdates } = watchIgnorable(custom, persist, { deep: true });
 
   const hydrate = async () => {
-    const data = await get(storageKey);
+    const data = await get(storeKey);
     ignoreUpdates(() => fromJson(data));
   };
 
@@ -52,12 +59,3 @@ export const useWorkoutsStore = defineStore('workouts', () => {
 
   return { standard, custom, toJson, fromJson, hydrate, add, edit, remove };
 });
-
-function convert(data) {
-  const { version, data: workouts } = data;
-  switch (version) {
-    case 1:
-      break;
-  }
-  return workouts;
-}
