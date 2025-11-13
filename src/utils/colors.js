@@ -1,5 +1,3 @@
-import { isString } from 'lodash-es';
-
 class Color {
   constructor(r, g, b) {
     this.r = r;
@@ -7,16 +5,13 @@ class Color {
     this.b = b;
   }
 
-  static parse(value) {
-    if (isString(value) && value.startsWith('--')) {
-      value = window.getComputedStyle(document.documentElement).getPropertyValue(value);
-    }
-
-    const rgb = parseInt(value.slice(1), 16);
+  static parse(variable) {
+    const hex = getComputedStyle(document.documentElement).getPropertyValue(variable);
+    const int = parseInt(hex.slice(1), 16);
     return new Color(
-      (rgb >>> 16) & 0xff,
-      (rgb >>>  8) & 0xff,
-      (rgb >>>  0) & 0xff,
+      (int >>> 16) & 0xff,
+      (int >>>  8) & 0xff,
+      (int >>>  0) & 0xff,
     ); // prettier-ignore
   }
 
