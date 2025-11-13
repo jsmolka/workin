@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-2">
     <span class="text-shade-3 text-xs font-medium uppercase">{{ text }}</span>
-    <span class="text-4xl font-bold" :class="value != null ? 'text-shade-1' : 'text-shade-3'">
+    <span
+      class="font-feature-tnum text-4xl font-bold"
+      :class="value != null ? 'text-shade-1' : 'text-shade-3'"
+    >
       {{ metric }}
     </span>
   </div>
