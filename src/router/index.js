@@ -4,7 +4,7 @@ import { useWorkoutsStore } from '@/stores/workouts';
 import { createRouter, createWebHistory } from 'vue-router';
 
 function parseIndex(args) {
-  return { ...args, index: Number.parseInt(args.index) };
+  return { ...args, index: parseInt(args.index) };
 }
 
 export const router = createRouter({
@@ -55,7 +55,7 @@ export const router = createRouter({
                 },
               ],
               beforeEnter: ({ params }) => {
-                const index = Number.parseInt(params.index);
+                const index = parseInt(params.index);
                 if (!(Number.isInteger(index) && index < useWorkoutsStore()[params.type].length)) {
                   return `/workouts/${params.type}`;
                 }
