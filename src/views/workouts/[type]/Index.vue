@@ -18,7 +18,7 @@
       <Scroller
         v-if="workouts.length > 0"
         ref="scroller"
-        class="!absolute inset-0 pb-4"
+        class="absolute! inset-0 pb-4"
         :items="workouts"
         :size="130"
         :size-gap="16"

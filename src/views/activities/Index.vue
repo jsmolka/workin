@@ -1,7 +1,7 @@
 <template>
   <Scroller
     v-if="activities.length > 0"
-    class="!absolute inset-0 p-4"
+    class="absolute! inset-0 p-4"
     :items="activities"
     :size="130"
     :size-gap="16"
