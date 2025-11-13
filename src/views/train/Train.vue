@@ -10,7 +10,7 @@
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
 
-    <Chart class="aspect-[5/2] shrink-0 border">
+    <Chart class="aspect-5/2 shrink-0 border">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">

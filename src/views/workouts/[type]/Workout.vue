@@ -4,7 +4,7 @@
       cn('bg-shade-7 hover:bg-shade-6 flex gap-4 rounded-xs border p-4 select-none', props.class)
     "
   >
-    <Chart class="aspect-[3/2] h-24 shrink-0 sm:aspect-[5/2]">
+    <Chart class="aspect-3/2 h-24 shrink-0 sm:aspect-5/2">
       <ChartLines />
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
     </Chart>

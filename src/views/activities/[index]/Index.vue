@@ -12,7 +12,7 @@
 
     <Header :activity="activity" />
 
-    <Chart class="aspect-[5/2] shrink-0 border">
+    <Chart class="aspect-5/2 shrink-0 border">
       <ChartLines />
       <ChartLaps
         :laps="activity.laps"
