@@ -50,7 +50,7 @@ import Intervals from '@/components/Intervals.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { DataPoint } from '@/modules/data';
+import { DataPoint } from '@/modules/dataPoint';
 import { router } from '@/router';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';

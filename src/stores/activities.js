@@ -1,5 +1,5 @@
 import { Activity } from '@/modules/activity';
-import { DataPoints } from '@/modules/data';
+import { DataPoints } from '@/modules/dataPoint';
 import { useAthleteStore } from '@/stores/athlete';
 import { deserialize, serialize } from '@/utils/persist';
 import { watchIgnorable } from '@vueuse/core';

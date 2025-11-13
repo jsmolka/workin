@@ -1,4 +1,4 @@
-import { DataPoint, DataPoints } from '@/modules/data';
+import { DataPoint, DataPoints } from '@/modules/dataPoint';
 import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
