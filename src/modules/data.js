@@ -35,9 +35,6 @@ export class DataPoint extends Array {
 }
 
 export class DataPoints extends Array {
-  /**
-   * @private
-   */
   average(index) {
     let result = 0;
     let length = 0;
@@ -64,9 +61,6 @@ export class DataPoints extends Array {
     return this.average(DataPoint.IndexCadence);
   }
 
-  /**
-   * @private
-   */
   polylines(index, minX, maxX, minY, maxY) {
     const p = (value) => 100 * clamp(value, 0, 1);
     const x = (value) => p((value - minX) / (maxX - minX - 1));

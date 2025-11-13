@@ -11,7 +11,7 @@ export class Activity {
     this.workout = workout;
     this.data = new DataPoints();
 
-    // Calculated once finished
+    // Calculated on finish
     this.averagePower = 0;
     this.averageHeartRate = null;
     this.averageCadence = null;
@@ -134,10 +134,11 @@ export class Activity {
   }
 
   toCanvas() {
-    const w = 1000;
-    const h = 0.4 * w;
-    const x = (value) => (value / 100) * w;
-    const y = (value) => (1 - value / 100) * h;
+    const aspect = 5 / 2;
+    const w = 2000;
+    const h = w * (1 / aspect);
+    const x = (value) => w * (value / 100);
+    const y = (value) => h * (1 - value / 100);
 
     const canvas = document.createElement('canvas');
     canvas.width = w;
@@ -147,12 +148,12 @@ export class Activity {
     ctx.fillStyle = colors.shade8.hex;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.strokeStyle = colors.shade6.hex;
-    for (const ry of [25, 50, 75]) {
+    for (const lineY of [25, 50, 75]) {
       ctx.beginPath();
-      ctx.moveTo(x(0), y(ry));
-      ctx.lineTo(x(100), y(ry));
+      ctx.moveTo(x(0), y(lineY));
+      ctx.lineTo(x(100), y(lineY));
       ctx.stroke();
     }
 
@@ -161,17 +162,17 @@ export class Activity {
       { polylines: this.polylinesPower, style: colors.brand3.hex },
     ];
     for (const { polylines, style } of data) {
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 8;
       ctx.strokeStyle = style;
       for (const polyline of polylines) {
         ctx.beginPath();
         for (let i = 0; i < polyline.length; i += 2) {
-          const rx = polyline[i];
-          const ry = polyline[i + 1];
+          const pointX = polyline[i];
+          const pointY = polyline[i + 1];
           if (i === 0) {
-            ctx.moveTo(x(rx), y(ry));
+            ctx.moveTo(x(pointX), y(pointY));
           } else {
-            ctx.lineTo(x(rx), y(ry));
+            ctx.lineTo(x(pointX), y(pointY));
           }
         }
         ctx.stroke();
