@@ -80,7 +80,8 @@ export class Activity {
       // Duplicate the first data point of the first lap. Strava calculates
       // moving time based on the interval between consecutive points, so we
       // need at least two points to produce one second of moving time.
-      for (const dataPoint of i === 0 ? [lap[0], ...lap] : lap) {
+      const dataPoints = i === 0 ? [lap[0], ...lap] : lap;
+      for (const dataPoint of dataPoints) {
         encoder.writeMesg({
           mesgNum: Profile.MesgNum.RECORD,
           power: dataPoint.power,
@@ -97,7 +98,7 @@ export class Activity {
       encoder.writeMesg({
         mesgNum: Profile.MesgNum.LAP,
         messageIndex: i,
-        startTime: timestamp - lap.length,
+        startTime: timestamp - dataPoints.length,
         timestamp,
         totalElapsedTime: lap.length,
         totalTimerTime: lap.length,
