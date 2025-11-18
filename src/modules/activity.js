@@ -32,11 +32,11 @@ export class Activity {
 
     let totalSeconds = 0;
     for (const { seconds } of this.workout.intervals) {
-      const data = this.records.slice(totalSeconds, totalSeconds + seconds);
-      if (data.length === 0) {
+      const lap = this.records.slice(totalSeconds, totalSeconds + seconds);
+      if (lap.length === 0) {
         break;
       }
-      result.push(data);
+      result.push(lap);
       totalSeconds += seconds;
     }
     return result;
