@@ -1,5 +1,5 @@
 <template>
-  <DataTableWrapper>
+  <DataTableWrapper class="min-h-20">
     <DataTable ref="table" class="font-feature-tnum absolute inset-0">
       <DataTableBody>
         <DataTableRow
