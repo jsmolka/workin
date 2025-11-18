@@ -16,7 +16,7 @@
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
         <ChartLines :x="[0, x]" />
         <ChartHeartRate :polylines="activity.records.polylinesHeartRate(workoutSeconds)" />
-        <ChartPower :polylines="activity.records.polylinesPower(workoutSeconds, 2 * athlete.ftp)" />
+        <ChartPower :polylines="activity.records.polylinesPower(2 * athlete.ftp, workoutSeconds)" />
       </ChartProgress>
     </Chart>
 

@@ -78,11 +78,11 @@ export class Records extends Array {
     return result;
   }
 
-  polylinesPower(maxX, maxY) {
+  polylinesPower(maxY, maxX = this.length) {
     return this.polylines('power', 0, maxX, 0, maxY);
   }
 
-  polylinesHeartRate(maxX) {
+  polylinesHeartRate(maxX = this.length) {
     return this.polylines('heartRate', 0, maxX, 50, 450);
   }
 }

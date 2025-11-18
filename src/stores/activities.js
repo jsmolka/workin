@@ -24,8 +24,8 @@ export const useActivitiesStore = defineStore('activities', () => {
         const { athlete } = useAthleteStore();
         for (const activity of activities) {
           const data = new Records(activity.data);
-          activity.polylinesPower = data.polylinesPower(data.length, 2 * athlete.ftp);
-          activity.polylinesHeartRate = data.polylinesHeartRate(data.length);
+          activity.polylinesPower = data.polylinesPower(2 * athlete.ftp);
+          activity.polylinesHeartRate = data.polylinesHeartRate();
         }
         break;
       case 5:

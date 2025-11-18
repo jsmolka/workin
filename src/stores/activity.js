@@ -55,8 +55,8 @@ export const useActivityStore = defineStore('activity', () => {
     activity.value.averagePower = records.averagePower();
     activity.value.averageHeartRate = records.averageHeartRate();
     activity.value.averageCadence = records.averageCadence();
-    activity.value.polylinesPower = records.polylinesPower(records.length, 2 * athlete.ftp);
-    activity.value.polylinesHeartRate = records.polylinesHeartRate(records.length);
+    activity.value.polylinesPower = records.polylinesPower(2 * athlete.ftp);
+    activity.value.polylinesHeartRate = records.polylinesHeartRate();
 
     const store = useActivitiesStore();
     const index = store.add(activity.value);
