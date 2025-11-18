@@ -2,8 +2,8 @@ import { Activity } from '@/modules/activity';
 import { Records } from '@/modules/record';
 import { useAthleteStore } from '@/stores/athlete';
 import { deserialize, serialize } from '@/utils/persist';
+import { get, set } from '@/utils/store';
 import { watchIgnorable } from '@vueuse/core';
-import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { shallowRef, triggerRef } from 'vue';
 
@@ -56,16 +56,19 @@ export const useActivitiesStore = defineStore('activities', () => {
   };
 
   const storeKey = 'activities';
+  const storeVersion = 1;
 
   const persist = async () => {
-    await set(storeKey, toJson());
+    await set(storeKey, { storeVersion, data: toJson() });
   };
 
   const { ignoreUpdates } = watchIgnorable(activities, persist);
 
   const hydrate = async () => {
     const data = await get(storeKey);
-    ignoreUpdates(() => fromJson(data));
+    if (data != null && data.storeVersion === storeVersion) {
+      ignoreUpdates(() => fromJson(data.data));
+    }
   };
 
   const add = (activity) => {

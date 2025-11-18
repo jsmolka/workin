@@ -1,8 +1,8 @@
 import { Settings } from '@/modules/settings';
 import { log } from '@/utils/log';
 import { deserialize, serialize } from '@/utils/persist';
+import { get, set } from '@/utils/store';
 import { watchIgnorable } from '@vueuse/core';
-import { get, set } from 'idb-keyval';
 import { defineStore } from 'pinia';
 import { ref, watchEffect } from 'vue';
 
@@ -29,16 +29,19 @@ export const useSettingsStore = defineStore('settings', () => {
   };
 
   const storeKey = 'settings';
+  const storeVersion = 1;
 
   const persist = async () => {
-    await set(storeKey, toJson());
+    await set(storeKey, { storeVersion, data: toJson() });
   };
 
   const { ignoreUpdates } = watchIgnorable(settings, persist, { deep: true });
 
   const hydrate = async () => {
     const data = await get(storeKey);
-    ignoreUpdates(() => fromJson(data));
+    if (data != null && data.storeVersion === storeVersion) {
+      ignoreUpdates(() => fromJson(data.data));
+    }
   };
 
   watchEffect(() => {
