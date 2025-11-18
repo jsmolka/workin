@@ -1,7 +1,7 @@
 import { clamp } from '@/utils/numeric';
 import { defineSchema, nullable, primitive } from '@/utils/persist';
 
-export class DataPoint {
+export class Record {
   constructor(power, heartRate, cadence) {
     this.power = power;
     this.heartRate = heartRate;
@@ -9,18 +9,18 @@ export class DataPoint {
   }
 }
 
-defineSchema(DataPoint, {
+defineSchema(Record, {
   power: primitive(),
   heartRate: nullable(primitive()),
   cadence: nullable(primitive()),
 });
 
-export class DataPoints extends Array {
+export class Records extends Array {
   average(prop) {
     let result = 0;
     let length = 0;
-    for (const dataPoint of this) {
-      const value = dataPoint[prop];
+    for (const record of this) {
+      const value = record[prop];
       if (value == null) {
         continue;
       }

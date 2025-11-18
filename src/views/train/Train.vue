@@ -15,8 +15,8 @@
       <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
       <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
         <ChartLines :x="[0, x]" />
-        <ChartHeartRate :polylines="activity.data.polylinesHeartRate(workoutSeconds)" />
-        <ChartPower :polylines="activity.data.polylinesPower(workoutSeconds, 2 * athlete.ftp)" />
+        <ChartHeartRate :polylines="activity.records.polylinesHeartRate(workoutSeconds)" />
+        <ChartPower :polylines="activity.records.polylinesPower(workoutSeconds, 2 * athlete.ftp)" />
       </ChartProgress>
     </Chart>
 
@@ -50,7 +50,7 @@ import Intervals from '@/components/Intervals.vue';
 import { Button } from '@/components/ui/button';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { DataPoint } from '@/modules/dataPoint';
+import { Record } from '@/modules/record';
 import { router } from '@/router';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';
@@ -161,8 +161,8 @@ const start = async () => {
 
   stopInterval.value?.();
   stopInterval.value = interval(1000, () => {
-    activity.value.data.push(
-      new DataPoint(trainer.value.power, hrm.value?.heartRate, trainer.value.cadence),
+    activity.value.records.push(
+      new Record(trainer.value.power, hrm.value?.heartRate, trainer.value.cadence),
     );
   });
 };

@@ -51,15 +51,15 @@ export const useActivityStore = defineStore('activity', () => {
   const finish = () => {
     const { athlete } = useAthleteStore();
 
-    const value = activity.value;
-    value.averagePower = value.data.averagePower();
-    value.averageHeartRate = value.data.averageHeartRate();
-    value.averageCadence = value.data.averageCadence();
-    value.polylinesPower = value.data.polylinesPower(value.data.length, 2 * athlete.ftp);
-    value.polylinesHeartRate = value.data.polylinesHeartRate(value.data.length);
+    const records = activity.value.records;
+    activity.value.averagePower = records.averagePower();
+    activity.value.averageHeartRate = records.averageHeartRate();
+    activity.value.averageCadence = records.averageCadence();
+    activity.value.polylinesPower = records.polylinesPower(records.length, 2 * athlete.ftp);
+    activity.value.polylinesHeartRate = records.polylinesHeartRate(records.length);
 
     const store = useActivitiesStore();
-    const index = store.add(value);
+    const index = store.add(activity.value);
     activity.value = null;
     return index;
   };

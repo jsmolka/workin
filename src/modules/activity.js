@@ -1,4 +1,4 @@
-import { DataPoint, DataPoints } from '@/modules/dataPoint';
+import { Record, Records } from '@/modules/record';
 import { Workout } from '@/modules/workout';
 import { colors } from '@/utils/colors';
 import { array, date, defineSchema, primitive, schema } from '@/utils/persist';
@@ -9,7 +9,7 @@ export class Activity {
   constructor(workout = new Workout()) {
     this.date = new Date();
     this.workout = workout;
-    this.data = new DataPoints();
+    this.records = new Records();
 
     // Calculated on finish
     this.averagePower = 0;
@@ -20,7 +20,7 @@ export class Activity {
   }
 
   get seconds() {
-    return this.data.length;
+    return this.records.length;
   }
 
   get calories() {
@@ -32,7 +32,7 @@ export class Activity {
 
     let totalSeconds = 0;
     for (const { seconds } of this.workout.intervals) {
-      const data = this.data.slice(totalSeconds, totalSeconds + seconds);
+      const data = this.records.slice(totalSeconds, totalSeconds + seconds);
       if (data.length === 0) {
         break;
       }
@@ -77,28 +77,28 @@ export class Activity {
     let distance = 0;
     const laps = this.laps;
     for (const [i, lap] of laps.entries()) {
-      // Duplicate the first data point of the first lap. Strava calculates
-      // moving time based on the interval between consecutive points, so we
-      // need at least two points to produce one second of moving time.
-      const dataPoints = i === 0 ? [lap[0], ...lap] : lap;
-      for (const dataPoint of dataPoints) {
+      // Duplicate the first record of the first lap. Strava calculates moving
+      // time based on the interval between consecutive points, so we need at
+      // least two points to produce one second of moving time.
+      const records = i === 0 ? [lap[0], ...lap] : lap;
+      for (const record of records) {
         encoder.writeMesg({
           mesgNum: Profile.MesgNum.RECORD,
-          power: dataPoint.power,
-          heartRate: dataPoint.heartRate,
-          cadence: dataPoint.cadence,
+          power: record.power,
+          heartRate: record.heartRate,
+          cadence: record.cadence,
           distance,
           timestamp,
         });
 
-        distance += powerToSpeed(dataPoint.power);
+        distance += powerToSpeed(record.power);
         timestamp++;
       }
 
       encoder.writeMesg({
         mesgNum: Profile.MesgNum.LAP,
         messageIndex: i,
-        startTime: timestamp - dataPoints.length,
+        startTime: timestamp - records.length,
         timestamp,
         totalElapsedTime: lap.length,
         totalTimerTime: lap.length,
@@ -120,15 +120,15 @@ export class Activity {
       numLaps: laps.length,
       startTime,
       timestamp,
-      totalElapsedTime: this.data.length,
-      totalTimerTime: this.data.length,
+      totalElapsedTime: this.records.length,
+      totalTimerTime: this.records.length,
     });
 
     encoder.writeMesg({
       mesgNum: Profile.MesgNum.ACTIVITY,
       numSessions: 1,
       timestamp,
-      totalTimerTime: this.data.length,
+      totalTimerTime: this.records.length,
     });
 
     return encoder.close();
@@ -188,7 +188,7 @@ export class Activity {
 defineSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: array(schema(DataPoint), DataPoints),
+  data: array(schema(Record), Records),
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),
