@@ -1,45 +1,26 @@
 import { clamp } from '@/utils/numeric';
+import { defineSchema, nullable, primitive } from '@/utils/persist';
 
-export class DataPoint extends Array {
-  static IndexPower = 0;
-  static IndexHeartRate = 1;
-  static IndexCadence = 2;
-
+export class DataPoint {
   constructor(power, heartRate, cadence) {
-    super(power, heartRate, cadence);
-  }
-
-  get power() {
-    return this[DataPoint.IndexPower];
-  }
-
-  set power(value) {
-    this[DataPoint.IndexPower] = value;
-  }
-
-  get heartRate() {
-    return this[DataPoint.IndexHeartRate];
-  }
-
-  set heartRate(value) {
-    this[DataPoint.IndexHeartRate] = value;
-  }
-
-  get cadence() {
-    return this[DataPoint.IndexCadence];
-  }
-
-  set cadence(value) {
-    this[DataPoint.IndexCadence] = value;
+    this.power = power;
+    this.heartRate = heartRate;
+    this.cadence = cadence;
   }
 }
 
+defineSchema(DataPoint, {
+  power: primitive(),
+  heartRate: nullable(primitive()),
+  cadence: nullable(primitive()),
+});
+
 export class DataPoints extends Array {
-  average(index) {
+  average(prop) {
     let result = 0;
     let length = 0;
     for (const dataPoint of this) {
-      const value = dataPoint[index];
+      const value = dataPoint[prop];
       if (value == null) {
         continue;
       }
@@ -50,15 +31,15 @@ export class DataPoints extends Array {
   }
 
   averagePower() {
-    return this.average(DataPoint.IndexPower);
+    return this.average('power');
   }
 
   averageHeartRate() {
-    return this.average(DataPoint.IndexHeartRate);
+    return this.average('heartRate');
   }
 
   averageCadence() {
-    return this.average(DataPoint.IndexCadence);
+    return this.average('cadence');
   }
 
   polylines(index, minX, maxX, minY, maxY) {
@@ -98,10 +79,10 @@ export class DataPoints extends Array {
   }
 
   polylinesPower(maxX, maxY) {
-    return this.polylines(DataPoint.IndexPower, 0, maxX, 0, maxY);
+    return this.polylines('power', 0, maxX, 0, maxY);
   }
 
   polylinesHeartRate(maxX) {
-    return this.polylines(DataPoint.IndexHeartRate, 0, maxX, 50, 450);
+    return this.polylines('heartRate', 0, maxX, 50, 450);
   }
 }

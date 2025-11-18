@@ -188,7 +188,7 @@ export class Activity {
 defineSchema(Activity, {
   date: date(),
   workout: schema(Workout),
-  data: array(array(primitive(), DataPoint), DataPoints),
+  data: array(schema(DataPoint), DataPoints),
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),

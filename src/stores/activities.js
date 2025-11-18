@@ -11,7 +11,7 @@ export const useActivitiesStore = defineStore('activities', () => {
   const activities = shallowRef([]);
 
   const toJson = () => {
-    return { version: 6, data: activities.value.map((activity) => serialize(activity)) };
+    return { version: 7, data: activities.value.map((activity) => serialize(activity)) };
   };
 
   const migrate = (data) => {
@@ -30,6 +30,15 @@ export const useActivitiesStore = defineStore('activities', () => {
         break;
       case 5:
         activities.reverse();
+        break;
+      case 6:
+        for (const activity of activities) {
+          activity.data = activity.data.map(([power, heartRate, cadence]) => ({
+            power,
+            heartRate,
+            cadence,
+          }));
+        }
         break;
     }
     return activities;
