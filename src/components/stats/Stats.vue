@@ -2,13 +2,12 @@
   <div
     ref="element"
     :class="
-      cn(
-        'flex gap-4',
-        maxHeight != null ? 'flex-wrap overflow-hidden' : 'invisible absolute',
-        props.class,
-      )
+      cn('flex gap-4', height != null ? 'flex-wrap overflow-hidden' : 'invisible', props.class)
     "
-    :style="{ maxHeight }"
+    :style="{
+      minHeight: height,
+      maxHeight: height,
+    }"
   >
     <slot />
   </div>
@@ -22,10 +21,10 @@ const props = defineProps({
   class: { required: false },
 });
 
+const height = ref(null);
 const element = useTemplateRef('element');
-const maxHeight = ref(null);
 
 onMounted(() => {
-  maxHeight.value = `${element.value.clientHeight}px`;
+  height.value = `${element.value.clientHeight}px`;
 });
 </script>
