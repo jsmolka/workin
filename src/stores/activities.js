@@ -1,6 +1,4 @@
 import { Activity } from '@/modules/activity';
-import { Records } from '@/modules/record';
-import { useAthleteStore } from '@/stores/athlete';
 import { deserialize, serialize } from '@/utils/persist';
 import { get, set } from '@/utils/store';
 import { watchIgnorable } from '@vueuse/core';
@@ -11,40 +9,13 @@ export const useActivitiesStore = defineStore('activities', () => {
   const activities = shallowRef([]);
 
   const toJson = () => {
-    return { version: 8, data: activities.value.map((activity) => serialize(activity)) };
+    return { version: 1, data: activities.value.map((activity) => serialize(activity)) };
   };
 
   const migrate = (data) => {
     const { version, data: activities } = data;
     switch (version) {
       case 1:
-      case 2:
-      case 3:
-      case 4:
-        const { athlete } = useAthleteStore();
-        for (const activity of activities) {
-          const data = new Records(activity.data);
-          activity.polylinesPower = data.polylinesPower(2 * athlete.ftp);
-          activity.polylinesHeartRate = data.polylinesHeartRate();
-        }
-        break;
-      case 5:
-        activities.reverse();
-        break;
-      case 6:
-        for (const activity of activities) {
-          activity.data = activity.data.map(([power, heartRate, cadence]) => ({
-            power,
-            heartRate,
-            cadence,
-          }));
-        }
-        break;
-      case 7:
-        for (const activity of activities) {
-          activity.records = activity.data;
-        }
-        break;
     }
     return activities;
   };

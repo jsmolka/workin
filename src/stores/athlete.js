@@ -9,15 +9,13 @@ export const useAthleteStore = defineStore('athlete', () => {
   const athlete = ref(new Athlete());
 
   const toJson = () => {
-    return { version: 2, data: serialize(athlete.value) };
+    return { version: 1, data: serialize(athlete.value) };
   };
 
   const migrate = (data) => {
     const { version, data: athlete } = data;
     switch (version) {
       case 1:
-        delete athlete.weight;
-        break;
     }
     return athlete;
   };

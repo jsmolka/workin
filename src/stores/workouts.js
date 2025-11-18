@@ -17,7 +17,6 @@ export const useWorkoutsStore = defineStore('workouts', () => {
     const { version, data: workouts } = data;
     switch (version) {
       case 1:
-        break;
     }
     return workouts;
   };

@@ -18,7 +18,6 @@ export const useActivityStore = defineStore('activity', () => {
     const { version, data: activity } = data;
     switch (version) {
       case 1:
-        break;
     }
     return activity;
   };
