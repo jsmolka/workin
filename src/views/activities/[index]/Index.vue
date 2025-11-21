@@ -70,18 +70,18 @@ const activity = computed(() => {
   return activities[props.index] ?? new Activity();
 });
 
-const filename = computed(() => {
-  return `${formatDate(activity.value.date, 'YYMMDD')} - ${activity.value.workout.name}`;
-});
+const filename = (extension) => {
+  return `${formatDate(activity.value.date, 'YYMMDDHHmmss')} - ${activity.value.workout.name}.${extension}`;
+};
 
 const exportFit = () => {
-  download(activity.value.toFit(), `${filename.value}.fit`, 'application/vnd.ant.fit');
+  download(activity.value.toFit(), filename('fit'), 'application/vnd.ant.fit');
 };
 
 const exportPng = () => {
   const link = document.createElement('a');
   link.href = activity.value.toCanvas().toDataURL('image/png');
-  link.download = `${filename.value}.png`;
+  link.download = filename('png');
   link.click();
 };
 
