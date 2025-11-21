@@ -20,7 +20,7 @@ export class Device extends Emitter {
       'gattserverdisconnected',
       async () => {
         try {
-          log.warn(`${this.name} reconnecting`);
+          log.warn(`Reconnecting to ${this.name}.`);
           await this.connect();
         } catch {
           this.emit('disconnected');
