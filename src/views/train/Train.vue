@@ -57,6 +57,7 @@ import { useAthleteStore } from '@/stores/athlete';
 import { useDevicesStore } from '@/stores/devices';
 import { dialog } from '@/utils/dialog';
 import { interval } from '@/utils/interval';
+import { log } from '@/utils/log';
 import { formatSeconds } from '@/utils/time';
 import Metric from '@/views/train/Metric.vue';
 import { useEventListener, useWakeLock } from '@vueuse/core';
@@ -64,8 +65,16 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
 
 const wakeLock = useWakeLock();
-onMounted(() => wakeLock.request());
-onUnmounted(() => wakeLock.release());
+if (wakeLock.isSupported.value) {
+  onMounted(async () => {
+    await wakeLock.request();
+    if (!wakeLock.isActive.value) {
+      log.warn('Could not acquire wake lock.');
+    }
+  });
+
+  onUnmounted(() => wakeLock.release());
+}
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
