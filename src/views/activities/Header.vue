@@ -4,7 +4,7 @@
       {{ activity.workout.name }}
     </span>
     <span class="truncate">
-      {{ formatDate(activity.date, 'MMM D, YYYY HH:mm') }}
+      {{ formatDate(activity.date, 'MMM D, YYYY H:mm') }}
     </span>
   </div>
   <Stats>
