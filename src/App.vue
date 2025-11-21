@@ -14,15 +14,27 @@ import { storeToRefs } from 'pinia';
 
 const { settings } = storeToRefs(useSettingsStore());
 
-useEmitter(log, '*', (_, ...args) => {
+useEmitter(log, '*', (level, ...args) => {
   if (settings.value.logAsNotification) {
-    toast(args.map(stringify).join(' '));
+    let type;
+    switch (level) {
+      case 'warn':
+        type = 'warning';
+        break;
+      case 'error':
+        type = 'error';
+        break;
+      default:
+        type = 'info';
+        break;
+    }
+    toast(args.map(stringify).join(' '), { type });
   }
 });
 
 if (isMobile) {
   useEventListener('error', ({ message }) => {
-    toast(message);
+    toast(message, { type: 'error' });
   });
 }
 </script>
