@@ -73,7 +73,7 @@ const setTrainer = (device) => {
     return;
   }
   if (!device.supportsPower) {
-    toast(`${device.name} does not support power`);
+    toast(`${device.name} does not support power.`, { type: 'error' });
     device.disconnect();
     return;
   }

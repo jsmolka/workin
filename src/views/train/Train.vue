@@ -57,8 +57,8 @@ import { useAthleteStore } from '@/stores/athlete';
 import { useDevicesStore } from '@/stores/devices';
 import { dialog } from '@/utils/dialog';
 import { interval } from '@/utils/interval';
-import { log } from '@/utils/log';
 import { formatSeconds } from '@/utils/time';
+import { toast } from '@/utils/toast';
 import Metric from '@/views/train/Metric.vue';
 import { useDocumentVisibility, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
@@ -69,7 +69,7 @@ if (wakeLock.isSupported.value) {
   onMounted(async () => {
     await wakeLock.request();
     if (!wakeLock.isActive.value) {
-      log.warn('Could not acquire wake lock.');
+      toast('Could not acquire wake lock.', { type: 'warning' });
     }
   });
 

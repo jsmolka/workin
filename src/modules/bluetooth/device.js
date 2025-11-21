@@ -1,6 +1,6 @@
 import { Emitter } from '@/utils/emitter';
 import { eventListener } from '@/utils/eventListener';
-import { log } from '@/utils/log';
+import { toast } from '@/utils/toast';
 
 export class Device extends Emitter {
   constructor(uuid) {
@@ -20,9 +20,11 @@ export class Device extends Emitter {
       'gattserverdisconnected',
       async () => {
         try {
-          log.warn(`Reconnecting to ${this.name}.`);
+          toast(`${this.name} reconnecting.`, { type: 'warning' });
           await this.connect();
+          toast(`${this.name} reconnected.`, { type: 'success' });
         } catch {
+          toast(`${this.name} disconnected.`, { type: 'error' });
           this.emit('disconnected');
         }
       },
