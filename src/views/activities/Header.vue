@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col">
     <span class="text-shade-1 truncate text-lg font-bold">
-      {{ formatDate(activity.date, 'HH:mm') }}
+      {{ activity.workout.name }}
     </span>
     <span class="truncate">
-      {{ formatDate(activity.date, 'MMMM D, YYYY') }}
+      {{ formatDate(activity.date, 'MMM D, YYYY HH:mm') }}
     </span>
   </div>
   <Stats>
