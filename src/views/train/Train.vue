@@ -60,7 +60,7 @@ import { interval } from '@/utils/interval';
 import { log } from '@/utils/log';
 import { formatSeconds } from '@/utils/time';
 import Metric from '@/views/train/Metric.vue';
-import { useEventListener, useWakeLock } from '@vueuse/core';
+import { useDocumentVisibility, useWakeLock } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
 
@@ -211,8 +211,8 @@ const stop = () => {
 
 onUnmounted(stop);
 
-useEventListener(document, 'visibilitychange', () => {
-  if (document.visibilityState === 'hidden') {
+watch(useDocumentVisibility(), (visibility) => {
+  if (visibility === 'hidden') {
     stop();
   }
 });
