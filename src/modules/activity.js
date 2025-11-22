@@ -122,6 +122,7 @@ export class Activity {
       timestamp,
       totalElapsedTime: this.records.length,
       totalTimerTime: this.records.length,
+      totalCalories: this.calories,
     });
 
     encoder.writeMesg({
