@@ -1,6 +1,6 @@
 {
   "name": "workin",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "A web app to create and run smart trainer workouts.",
   "private": true,
   "type": "module",
