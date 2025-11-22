@@ -71,7 +71,7 @@ const activity = computed(() => {
 });
 
 const filename = (extension) => {
-  return `${formatDate(activity.value.date, 'YYMMDDHHmmss')} - ${activity.value.workout.name}.${extension}`;
+  return `${formatDate(activity.value.date, 'YYMMDD_HHmmss')} - ${activity.value.workout.name}.${extension}`;
 };
 
 const exportFit = () => {
