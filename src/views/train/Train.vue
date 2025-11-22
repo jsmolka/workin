@@ -65,16 +65,25 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
 
 const wakeLock = useWakeLock();
-if (wakeLock.isSupported.value) {
-  onMounted(async () => {
-    await wakeLock.request();
-    if (!wakeLock.isActive.value) {
-      toast('Could not acquire wake lock.', { type: 'warning' });
-    }
-  });
 
-  onUnmounted(() => wakeLock.release());
-}
+const requestWakeLock = async () => {
+  if (!wakeLock.isSupported.value) {
+    return;
+  }
+
+  await wakeLock.request();
+  if (!wakeLock.isActive.value) {
+    toast('Could not acquire wake lock.', { type: 'warning' });
+  }
+};
+
+const releaseWakeLock = async () => {
+  if (!wakeLock.isSupported.value) {
+    return;
+  }
+
+  await wakeLock.release();
+};
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
@@ -164,6 +173,8 @@ const start = async () => {
     return;
   }
 
+  requestWakeLock();
+
   if (activity.value.seconds === 0) {
     activity.value.date = new Date();
   }
@@ -204,6 +215,7 @@ onUnmounted(clearAutoStart);
 
 const stop = () => {
   clearAutoStop();
+  releaseWakeLock();
 
   stopInterval.value?.();
   stopInterval.value = null;
