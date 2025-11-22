@@ -28,7 +28,7 @@ class Measurement extends Characteristic {
   async init(service) {
     await super.init(service);
 
-    await this.notified((dataView) => {
+    await this.listen((dataView) => {
       this.notification = new MeasurementNotification(dataView);
       log.debug('HR measurement', this.notification);
     });

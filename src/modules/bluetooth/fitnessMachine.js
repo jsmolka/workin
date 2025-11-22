@@ -153,7 +153,7 @@ class BikeData extends Characteristic {
   async init(service) {
     await super.init(service);
 
-    await this.notified((dataView) => {
+    await this.listen((dataView) => {
       this.notification = new BikeDataNotification(dataView);
       log.debug('FTMS bike data', this.notification);
     });
@@ -276,7 +276,7 @@ class Control extends Characteristic {
   async init(service) {
     await super.init(service);
 
-    await this.notified((dataView) => {
+    await this.listen((dataView) => {
       const notification = new ControlNotification(dataView);
       if (!notification.isOk) {
         log.error('FTMS control malformed', notification);
@@ -358,7 +358,7 @@ class Status extends Characteristic {
   async init(service) {
     await super.init(service);
 
-    await this.notified((dataView) => {
+    await this.listen((dataView) => {
       const notification = new StatusNotification(dataView);
       log.debug('FTMS status', notification);
     });

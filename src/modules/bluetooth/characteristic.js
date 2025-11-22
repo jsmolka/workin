@@ -21,7 +21,7 @@ export class Characteristic {
     );
   }
 
-  async notified(callback) {
+  async listen(callback) {
     this.characteristic.addEventListener('characteristicvaluechanged', (event) =>
       callback(event.target.value),
     );
