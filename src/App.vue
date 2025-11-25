@@ -4,6 +4,7 @@
 
 <script setup>
 import { useEmitter } from '@/composables/useEmitter';
+import { useKeepAwake } from '@/composables/useKeepAwake';
 import { useSettingsStore } from '@/stores/settings';
 import { log } from '@/utils/log';
 import { isMobile } from '@/utils/platform';
@@ -11,6 +12,8 @@ import { stringify } from '@/utils/stringify';
 import { toast } from '@/utils/toast';
 import { useEventListener } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
+
+useKeepAwake();
 
 const { settings } = storeToRefs(useSettingsStore());
 

@@ -58,32 +58,10 @@ import { useDevicesStore } from '@/stores/devices';
 import { dialog } from '@/utils/dialog';
 import { interval } from '@/utils/interval';
 import { formatSeconds } from '@/utils/time';
-import { toast } from '@/utils/toast';
 import Metric from '@/views/train/Metric.vue';
-import { useDocumentVisibility, useWakeLock } from '@vueuse/core';
+import { useDocumentVisibility } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
-
-const wakeLock = useWakeLock();
-
-const requestWakeLock = async () => {
-  if (!wakeLock.isSupported.value) {
-    return;
-  }
-
-  await wakeLock.request();
-  if (!wakeLock.isActive.value) {
-    toast('Could not acquire wake lock.', { type: 'warning' });
-  }
-};
-
-const releaseWakeLock = async () => {
-  if (!wakeLock.isSupported.value) {
-    return;
-  }
-
-  await wakeLock.release();
-};
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
@@ -173,8 +151,6 @@ const start = async () => {
     return;
   }
 
-  requestWakeLock();
-
   if (activity.value.seconds === 0) {
     activity.value.date = new Date();
   }
@@ -215,7 +191,6 @@ onUnmounted(clearAutoStart);
 
 const stop = () => {
   clearAutoStop();
-  releaseWakeLock();
 
   stopInterval.value?.();
   stopInterval.value = null;
