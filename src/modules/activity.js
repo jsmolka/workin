@@ -82,16 +82,17 @@ export class Activity {
       // least two points to produce one second of moving time.
       const records = i === 0 ? [lap[0], ...lap] : lap;
       for (const record of records) {
+        const speed = powerToSpeed(record.power);
         encoder.writeMesg({
           mesgNum: Profile.MesgNum.RECORD,
           power: record.power,
           heartRate: record.heartRate,
           cadence: record.cadence,
+          speed,
           distance,
           timestamp,
         });
-
-        distance += powerToSpeed(record.power);
+        distance += speed;
         timestamp++;
       }
 
@@ -116,12 +117,12 @@ export class Activity {
       mesgNum: Profile.MesgNum.SESSION,
       sport: 'cycling',
       subSport: 'indoorCycling',
-      firstLapIndex: 0,
       numLaps: laps.length,
       startTime,
       timestamp,
       totalElapsedTime: this.records.length,
       totalTimerTime: this.records.length,
+      totalDistance: distance,
       totalCalories: this.calories,
     });
 
