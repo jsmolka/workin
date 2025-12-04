@@ -26,10 +26,10 @@
 
     <FormItem>
       <Label>Backup</Label>
-      <FormItem class="grid grid-cols-2">
+      <FormGrid>
         <Button variant="secondary" @click="exportBackup">Export</Button>
         <Button variant="secondary" @click="importBackup">Import</Button>
-      </FormItem>
+      </FormGrid>
     </FormItem>
 
     <FormItem>
@@ -46,7 +46,7 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Form, FormItem } from '@/components/ui/form';
+import { Form, FormGrid, FormItem } from '@/components/ui/form';
 import { InputNumber } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
