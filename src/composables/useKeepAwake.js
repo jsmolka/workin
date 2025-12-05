@@ -5,7 +5,11 @@ export function useKeepAwake() {
   const visibility = useDocumentVisibility();
 
   const keepAwake = () => {
-    whenever(() => visibility.value === 'visible', request, { immediate: true });
+    whenever(
+      () => visibility.value === 'visible',
+      () => request(),
+      { immediate: true },
+    );
   };
 
   useEventListener(window, 'click', keepAwake, { once: true });
