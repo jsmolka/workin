@@ -53,7 +53,7 @@
         :disabled="!strava.isAuthorizeEnabled || authorizing"
         @click="authorize"
       >
-        {{ authorizing ? 'Authorizing...' : strava.token ? 'Authorized' : 'Authorize' }}
+        {{ authorizing ? 'Authorizing...' : strava.isAuthorized ? 'Authorized' : 'Authorize' }}
       </Button>
     </FormItem>
 

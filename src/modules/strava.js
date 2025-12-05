@@ -1,5 +1,7 @@
 import { date, defineSchema, nullable, primitive, schema } from '@/utils/persist';
+import { sleep } from '@/utils/sleep';
 import axios from 'axios';
+import { isNumber, isString } from 'lodash-es';
 
 export class Token {
   constructor(accessToken = '', refreshToken = '', expiresAt = new Date()) {
@@ -24,6 +26,10 @@ export class Strava {
     this.clientId = '';
     this.clientSecret = '';
     this.token = null;
+  }
+
+  get isAuthorized() {
+    return this.token != null;
   }
 
   get isAuthorizeEnabled() {
@@ -74,6 +80,47 @@ export class Strava {
       await this.refresh();
     }
     return this.token.accessToken;
+  }
+
+  async config() {
+    return {
+      headers: {
+        Authorization: `Bearer ${await this.accessToken()}`,
+      },
+    };
+  }
+
+  async status(id) {
+    for (let attempt = 0; attempt < 10; attempt++) {
+      await sleep(1000);
+
+      const response = await axios.get(
+        `https://www.strava.com/api/v3/uploads/${id}`,
+        await this.config(),
+      );
+      if (isString(response.data.error)) {
+        return null;
+      }
+      if (isNumber(response.data.activity_id)) {
+        return response.data.activity_id;
+      }
+    }
+    return null;
+  }
+
+  async upload(fit) {
+    const form = new FormData();
+    form.append('sport_type', 'VirtualRide');
+    form.append('trainer', 1);
+    form.append('file', new Blob([fit]));
+    form.append('data_type', 'fit');
+
+    const response = await axios.post(
+      'https://www.strava.com/api/v3/uploads',
+      form,
+      await this.config(),
+    );
+    return this.status(response.data.id_str);
   }
 }
 

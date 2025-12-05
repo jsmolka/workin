@@ -4,6 +4,7 @@
       <Back />
       <Dots>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem @click="exportFit">Export FIT</DropdownMenuItem>
           <DropdownMenuItem @click="exportPng">Export PNG</DropdownMenuItem>
           <DropdownMenuItem @click="remove">Delete</DropdownMenuItem>
         </DropdownMenuContent>
@@ -36,7 +37,7 @@
       />
     </FormItem>
 
-    <Button @click="exportFit">Export FIT</Button>
+    <Button :disabled="!strava.isAuthorized || uploading" @click="upload">Upload</Button>
   </Form>
 </template>
 
@@ -50,11 +51,15 @@ import { dialog } from '@/components/ui/dialog';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { useAsyncFn } from '@/composables/useAsyncFn';
 import { Activity } from '@/modules/activity';
 import { useActivitiesStore } from '@/stores/activities';
+import { useStravaStore } from '@/stores/strava';
 import { download } from '@/utils/filesystem';
 import { formatDate } from '@/utils/time';
+import { toast } from '@/utils/toast';
 import Header from '@/views/activities/Header.vue';
+import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -63,11 +68,12 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const { activities } = storeToRefs(useActivitiesStore());
+const { strava } = storeToRefs(useStravaStore());
 const selectedIndex = ref(null);
 
 const activity = computed(() => {
-  const { activities } = useActivitiesStore();
-  return activities[props.index] ?? new Activity();
+  return activities.value[props.index] ?? new Activity();
 });
 
 const filename = (extension) => {
@@ -75,7 +81,7 @@ const filename = (extension) => {
 };
 
 const exportFit = () => {
-  download(activity.value.toFit(), filename('fit'), 'application/vnd.ant.fit');
+  download(activity.value.toFit(), filename('fit'));
 };
 
 const exportPng = () => {
@@ -99,4 +105,19 @@ const remove = async () => {
     router.back();
   }
 };
+
+const [upload, uploading] = useAsyncFn(async () => {
+  const failed = () => toast('Could not upload activity.', { type: 'error' });
+  try {
+    const id = await strava.value.upload(activity.value.toFit());
+    if (id != null) {
+      window.open(`https://www.strava.com/activities/${id}`);
+    } else {
+      failed();
+    }
+  } catch (error) {
+    console.error(error);
+    failed();
+  }
+});
 </script>
