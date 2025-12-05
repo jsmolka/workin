@@ -11,27 +11,7 @@ export default defineConfig({
     vueJsx(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      manifest: {
-        name: 'workin',
-        description: 'A web app to create and run smart trainer workouts.',
-        theme_color: '#242933',
-        background_color: '#242933',
-        icons: [
-          {
-            src: 'android-chrome-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-          {
-            src: 'android-chrome-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-        ],
-      },
+      manifest: false,
     }),
   ],
   resolve: {
