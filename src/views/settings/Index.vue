@@ -25,6 +25,39 @@
     </FormItem>
 
     <FormItem>
+      <Label>Strava Client ID</Label>
+      <Input
+        :model-value="strava.clientId"
+        @update:model-value="
+          strava.clientId = $event;
+          strava.token = null;
+        "
+      />
+    </FormItem>
+
+    <FormItem>
+      <Label>Strava Client Secret</Label>
+      <Input
+        :model-value="strava.clientSecret"
+        @update:model-value="
+          strava.clientSecret = $event;
+          strava.token = null;
+        "
+      />
+    </FormItem>
+
+    <FormItem>
+      <Label>Strava</Label>
+      <Button
+        variant="secondary"
+        :disabled="!strava.isAuthorizeEnabled || authorizing"
+        @click="authorize"
+      >
+        {{ authorizing ? 'Authorizing...' : strava.token ? 'Authorized' : 'Authorize' }}
+      </Button>
+    </FormItem>
+
+    <FormItem>
       <Label>Backup</Label>
       <FormGrid>
         <Button variant="secondary" @click="exportBackup">Export</Button>
@@ -46,27 +79,32 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
+import { dialog } from '@/components/ui/dialog';
 import { Form, FormGrid, FormItem } from '@/components/ui/form';
-import { InputNumber } from '@/components/ui/input';
+import { Input, InputNumber } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { useAsyncFn } from '@/composables/useAsyncFn';
 import { FitnessMachine } from '@/modules/bluetooth/fitnessMachine';
 import { HeartRate } from '@/modules/bluetooth/heartRate';
 import { useStores } from '@/stores';
 import { useAthleteStore } from '@/stores/athlete';
 import { useDevicesStore } from '@/stores/devices';
 import { useSettingsStore } from '@/stores/settings';
+import { useStravaStore } from '@/stores/strava';
 import { download, readAsText, selectFile } from '@/utils/filesystem';
 import { log } from '@/utils/log';
 import { toast } from '@/utils/toast';
 import BluetoothDeviceButton from '@/views/settings/BluetoothDeviceButton.vue';
+import CodeDialog from '@/views/settings/CodeDialog.vue';
 import { capitalize } from 'lodash-es';
 import { storeToRefs } from 'pinia';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 const { settings } = storeToRefs(useSettingsStore());
+const { strava } = storeToRefs(useStravaStore());
 
 const setTrainer = (device) => {
   if (device == null) {
@@ -79,6 +117,18 @@ const setTrainer = (device) => {
   }
   trainer.value = device;
 };
+
+const [authorize, authorizing] = useAsyncFn(async () => {
+  strava.value.token = null;
+
+  window.open(strava.value.authorizeUrl, '_blank');
+
+  const code = await dialog({}, CodeDialog);
+  if (code == null) {
+    return;
+  }
+  await strava.value.authenticate(code);
+});
 
 const stores = useStores();
 

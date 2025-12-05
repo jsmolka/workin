@@ -2,6 +2,7 @@ import { useActivitiesStore } from '@/stores/activities';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';
 import { useSettingsStore } from '@/stores/settings';
+import { useStravaStore } from '@/stores/strava';
 import { useWorkoutsStore } from '@/stores/workouts';
 import { defineStore } from 'pinia';
 
@@ -11,6 +12,7 @@ export const useStores = defineStore('stores', () => {
     useActivityStore(),
     useAthleteStore(),
     useSettingsStore(),
+    useStravaStore(),
     useWorkoutsStore(),
   ];
 
