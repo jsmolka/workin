@@ -1,9 +1,31 @@
 import { dialog } from '@/utils/dialog';
-import { whenever } from '@vueuse/core';
+import { useDocumentVisibility, whenever } from '@vueuse/core';
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 
 export function useUpdateApp() {
-  const { needRefresh, updateServiceWorker } = useRegisterSW();
+  const standalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true ||
+    window.document.referrer.includes('android-app://');
+  if (!standalone) {
+    return;
+  }
+
+  const { needRefresh, updateServiceWorker } = useRegisterSW({
+    onRegisteredSW(_, registration) {
+      if (registration == null) {
+        return;
+      }
+
+      const visibility = useDocumentVisibility();
+
+      whenever(
+        () => visibility.value === 'visible',
+        () => registration.update(),
+        { immediate: true },
+      );
+    },
+  });
 
   whenever(needRefresh, async () => {
     const button = await dialog({
@@ -14,7 +36,7 @@ export function useUpdateApp() {
       ],
     });
     if (button === 0) {
-      updateServiceWorker();
+      await updateServiceWorker(true);
     }
   });
 }

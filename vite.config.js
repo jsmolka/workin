@@ -12,6 +12,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       manifest: false,
+      injectRegister: null,
     }),
   ],
   resolve: {
