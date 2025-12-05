@@ -1,4 +1,4 @@
-import { dialog } from '@/components/ui/dialog';
+import { dialog } from '@/utils/dialog';
 import { whenever } from '@vueuse/core';
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 
