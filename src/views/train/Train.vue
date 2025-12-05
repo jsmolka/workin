@@ -48,6 +48,7 @@ import {
 } from '@/components/chart';
 import Intervals from '@/components/Intervals.vue';
 import { Button } from '@/components/ui/button';
+import { dialog } from '@/components/ui/dialog';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Record } from '@/modules/record';
@@ -55,7 +56,6 @@ import { router } from '@/router';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';
 import { useDevicesStore } from '@/stores/devices';
-import { dialog } from '@/utils/dialog';
 import { interval } from '@/utils/interval';
 import { formatSeconds } from '@/utils/time';
 import Metric from '@/views/train/Metric.vue';
@@ -141,11 +141,14 @@ const start = async () => {
   clearAutoStart();
 
   if (trainer.value == null) {
-    const index = await dialog({
+    const button = await dialog({
       content: 'No smart trainer connected.',
-      buttons: [{ text: 'Settings' }, { text: 'Cancel', variant: 'secondary' }],
+      buttons: [
+        { text: 'Settings', variant: 'default' },
+        { text: 'Cancel', variant: 'secondary' },
+      ],
     });
-    if (index === 0) {
+    if (button === 0) {
       router.push('/settings');
     }
     return;

@@ -1,4 +1,4 @@
-import { dialog } from '@/utils/dialog';
+import { dialog } from '@/components/ui/dialog';
 import { useDocumentVisibility, whenever } from '@vueuse/core';
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 

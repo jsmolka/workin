@@ -46,12 +46,12 @@ import { Chart, ChartHeartRate, ChartLaps, ChartLines, ChartPower } from '@/comp
 import Dots from '@/components/Dots.vue';
 import Laps from '@/components/Laps.vue';
 import { Button } from '@/components/ui/button';
+import { dialog } from '@/components/ui/dialog';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Activity } from '@/modules/activity';
 import { useActivitiesStore } from '@/stores/activities';
-import { dialog } from '@/utils/dialog';
 import { download } from '@/utils/filesystem';
 import { formatDate } from '@/utils/time';
 import Header from '@/views/activities/Header.vue';
@@ -86,11 +86,14 @@ const exportPng = () => {
 };
 
 const remove = async () => {
-  const index = await dialog({
+  const button = await dialog({
     content: 'Do you want to delete this activity?',
-    buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
+    buttons: [
+      { text: 'Delete', variant: 'default' },
+      { text: 'Cancel', variant: 'secondary' },
+    ],
   });
-  if (index === 0) {
+  if (button === 0) {
     const store = useActivitiesStore();
     store.remove(props.index);
     router.back();

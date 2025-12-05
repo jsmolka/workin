@@ -55,6 +55,7 @@ import { Chart, ChartIntervals, ChartLines } from '@/components/chart';
 import Dots from '@/components/Dots.vue';
 import Intervals from '@/components/Intervals.vue';
 import { Button } from '@/components/ui/button';
+import { dialog } from '@/components/ui/dialog';
 import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
@@ -62,7 +63,6 @@ import { Activity } from '@/modules/activity';
 import { Workout } from '@/modules/workout';
 import { useActivityStore } from '@/stores/activity';
 import { useWorkoutsStore } from '@/stores/workouts';
-import { dialog } from '@/utils/dialog';
 import Header from '@/views/workouts/[type]/Header.vue';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -82,15 +82,15 @@ const workout = computed(() => {
 const select = async (index) => {
   const store = useActivityStore();
   if (store.activity != null && store.activity.seconds > 0) {
-    const index = await dialog({
+    const button = await dialog({
       content: 'Do you want to save the current activity?',
       buttons: [
-        { text: 'Yes' },
+        { text: 'Yes', variant: 'default' },
         { text: 'No', variant: 'secondary' },
         { text: 'Cancel', variant: 'secondary' },
       ],
     });
-    switch (index) {
+    switch (button) {
       case 0:
         store.finish();
         break;
