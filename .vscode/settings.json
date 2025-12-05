@@ -10,6 +10,10 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "javascript.preferences.importModuleSpecifier": "non-relative"
   },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "javascript.preferences.importModuleSpecifier": "non-relative"
+  },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
