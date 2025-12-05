@@ -1,6 +1,6 @@
 <template>
   <Dialog :open="open" @update:open="close(null)">
-    <DialogContent>
+    <DialogContent v-bind="$attrs">
       <DialogHeader v-show="title || description">
         <DialogTitle v-show="title">{{ title }}</DialogTitle>
         <DialogDescription v-show="description">{{ description }}</DialogDescription>
