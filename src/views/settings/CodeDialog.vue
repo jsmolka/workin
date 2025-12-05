@@ -8,7 +8,7 @@
     </Form>
     <DialogFooter>
       <Button :disabled="code == null" @click="close(code)">OK</Button>
-      <DialogClose>
+      <DialogClose as-child>
         <Button variant="secondary">Cancel</Button>
       </DialogClose>
     </DialogFooter>
