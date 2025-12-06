@@ -125,7 +125,7 @@ export class Strava {
       form,
       await this.config(),
     );
-    return this.status(response.data.id_str);
+    return await this.status(response.data.id_str);
   }
 }
 
