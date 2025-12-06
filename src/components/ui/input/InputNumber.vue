@@ -2,7 +2,7 @@
   <input
     :class="
       cn(
-        'bg-shade-7 placeholder:text-shade-3 flex h-8 w-full rounded-xs border px-2 py-1.5 overflow-ellipsis disabled:cursor-not-allowed disabled:opacity-50',
+        'bg-shade-7 placeholder:text-shade-3 flex h-8 w-full rounded-xs border px-2 py-1.5 text-ellipsis disabled:cursor-not-allowed disabled:opacity-50',
         props.class,
       )
     "
@@ -11,6 +11,7 @@
     @input="
       $event.target.value = format($event.target.value);
       clampCursor($event);
+      change($event);
     "
     @change="change"
     @focusin="select"
@@ -30,6 +31,11 @@ const modelValue = defineModel({ type: Number, required: false });
 
 const props = defineProps({
   class: { required: false },
+  event: {
+    type: String,
+    default: 'input',
+    validator: (value) => ['input', 'change'].includes(value),
+  },
   max: { type: Number, default: Number.MAX_SAFE_INTEGER },
   min: { type: Number, default: Number.MIN_SAFE_INTEGER },
   precision: { type: Number, default: 0 },
@@ -85,7 +91,9 @@ const inputmode = computed(() => {
 });
 
 const value = computed(() => {
-  return modelValue.value != null ? format(modelValue.value.toLocaleString()) : null;
+  return modelValue.value != null
+    ? format(modelValue.value.toLocaleString(undefined, { useGrouping: false }))
+    : null;
 });
 
 let selectionStart = null;
@@ -183,6 +191,10 @@ const clampCursor = (event) => {
 const forceUpdate = useForceUpdate();
 
 const change = async (event) => {
+  if (event.type !== props.event) {
+    return;
+  }
+
   const value = clamp(
     parseFloat(unformat(event.target.value).replaceAll(decimalSeparator, '.')) || 0,
     props.min,

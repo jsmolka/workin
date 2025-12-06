@@ -1,11 +1,11 @@
 <template>
-  <SelectRoot v-model="selectModelValue" v-bind="$attrs">
+  <SelectRoot v-model="selectModelValue" :key="key" v-bind="$attrs">
     <SelectTrigger :class="props.class" :style="props.style">
       <SelectValue :placeholder="placeholder">
         <slot name="value" :value="modelValue" :index="modelIndex" />
       </SelectValue>
     </SelectTrigger>
-    <SelectContent :key="itemsKey">
+    <SelectContent>
       <SelectItem v-for="(item, index) in items" :value="index.toString()">
         <slot name="item" :item="item" :index="index">
           <SelectItemText>{{ getDisplay(item) }}</SelectItemText>
@@ -66,10 +66,10 @@ const selectModelValue = computed({
 });
 
 // Prevent problems with changing items
-const itemsKey = ref(0);
+const key = ref(0);
 watch(
-  () => props.items,
-  () => itemsKey.value++,
+  () => [props.items, props.displayExpr],
+  () => key.value++,
   { deep: true },
 );
 </script>

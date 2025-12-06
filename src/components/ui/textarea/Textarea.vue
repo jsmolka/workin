@@ -7,6 +7,7 @@
       )
     "
     :value="modelValue"
+    @input="change"
     @change="change"
     @focusin="$event.target.select()"
   />
@@ -21,11 +22,20 @@ const modelValue = defineModel({ type: String, required: false });
 
 const props = defineProps({
   class: { required: false },
+  event: {
+    type: String,
+    default: 'input',
+    validator: (value) => ['input', 'change'].includes(value),
+  },
 });
 
 const forceUpdate = useForceUpdate();
 
 const change = async (event) => {
+  if (event.type !== props.event) {
+    return;
+  }
+
   modelValue.value = event.target.value;
 
   await nextTick();

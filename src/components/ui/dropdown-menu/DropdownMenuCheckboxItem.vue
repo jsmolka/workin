@@ -1,8 +1,6 @@
 <template>
   <DropdownMenuCheckboxItem
     v-bind="forwardedProps"
-    :checked="modelValue"
-    @update:checked="emit('update:modelValue', $event)"
     :class="
       cn(
         'focus:bg-shade-6 relative flex cursor-pointer items-center rounded-xs py-1.5 pr-2 pl-8 select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',

@@ -6,7 +6,7 @@
       auto-focus
       :class="
         cn(
-          'placeholder:text-shade-3 bg-transparent overflow-ellipsis focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50',
+          'placeholder:text-shade-3 bg-transparent text-ellipsis focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50',
           props.class,
         )
       "
