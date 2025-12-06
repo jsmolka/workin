@@ -37,7 +37,9 @@
       />
     </FormItem>
 
-    <Button :disabled="!strava.isAuthorized || uploading" @click="upload">Upload</Button>
+    <Button :disabled="!strava.isAuthorized || uploading" @click="upload">
+      {{ uploading ? 'Uploading...' : 'Upload' }}
+    </Button>
   </Form>
 </template>
 
