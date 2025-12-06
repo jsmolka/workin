@@ -107,17 +107,17 @@ const remove = async () => {
 };
 
 const [upload, uploading] = useAsyncFn(async () => {
-  const failed = () => toast('Could not upload activity.', { type: 'error' });
+  let id;
   try {
-    const id = await strava.value.upload(activity.value);
-    if (id != null) {
-      window.open(`https://www.strava.com/activities/${id}`);
-    } else {
-      failed();
-    }
+    id = await strava.value.upload(activity.value);
   } catch (error) {
     console.error(error);
-    failed();
+  }
+
+  if (id != null) {
+    window.open(`https://www.strava.com/activities/${id}`);
+  } else {
+    toast('Could not upload activity.', { type: 'error' });
   }
 });
 </script>
