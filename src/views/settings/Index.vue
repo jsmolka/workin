@@ -32,6 +32,8 @@
           strava.clientId = $event;
           strava.token = null;
         "
+        type="password"
+        autocomplete="one-time-code"
       />
     </FormItem>
 
@@ -43,6 +45,8 @@
           strava.clientSecret = $event;
           strava.token = null;
         "
+        type="password"
+        autocomplete="one-time-code"
       />
     </FormItem>
 
