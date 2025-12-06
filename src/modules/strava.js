@@ -98,22 +98,27 @@ export class Strava {
         `https://www.strava.com/api/v3/uploads/${id}`,
         await this.config(),
       );
-      if (isString(response.data.error)) {
-        return null;
-      }
       if (isNumber(response.data.activity_id)) {
         return response.data.activity_id;
+      }
+      if (isString(response.data.error)) {
+        const match = response.data.error.match(/\/activities\/(\d+)/);
+        if (match == null) {
+          return null;
+        }
+        return parseInt(match[1]);
       }
     }
     return null;
   }
 
-  async upload(fit) {
+  async upload(activity) {
     const form = new FormData();
+    form.append('name', activity.workout.name);
+    form.append('file', new Blob([activity.toFit()]));
+    form.append('data_type', 'fit');
     form.append('sport_type', 'VirtualRide');
     form.append('trainer', 1);
-    form.append('file', new Blob([fit]));
-    form.append('data_type', 'fit');
 
     const response = await axios.post(
       'https://www.strava.com/api/v3/uploads',
