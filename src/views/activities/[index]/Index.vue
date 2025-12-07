@@ -117,7 +117,7 @@ const [upload, uploading] = useAsyncFn(async () => {
   }
 
   if (id != null) {
-    window.open(`https://www.strava.com/activities/${id}`);
+    window.open(`https://www.strava.com/activities/${id}`, '_blank');
   } else {
     toast('Could not upload activity.', { type: 'error' });
   }
