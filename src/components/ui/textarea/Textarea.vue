@@ -22,11 +22,7 @@ const modelValue = defineModel({ type: String, required: false });
 
 const props = defineProps({
   class: { required: false },
-  event: {
-    type: String,
-    default: 'input',
-    validator: (value) => ['input', 'change'].includes(value),
-  },
+  event: { type: String, default: 'input' },
 });
 
 const forceUpdate = useForceUpdate();

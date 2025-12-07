@@ -31,11 +31,7 @@ const modelValue = defineModel({ type: Number, required: false });
 
 const props = defineProps({
   class: { required: false },
-  event: {
-    type: String,
-    default: 'input',
-    validator: (value) => ['input', 'change'].includes(value),
-  },
+  event: { type: String, default: 'input' },
   max: { type: Number, default: Number.MAX_SAFE_INTEGER },
   min: { type: Number, default: Number.MIN_SAFE_INTEGER },
   precision: { type: Number, default: 0 },
