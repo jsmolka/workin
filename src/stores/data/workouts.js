@@ -194,7 +194,7 @@ export const workouts = [
     ]),
   ),
 
-  ...[3, 4].map((repeats) =>
+  ...[3, 4, 5].map((repeats) =>
     workout(`${repeats} x 10 x 30/30`, [
       warmup,
       repeat(repeats, [
@@ -211,7 +211,7 @@ export const workouts = [
   // Rønnestad
   // https://pubmed.ncbi.nlm.nih.gov/24382021/
   // https://www.researchgate.net/publication/338808139/
-  ...[3, 4].map((repeats) =>
+  ...[3, 4, 5].map((repeats) =>
     workout(`${repeats} x 13 x 30/15`, [
       warmup,
       repeat(repeats, [
@@ -225,7 +225,7 @@ export const workouts = [
     ]),
   ),
 
-  ...[3, 4].map((repeats) =>
+  ...[3, 4, 5].map((repeats) =>
     workout(`${repeats} x 10 x 40/20`, [
       warmup,
       repeat(repeats, [
