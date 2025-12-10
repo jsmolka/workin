@@ -162,7 +162,7 @@ const start = async () => {
   stopInterval.value?.();
   stopInterval.value = interval(1000, () => {
     activity.value.records.push(
-      new Record(trainer.value.power, hrm.value?.heartRate, trainer.value.cadence),
+      new Record(trainer.value.power, hrm.value?.heartRate ?? null, trainer.value.cadence),
     );
   });
 };
