@@ -53,6 +53,7 @@ import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Record } from '@/modules/record';
 import { router } from '@/router';
+import { useActivitiesStore } from '@/stores/activities';
 import { useActivityStore } from '@/stores/activity';
 import { useAthleteStore } from '@/stores/athlete';
 import { useDevicesStore } from '@/stores/devices';
@@ -258,8 +259,13 @@ const toggleText = computed(() => {
 const finish = () => {
   stop();
 
-  const store = useActivityStore();
-  const index = store.finish();
+  activity.value.finish(athlete.value.ftp);
+
+  const store = useActivitiesStore();
+  const index = store.add(activity.value);
+
+  activity.value = null;
+
   router.push(`/activities/${index}`);
 };
 

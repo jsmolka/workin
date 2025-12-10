@@ -1,6 +1,4 @@
 import { Activity } from '@/modules/activity';
-import { useActivitiesStore } from '@/stores/activities';
-import { useAthleteStore } from '@/stores/athlete';
 import { deserialize, serialize } from '@/utils/persist';
 import { get, set } from '@/utils/store';
 import { useDebounceFn, watchIgnorable } from '@vueuse/core';
@@ -49,21 +47,6 @@ export const useActivityStore = defineStore('activity', () => {
       ignoreUpdates(() => fromJson(data.data));
     }
   };
-  const finish = () => {
-    const { athlete } = useAthleteStore();
 
-    const records = activity.value.records;
-    activity.value.averagePower = records.averagePower();
-    activity.value.averageHeartRate = records.averageHeartRate();
-    activity.value.averageCadence = records.averageCadence();
-    activity.value.polylinesPower = records.polylinesPower(2 * athlete.ftp);
-    activity.value.polylinesHeartRate = records.polylinesHeartRate();
-
-    const store = useActivitiesStore();
-    const index = store.add(activity.value);
-    activity.value = null;
-    return index;
-  };
-
-  return { activity, toJson, fromJson, hydrate, finish };
+  return { activity, toJson, fromJson, hydrate };
 });

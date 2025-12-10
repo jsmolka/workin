@@ -42,6 +42,14 @@ export class Activity {
     return result;
   }
 
+  finish(ftp) {
+    this.averagePower = this.records.averagePower();
+    this.averageHeartRate = this.records.averageHeartRate();
+    this.averageCadence = this.records.averageCadence();
+    this.polylinesPower = this.records.polylinesPower(2 * ftp);
+    this.polylinesHeartRate = this.records.polylinesHeartRate();
+  }
+
   toFit() {
     let startTime = Utils.convertDateToDateTime(this.date);
     let timestamp = startTime;
