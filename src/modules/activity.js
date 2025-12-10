@@ -11,7 +11,8 @@ export class Activity {
     this.workout = workout;
     this.records = new Records();
 
-    // Calculated on finish
+    // Set on finish
+    this.ftp = 0;
     this.averagePower = 0;
     this.averageHeartRate = null;
     this.averageCadence = null;
@@ -43,6 +44,7 @@ export class Activity {
   }
 
   finish(ftp) {
+    this.ftp = ftp;
     this.averagePower = this.records.averagePower();
     this.averageHeartRate = this.records.averageHeartRate();
     this.averageCadence = this.records.averageCadence();
@@ -199,6 +201,7 @@ defineSchema(Activity, {
   date: date(),
   workout: schema(Workout),
   records: array(schema(Record), Records),
+  ftp: primitive(),
   averagePower: primitive(),
   averageHeartRate: primitive(),
   averageCadence: primitive(),
