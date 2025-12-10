@@ -60,9 +60,9 @@ import { useDevicesStore } from '@/stores/devices';
 import { interval } from '@/utils/interval';
 import { formatSeconds } from '@/utils/time';
 import Metric from '@/views/train/Metric.vue';
-import { useDocumentVisibility } from '@vueuse/core';
+import { useDocumentVisibility, whenever } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 
 const { athlete } = storeToRefs(useAthleteStore());
 const { activity } = storeToRefs(useActivityStore());
@@ -202,17 +202,9 @@ const stop = () => {
 
 onUnmounted(stop);
 
-watch(useDocumentVisibility(), (visibility) => {
-  if (visibility === 'hidden') {
-    stop();
-  }
-});
+const visibility = useDocumentVisibility();
 
-watch(trainer, (value) => {
-  if (value == null) {
-    stop();
-  }
-});
+whenever(() => visibility.value === 'hidden' || trainer.value == null, stop);
 
 let autoStop = 0;
 
@@ -269,9 +261,5 @@ const finish = () => {
   router.push(`/activities/${index}`);
 };
 
-watchEffect(() => {
-  if (currentSeconds.value === workoutSeconds.value) {
-    finish();
-  }
-});
+whenever(() => currentSeconds.value === workoutSeconds.value, finish);
 </script>
