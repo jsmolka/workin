@@ -8,7 +8,7 @@
         :constructor="FitnessMachine"
         v-slot="{ device }"
       >
-        {{ `${device.name} [${device.powerRange.min} - ${device.powerRange.max} W]` }}
+        {{ device.power != null ? `${device.name} [${device.power} W]` : device.name }}
       </BluetoothDeviceButton>
     </FormItem>
 
