@@ -106,7 +106,9 @@ const selectedInterval = computed(() => {
 });
 
 const isAddDisabled = computed(() => {
-  return seconds.value == null || intensity.value == null;
+  return (
+    seconds.value == null || seconds.value === 0 || intensity.value == null || intensity.value === 0
+  );
 });
 
 const add = () => {
