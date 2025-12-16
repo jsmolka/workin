@@ -1,8 +1,11 @@
 <template>
   <Input
-    v-model="duration"
-    v-maska
-    data-maska="['##', '#:##', '##:##', '#:##:##', '##:##:##']"
+    :model-value="time"
+    @update:model-value="
+      time = $event;
+      modelValue = parseSeconds($event);
+    "
+    v-maska="{ mask: ['##', '#:##', '##:##', '#:##:##', '##:##:##'] }"
     type="text"
     inputmode="numeric"
   />
@@ -12,14 +15,19 @@
 import { Input } from '@/components/ui/input';
 import { formatSeconds, parseSeconds } from '@/utils/time';
 import { vMaska } from 'maska/vue';
-import { computed } from 'vue';
+import { ref, watch } from 'vue';
 
-const modelValue = defineModel({ type: Number });
+const modelValue = defineModel({ type: Number, default: null });
 
-const duration = computed({
-  get: () => (modelValue.value != null ? formatSeconds(modelValue.value) : null),
-  set: (value) => {
-    modelValue.value = parseSeconds(value);
+const time = ref(formatSeconds(0));
+
+watch(
+  modelValue,
+  () => {
+    if (modelValue.value != null) {
+      time.value = formatSeconds(modelValue.value);
+    }
   },
-});
+  { immediate: true },
+);
 </script>

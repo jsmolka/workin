@@ -38,7 +38,7 @@ import { Label } from '@/components/ui/label';
 import { Interval } from '@/modules/interval';
 import InputIntervalIntensity from '@/views/workouts/InputIntervalIntensity.vue';
 import InputIntervalSeconds from '@/views/workouts/InputIntervalSeconds.vue';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const open = defineModel('open', { type: Boolean, required: false });
 
@@ -49,10 +49,14 @@ const props = defineProps({
 const seconds = ref(null);
 const intensity = ref(null);
 
-watchEffect(() => {
-  seconds.value = props.interval?.seconds;
-  intensity.value = props.interval?.intensity;
-});
+watch(
+  () => props.interval,
+  () => {
+    seconds.value = props.interval?.seconds;
+    intensity.value = props.interval?.intensity;
+  },
+  { immediate: true },
+);
 
 const close = () => {
   open.value = false;
