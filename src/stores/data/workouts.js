@@ -1,15 +1,16 @@
 import { Interval, cooldown, ramp, warmup } from '@/modules/interval';
 import { Workout } from '@/modules/workout';
+import { clone } from '@/utils/persist';
 import { parseSeconds } from '@/utils/time';
 
 function workout(name, data) {
   const intervals = [];
-  for (const { seconds, intensity } of data.flat()) {
+  for (const interval of data.flat()) {
     const previous = intervals.at(-1);
-    if (previous && previous.intensity === intensity) {
-      previous.seconds += seconds;
+    if (previous != null && previous.intensity === interval.intensity) {
+      previous.seconds += interval.seconds;
     } else {
-      intervals.push(new Interval(seconds, intensity));
+      intervals.push(interval);
     }
   }
   return new Workout(name, intervals);
@@ -19,15 +20,20 @@ function interval(duration, intensity) {
   return new Interval(parseSeconds(duration), intensity);
 }
 
-function repeat(count, data, pop = true) {
-  const result = [];
+function repeat(count, data, { pop = true, separator = false } = {}) {
+  const intervals = [];
   while (count--) {
-    result.push(...data.flat());
+    for (const interval of data.flat()) {
+      intervals.push(clone(interval));
+    }
   }
   if (pop) {
-    result.pop();
+    intervals.pop();
   }
-  return result;
+  if (separator) {
+    intervals.at(-1).separator = true;
+  }
+  return intervals;
 }
 
 function maxAerobicPower(intensity) {
@@ -127,7 +133,7 @@ export const workouts = [
         repeat(4, [
           interval('1:00', 1.15),
           interval('2:00', 0.8),
-        ], false),
+        ], { pop: false }),
         interval('6:00', 0.5),
       ]),
       cooldown,
@@ -201,7 +207,7 @@ export const workouts = [
         repeat(10, [
           interval('0:30', maxAerobicPower(1.0)),
           interval('0:30', maxAerobicPower(0.5)),
-        ]),
+        ], { separator: true }),
         interval('5:00', 0.5),
       ]),
       cooldown,
@@ -218,7 +224,7 @@ export const workouts = [
         repeat(13, [
           interval('0:30', maxAerobicPower(1.0)),
           interval('0:15', maxAerobicPower(0.5)),
-        ]),
+        ], { separator: true }),
         interval('5:00', 0.5),
       ]),
       cooldown,
@@ -232,7 +238,7 @@ export const workouts = [
         repeat(10, [
           interval('0:40', maxAerobicPower(1.0)),
           interval('0:20', maxAerobicPower(0.5)),
-        ]),
+        ], { separator: true }),
         interval('5:00', 0.5),
       ]),
       cooldown,

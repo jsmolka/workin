@@ -5,6 +5,7 @@
         <DataTableRow
           v-for="(interval, index) in items"
           class="grid auto-cols-fr grid-flow-col"
+          :class="{ 'border-shade-3 border-b-2': interval.separator }"
           :index="index"
           :key="`${tableKey}/${index}`"
           v-model:selected-index="selectedIndex"
