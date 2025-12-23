@@ -83,21 +83,14 @@ const select = async (index) => {
   const store = useActivityStore();
   if (store.activity != null && store.activity.seconds > 0) {
     const button = await dialog({
-      content: 'Do you want to save the current activity?',
+      content: 'Do you want to discard the current activity?',
       buttons: [
-        { text: 'Yes', variant: 'default' },
-        { text: 'No', variant: 'secondary' },
+        { text: 'Discard', variant: 'default' },
         { text: 'Cancel', variant: 'secondary' },
       ],
     });
-    switch (button) {
-      case 0:
-        store.finish();
-        break;
-      case 1:
-        break;
-      default:
-        return;
+    if (button === 1) {
+      return;
     }
   }
   store.activity = new Activity(
