@@ -52,8 +52,8 @@ const intensity = ref(null);
 watch(
   () => props.interval,
   () => {
-    seconds.value = props.interval?.seconds;
-    intensity.value = props.interval?.intensity;
+    seconds.value = props.interval?.seconds ?? null;
+    intensity.value = props.interval?.intensity ?? null;
   },
   { immediate: true },
 );
