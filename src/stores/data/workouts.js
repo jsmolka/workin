@@ -26,7 +26,7 @@ function repeat(count, data, { pop = true, index = false } = {}) {
     for (let interval of data.flat()) {
       interval = clone(interval);
       if (index) {
-        interval.text = `${i + 1}/${count}`;
+        interval.text = `${i + 1}`;
       }
       intervals.push(interval);
     }
