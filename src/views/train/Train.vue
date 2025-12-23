@@ -10,15 +10,36 @@
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
 
-    <Chart class="aspect-5/2 shrink-0 border">
-      <ChartLines />
-      <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
-      <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
-        <ChartLines :x="[0, x]" />
-        <ChartHeartRate :polylines="activity.records.polylinesHeartRate(workoutSeconds)" />
-        <ChartPower :polylines="activity.records.polylinesPower(2 * athlete.ftp, workoutSeconds)" />
-      </ChartProgress>
-    </Chart>
+    <div class="relative">
+      <Chart class="aspect-5/2 shrink-0 border">
+        <ChartLines />
+        <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
+        <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
+          <ChartLines :x="[0, x]" />
+          <ChartHeartRate :polylines="activity.records.polylinesHeartRate(workoutSeconds)" />
+          <ChartPower
+            :polylines="activity.records.polylinesPower(2 * athlete.ftp, workoutSeconds)"
+          />
+        </ChartProgress>
+      </Chart>
+
+      <div
+        v-if="currentInterval?.text"
+        class="absolute top-0 flex h-1/4 items-center px-2 text-2xl font-bold"
+        :style="{
+          left:
+            currentSeconds / workoutSeconds <= 0.5
+              ? 100 * (currentSeconds / workoutSeconds) + '%'
+              : undefined,
+          right:
+            currentSeconds / workoutSeconds > 0.5
+              ? 100 * (1 - currentSeconds / workoutSeconds) + '%'
+              : undefined,
+        }"
+      >
+        {{ currentInterval.text }}
+      </div>
+    </div>
 
     <FormItem class="flex-1">
       <Label>Intervals</Label>
