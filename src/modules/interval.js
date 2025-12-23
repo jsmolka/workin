@@ -1,15 +1,17 @@
 import { defineSchema, primitive } from '@/utils/persist';
 
 export class Interval {
-  constructor(seconds = 0, intensity = 0) {
+  constructor(seconds = 0, intensity = 0, text = '') {
     this.seconds = seconds;
     this.intensity = intensity;
+    this.text = text;
   }
 }
 
 defineSchema(Interval, {
   seconds: primitive(),
   intensity: primitive(),
+  text: primitive(),
 });
 
 export function ramp(seconds, from, to, steps) {

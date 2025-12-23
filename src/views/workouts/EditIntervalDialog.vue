@@ -14,6 +14,10 @@
           <Label>Intensity</Label>
           <InputIntervalIntensity v-model="intensity" />
         </FormItem>
+        <FormItem>
+          <Label>Text</Label>
+          <Input v-model="text" />
+        </FormItem>
       </Form>
       <DialogFooter>
         <Button :disabled="isSaveDisabled" @click="save">Save</Button>
@@ -34,6 +38,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Form, FormItem } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Interval } from '@/modules/interval';
 import InputIntervalIntensity from '@/views/workouts/InputIntervalIntensity.vue';
@@ -48,12 +53,14 @@ const props = defineProps({
 
 const seconds = ref(null);
 const intensity = ref(null);
+const text = ref('');
 
 watch(
   () => props.interval,
   () => {
     seconds.value = props.interval?.seconds ?? null;
     intensity.value = props.interval?.intensity ?? null;
+    text.value = props.interval?.text ?? '';
   },
   { immediate: true },
 );
@@ -75,6 +82,7 @@ const isSaveDisabled = computed(() => {
 const save = () => {
   props.interval.seconds = seconds.value;
   props.interval.intensity = intensity.value;
+  props.interval.text = text.value;
   close();
 };
 </script>
