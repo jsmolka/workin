@@ -1,8 +1,13 @@
 export function interval(ms, fn) {
   let time = null;
   let timeout = null;
+  let stopped = false;
 
   const tick = () => {
+    if (stopped) {
+      return;
+    }
+
     fn();
 
     time ??= performance.now();
@@ -12,5 +17,8 @@ export function interval(ms, fn) {
 
   timeout = setTimeout(tick, ms);
 
-  return () => clearTimeout(timeout);
+  return () => {
+    stopped = true;
+    clearTimeout(timeout);
+  };
 }
