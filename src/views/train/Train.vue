@@ -38,10 +38,7 @@
               : undefined,
         }"
       >
-        <span
-          class="px-2 leading-none font-bold"
-          style="font-size: clamp(0px, 100cqh, var(--text-4xl))"
-        >
+        <span class="px-2 font-bold" style="font-size: clamp(0px, 100cqh, var(--text-4xl))">
           {{ currentInterval.description }}
         </span>
       </div>
