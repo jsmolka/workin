@@ -61,11 +61,6 @@
         <InputIntervalIntensity v-model="intensity" />
       </FormItem>
 
-      <FormItem class="min-w-0 flex-1">
-        <Label>Text</Label>
-        <Input v-model="text" />
-      </FormItem>
-
       <div class="flex items-end">
         <Button variant="secondary" :disabled="isAddDisabled" @click="add">Add</Button>
       </div>
@@ -104,7 +99,6 @@ const workout = computed(() => {
 
 const seconds = ref(300);
 const intensity = ref(0.5);
-const text = ref('');
 
 const selectedIndex = ref(null);
 const selectedInterval = computed(() => {
@@ -118,7 +112,7 @@ const isAddDisabled = computed(() => {
 });
 
 const add = () => {
-  const interval = new Interval(seconds.value, intensity.value, text.value);
+  const interval = new Interval(seconds.value, intensity.value);
   if (selectedIndex.value != null) {
     workout.value.intervals.splice(++selectedIndex.value, 0, interval);
   } else {
