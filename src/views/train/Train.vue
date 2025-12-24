@@ -277,16 +277,15 @@ const toggleText = computed(() => {
   }
 });
 
-const finish = () => {
+const finish = async () => {
   stop();
 
   activity.value.finish(athlete.value.ftp);
 
   const store = useActivitiesStore();
   const index = store.add(activity.value);
+  await router.replace(`/activities/${index}`);
 
   activity.value = null;
-
-  router.replace(`/activities/${index}`);
 };
 </script>
