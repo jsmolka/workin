@@ -43,6 +43,10 @@ export class Activity {
     return result;
   }
 
+  get isFinished() {
+    return this.seconds === this.workout.seconds;
+  }
+
   finish(ftp) {
     this.ftp = ftp;
     this.averagePower = this.records.averagePower();

@@ -184,11 +184,16 @@ const start = async () => {
   }
 
   stopInterval.value?.();
-  stopInterval.value = interval(1000, () => {
-    activity.value.records.push(
-      new Record(trainer.value.power, hrm.value?.heartRate ?? null, trainer.value.cadence),
-    );
-  });
+  stopInterval.value = interval(1000, update);
+};
+
+const update = () => {
+  activity.value.records.push(
+    new Record(trainer.value.power, hrm.value?.heartRate ?? null, trainer.value.cadence),
+  );
+  if (activity.value.isFinished) {
+    finish();
+  }
 };
 
 let autoStart = null;
@@ -284,6 +289,4 @@ const finish = () => {
 
   router.push(`/activities/${index}`);
 };
-
-whenever(() => currentSeconds.value === workoutSeconds.value, finish);
 </script>
