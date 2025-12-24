@@ -25,7 +25,8 @@
 
       <div
         v-if="currentInterval?.text"
-        class="absolute top-0 flex h-1/4 items-center px-2 text-2xl font-bold"
+        class="absolute top-0 flex h-1/4 items-center"
+        style="container-type: size"
         :style="{
           left:
             currentSeconds / workoutSeconds <= 0.5
@@ -37,7 +38,12 @@
               : undefined,
         }"
       >
-        {{ currentInterval.text }}
+        <span
+          class="px-2 leading-none font-bold"
+          style="font-size: clamp(0px, 100cqh, var(--text-4xl))"
+        >
+          {{ currentInterval.text }}
+        </span>
       </div>
     </div>
 
