@@ -287,6 +287,6 @@ const finish = () => {
 
   activity.value = null;
 
-  router.push(`/activities/${index}`);
+  router.replace(`/activities/${index}`);
 };
 </script>
