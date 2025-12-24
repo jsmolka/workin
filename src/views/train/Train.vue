@@ -24,7 +24,7 @@
       </Chart>
 
       <div
-        v-if="currentInterval?.text"
+        v-if="currentInterval?.description"
         class="absolute top-0 flex h-1/4 items-center"
         style="container-type: size"
         :style="{
@@ -42,7 +42,7 @@
           class="px-2 leading-none font-bold"
           style="font-size: clamp(0px, 100cqh, var(--text-4xl))"
         >
-          {{ currentInterval.text }}
+          {{ currentInterval.description }}
         </span>
       </div>
     </div>

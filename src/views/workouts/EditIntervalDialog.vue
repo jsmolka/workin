@@ -15,8 +15,8 @@
           <InputIntervalIntensity v-model="intensity" />
         </FormItem>
         <FormItem>
-          <Label>Text</Label>
-          <Input v-model="text" />
+          <Label>Description</Label>
+          <Input v-model="description" />
         </FormItem>
       </Form>
       <DialogFooter>
@@ -53,14 +53,14 @@ const props = defineProps({
 
 const seconds = ref(null);
 const intensity = ref(null);
-const text = ref('');
+const description = ref('');
 
 watch(
   () => props.interval,
   () => {
     seconds.value = props.interval?.seconds ?? null;
     intensity.value = props.interval?.intensity ?? null;
-    text.value = props.interval?.text ?? '';
+    description.value = props.interval?.description ?? '';
   },
   { immediate: true },
 );
@@ -82,7 +82,7 @@ const isSaveDisabled = computed(() => {
 const save = () => {
   props.interval.seconds = seconds.value;
   props.interval.intensity = intensity.value;
-  props.interval.text = text.value;
+  props.interval.description = description.value;
   close();
 };
 </script>
