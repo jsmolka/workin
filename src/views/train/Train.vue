@@ -103,6 +103,10 @@ const currentSeconds = computed(() => {
   return activity.value.seconds;
 });
 
+const progress = computed(() => {
+  return currentSeconds.value / workoutSeconds.value;
+});
+
 const currentIntervalData = computed(() => {
   let totalSeconds = 0;
   for (const [index, interval] of workout.value.intervals.entries()) {
