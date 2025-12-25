@@ -64,6 +64,7 @@ import { Workout } from '@/modules/workout';
 import { useActivityStore } from '@/stores/activity';
 import { useWorkoutsStore } from '@/stores/workouts';
 import Header from '@/views/workouts/[type]/Header.vue';
+import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -73,15 +74,16 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const { activity } = storeToRefs(useActivityStore());
+const workouts = useWorkoutsStore();
 const selectedIndex = ref(null);
 
 const workout = computed(() => {
-  return useWorkoutsStore()[props.type][props.index] ?? new Workout();
+  return workouts[props.type][props.index] ?? new Workout();
 });
 
 const select = async (index) => {
-  const store = useActivityStore();
-  if (store.activity != null && store.activity.seconds > 0) {
+  if (activity.value != null && activity.value.seconds > 0) {
     const button = await dialog({
       content: 'Do you want to discard the current activity?',
       buttons: [
@@ -93,7 +95,7 @@ const select = async (index) => {
       return;
     }
   }
-  store.activity = new Activity(
+  activity.value = new Activity(
     new Workout(workout.value.name, workout.value.intervals.slice(index)),
   );
   router.push('/train');
@@ -105,8 +107,7 @@ const remove = async () => {
     buttons: [{ text: 'Delete' }, { text: 'Cancel', variant: 'secondary' }],
   });
   if (index === 0) {
-    const store = useWorkoutsStore();
-    store.remove(props.index);
+    workouts.remove(props.index);
     router.back();
   }
 };

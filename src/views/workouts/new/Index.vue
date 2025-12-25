@@ -17,10 +17,10 @@ defineProps({
 });
 
 const router = useRouter();
+const workouts = useWorkoutsStore();
 
 const save = (workout) => {
-  const store = useWorkoutsStore();
-  const index = store.add(workout);
+  const index = workouts.add(workout);
   router.replace(`/workouts/custom/${index}`);
 };
 </script>

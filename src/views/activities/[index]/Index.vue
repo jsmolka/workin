@@ -102,8 +102,8 @@ const remove = async () => {
     ],
   });
   if (button === 0) {
-    const store = useActivitiesStore();
-    store.remove(props.index);
+    const activities = useActivitiesStore();
+    activities.remove(props.index);
     router.back();
   }
 };

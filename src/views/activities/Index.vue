@@ -1,8 +1,8 @@
 <template>
   <Scroller
-    v-if="activities.length > 0"
+    v-if="items.length > 0"
     class="absolute! inset-0 p-4"
-    :items="activities"
+    :items="items"
     :size="130"
     :size-gap="16"
     v-slot="{ item }"
@@ -21,10 +21,12 @@ import Scroller from '@/components/Scroller.vue';
 import { useActivitiesStore } from '@/stores/activities';
 import Activity from '@/views/activities/Activity.vue';
 import { nanoid } from 'nanoid';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
-const activities = computed(() => {
-  const store = useActivitiesStore();
-  return store.activities.map((activity, index) => ({ activity, index, id: nanoid() }));
+const { activities } = storeToRefs(useActivitiesStore());
+
+const items = computed(() => {
+  return activities.value.map((activity, index) => ({ activity, index, id: nanoid() }));
 });
 </script>

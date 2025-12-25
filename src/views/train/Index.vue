@@ -89,6 +89,7 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 
 const { activity: storeActivity } = storeToRefs(useActivityStore());
+const activities = useActivitiesStore();
 const { athlete } = storeToRefs(useAthleteStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
 
@@ -291,8 +292,7 @@ const finish = () => {
 
   activity.value.finish(athlete.value.ftp);
 
-  const store = useActivitiesStore();
-  const index = store.add(activity.value);
+  const index = activities.add(activity.value);
 
   activity.value = null;
 
