@@ -34,7 +34,7 @@
           "
         >
           <p
-            class="w-full font-bold"
+            class="w-full truncate font-bold"
             :class="{ 'text-right': progress > 0.5 }"
             style="font-size: min(var(--text-4xl), 100cqh)"
           >
