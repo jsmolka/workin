@@ -25,22 +25,23 @@
 
       <div
         v-if="currentInterval?.description"
-        class="absolute top-0 flex h-1/4 items-center"
+        class="absolute inset-x-0 top-0 h-1/4"
         style="container-type: size"
-        :style="{
-          left:
-            currentSeconds / workoutSeconds <= 0.5
-              ? 100 * (currentSeconds / workoutSeconds) + '%'
-              : undefined,
-          right:
-            currentSeconds / workoutSeconds > 0.5
-              ? 100 * (1 - currentSeconds / workoutSeconds) + '%'
-              : undefined,
-        }"
       >
-        <span class="px-2 font-bold" style="font-size: clamp(0px, 100cqh, var(--text-4xl))">
-          {{ currentInterval.description }}
-        </span>
+        <div class="relative flex size-full items-center">
+          <div
+            class="absolute px-2"
+            :style="
+              currentSeconds / workoutSeconds <= 0.5
+                ? { left: 100 * (currentSeconds / workoutSeconds) + '%' }
+                : { right: 100 * (1 - currentSeconds / workoutSeconds) + '%' }
+            "
+          >
+            <p class="font-bold" style="font-size: min(100cqh, var(--text-4xl))">
+              {{ currentInterval.description }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
