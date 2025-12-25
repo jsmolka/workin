@@ -62,24 +62,23 @@ export const router = createRouter({
                   component: () => import('@/views/workouts/[type]/[index]/edit/Index.vue'),
                   props: ({ params }) => parseIndex(params),
                   beforeEnter: ({ params }) => {
-                    if (params.type === 'standard') {
-                      const { index } = parseIndex(params);
-                      if (
-                        Number.isInteger(index) &&
-                        index < useWorkoutsStore()[params.type].length
-                      ) {
-                        return `/workouts/${params.type}/${index}`;
+                    const store = useWorkoutsStore();
+                    const { type, index } = parseIndex(params);
+                    if (type === 'standard') {
+                      if (Number.isInteger(index) && index < store[type].length) {
+                        return `/workouts/${type}/${index}`;
                       } else {
-                        return `/workouts/${params.type}`;
+                        return `/workouts/${type}`;
                       }
                     }
                   },
                 },
               ],
               beforeEnter: ({ params }) => {
-                const index = parseInt(params.index);
-                if (!(Number.isInteger(index) && index < useWorkoutsStore()[params.type].length)) {
-                  return `/workouts/${params.type}`;
+                const store = useWorkoutsStore();
+                const { type, index } = parseIndex(params);
+                if (!(Number.isInteger(index) && index < store[type].length)) {
+                  return `/workouts/${type}`;
                 }
               },
             },
@@ -89,9 +88,10 @@ export const router = createRouter({
           path: 'new',
           component: () => import('@/views/workouts/new/Index.vue'),
           props: ({ query }) => {
+            const store = useWorkoutsStore();
             const { type, index } = parseIndex(query);
             if (['standard', 'custom'].includes(type)) {
-              return { workout: useWorkoutsStore()[type][index] ?? null };
+              return { workout: store[type][index] ?? null };
             }
           },
         },
@@ -109,8 +109,9 @@ export const router = createRouter({
           component: () => import('@/views/activities/[index]/Index.vue'),
           props: ({ params }) => parseIndex(params),
           beforeEnter: ({ params }) => {
+            const { activities } = useActivitiesStore();
             const { index } = parseIndex(params);
-            if (!(Number.isInteger(index) && index < useActivitiesStore().activities.length)) {
+            if (!(Number.isInteger(index) && index < activities.length)) {
               return '/activities';
             }
           },
