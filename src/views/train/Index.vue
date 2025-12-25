@@ -6,7 +6,7 @@
       <Metric class="order-5 sm:order-2" text="Interval time" :value="formatSeconds(currentIntervalSeconds)" />
       <Metric class="order-2 sm:order-3" text="Heart rate" :value="hrm?.heartRate" />
       <Metric class="order-3 sm:order-4" text="Target power" :value="targetPower" />
-      <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(currentSeconds)" />
+      <Metric class="order-6 sm:order-5" text="Total time" :value="formatSeconds(elapsedSeconds)" />
       <Metric class="order-4 sm:order-6" text="Cadence" :value="trainer?.cadence" />
     </div>
 
@@ -14,7 +14,7 @@
       <Chart class="aspect-5/2 shrink-0 border">
         <ChartLines />
         <ChartIntervals class="pointer-events-none" :intervals="workout.intervals" />
-        <ChartProgress :x="currentSeconds" :max-x="workoutSeconds" v-slot="{ x }">
+        <ChartProgress :x="elapsedSeconds" :max-x="workoutSeconds" v-slot="{ x }">
           <ChartLines :x="[0, x]" />
           <ChartHeartRate :polylines="activity.records.polylinesHeartRate(workoutSeconds)" />
           <ChartPower
@@ -74,6 +74,7 @@ import { Button } from '@/components/ui/button';
 import { dialog } from '@/components/ui/dialog';
 import { Form, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { Activity } from '@/modules/activity';
 import { Record } from '@/modules/record';
 import { router } from '@/router';
 import { useActivitiesStore } from '@/stores/activities';
@@ -87,9 +88,20 @@ import { useDocumentVisibility, whenever } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 
+const { activity: storeActivity } = storeToRefs(useActivityStore());
 const { athlete } = storeToRefs(useAthleteStore());
-const { activity } = storeToRefs(useActivityStore());
 const { hrm, trainer } = storeToRefs(useDevicesStore());
+
+const activity = computed({
+  get: () => storeActivity.value ?? new Activity(),
+  set: (value) => {
+    storeActivity.value = value;
+  },
+});
+
+const elapsedSeconds = computed(() => {
+  return activity.value.seconds;
+});
 
 const workout = computed(() => {
   return activity.value.workout;
@@ -99,19 +111,15 @@ const workoutSeconds = computed(() => {
   return workout.value.seconds;
 });
 
-const currentSeconds = computed(() => {
-  return activity.value.seconds;
-});
-
 const progress = computed(() => {
-  return currentSeconds.value / workoutSeconds.value;
+  return elapsedSeconds.value / workoutSeconds.value;
 });
 
 const currentIntervalData = computed(() => {
   let totalSeconds = 0;
   for (const [index, interval] of workout.value.intervals.entries()) {
     totalSeconds += interval.seconds;
-    if (currentSeconds.value < totalSeconds) {
+    if (elapsedSeconds.value < totalSeconds) {
       return { index, interval, totalSeconds };
     }
   }
@@ -127,10 +135,9 @@ const currentIntervalIndex = computed(() => {
 });
 
 const currentIntervalSeconds = computed(() => {
-  if (currentIntervalData.value == null) {
-    return null;
-  }
-  return currentIntervalData.value.totalSeconds - currentSeconds.value;
+  return currentIntervalData.value != null
+    ? currentIntervalData.value.totalSeconds - elapsedSeconds.value
+    : 0;
 });
 
 const table = useTemplateRef('table');
@@ -148,14 +155,13 @@ onMounted(() => {
 });
 
 const targetPower = computed(() => {
-  if (currentInterval.value == null) {
-    return null;
-  }
-  return Math.round(athlete.value.ftp * currentInterval.value.intensity);
+  return currentInterval.value != null
+    ? Math.round(athlete.value.ftp * currentInterval.value.intensity)
+    : 0;
 });
 
 const setTargetPower = () => {
-  trainer.value?.setTargetPower(targetPower.value ?? 0);
+  trainer.value?.setTargetPower(targetPower.value);
 };
 
 watch(targetPower, setTargetPower, { immediate: true });
@@ -280,15 +286,16 @@ const toggleText = computed(() => {
   }
 });
 
-const finish = async () => {
+const finish = () => {
   stop();
 
   activity.value.finish(athlete.value.ftp);
 
   const store = useActivitiesStore();
   const index = store.add(activity.value);
-  await router.replace(`/activities/${index}`);
 
   activity.value = null;
+
+  router.replace(`/activities/${index}`);
 };
 </script>
