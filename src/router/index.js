@@ -1,5 +1,6 @@
 import { setupLayouts } from '@/layouts';
 import { useActivitiesStore } from '@/stores/activities';
+import { useActivityStore } from '@/stores/activity';
 import { useWorkoutsStore } from '@/stores/workouts';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -13,7 +14,28 @@ export const router = createRouter({
   routes: setupLayouts([
     {
       path: '/train',
-      component: () => import('@/views/train/Index.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/train/Index.vue'),
+          beforeEnter: () => {
+            const { activity } = useActivityStore();
+            if (activity == null) {
+              return '/train/select';
+            }
+          },
+        },
+        {
+          path: 'select',
+          component: () => import('@/views/train/select/Index.vue'),
+          beforeEnter: () => {
+            const { activity } = useActivityStore();
+            if (activity != null) {
+              return '/train';
+            }
+          },
+        },
+      ],
     },
     {
       path: '/workouts',
