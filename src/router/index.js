@@ -21,13 +21,13 @@ export const router = createRouter({
           beforeEnter: () => {
             const { activity } = useActivityStore();
             if (activity == null) {
-              return '/train/select';
+              return '/train/workout';
             }
           },
         },
         {
-          path: 'select',
-          component: () => import('@/views/train/select/Index.vue'),
+          path: 'workout',
+          component: () => import('@/views/train/workout/Index.vue'),
           beforeEnter: () => {
             const { activity } = useActivityStore();
             if (activity != null) {
