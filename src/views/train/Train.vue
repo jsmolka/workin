@@ -23,24 +23,23 @@
         </ChartProgress>
       </Chart>
 
-      <div
-        v-if="currentInterval?.description"
-        class="absolute inset-x-0 top-0 h-1/4"
-        style="container-type: size"
-      >
-        <div class="relative flex size-full items-center">
-          <div
-            class="absolute px-2"
-            :style="
-              currentSeconds / workoutSeconds <= 0.5
-                ? { left: 100 * (currentSeconds / workoutSeconds) + '%' }
-                : { right: 100 * (1 - currentSeconds / workoutSeconds) + '%' }
-            "
+      <div v-if="currentInterval?.description" class="absolute inset-x-0 top-0 h-1/4">
+        <div
+          class="flex h-full items-center px-2 py-0.5"
+          style="container-type: size"
+          :style="
+            progress <= 0.5
+              ? { marginLeft: 100 * progress + '%' }
+              : { marginRight: 100 * (1 - progress) + '%' }
+          "
+        >
+          <p
+            class="w-full font-bold"
+            :class="{ 'text-right': progress > 0.5 }"
+            style="font-size: min(var(--text-4xl), 100cqh)"
           >
-            <p class="font-bold" style="font-size: min(100cqh, var(--text-4xl))">
-              {{ currentInterval.description }}
-            </p>
-          </div>
+            {{ currentInterval.description }}
+          </p>
         </div>
       </div>
     </div>
