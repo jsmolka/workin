@@ -197,6 +197,17 @@ export class Activity {
         ctx.stroke();
       }
     }
+
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = colors.shade6.hex;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, h);
+    ctx.lineTo(w, h);
+    ctx.lineTo(w, 0);
+    ctx.closePath();
+    ctx.stroke();
+
     return canvas;
   }
 }
