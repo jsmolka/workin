@@ -8,12 +8,8 @@
     "
     :inputmode="inputmode"
     :value="value"
-    @input="
-      $event.target.value = format($event.target.value);
-      clampCursor($event);
-      update($event);
-    "
-    @change="update"
+    @input="input"
+    @change="change"
     @focus="select"
     @keydown="keyDown"
     @pointerup="clampCursor"
@@ -212,8 +208,16 @@ const update = async (event) => {
 
   await nextTick();
   forceUpdate();
+};
 
-  await nextTick();
+const input = async (event) => {
+  event.target.value = format(event.target.value);
+  await update(event);
+  clampCursor(event);
+};
+
+const change = async (event) => {
+  await update(event);
   clampCursor(event);
 };
 </script>
