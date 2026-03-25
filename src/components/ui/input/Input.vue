@@ -7,9 +7,9 @@
       )
     "
     :value="modelValue"
-    @input="change"
-    @change="change"
-    @focusin="$event.target.select()"
+    @input="update"
+    @change="update"
+    @focus="select"
   />
 </template>
 
@@ -25,9 +25,16 @@ const props = defineProps({
   event: { type: String, default: 'input' },
 });
 
+const select = (event) => {
+  // Safari workaround
+  requestAnimationFrame(() => {
+    event.target.select();
+  });
+};
+
 const forceUpdate = useForceUpdate();
 
-const change = async (event) => {
+const update = async (event) => {
   if (event.type !== props.event) {
     return;
   }

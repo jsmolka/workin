@@ -11,10 +11,10 @@
     @input="
       $event.target.value = format($event.target.value);
       clampCursor($event);
-      change($event);
+      update($event);
     "
-    @change="change"
-    @focusin="select"
+    @change="update"
+    @focus="select"
     @keydown="keyDown"
     @pointerup="clampCursor"
     type="text"
@@ -37,6 +37,10 @@ const props = defineProps({
   precision: { type: Number, default: 0 },
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
+});
+
+const inputmode = computed(() => {
+  return props.precision > 0 ? 'decimal' : 'numeric';
 });
 
 const unformat = (value) => {
@@ -82,10 +86,6 @@ const format = (value) => {
   return props.prefix + (value || '0') + props.suffix;
 };
 
-const inputmode = computed(() => {
-  return props.precision > 0 ? 'decimal' : 'numeric';
-});
-
 const value = computed(() => {
   return modelValue.value != null
     ? format(modelValue.value.toLocaleString(undefined, { useGrouping: false }))
@@ -99,7 +99,10 @@ const select = (event) => {
   selectionStart = props.prefix.length;
   selectionEnd = event.target.value.length - props.suffix.length;
 
-  event.target.setSelectionRange(selectionStart, selectionEnd);
+  // Safari workaround
+  requestAnimationFrame(() => {
+    event.target.setSelectionRange(selectionStart, selectionEnd);
+  });
 };
 
 const keyDown = (event) => {
@@ -186,7 +189,7 @@ const clampCursor = (event) => {
 
 const forceUpdate = useForceUpdate();
 
-const change = async (event) => {
+const update = async (event) => {
   if (event.type !== props.event) {
     return;
   }
