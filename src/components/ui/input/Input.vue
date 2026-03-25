@@ -6,7 +6,7 @@
         props.class,
       )
     "
-    :value="modelValue"
+    :value="value"
     @input="update"
     @change="update"
     @focus="select"
@@ -16,13 +16,18 @@
 <script setup>
 import { useForceUpdate } from '@/composables/useForceUpdate';
 import { cn } from '@/utils/ui';
-import { nextTick } from 'vue';
+import { computed, nextTick } from 'vue';
 
 const modelValue = defineModel({ type: String, required: false });
 
 const props = defineProps({
   class: { required: false },
   event: { type: String, default: 'input' },
+  nullable: { type: Boolean, default: false },
+});
+
+const value = computed(() => {
+  return modelValue.value ?? '';
 });
 
 const select = (event) => {
@@ -39,7 +44,14 @@ const update = async (event) => {
     return;
   }
 
-  modelValue.value = event.target.value;
+  let value = event.target.value;
+  if (value === '' && props.nullable) {
+    value = null;
+  }
+
+  if (modelValue.value !== value) {
+    modelValue.value = value;
+  }
 
   await nextTick();
   forceUpdate();

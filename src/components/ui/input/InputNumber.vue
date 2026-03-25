@@ -34,6 +34,7 @@ const props = defineProps({
   event: { type: String, default: 'input' },
   max: { type: Number, default: Number.MAX_SAFE_INTEGER },
   min: { type: Number, default: Number.MIN_SAFE_INTEGER },
+  nullable: { type: Boolean, default: false },
   precision: { type: Number, default: 0 },
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
@@ -89,7 +90,7 @@ const format = (value) => {
 const value = computed(() => {
   return modelValue.value != null
     ? format(modelValue.value.toLocaleString(undefined, { useGrouping: false }))
-    : null;
+    : '';
 });
 
 let selectionStart = null;
@@ -194,11 +195,17 @@ const update = async (event) => {
     return;
   }
 
-  const value = clamp(
-    parseFloat(unformat(event.target.value).replaceAll(decimalSeparator, '.')) || 0,
-    props.min,
-    props.max,
-  );
+  let value = unformat(event.target.value);
+  if (value === '' && props.nullable) {
+    value = null;
+  } else {
+    value = clamp(
+      Number.parseFloat(value.replaceAll(decimalSeparator, '.')) || 0,
+      props.min,
+      props.max,
+    );
+  }
+
   if (modelValue.value !== value) {
     modelValue.value = value;
   }
