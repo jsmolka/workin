@@ -26,9 +26,13 @@ export function setupRouterScroller(router, selectors) {
     if (failure) {
       return;
     }
-    const positions = history.state.positions;
+
+    // Minimum for vue-virtual-scroller to work
     await nextTick();
-    restorePositions(selectors, positions);
+    await nextTick();
+    await nextTick();
+
+    restorePositions(selectors, history.state.positions);
   });
 }
 

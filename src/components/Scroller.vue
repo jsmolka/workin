@@ -68,14 +68,6 @@ const items = computed(() => {
   }));
 });
 
-onMounted(() => {
-  scroller.value.$el.scrollTo = async (...args) => {
-    await nextTick();
-    await nextTick();
-    scroller.value?.scrollToPosition(args.length > 1 ? args[1] : args[0].top);
-  };
-});
-
 defineExpose({
   scrollToPosition: (position) => {
     scroller.value.scrollToPosition(position);
