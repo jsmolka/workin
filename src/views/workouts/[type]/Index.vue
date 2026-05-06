@@ -39,7 +39,7 @@
       as-child
     >
       <RouterLink to="/workouts/new">
-        <PhPlus class="size-6" />
+        <PhPlus class="size-6" weight="bold" />
       </RouterLink>
     </Button>
   </Form>
