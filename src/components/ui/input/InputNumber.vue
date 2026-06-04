@@ -92,14 +92,13 @@ const value = computed(() => {
 let selectionStart = null;
 let selectionEnd = null;
 
-const select = (event) => {
+const select = async (event) => {
   selectionStart = props.prefix.length;
   selectionEnd = event.target.value.length - props.suffix.length;
 
   // Safari workaround
-  requestAnimationFrame(() => {
-    event.target.setSelectionRange(selectionStart, selectionEnd);
-  });
+  await nextTick();
+  event.target.setSelectionRange(selectionStart, selectionEnd);
 };
 
 const keyDown = (event) => {

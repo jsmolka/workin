@@ -30,11 +30,10 @@ const value = computed(() => {
   return modelValue.value ?? '';
 });
 
-const select = (event) => {
+const select = async (event) => {
   // Safari workaround
-  requestAnimationFrame(() => {
-    event.target.select();
-  });
+  await nextTick();
+  event.target.select();
 };
 
 const forceUpdate = useForceUpdate();
