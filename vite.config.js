@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         codeSplitting: false,
       },
