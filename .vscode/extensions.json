@@ -2,6 +2,7 @@
   "recommendations": [
     "bradlc.vscode-tailwindcss",
     "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
     "EditorConfig.EditorConfig",
     "esbenp.prettier-vscode",
     "formulahendry.auto-rename-tag",

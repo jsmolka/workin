@@ -7,8 +7,7 @@
       )
     "
     :value="value"
-    @input="update"
-    @change="update"
+    @input="input"
     @focus="select"
   />
 </template>
@@ -22,7 +21,6 @@ const modelValue = defineModel({ type: String, required: false });
 
 const props = defineProps({
   class: { required: false },
-  event: { type: String, default: 'input' },
   nullable: { type: Boolean, default: false },
 });
 
@@ -38,11 +36,7 @@ const select = async (event) => {
 
 const forceUpdate = useForceUpdate();
 
-const update = async (event) => {
-  if (event.type !== props.event) {
-    return;
-  }
-
+const input = async (event) => {
   let value = event.target.value;
   if (value === '' && props.nullable) {
     value = null;

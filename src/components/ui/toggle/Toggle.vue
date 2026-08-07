@@ -10,10 +10,10 @@
 </template>
 
 <script setup>
+import { toggleVariants } from '.';
 import { cn } from '@/utils/ui';
 import { Toggle, useForwardPropsEmits } from 'reka-ui';
 import { computed } from 'vue';
-import { toggleVariants } from '.';
 
 const props = defineProps({
   as: { required: false },

@@ -1,5 +1,5 @@
 export default {
   singleQuote: true,
-  plugins: ['prettier-plugin-organize-imports', 'prettier-plugin-tailwindcss'],
+  plugins: ['prettier-plugin-tailwindcss'],
   tailwindFunctions: ['cn', 'cva'],
 };

@@ -14,7 +14,7 @@
 import { useResizeObserver } from '@vueuse/core';
 import { isNumber, isString } from 'lodash-es';
 import { useId } from 'reka-ui';
-import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
 
 const scroller = useTemplateRef('scroller');

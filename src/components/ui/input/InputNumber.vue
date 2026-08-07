@@ -27,7 +27,6 @@ const modelValue = defineModel({ type: Number, required: false });
 
 const props = defineProps({
   class: { required: false },
-  event: { type: String, default: 'input' },
   max: { type: Number, default: Number.MAX_SAFE_INTEGER },
   min: { type: Number, default: Number.MIN_SAFE_INTEGER },
   nullable: { type: Boolean, default: false },
@@ -183,13 +182,15 @@ const clampCursor = (event) => {
   selectionEnd = event.target.selectionEnd;
 };
 
+const input = async (event) => {
+  event.target.value = format(event.target.value);
+
+  clampCursor(event);
+};
+
 const forceUpdate = useForceUpdate();
 
-const update = async (event) => {
-  if (event.type !== props.event) {
-    return;
-  }
-
+const change = async (event) => {
   let value = unformat(event.target.value);
   if (value === '' && props.nullable) {
     value = null;
@@ -207,16 +208,8 @@ const update = async (event) => {
 
   await nextTick();
   forceUpdate();
-};
 
-const input = async (event) => {
-  event.target.value = format(event.target.value);
-  await update(event);
-  clampCursor(event);
-};
-
-const change = async (event) => {
-  await update(event);
+  await nextTick();
   clampCursor(event);
 };
 </script>

@@ -2,11 +2,13 @@
   <SelectRoot v-model="selectModelValue" :key="key" v-bind="$attrs">
     <SelectTrigger :class="props.class" :style="props.style">
       <SelectValue :placeholder="placeholder">
-        <slot name="value" :value="modelValue" :index="modelIndex" />
+        <slot v-if="$slots.default" :item="modelValue" :index="modelIndex" />
+        <slot v-else name="value" :item="modelValue" :index="modelIndex" />
       </SelectValue>
     </SelectTrigger>
     <SelectContent>
       <SelectItem v-for="(item, index) in items" :value="index.toString()">
+        <slot v-if="$slots.default" :item="item" :index="index" />
         <slot name="item" :item="item" :index="index">
           <SelectItemText>{{ getDisplay(item) }}</SelectItemText>
         </slot>

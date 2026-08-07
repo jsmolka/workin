@@ -9,9 +9,9 @@
 </template>
 
 <script setup>
+import { buttonVariants } from '.';
 import { cn } from '@/utils/ui';
 import { Primitive } from 'reka-ui';
-import { buttonVariants } from '.';
 
 const props = defineProps({
   as: { default: 'button' },
