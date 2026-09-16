@@ -79,7 +79,7 @@ import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-
 import { Form, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Interval, cooldown, warmup } from '@/modules/interval';
+import { cooldown, Interval, warmup } from '@/modules/interval';
 import { Workout } from '@/modules/workout';
 import { clone } from '@/utils/persist';
 import EditIntervalDialog from '@/views/workouts/EditIntervalDialog.vue';

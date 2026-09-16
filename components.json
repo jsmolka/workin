@@ -9,7 +9,6 @@
     "baseColor": "neutral",
     "cssVariables": true
   },
-  "framework": "vite",
   "aliases": {
     "components": "@/components",
     "utils": "@/utils/ui"

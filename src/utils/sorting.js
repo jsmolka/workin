@@ -4,7 +4,7 @@ function sign(value, ascending) {
   return ascending ? value : -value;
 }
 
-export function makeComparer(compare, expr = null, ascending = true) {
+export function makeComparer(compare, expr, ascending = true) {
   const get = makeGet(expr);
   return (a, b) => compare(get(a), get(b), ascending);
 }
@@ -17,11 +17,11 @@ export function compareDate(a, b, ascending = true) {
   return compareNumeric(a.getTime(), b.getTime(), ascending);
 }
 
-export function makeDateComparer(expr = null, ascending = true) {
+export function makeDateComparer(expr, ascending = true) {
   return makeComparer(compareDate, expr, ascending);
 }
 
-export function makeNumericComparer(expr = null, ascending = true) {
+export function makeNumericComparer(expr, ascending = true) {
   return makeComparer(compareNumeric, expr, ascending);
 }
 
@@ -32,6 +32,6 @@ export function compareNatural(a, b, ascending = true) {
   return sign(naturalCollator.compare(a, b), ascending);
 }
 
-export function makeNaturalComparer(expr = null, ascending = true) {
+export function makeNaturalComparer(expr, ascending = true) {
   return makeComparer(compareNatural, expr, ascending);
 }

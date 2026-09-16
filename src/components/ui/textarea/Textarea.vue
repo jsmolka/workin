@@ -22,7 +22,7 @@ const modelValue = defineModel({ type: String, required: false });
 
 const props = defineProps({
   class: { required: false },
-  event: { type: String, default: 'input' },
+  modelEvent: { type: String, default: 'input' },
   nullable: { type: Boolean, default: false },
 });
 
@@ -30,17 +30,16 @@ const value = computed(() => {
   return modelValue.value ?? '';
 });
 
-const select = (event) => {
+const select = async (event) => {
   // Safari workaround
-  requestAnimationFrame(() => {
-    event.target.select();
-  });
+  await nextTick();
+  event.target.select();
 };
 
 const forceUpdate = useForceUpdate();
 
 const update = async (event) => {
-  if (event.type !== props.event) {
+  if (event.type !== props.modelEvent) {
     return;
   }
 

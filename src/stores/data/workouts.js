@@ -1,4 +1,4 @@
-import { Interval, cooldown, ramp, warmup } from '@/modules/interval';
+import { cooldown, Interval, ramp, warmup } from '@/modules/interval';
 import { Workout } from '@/modules/workout';
 import { clone } from '@/utils/persist';
 import { parseSeconds } from '@/utils/time';

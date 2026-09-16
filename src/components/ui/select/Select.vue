@@ -27,15 +27,16 @@ import {
   SelectValue,
 } from '@/components/ui/select/index.js';
 import { makeGet } from '@/utils/get.js';
+import { identity } from 'lodash-es';
 import { computed, ref, watch } from 'vue';
 
 const modelValue = defineModel({ required: false });
 
 const props = defineProps({
   class: { required: false },
-  displayExpr: { required: false },
+  displayExpr: { type: [String, Function], default: () => String },
   items: { type: Array, default: [] },
-  keyExpr: { required: false },
+  keyExpr: { type: [String, Function], default: () => identity },
   placeholder: { type: String, required: false },
   style: { required: false },
 });

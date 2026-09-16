@@ -23,12 +23,8 @@ export function object() {
 
 export function date() {
   return {
-    serialize: (value) => value.getTime(),
-    deserialize: (value) => {
-      const date = new Date();
-      date.setTime(value);
-      return date;
-    },
+    serialize: (value) => value.toISOString(),
+    deserialize: (value) => new Date(value),
   };
 }
 

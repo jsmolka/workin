@@ -1,5 +1,5 @@
 <template>
-  <ComboboxSeparator v-bind="delegatedProps" :class="cn('bg-shade-6 h-px', props.class)">
+  <ComboboxSeparator v-bind="delegatedProps" :class="cn('bg-shade-6 h-px shrink-0', props.class)">
     <slot />
   </ComboboxSeparator>
 </template>
