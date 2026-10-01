@@ -1,6 +1,6 @@
 <template>
   <DataTableWrapper class="min-h-20">
-    <DataTable ref="table" class="font-feature-tnum absolute inset-0">
+    <DataTable ref="table" class="absolute inset-0 tabular-nums">
       <DataTableBody ref="tableBody">
         <DataTableRow
           v-for="(interval, index) in items"

@@ -88,10 +88,6 @@
   @apply select-none;
 }
 
-@utility font-feature-tnum {
-  font-feature-settings: 'tnum';
-}
-
 @utility skip-ink-none {
   text-decoration-skip-ink: none;
 }
