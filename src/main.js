@@ -5,7 +5,6 @@ import { createRouterScroller } from '@/router/scroller';
 import { useStores } from '@/stores';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 async function main() {
   const app = createApp(App);
