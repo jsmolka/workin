@@ -156,9 +156,7 @@ onMounted(() => {
 });
 
 const targetPower = computed(() => {
-  return Math.round(
-    athlete.value.ftp * (currentInterval.value != null ? currentInterval.value.intensity : 0.5),
-  );
+  return Math.round(athlete.value.ftp * (currentInterval.value?.intensity ?? 0.25));
 });
 
 const setTargetPower = () => {
