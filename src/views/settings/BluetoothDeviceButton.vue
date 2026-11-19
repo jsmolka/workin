@@ -1,7 +1,6 @@
 <template>
   <Button variant="secondary" :disabled="connecting" @click="connect">
-    <template v-if="connecting">Connecting...</template>
-    <template v-else-if="device">
+    <template v-if="device">
       <slot :device="device">
         {{ device.name }}
       </slot>
